@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
+
+:root{
+    --color-primary: #6C9BCF;
+    --color-danger: #FF0060;
+    --color-success: #1B9C85;
+    --color-warning: #F7D060;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-dark: #363949;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 1.2rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+
+nav{
+    width: 100%;
+    position: fixed;
+    display: inline-block;
+    min-width: 12rem;
+    gap: 4rem;
+    background-color: var(--color-background);
+}
+
+
+nav img{
+    display: flex;
+    float: left;
+    font-size: 20px;
+    margin-left: 160px;
+    margin-top: 22px;
+    margin-bottom: 18px;
+    max-width: 130px;
+}
+
+nav ul{
+    list-style-type: none;
+    display: flex;
+    /* min-width: 12rem; */
+    margin-top: 15px;
+    margin-bottom: 18px;
+    margin-right: 160px;
+    justify-content: end;
+    padding-left: 330px;
+}
+
+nav ul li{
+    /* float: right; */
+    /* margin-left: 20px; */
+    /* margin-right: 30px; */
+    font-size: 19px;
+    color: #333333;
+    cursor: pointer;
+    border: 2px solid #0ae2f5;
+    border-radius: 10%;
+
+    border-radius: 24px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block; 
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    padding: 10px 20px;
+    font-size: 13px;
+    font-family: "Open Sans", sans-serif;
+}
+
+nav ul li:hover{
+    border: 2px solid #0ae2f5;
+    border-radius: 24px;
+    color: #0ae2f5;
+}
+
+nav ul li.signIn{
+    border: 2px solid #0ae2f5;
+    border-radius: 24px; /* Rounded corners */
+    margin-right: 30px;
+}
+
+nav ul li.signUp{
+    /* border: 2px solid #0ae2f5; */
+    margin-right: 30px;
+}
+
+nav ul li.sendHelp img{
+    margin: 0%;
+    max-width: 24px;
+    margin-bottom: 0px;
+    padding-right: 20px;
+    padding-left: 22px;
+    margin-bottom: 1px;
+
+}
+
+nav ul li.sendHelp{
+    padding: 0%;
+    color: #7d8da1;
+    border: 0px;
+    display: grid;
+    font-size: 12px;
+}
+
+nav ul li.sendHelp:hover{
+    color: #4e5763;
+    border: 0px;
+}
+
+
