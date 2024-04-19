@@ -10,9 +10,9 @@ const Navbar = () => {
     <nav>
         <img src={logo} alt=""/>
         <ul>
-            <li class="signIn">Sign In</li>
-            <li class="signUp">Sing Up</li>
-            <li class="sendHelp"><img src={info} alt=""/> Send Help!</li>
+            <button class="signIn">Sign In</button>
+            <button class="signUp">Sing Up</button>
+            <button class="sendHelp"><h4 class="i">i</h4> Send Help!</button>
         </ul>
     </nav>
   )
