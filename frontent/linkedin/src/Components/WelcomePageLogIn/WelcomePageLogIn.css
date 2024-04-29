@@ -14,26 +14,27 @@ form div{
 
 form h1{
     color: #C22D1F;
-    font-size: 21px;
-    margin-left: 40px;
-    padding-bottom: 20px;
+    font-size: 23px;
+    margin-left: 25px;
+    padding-bottom: 30px;
 }
 
 form div label{
-    font-size: 15px;
+    font-size: 17px;
     /* color: #1fb4c2; */
 }
 
 form div input{
-    padding: 10px 10px 10px 10px;
+    padding: 8px 8px 8px 8px;
     max-width: 250px;
     font-size: 15px;
 }
 
 form button{
+    font-size: 14px;
     margin-top: 30px;
-    margin-left: 80px;
-    padding: 8px 30px 8px 30px;
+    margin-left: 60px;
+    padding: 12px 50px 12px 50px;
     border: 2px solid #18a4b1;
     background-color: whitesmoke;
     color: #1fb4c2;
