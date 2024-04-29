@@ -43,6 +43,7 @@ const WelcomePageLogIn = () => {
   };
 
   return (
+    <div>
       <form onSubmit={handleSubmit}>
         <h1>Welcome to MyLink!</h1>
         <div>
@@ -63,8 +64,14 @@ const WelcomePageLogIn = () => {
             onChange={handlePasswordChange}
           />
         </div>
+        <div className="success">Connected successfully!</div>
+        <div className="failed">Connection failed!</div>
         <button type="submit">Login</button>
       </form>
+      <img>
+      
+      </img>
+    </div>
   );
 };
 

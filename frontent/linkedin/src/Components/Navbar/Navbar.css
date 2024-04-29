@@ -57,32 +57,30 @@ nav ul button{
     font-size: 19px;
     color: #333333;
     cursor: pointer;
-    border: 2px solid #1fb4c2;
 
     border-radius: 24px;
     transition: background-color 0.3s;
-    text-decoration: none;
     display: inbuttonne-block; 
-    font-weight: bold;
     letter-spacing: 1px;
     background-color: var(--color-background);
 
     padding: 10px 20px;
     font-size: 13px;
     font-family: "Open Sans", sans-serif;
-}
 
-nav ul button:hover{
-    border: 2px solid #1fb4c2;
-    border-radius: 24px;
-    color: #0ae2f5;
+    border: none;
+
 }
 
 nav ul button.signIn{
-    border: 2px solid #1fb4c2;
-    border-radius: 24px; 
+    font-weight: bold;
     margin-right: 30px;
 }
+
+nav ul button.signIn:hover{
+    background-color: rgb(184, 183, 183);
+}
+
 
 nav ul button.signUp{
     margin-right: 30px;
@@ -90,11 +88,15 @@ nav ul button.signUp{
     color: whitesmoke;
 }
 
+nav ul button.signUp:hover{
+    background-color: #0a6c75;
+}
+
 nav ul button.sendHelp h4{
     margin: 0%;
     font-size: 22px;
     padding-right: 20px;
-    padding-left: 30px;
+    padding-left: 20px;
     padding-bottom: 1px;
     font-family: "Jersey 25", sans-serif;
 }
@@ -108,6 +110,6 @@ nav ul button.sendHelp{
 }
 
 nav ul button.sendHelp:hover{
-    color: #4e5763;
+    color: #3d4247;
     border: 0px;
 }
