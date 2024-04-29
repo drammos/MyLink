@@ -1,6 +1,6 @@
 import React , { useState } from "react"
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import './WelcomePageLogIn.css'
 
 
@@ -43,11 +43,8 @@ const WelcomePageLogIn = () => {
   };
 
   return (
-    <div>
-      <p>
-      Welcome to MyLink!
-      </p>
       <form onSubmit={handleSubmit}>
+        <h1>Welcome to MyLink!</h1>
         <div>
           <label htmlFor="username">Username:</label>
           <input
@@ -68,7 +65,6 @@ const WelcomePageLogIn = () => {
         </div>
         <button type="submit">Login</button>
       </form>
-    </div>
   );
 };
 

@@ -57,8 +57,7 @@ nav ul button{
     font-size: 19px;
     color: #333333;
     cursor: pointer;
-    border: 2px solid #0ae2f5;
-    border-radius: 10%;
+    border: 2px solid #1fb4c2;
 
     border-radius: 24px;
     transition: background-color 0.3s;
@@ -74,19 +73,21 @@ nav ul button{
 }
 
 nav ul button:hover{
-    border: 2px solid #0ae2f5;
+    border: 2px solid #1fb4c2;
     border-radius: 24px;
     color: #0ae2f5;
 }
 
 nav ul button.signIn{
-    border: 2px solid #0ae2f5;
+    border: 2px solid #1fb4c2;
     border-radius: 24px; 
     margin-right: 30px;
 }
 
 nav ul button.signUp{
     margin-right: 30px;
+    background-color: #1fb4c2;
+    color: whitesmoke;
 }
 
 nav ul button.sendHelp h4{

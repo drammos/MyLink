@@ -1,8 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
+
 form{
     margin-left: 150px;
     padding-top: 180px;
+    font-family: "Open Sans", sans-serif;
 }
 
-p{
-    padding-top: 150px;
+form div{
+    display: grid;
+    padding-top: 10px;
+}
+
+form h1{
+    color: #1fb4c2;
+    font-size: 21px;
+    margin-left: 40px;
+}
+
+form div label{
+    font-size: 16px;
+    color: #1fb4c2;
+
+}
+
+form div input{
+    padding: 10px 10px 10px 10px;
+    max-width: 250px;
+    font-size: 15px;
+}
+
+form button{
+    margin-top: 30px;
+    margin-left: 80px;
+    padding: 8px 20px 8px 20px;
+    border: 2px solid #4e00a1;
+    background-color: #4e00a1;
+    color: whitesmoke;
+    border-radius: 10%;
+    letter-spacing: 1px;
+    border-radius: 24px;
+}
+
+form button:hover{
+    background-color: #1fb4c2;
+    border: 2px solid #1fb4c2;
+
 }
