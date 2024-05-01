@@ -1,5 +1,5 @@
 import React , { useState } from "react"
-import axios from 'axios';
+import { GoXCircle, GoCheckCircle } from "react-icons/go";
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './WelcomePageLogIn.css'
 
@@ -8,65 +8,67 @@ const WelcomePageLogIn = () => {
   // State variables to hold username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
-  // Function to handle changes in username input
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  // Function to handle changes in password input
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Send form data to backend API
-      const response = await axios.post('../../../api', {
-        username,
-        password
+      const response = await fetch('http://localhost:3001/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
       });
-  
-      // Check response status and handle accordingly
-      if (response.status === 200) {
+
+      const data = await response.json();
+      
+      if(data.success){
+        setMessage('Login successful!');
         console.log('Login successful');
-        // Redirect user to dashboard or another page
-      } else {
+      }
+      else {
+        setMessage('Invalid username or password');
         console.error('Login failed');
+        throw new Error('Invalid username or password');
       }
     } 
     catch (error) {
-      console.error('Error:', error);
+      console.error('Error logging in:', error);
+      setError('An unexpected error occurred');
+    }
+  };
+
+  const handleForgotPassword = () => {
+    // Navigate to the forgot password page
+    history.push('/forgot-password');
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // Trigger login when Enter key is pressed
+      handleSubmit();
     }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form>
         <h1>Welcome to MyLink!</h1>
         <div>
           <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={handleUsernameChange}
-          />
+          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={handleKeyPress}/>
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
+          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyPress}/>
         </div>
-        <div className="success">Connected successfully!</div>
-        <div className="failed">Connection failed!</div>
-        <button type="submit">Login</button>
+        <button className="forgot" onClick={handleForgotPassword}>Forgot Password? </button>
+        <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
+        {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
+        <button onClick={handleSubmit} type="submit">Login</button>
       </form>
       <img>
       

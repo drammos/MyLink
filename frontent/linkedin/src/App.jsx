@@ -1,15 +1,14 @@
 import React from "react"
 import Navbar from "./Components/Navbar/Navbar"
 import WelcomePageLogIn from "./Components/WelcomePageLogIn/WelcomePageLogIn"
-
-// const { connect } = require('../db');
-// connect();
+import DownNav from "./Components/DownNav/DownNav"
 
 const App = () => {
   return (
     <div>
         <Navbar/>
         <WelcomePageLogIn/>
+        <DownNav/>
     </div>
   )
 }

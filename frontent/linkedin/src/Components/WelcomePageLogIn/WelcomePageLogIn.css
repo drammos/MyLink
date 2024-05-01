@@ -20,45 +20,62 @@ form h1{
 }
 
 form div label{
-    font-size: 17px;
-    /* color: #1fb4c2; */
+    font-size: 15px;
+    color: #1fb4c2;
 }
 
 form div input{
     padding: 8px 8px 8px 8px;
     max-width: 250px;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 form button{
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 30px;
-    margin-left: 60px;
+    margin-left: 50px;
     padding: 12px 50px 12px 50px;
     border: 2px solid #18a4b1;
     background-color: whitesmoke;
     color: #1fb4c2;
     border-radius: 10%;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     border-radius: 24px;
     transition: background-color 0.3s;
-
+    display: inline-flex;
 }
 
-form button:hover{
+button:hover{
     background-color: #1fb4c2;
     border-color: #1fb4c2;
     color: white;
 }
 
-form div.success{
-    font-size: 12px;
-    color: rgb(44, 207, 66);
-    visibility: hidden;
+form button.forgot{
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 0px;
+    border: none;
+    background-color: whitesmoke;
+    color: #1fb4c2;
+    letter-spacing: 1px;
+    padding: 0%;
 }
 
-form div.failed{
+form button.forgot:hover{
+    color: #0a6c75;
+}
+
+form div.success-message{
+    font-size: 12px;
+    color: rgb(44, 207, 66);
+    display: block;
+    /* visibility: hidden; */
+}
+
+form div.error-message{
     font-size: 12px;
     color: red;
-    visibility: hidden;
+    display: block;
+    /* visibility: hidden; */
 }
