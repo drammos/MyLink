@@ -1,6 +1,7 @@
 import React , { useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 // import 'bootstrap/dist/css/bootstrap.min.css'
+// import { useHistory } from 'react-router-dom';
 import './WelcomePageLogIn.css'
 
 
@@ -41,34 +42,35 @@ const WelcomePageLogIn = () => {
     }
   };
 
-  const handleForgotPassword = () => {
-    // Navigate to the forgot password page
-    history.push('/forgot-password');
+  const handleForgotPassword = (event) => {
+    event.preventDefault();
+    console.error("Forgot Password?");
+    // history.push('/forgot-password');
   };
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       // Trigger login when Enter key is pressed
-      handleSubmit();
+      handleSubmit(event);
     }
   };
 
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>Welcome to MyLink!</h1>
         <div>
           <label htmlFor="username">Username:</label>
-          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={handleKeyPress}/>
+          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress}/>
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyPress}/>
+          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress}/>
         </div>
-        <button className="forgot" onClick={handleForgotPassword}>Forgot Password? </button>
+        <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
         <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
         {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
-        <button onClick={handleSubmit} type="submit">Login</button>
+        <button type="submit">Login</button>
       </form>
       <img>
       
