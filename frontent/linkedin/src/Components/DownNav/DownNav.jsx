@@ -1,11 +1,12 @@
 import React from "react";
+import logo2 from '../../assets/newlogo.png'
 import './DownNav.css';
 
 const DownNav = () => {
     return (
         <div className="closing">
             <div className="logo">
-                <a href="/">MyLink app</a>
+                <img src={logo2} alt="" />
             </div>
 
             <div className="left_box">
