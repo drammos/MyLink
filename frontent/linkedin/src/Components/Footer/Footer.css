@@ -1,0 +1,88 @@
+.footer{
+    background-color: #1fb4c2;
+    margin-left: -9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+
+    padding-bottom: 0px;
+
+
+}
+
+.footer .closing{
+    display: flex;
+    justify-content: center;
+}
+
+.footer .closing .logo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 40px;
+    margin-left: 40px;
+
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.footer .closing .logo p{
+    margin: 5px 0px;
+    color: #ebeaea;
+}
+
+.footer div.closing div.logo img{
+    max-width: 150px;
+}
+
+.footer div.closing .left_box{
+    margin-top: 6px;
+    margin-right: 40px;
+    margin-left: 40px;  
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    max-height: 100px;
+}
+
+.footer .right_box{
+    padding-top: 8px;
+    padding-bottom: 36px;
+    margin-left: 60px;
+    margin-right: 60px;
+    max-height: 70px;
+
+}
+
+.footer .right_box ul{
+    padding-left: 0px;
+}
+
+.footer .right_box ul li{
+    list-style: none;
+    display: block;
+}
+
+.footer .right_box h4{
+    margin: 10px 0px 10px 0px;
+    font-style: italic;
+}
+
+.footer .right_box ul li a{
+    display: inline-block; /* Change display property to inline-block */
+    text-decoration: none; /* Remove underline */
+    color: #ebeaea;
+}
+
+.footer .right_box li a:hover{
+    color: #f6f6f6;
+}
+
+div.footer .CreatedBy{
+    margin-top: 5px;
+    padding-bottom: 0px;
+} 

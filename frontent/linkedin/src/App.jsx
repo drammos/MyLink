@@ -1,14 +1,14 @@
 import React from "react"
 import Navbar from "./Components/Navbar/Navbar"
 import WelcomePageLogIn from "./Components/WelcomePageLogIn/WelcomePageLogIn"
-import DownNav from "./Components/DownNav/DownNav"
+import Footer from "./Components/Footer/Footer"
 
 const App = () => {
   return (
     <div>
         <Navbar/>
         <WelcomePageLogIn/>
-        <DownNav/>
+        <Footer/>
     </div>
   )
 }

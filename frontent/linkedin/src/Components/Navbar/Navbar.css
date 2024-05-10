@@ -59,7 +59,7 @@ nav ul button{
     cursor: pointer;
 
     border-radius: 24px;
-    transition: background-color 0.3s;
+    /* transition: background-color 0.3s; */
     display: inbuttonne-block; 
     letter-spacing: 1px;
     background-color: var(--color-background);
@@ -78,7 +78,7 @@ nav ul button.signIn{
 }
 
 nav ul button.signIn:hover{
-    background-color: rgb(184, 183, 183);
+    background-color: rgb(221, 219, 219);
     color: black;
 }
 
@@ -90,7 +90,7 @@ nav ul button.signUp{
 }
 
 nav ul button.signUp:hover{
-    background-color: #0a6c75;
+    background-color: #0c7b85;
 }
 
 nav ul button.sendHelp h4{
