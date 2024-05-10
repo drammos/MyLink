@@ -1,5 +1,5 @@
 .footer{
-    background-color: #1fb4c2;
+    background-color: #fcfdfd; /* bckp #1fb4c2*/
     margin-left: -9px;
     display: flex;
     justify-content: center;
@@ -32,7 +32,7 @@
 
 .footer .closing .logo p{
     margin: 5px 0px;
-    color: #ebeaea;
+    color: #a7a7a7; /* bckp #ebeaea */
 }
 
 .footer div.closing div.logo img{
@@ -47,6 +47,10 @@
     justify-content: center;
     align-items: center;
     max-height: 100px;
+}
+
+.footer div.closing .left_box p a{
+    color: #1fb4c2;
 }
 
 .footer .right_box{
@@ -75,11 +79,11 @@
 .footer .right_box ul li a{
     display: inline-block; /* Change display property to inline-block */
     text-decoration: none; /* Remove underline */
-    color: #ebeaea;
+    color: #070707; /* bckp #ebeaea*/
 }
 
 .footer .right_box li a:hover{
-    color: #f6f6f6;
+    color: #1fb4c2; /* bckp #f6f6f6*/
 }
 
 div.footer .CreatedBy{

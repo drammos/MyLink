@@ -1,5 +1,5 @@
 import React from "react";
-import logo2 from '../../assets/newlogo.png'
+import logo2 from '../../assets/mylinkorg.png'
 import './Footer.css';
 import { VscArrowSmallRight } from "react-icons/vsc";
 
@@ -19,7 +19,7 @@ const Footer = () => {
                         (+30) 697 9303 827
                     </p>
                     <p> Email us: <br />
-                        mylink@gmail.com
+                        <a href="#">mylink@gmail.com</a>
                     </p>
                 </div>
 
