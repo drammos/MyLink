@@ -20,7 +20,8 @@ DROP TABLE Users;
 
 INSERT INTO Users (Type,Name,Surname,UserName,Email,Password,Phone)
 VALUES (0,'Teo','Minaidis','teomin2001','theomin2001@gmail.com','1234!','6979303827'),
-       (0,'Dimitris','Rammos','ramoulenios','rammos@gmail.com','1234!','6966969696');
+       (0,'Dimitris','Rammos','ramoulenios','rammos@gmail.com','1234!','6966969696'),
+	   (0,'Clio','Renault','kleioula','kleio@gmail.com','1234!','6966969696');
 
 
 /* DELETE FROM Users
