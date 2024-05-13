@@ -5,7 +5,10 @@ import Navbar from "../Navbar/Navbar"
 const SignUp = () => {
 
   return (
-    <Navbar/>
+    <div>
+        <Navbar/>
+        <Footer/>
+    </div>
   )
 }
 
