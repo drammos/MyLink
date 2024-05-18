@@ -11,11 +11,19 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Configuration for SQL Server connection
-const config = {
+/*const config = {
   user: 'RemoteUser',
   password: 'Remote1!',
   server: 'localhost\\SQLEXPRESS',
   database: 'UsersDB',
+};*/
+
+const config = {
+  server: 'localhost\\SQLEXPRESS',
+  database: 'UsersDB',
+  options: {
+    trustedConnection: true,
+  },
 };
 
 const connectionString = "server=localhost\\SQLEXPRESS;Database=UsersDB;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";

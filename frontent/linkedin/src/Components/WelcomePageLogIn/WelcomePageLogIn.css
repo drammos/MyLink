@@ -2,15 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
 form{
+    display: inline-block;
     margin-left: 150px;
-    padding-top: 180px;
-    padding-bottom: 100px;
-    font-family: "Open Sans", sans-serif;
+    margin-top: 180px;
+    margin-bottom: 100px;
+    padding: 40px 60px;
+    font-family: Open Sans, sans-serif;
 }
 
 form div{
     display: grid;
     padding-top: 10px;
+
 }
 
 form h1{

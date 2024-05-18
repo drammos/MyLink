@@ -12,9 +12,13 @@ const Navbar = () => {
     navigate("/signup");
   };
 
+  const handleLogoClick = async (e) => {
+    navigate("/");
+  }
+
   return (
     <nav>
-        <img src={logo} alt=""/>
+        <img src={logo} onClick={handleLogoClick} alt=""/>
         <ul>
             <button class="signIn">Sign In</button>
             <button class="signUp" onClick={handleSignUpClick}>Sign Up</button>
