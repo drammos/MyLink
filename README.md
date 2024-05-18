@@ -1,6 +1,6 @@
 backend =>
 
-~ /test : test folder to check connection between our database and backend
+~ /ServerAPI : test folder to check connection between our database and backend
        
         - to run : node server.js   OR   npm start
 
