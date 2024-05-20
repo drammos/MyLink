@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "concurrently \"npm run start:api\" \"npm run build-and-start:web\"",
+    "start:api": "npm start --prefix /../backend/ServerAPI",
+    "build:web": "npm run build --prefix /../frontend/linkedin",
+    "start:web": "npm start --prefix /../frontend/linkedin",
+    "build-and-start:web": "npm run build:web && npm run start:web"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
