@@ -57,7 +57,7 @@ const WelcomePageLogIn = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form class="WelcomePageLogInForm" onSubmit={handleSubmit}>
         <h1>Welcome to MyLink!</h1>
         <div>
           <label htmlFor="username">Username:</label>

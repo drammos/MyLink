@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
-form{
+form.WelcomePageLogInForm{
     display: inline-block;
     margin-left: 150px;
     margin-top: 180px;
@@ -10,31 +10,32 @@ form{
     font-family: Open Sans, sans-serif;
 }
 
-form div{
+form.WelcomePageLogInForm div{
     display: grid;
     padding-top: 10px;
 
 }
 
-form h1{
+form.WelcomePageLogInForm h1{
     color: #C22D1F;
     font-size: 23px;
     margin-left: 25px;
     padding-bottom: 30px;
+    font-synthesis: none;
 }
 
-form div label{
+form.WelcomePageLogInForm div label{
     font-size: 15px;
     color: #1fb4c2;
 }
 
-form div input{
+form.WelcomePageLogInForm div input{
     padding: 8px 8px 8px 8px;
     max-width: 250px;
     font-size: 14px;
 }
 
-form button{
+form.WelcomePageLogInForm button{
     font-size: 16px;
     margin-top: 30px;
     margin-left: 50px;
@@ -49,13 +50,13 @@ form button{
     display: inline-flex;
 }
 
-button:hover{
+form.WelcomePageLogInForm button:hover{
     background-color: #1fb4c2;
     border-color: #1fb4c2;
     color: white;
 }
 
-form button.forgot{
+form.WelcomePageLogInForm button.forgot{
     font-size: 14px;
     margin-top: 10px;
     margin-left: 0px;
@@ -66,18 +67,18 @@ form button.forgot{
     padding: 0%;
 }
 
-form button.forgot:hover{
+form.WelcomePageLogInForm button.forgot:hover{
     color: #0a6c75;
 }
 
-form div.success-message{
+form.WelcomePageLogInForm div.success-message{
     font-size: 12px;
     color: rgb(44, 207, 66);
     display: block;
     /* visibility: hidden; */
 }
 
-form div.error-message{
+form.WelcomePageLogInForm div.error-message{
     font-size: 12px;
     color: red;
     display: block;

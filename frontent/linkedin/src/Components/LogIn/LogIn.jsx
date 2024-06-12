@@ -1,9 +1,6 @@
 import React , { useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import { useHistory } from 'react-router-dom';
 import './LogIn.css'
-
 
 const LogIn = () => {
   // State variables to hold username and password
@@ -57,7 +54,7 @@ const LogIn = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form class="LogInForm" onSubmit={handleSubmit}>
         <h1>Welcome to MyLink!</h1>
         <div>
           <label htmlFor="username">Username:</label>
