@@ -1,4 +1,5 @@
 import React , { useState } from "react"
+import SignInImage from '../../assets/WelcomePageImg.png'
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import './LogIn.css'
 
@@ -53,9 +54,10 @@ const LogIn = () => {
   };
 
   return (
-    <div>
+    <div class="glass-container">
       <form class="LogInForm" onSubmit={handleSubmit}>
         <h1>Welcome to MyLink!</h1>
+        <p class="phrase">Empowering connections for a brighter future</p>
         <div>
           <label htmlFor="username">Username:</label>
           <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress}/>
@@ -67,11 +69,12 @@ const LogIn = () => {
         <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
         <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
         {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
+        
+        <img src={SignInImage} alt=""/>
         <button type="submit">Login</button>
+        
       </form>
-      <img>
       
-      </img>
     </div>
   );
 };
