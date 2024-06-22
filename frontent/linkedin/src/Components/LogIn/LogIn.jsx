@@ -43,7 +43,7 @@ const LogIn = () => {
   const handleForgotPassword = (event) => {
     event.preventDefault();
     console.error("Forgot Password?");
-    // history.push('/forgot-password');
+     history.push('/forgot-password');
   };
 
   const handleKeyPress = (event) => {

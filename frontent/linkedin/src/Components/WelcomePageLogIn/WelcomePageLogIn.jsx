@@ -1,6 +1,7 @@
 import React , { useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 // import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
 import './WelcomePageLogIn.css'
 
@@ -11,8 +12,9 @@ const WelcomePageLogIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-
-  const handleSubmit = async (e) => {
+  const navigate = useNavigate();
+    const handleSubmit = async (e) => {
+ 
     e.preventDefault();
     try {
       // Send form data to backend API
@@ -45,7 +47,7 @@ const WelcomePageLogIn = () => {
   const handleForgotPassword = (event) => {
     event.preventDefault();
     console.error("Forgot Password?");
-    // history.push('/forgot-password');
+     navigate('/forgot-password');
   };
 
   const handleKeyPress = (event) => {
