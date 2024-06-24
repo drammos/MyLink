@@ -1,4 +1,4 @@
-#root {
+/*#root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -16,8 +16,16 @@
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}*/
+
+div.WelcomePageMain{
+    display:flex;
+    align-items: center; /* Align items vertically center */
+    justify-content: flex-start;
+    gap: 20px;
 }
 
+/*
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -40,3 +48,4 @@
 .read-the-docs {
   color: #888;
 }
+*/

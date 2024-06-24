@@ -9,6 +9,7 @@ const SignUp = () => {
   return (
     <div>
         <Navbar/>
+        <p class="SignUpP"> Context </p>
         <Footer/>
     </div>
   )
