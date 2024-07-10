@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
 
-div.glass-container{
+div.glass-container {
     /*display: flex;*/
     justify-content: left;
     width: 490px;

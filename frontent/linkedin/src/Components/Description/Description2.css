@@ -2,34 +2,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
 
-div.glass-cont{
-    justify-content: right;
-    width: 1300px;
-    
-    /*float:right;*/
-
+div.glass-cont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 
-div.glass-cont div.Description1Div{
+div.glass-cont2 div.Description2Div{
     display: inline-block;
-    margin-left: 50px;
-    margin-top: 230px;
     margin-bottom: 100px;
-    padding: 96px 65px;
+    padding: 96px 250px;
     font-family: Open Sans, sans-serif;
     border-radius: 16px;
     min-width: 280px;
     background-color: #fff;
 }
 
-div.glass-cont div.Description1Div div{
+div.glass-cont2 div.Description2Div div{
     display: grid;
     padding-top: 10px;
 
 }
 
-div.glass-cont div.Description1Div h1{
+div.glass-cont2 div.Description2Div h1{
     color: #C22D1F;
     font-size: 23px;
     margin-left: 25px;
@@ -37,18 +33,18 @@ div.glass-cont div.Description1Div h1{
     font-synthesis: none;
 }
 
-div.glass-cont div.Description1Div div label{
+div.glass-cont2 div.Description2Div div label{
     font-size: 15px;
     color: #1fb4c2;
 }
 
-div.glass-cont div.Description1Div div input{
+div.glass-cont2 div.Description2Div div input{
     padding: 8px 8px 8px 8px;
     max-width: 250px;
     font-size: 14px;
 }
 
-div.glass-cont div.Description1Div button{
+div.glass-cont2 div.Description2Div button{
     font-size: 16px;
     margin-top: 30px;
     margin-left: 50px;
@@ -63,13 +59,13 @@ div.glass-cont div.Description1Div button{
     display: inline-flex;
 }
 
-div.glass-cont div.Description1Div button:hover{
+div.glass-cont2 div.Description2Div button:hover{
     background-color: #1fb4c2;
     border-color: #1fb4c2;
     color: white;
 }
 
-div.glass-cont div.Description1Div button.forgot{
+div.glass-cont2 div.Description2Div button.forgot{
     font-size: 14px;
     margin-top: 10px;
     margin-left: 0px;
@@ -80,6 +76,6 @@ div.glass-cont div.Description1Div button.forgot{
     padding: 0%;
 }
 
-div.glass-cont div.Description1Div button.forgot:hover{
+div.glass-cont2 div.Description2Div button.forgot:hover{
     color: #0a6c75;
 }
