@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
+
+
+div.glass-container-SignUpForm {
+    display: flex;
+    justify-content: center;
+}
+
+div.glass-container-SignUpForm form.SignUpForm{
+    display: inline-block;
+    margin-left: 150px;
+    margin-top: 180px;
+    margin-bottom: 100px;
+    padding: 40px 60px;
+    font-family: Open Sans, sans-serif;
+    box-shadow: 0px 8.369px 22.825px 0px rgba(0, 0, 0, 0.07);
+    border-radius: 16px;
+    min-width: 600px;
+    background-color: #fff;
+}
+
+div.glass-container-SignUpForm form.SignUpForm div{
+    display: grid;
+    padding-top: 10px;
+
+}
+
+div.glass-container-SignUpForm form.SignUpForm h1{
+    display: flex;
+    justify-content: center;
+    color: #C22D1F;
+    font-size: 23px;
+    margin-left: 25px;
+    margin-top: 10px;
+    margin-bottom: 3px;
+    /*padding-bottom: 3px;*/
+}
+
+div.glass-container-SignUpForm form.SignUpForm p.phrase{
+    display: flex;
+    justify-content: center;
+    color: #C22D1F;
+    font-size: 17px;
+    margin-top: 5px;
+    margin-left: 25px;
+    padding-bottom: 30px;
+}
+
+div.glass-container-SignUpForm form.SignUpForm div label{
+    font-size: 15px;
+    color: #1fb4c2;
+}
+
+div.glass-container-SignUpForm form.SignUpForm div input{
+    padding: 8px 8px 8px 8px;
+    max-width: 250px;
+    font-size: 14px;
+}
+
+div.glass-container-SignUpForm form.SignUpForm button.forgot{
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 0px;
+    border: none;
+    background-color: #fff;
+    color: #1fb4c2;
+    letter-spacing: 1px;
+    padding: 0%;
+}
+
+div.glass-container-SignUpForm form.SignUpForm button.forgot:hover{
+    color: #0a6c75;
+}
+
+div.glass-container-SignUpForm form.SignUpForm img{
+display: flex;
+    max-width: 300px;
+    max-height: 300px;
+    margin-top: -180px;
+    margin-left: 300px;
+}
+
+div.glass-container-SignUpForm form.SignUpForm button{
+    font-size: 16px;
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 12px 50px 12px 50px;
+    border: 2px solid #18a4b1;
+    background-color: whitesmoke;
+    color: #1fb4c2;
+    border-radius: 10%;
+    letter-spacing: 2px;
+    border-radius: 24px;
+    transition: background-color 0.3s;
+    display: inline-flex;
+}
+
+div.glass-container-SignUpForm form.SignUpForm button:hover{
+    background-color: #1fb4c2;
+    border-color: #1fb4c2;
+    color: white;
+}
+
+    div.glass-container-SignUpForm form.SignUpForm div.success-message {
+        font-size: 12px;
+        color: rgb(44, 207, 66);
+        display: block;
+        /* visibility: hidden; */
+    }
+
+div.glass-container-SignUpForm form.SignUpForm div.error-message{
+    font-size: 12px;
+    color: red;
+    display: block;
+    /* visibility: hidden; */
+}
+

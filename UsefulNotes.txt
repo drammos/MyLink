@@ -1,0 +1,5 @@
+
+// If can't fimd msnodesqlv8 and the install doesn't work
+// Go to the right path and run:
+npm uninstall msnodesqlv8
+npm install msnodesqlv8
