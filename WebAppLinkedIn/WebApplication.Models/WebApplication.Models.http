@@ -1,6 +1,0 @@
-@WebApplication.Models_HostAddress = http://localhost:5206
-
-GET {{WebApplication.Models_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
