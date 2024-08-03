@@ -9,5 +9,12 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
-	
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinkedIn.Data\LinkedIn.Data.csproj" />
+    <ProjectReference Include="..\LinkedIn.Models\LinkedIn.Models.csproj" />
+  </ItemGroup>
+
+
+
 </Project>

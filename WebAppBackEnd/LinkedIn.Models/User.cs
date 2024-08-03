@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApplication.Models
+namespace LinkedIn.Models
 {
     public class User : IdentityUser
     {
@@ -16,9 +16,6 @@ namespace WebApplication.Models
 
         [Required]
         public string? LastName { get; set; }
-
-        [Required]
-        public string? MailAddress { get; set; }
 
         public string? PictureURL { get; set; }
         public bool IsAdmin { get; set; }
