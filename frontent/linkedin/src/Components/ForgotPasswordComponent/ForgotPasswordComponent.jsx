@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import SignInImage from '../../assets/WelcomePageImg.png'
+import ForgotPasswordImg from '../../assets/ForgotPasswordImg.jpg'
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
-import './LogIn.css'
+import './ForgotPasswordComponent.css'
 
-const LogIn = () => {
+const ForgotPasswordComponent = () => {
     // State variables to hold username and password
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +14,7 @@ const LogIn = () => {
         e.preventDefault();
         try {
             // Send form data to backend API
-            const response = await fetch('http://localhost:3001/login', {
+            const response = await fetch('http://localhost:3001/ForgotPassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,12 +25,12 @@ const LogIn = () => {
             const data = await response.json();
 
             if (data.success) {
-                setMessage('Login successful!');
-                console.log('Login successful');
+                setMessage('ForgotPassword successful!');
+                console.log('ForgotPassword successful');
             }
             else {
                 setMessage('Invalid username or password');
-                console.error('Login failed');
+                console.error('ForgotPassword failed');
                 throw new Error('Invalid username or password');
             }
         }
@@ -48,30 +48,28 @@ const LogIn = () => {
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            // Trigger login when Enter key is pressed
+            // Trigger ForgotPassword when Enter key is pressed
             handleSubmit(event);
         }
     };
 
     return (
-        <div className="glass-container">
-            <form className="LogInForm" onSubmit={handleSubmit}>
-                <h1>Welcome to MyLink!</h1>
+        <div className="glass-container-forgotPassword">
+            <form className="ForgotPasswordForm" onSubmit={handleSubmit}>
                 <p className="phrase">Empowering connections for a brighter future</p>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress} />
+                <div className="forgotPasswordText">
+                    <label className="forgotPasswordLabel" >Please enter your email to send you a temporary code to connect</label>
+                    <input type="email" id="email" placeholder="Enter your email" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress} />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
-                </div>
-                <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
-                <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
-                    {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
+                
+                <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'ForgotPassword successful!' ? 'success-message' : '')}>
+                    {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'ForgotPassword successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
 
-                <img src={SignInImage} alt="" />
-                <button type="submit">Login</button>
+                <div className="forgotPasswordButton">
+                    <button type="submit">Send Temporary Code</button>
+                </div>
+                
+                <img src={ForgotPasswordImg} alt="" />
 
             </form>
 
@@ -79,4 +77,4 @@ const LogIn = () => {
     );
 };
 
-export default LogIn;
+export default ForgotPasswordComponent;

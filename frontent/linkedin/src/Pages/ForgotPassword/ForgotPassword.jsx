@@ -2,7 +2,7 @@ import React from "react"
 import './ForgotPassword.css'
 import Navbar from "../../Components/Navbar/Navbar"
 import Footer from "../../Components/Footer/Footer"
-import LogIn from "../../Components/LogIn/LogIn"
+import ForgotPasswordComponent from "../../Components/ForgotPasswordComponent/ForgotPasswordComponent"
 
 
 const ForgotPassword = () => {
@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   return (
     <div>
         <Navbar/>
-        <LogIn/>
+          <ForgotPasswordComponent />
         <Footer/>
     </div>
   )
