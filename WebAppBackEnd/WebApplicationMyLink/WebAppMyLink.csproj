@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LinkedIn.Data\LinkedIn.Data.csproj" />
-    <ProjectReference Include="..\LinkedIn.Models\LinkedIn.Models.csproj" />
+    <ProjectReference Include="..\MyLink.Data\MyLink.Data.csproj" />
   </ItemGroup>
 
 

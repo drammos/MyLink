@@ -1,4 +1,4 @@
-namespace WebApplicationLinkedIn
+namespace WebAppMyLink
 {
     public class WeatherForecast
     {

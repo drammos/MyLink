@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApplicationLinkedIn;
+using WebAppMyLink;
 
-namespace 
-    LinkedIn.Controllers
+namespace MyLink.Controllers
 {
     [ApiController]
     [Route("[controller]")]

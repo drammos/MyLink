@@ -1,18 +1,9 @@
-﻿
-//using AutoMapper;
-//using AutoMapper.Configuration.Annotations;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Microsoft.AspNetCore.Mvc;
-using LinkedIn.Models;
-using LinkedIn.Models.DTOS;
+using MyLink.Models;
+using MyLink.Models.DTOS;
 
-namespace WebAppLinkedIn.Controllers
+namespace WebAppMyLink.Controllers
 {
     [ApiController]
     [Route("[controller]")]

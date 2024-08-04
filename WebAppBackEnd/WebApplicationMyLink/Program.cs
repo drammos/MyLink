@@ -1,4 +1,4 @@
-using LinkedIn.Models;
+using MyLink.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppLinkedIn", "WebApplicationLinkedIn\WebAppLinkedIn.csproj", "{4CCBB784-C09A-4AFF-AAB1-23063B27A742}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppMyLink", "WebApplicationMyLink\WebAppMyLink.csproj", "{4CCBB784-C09A-4AFF-AAB1-23063B27A742}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedIn.Models", "LinkedIn.Models\LinkedIn.Models.csproj", "{C48032A2-3F59-40F8-83C9-5BF7C1A90A7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLink.Models", "MyLink.Models\MyLink.Models.csproj", "{C48032A2-3F59-40F8-83C9-5BF7C1A90A7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedIn.Data", "LinkedIn.Data\LinkedIn.Data.csproj", "{138E3AB3-98BA-4F45-81FD-70D5154242EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLink.Data", "MyLink.Data\MyLink.Data.csproj", "{138E3AB3-98BA-4F45-81FD-70D5154242EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
