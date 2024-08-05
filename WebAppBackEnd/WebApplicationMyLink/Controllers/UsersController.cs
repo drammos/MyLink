@@ -36,5 +36,12 @@ namespace WebAppMyLink.Controllers
                 IsAdmin = user.IsAdmin,
             };
         }
+
+        [HttpPost("GetAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            var users = _userManager.Users.ToList();
+            return Ok(users);
+        }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MyLink.Data.Access;
 using MyLink.Models;
 using MyLink.Data;
+using MyLink.Data.Initialize;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,5 +36,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapControllers();
+
+//Initialize my db with users
+var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+await InitializerDb.Initialize(context, userManager);
 
 app.Run();
