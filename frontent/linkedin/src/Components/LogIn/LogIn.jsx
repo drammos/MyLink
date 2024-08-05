@@ -54,7 +54,7 @@ const LogIn = () => {
     };
 
     return (
-        <div className="glass-container">
+        <div className="glass-container-Login">
             <form className="LogInForm" onSubmit={handleSubmit}>
                 <h1>Welcome to MyLink!</h1>
                 <p className="phrase">Empowering connections for a brighter future</p>
@@ -71,7 +71,7 @@ const LogIn = () => {
                     {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
 
                 <img src={SignInImage} alt="" />
-                <button type="submit">Login</button>
+                <button className="submit" type="submit">Login</button>
 
             </form>
 
