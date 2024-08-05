@@ -22,7 +22,7 @@ namespace MyLink.Data.Initialize
                     Email = "jrammos@outlook.com.gr"
                 };
 
-                await users.CreateAsync(user, "password");
+                var result = await users.CreateAsync(user, "1234@Password");
                 await users.AddToRoleAsync(user, "Admin");
 
                 await db.SaveChangesAsync();
