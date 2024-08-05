@@ -15,15 +15,16 @@ namespace WebAppMyLink.Controllers
             this._userManager = _userManager;
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
+        [HttpPost("loginUser")]
+        public async Task<ActionResult<UserDTO>> LoginUser(LoginDTO loginDTO)
         {
             User user = await _userManager.FindByNameAsync(loginDTO.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
             {
                 return Unauthorized();
             }
-            //var roles = await _userManager.GetRolesAsync(user);
+            var listfromroles = await _userManager.GetRolesAsync(user);
+            List<string> roles = new List<string>(listfromroles);
             return new UserDTO
             {
                 Id = user.Id,
@@ -34,10 +35,17 @@ namespace WebAppMyLink.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
                 IsAdmin = user.IsAdmin,
+                Role = roles[0]
             };
         }
 
-        [HttpPost("GetAllUsers")]
+        [HttpPost("RegisterUser")]
+        public async Task<ActionResult<UserDTO>> RegisterUser()
+        {
+
+        } 
+
+        [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
         {
             var users = _userManager.Users.ToList();
