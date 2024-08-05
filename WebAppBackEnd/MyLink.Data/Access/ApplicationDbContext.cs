@@ -12,6 +12,8 @@ namespace MyLink.Data.Access
         {
 
         }
+        
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
