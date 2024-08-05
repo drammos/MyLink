@@ -1,6 +1,7 @@
 import React, { useState } from "react"
-import SignInImage from '../../assets/WelcomePageImg.png'
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './SignUpForm.css'
 
 const SignUpForm = () => {
@@ -15,6 +16,8 @@ const SignUpForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setrepeatPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const [phone, setPhone] = useState('');
     const [photo, setPhoto] = useState('');
@@ -67,6 +70,10 @@ const SignUpForm = () => {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+
     return (
         <div className="glass-container-SignUpForm">
             <p className="phrase">Empowering connections for a brighter future</p>
@@ -78,9 +85,10 @@ const SignUpForm = () => {
 
                         <input type="text" id="surname" placeholder="Surname" value={surname} onChange={(e) => setSurname(e.target.value)} onKeyPress={handleKeyPress} />
 
-
                         <input type="text" id="username" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress} />
-                        <input type="password" id="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
+
+                        <input type={showPassword ? 'text' : 'password'} id="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
+
 
                     </div>
 
@@ -89,22 +97,28 @@ const SignUpForm = () => {
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyPress={handleKeyPress} />
 
-
-                        <label htmlFor="repeatPassword">Repeat Password</label>
-                        <input type="password" id="repeatpassword" value={repeatPassword} onChange={(e) => setrepeatPassword(e.target.value)} onKeyPress={handleKeyPress} />
-
                         <label htmlFor="phone">Phone</label>
                         <input type="tel" id="password" value={phone} onChange={(e) => setPhone(e.target.value)} onKeyPress={handleKeyPress} />
 
                         <label htmlFor="birthDate">Birth Date</label>
                         <input type="date" id="birthDate" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} onKeyPress={handleKeyPress} />
+
+                        <label htmlFor="repeatPassword">Repeat Password</label>
+                        <input type={showPassword ? 'text' : 'password'} id="repeatpassword" value={repeatPassword} onChange={(e) => setrepeatPassword(e.target.value)} onKeyPress={handleKeyPress} />
+
                     </div>
                 </div>
 
                 <div className="down-buttons">
+                    <button type="button" onClick={togglePasswordVisibility} className="togglePassword">
+                        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                    </button>
+
+                    <div>
                     <label htmlFor="terms">I agree with terms and conditions</label>
                     <input type="checkbox" id="terms" value={terms} onChange={(e) => setTerms(e.target.value)} onKeyPress={handleKeyPress} />
-                    <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
+                    </div>
+
                     <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
                         {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
 

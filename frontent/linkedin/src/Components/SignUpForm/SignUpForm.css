@@ -66,49 +66,48 @@ div.glass-container-SignUpForm {
             }
 
             div.glass-container-SignUpForm form.SignUpForm div.firstline div.rowTwo input {
-                height:22px;
+                height: 22px;
             }
 
         div.glass-container-SignUpForm form.SignUpForm div.down-buttons {
+            display: grid;
+            place-items: center;
         }
 
-            div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.forgot {
-                font-size: 14px;
-                margin-top: 10px;
-                margin-left: 0px;
-                border: none;
-                background-color: #fff;
-                color: #1fb4c2;
-                letter-spacing: 1px;
-                padding: 0%;
-                transition: background-color 0.3s;
-                display: inline-flex;
-            }
-
-                div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.forgot:hover {
-                    color: #0a6c75;
-                }
-
-            div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.create {
-                font-size: 16px;
-                margin-top: 30px;
-                margin-left: 50px;
-                padding: 12px 50px 12px 50px;
-                border: 2px solid #18a4b1;
+            div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.togglePassword {
+                width: 38px;
+                height: 33px;
+                margin-bottom: 5px;
+                border: 1px solid #18a4b1;
                 background-color: whitesmoke;
-                color: #1fb4c2;
                 border-radius: 10%;
-                letter-spacing: 2px;
                 border-radius: 24px;
                 transition: background-color 0.3s;
-                display: inline-flex;
             }
 
-                div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.create:hover {
-                    background-color: #1fb4c2;
-                    border-color: #1fb4c2;
-                    color: white;
+            div.glass-container-SignUpForm form.SignUpForm div.down-buttons div label {
+                font-size:15px;
+            }
+
+                div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.create {
+                    font-size: 16px;
+                    margin-top: 30px;
+                    padding: 12px 50px 12px 50px;
+                    border: 2px solid #18a4b1;
+                    background-color: whitesmoke;
+                    color: #1fb4c2;
+                    border-radius: 10%;
+                    letter-spacing: 2px;
+                    border-radius: 24px;
+                    transition: background-color 0.3s;
+                    display: inline-flex;
                 }
+
+                    div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.create:hover {
+                        background-color: #1fb4c2;
+                        border-color: #1fb4c2;
+                        color: white;
+                    }
 
             div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.success-message {
                 font-size: 12px;
