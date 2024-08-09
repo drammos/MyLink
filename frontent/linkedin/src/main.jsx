@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import SignUp from './Pages/SignUp/SignUp.jsx'
 import SignIn from './Pages/SignIn/SignIn.jsx'
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx'
+import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
+
 
 import App from './Pages/WelcomePage/App.jsx'
 import './index.css'
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
     {
         path: "forgot-password",
         element: <ForgotPassword/>
+    },
+    {
+        path: "controlPanel",
+        element: <ControlPanel />
     },
     //},
     //{
