@@ -16,7 +16,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("loginUser")]
-        public async Task<ActionResult<UserDTO>> LoginUser(LoginDTO loginDTO)
+        public async Task<ActionResult<UserDTO>> LoginUser(LoginUserDTO loginDTO)
         {
             User user = await _userManager.FindByNameAsync(loginDTO.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
@@ -34,31 +34,19 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
-                IsAdmin = user.IsAdmin,
                 Role = roles[0]
             };
         }
 
         [HttpPost("RegisterUser")]
-        public async Task<ActionResult<UserDTO>> RegisterUser([FromForm] RegisterDTO registerDTO)
+        public async Task<ActionResult<UserDTO>> RegisterUser([FromForm] RegisterUserDTO registerDTO)
         {
-            if(await _userManager.FindByNameAsync(registerDTO.Username) != null)
-            {
-                return ValidationProblem();
-            }
-
-            if(await _userManager.FindByEmailAsync(registerDTO.Email) != null)
-            {
-                return ValidationProblem();
-            }
-
             User user = new User()
             {
                 FirstName = registerDTO.FirstName,
                 LastName = registerDTO.LastName,
                 Email = registerDTO.Email,
                 UserName = registerDTO.Username,
-                IsAdmin = registerDTO.IsAdmin,
                 PhoneNumber = registerDTO.PhoneNumber
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
@@ -95,19 +83,63 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
-                IsAdmin = user.IsAdmin,
                 Role = registerDTO.Role
             };
         }
 
         [HttpGet("GetUser")]
-        public async Task<ActionResult<UserDTO>> GetUser(string Username)
+        public async Task<ActionResult<User>> GetUser(string Username)
         {
             User user = await _userManager.FindByNameAsync(Username);
             if (user == null)
-                return Unauthorized();
+                return NotFound();
 
-            var roles = await _userManager.GetRolesAsync(user);
+            return user;
+        }
+
+        [HttpGet("GetRoleForUser")]
+        public async Task<ActionResult<string>> GetRoleForUser(string Username)
+        {
+            User user = await _userManager.FindByNameAsync(Username);
+            if (user == null)
+                return NotFound();
+
+            var listfromroles = await _userManager.GetRolesAsync(user);
+            List<string> roles = new List<string>(listfromroles);
+
+            return roles[0];
+        }
+
+        [HttpPut("UpdateUser")]
+        public async Task<ActionResult<UserDTO>> UpdateUser([FromForm] UpdateUserDTO updateUserDTO)
+        {
+            User user = await _userManager.FindByNameAsync(updateUserDTO.Username);
+            if (user == null)
+                return NotFound();
+
+            user.FirstName = updateUserDTO.FirstName;
+            user.LastName = updateUserDTO.LastName;
+            user.PhoneNumber = updateUserDTO.PhoneNumber;
+            user.Email = updateUserDTO.Email;
+
+            if(!string.IsNullOrEmpty(updateUserDTO.NewPassword))
+            {
+                var result = await _userManager.ChangePasswordAsync(user, updateUserDTO.Password, updateUserDTO.NewPassword);
+                if (result.Succeeded == false)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        var str = error.ToString();
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+
+                    return ValidationProblem();
+                }
+            }
+
+            var listfromroles = await _userManager.GetRolesAsync(user);
+            List<string> roles = new List<string>(listfromroles);
+
             return new UserDTO
             {
                 Id = user.Id,
@@ -117,11 +149,9 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
-                IsAdmin = user.IsAdmin,
                 Role = roles[0]
             };
         }
-
 
         [HttpGet("GetAllUsers")]
         public IActionResult GetAllUsers()
