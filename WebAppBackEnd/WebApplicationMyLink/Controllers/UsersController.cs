@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyLink.Models;
 using MyLink.Models.DTOS;
+using MyLink.Data.Repository.IRepository;
 
 namespace WebAppMyLink.Controllers
 {
@@ -10,9 +11,12 @@ namespace WebAppMyLink.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        public UsersController(UserManager<User> _userManager) 
-        { 
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UsersController(UserManager<User> _userManager, IUnitOfWork unitOfWork)
+        {
             this._userManager = _userManager;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost("loginUser")]
@@ -140,6 +144,10 @@ namespace WebAppMyLink.Controllers
             var listfromroles = await _userManager.GetRolesAsync(user);
             List<string> roles = new List<string>(listfromroles);
 
+            //Save the changes in DB
+            _unitOfWork.Save();
+
+            //Return the DTO
             return new UserDTO
             {
                 Id = user.Id,

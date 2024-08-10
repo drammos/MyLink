@@ -4,6 +4,8 @@ using MyLink.Models;
 using MyLink.Data;
 using MyLink.Data.Initialize;
 using Microsoft.AspNetCore.Identity;
+using MyLink.Data.Repository;
+using MyLink.Data.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddIdentityCore<User>(options =>
     {
