@@ -128,7 +128,7 @@ namespace WebAppMyLink.Controllers
 
             if(!string.IsNullOrEmpty(updateUserDTO.NewPassword))
             {
-                var result = await _userManager.ChangePasswordAsync(user, updateUserDTO.Password, updateUserDTO.NewPassword);
+                var result = await _userManager.ChangePasswordAsync(user, updateUserDTO.CurrentPassword, updateUserDTO.NewPassword);
                 if (result.Succeeded == false)
                 {
                     foreach (var error in result.Errors)
