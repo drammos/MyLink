@@ -19,7 +19,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<User>(options =>
+    {
+        options.User.RequireUniqueEmail = true;
+
+    })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -40,7 +44,8 @@ app.MapControllers();
 //Initialize my db with users
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+var userManager = scope.ServiceProvider
+    .GetRequiredService<UserManager<User>>();
 
 await InitializerDb.Initialize(context, userManager);
 
