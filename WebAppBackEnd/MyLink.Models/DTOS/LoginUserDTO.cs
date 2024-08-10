@@ -2,7 +2,7 @@
 
 namespace MyLink.Models.DTOS
 {
-        public class LoginDTO
+        public class LoginUserDTO
         {
             [Required]
             public string? Username { get; set; }
