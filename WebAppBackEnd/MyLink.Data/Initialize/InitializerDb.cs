@@ -18,7 +18,6 @@ namespace MyLink.Data.Initialize
                 {
                     FirstName = "Dimitris",
                     LastName = "Rammos",
-                    IsAdmin = true,
                     PhoneNumber = "1234567890",
                     UserName = "jrammos",
                     Email = "jrammos@outlook.com.gr"
