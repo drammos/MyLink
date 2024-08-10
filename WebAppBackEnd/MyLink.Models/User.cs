@@ -12,6 +12,5 @@ namespace MyLink.Models
         public string? LastName { get; set; }
 
         public string? PictureURL { get; set; }
-        public bool IsAdmin { get; set; }
     }
 }
