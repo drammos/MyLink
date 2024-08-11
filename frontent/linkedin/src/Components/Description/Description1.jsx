@@ -1,20 +1,19 @@
-import React , { useState } from "react"
+﻿import React , { useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
+import { IoIosRocket } from "react-icons/io";
 // import 'bootstrap/dist/css/bootstrap.min.css'
-import { useNavigate } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
-import './WelcomePageLogIn.css'
+import './Description1.css'
 
 
-const WelcomePageLogIn = () => {
+const Description1 = () => {
   // State variables to hold username and password
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
-    const handleSubmit = async (e) => {
- 
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Send form data to backend API
@@ -47,7 +46,7 @@ const WelcomePageLogIn = () => {
   const handleForgotPassword = (event) => {
     event.preventDefault();
     console.error("Forgot Password?");
-     navigate('/forgot-password');
+    // history.push('/forgot-password');
   };
 
   const handleKeyPress = (event) => {
@@ -58,27 +57,18 @@ const WelcomePageLogIn = () => {
   };
 
   return (
-    <div class="glass-container">
-      <form class="WelcomePageLogInForm" onSubmit={handleSubmit}>
-        <h1>Welcome to MyLink!</h1>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress}/>
+    <div class="glass-cont">
+        <div class="Description1Div">
+            <h1><><IoIosRocket /></> Our Mission</h1>
+            <p>
+            Our mission is to blend cutting-edge design with seamless user experience,
+            ensuring that every interaction on your site is engaging, intuitive, and memorable.
+            </p>
+
+            <button type="submit">Learn More</button>
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress}/>
-        </div>
-        <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
-        <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
-        {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
-        <button type="submit">Login</button>
-      </form>
-      <img>
-      
-      </img>
     </div>
   );
 };
 
-export default WelcomePageLogIn;
+export default Description1;

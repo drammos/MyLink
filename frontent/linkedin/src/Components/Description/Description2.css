@@ -2,32 +2,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
 
-div.glass-container {
-    /*display: flex;*/
-    justify-content: left;
-    width: 490px;
+div.glass-cont2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 
-div.glass-container form.WelcomePageLogInForm{
+div.glass-cont2 div.Description2Div{
     display: inline-block;
-    margin-left: 50px;
-    margin-top: 180px;
-    margin-bottom: 50px;
-    padding: 36px 65px;
+    margin-bottom: 100px;
+    padding: 96px 250px;
     font-family: Open Sans, sans-serif;
     border-radius: 16px;
     min-width: 280px;
     background-color: #fff;
 }
 
-div.glass-container form.WelcomePageLogInForm div{
+div.glass-cont2 div.Description2Div div{
     display: grid;
     padding-top: 10px;
 
 }
 
-div.glass-container form.WelcomePageLogInForm h1{
+div.glass-cont2 div.Description2Div h1{
     color: #C22D1F;
     font-size: 23px;
     margin-left: 25px;
@@ -35,18 +33,18 @@ div.glass-container form.WelcomePageLogInForm h1{
     font-synthesis: none;
 }
 
-div.glass-container form.WelcomePageLogInForm div label{
+div.glass-cont2 div.Description2Div div label{
     font-size: 15px;
     color: #1fb4c2;
 }
 
-div.glass-container form.WelcomePageLogInForm div input{
+div.glass-cont2 div.Description2Div div input{
     padding: 8px 8px 8px 8px;
     max-width: 250px;
     font-size: 14px;
 }
 
-div.glass-container form.WelcomePageLogInForm button{
+div.glass-cont2 div.Description2Div button{
     font-size: 16px;
     margin-top: 30px;
     margin-left: 50px;
@@ -61,37 +59,23 @@ div.glass-container form.WelcomePageLogInForm button{
     display: inline-flex;
 }
 
-div.glass-container form.WelcomePageLogInForm button:hover{
+div.glass-cont2 div.Description2Div button:hover{
     background-color: #1fb4c2;
     border-color: #1fb4c2;
     color: white;
 }
 
-div.glass-container form.WelcomePageLogInForm button.forgot{
+div.glass-cont2 div.Description2Div button.forgot{
     font-size: 14px;
     margin-top: 10px;
     margin-left: 0px;
     border: none;
-    background-color: #fff;
+    /*background-color: whitesmoke;*/
     color: #1fb4c2;
     letter-spacing: 1px;
     padding: 0%;
 }
 
-div.glass-container form.WelcomePageLogInForm button.forgot:hover{
+div.glass-cont2 div.Description2Div button.forgot:hover{
     color: #0a6c75;
-}
-
-div.glass-container form.WelcomePageLogInForm div.success-message{
-    font-size: 12px;
-    color: rgb(44, 207, 66);
-    display: block;
-    /* visibility: hidden; */
-}
-
-div.glass-container form.WelcomePageLogInForm div.error-message{
-    font-size: 12px;
-    color: red;
-    display: block;
-    /* visibility: hidden; */
 }

@@ -8,6 +8,11 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  
+  const handleSignInClick = async (e) => {
+    navigate("/signin");
+  };
+
   const handleSignUpClick = async (e) => {
     navigate("/signup");
   };
@@ -20,7 +25,7 @@ const Navbar = () => {
     <nav>
         <img src={logo} onClick={handleLogoClick} alt=""/>
         <ul>
-            <button class="signIn">Sign In</button>
+            <button class="signIn" onClick={handleSignInClick}>Sign In</button>
             <button class="signUp" onClick={handleSignUpClick}>Sign Up</button>
             <button class="sendHelp"><div><GoAlert/></div> Send Help!</button>
         </ul>

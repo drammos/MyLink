@@ -1,6 +1,5 @@
 .footer{
     background-color: #fcfdfd; /* bckp #1fb4c2*/
-    margin-left: -9px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +11,7 @@
     padding-bottom: 0px;
 
     position: absolute;
-    bottom: 0;
+    /*bottom: 0;*/
     width: 100%;
 
 }

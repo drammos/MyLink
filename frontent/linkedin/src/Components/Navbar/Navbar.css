@@ -26,9 +26,11 @@
 
 nav{
     width: 100%;
-    position: fixed;
-    display: inbuttonne-block;
-    min-width: 12rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    min-width: 14rem;
     gap: 4rem;
     background-color: var(--color-background);
     /*background-color: #fcfdfd;*/
@@ -36,13 +38,11 @@ nav{
 
 
 nav img{
-    display: flex;
-    float: left;
-    font-size: 20px;
     margin-left: 160px;
     margin-top: 22px;
     margin-bottom: 18px;
     max-width: 130px;
+    max-height: 30px;
     cursor: pointer;
 }
 
@@ -52,7 +52,7 @@ nav ul{
     margin-bottom: 18px;
     margin-right: 160px;
     justify-content: end;
-    padding-left: 330px;
+    margin-left: 330px;
 }
 
 nav ul button{
