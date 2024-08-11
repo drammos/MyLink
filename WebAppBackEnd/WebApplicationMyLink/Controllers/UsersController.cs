@@ -19,7 +19,7 @@ namespace WebAppMyLink.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpPost("loginUser")]
+        [HttpPost("LoginUser")]
         public async Task<ActionResult<UserDTO>> LoginUser(LoginUserDTO loginDTO)
         {
             User user = await _userManager.FindByNameAsync(loginDTO.Username);
@@ -162,10 +162,10 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        public IActionResult GetAllUsers()
+        public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();
-            return Ok(users);
+            return users;
         }
     }
 }
