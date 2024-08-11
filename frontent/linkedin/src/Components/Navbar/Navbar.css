@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
-:root{
+:root {
     --color-primary: #6C9BCF;
     --color-danger: #FF0060;
     --color-success: #1B9C85;
@@ -12,19 +12,16 @@
     --color-buttonght: rgba(132, 139, 200, 0.18);
     --color-dark-variant: #677483;
     --color-background: #f6f6f9;
-
     --card-border-radius: 2rem;
     --border-radius-1: 0.4rem;
     --border-radius-2: 1.2rem;
-
     --card-padding: 1.8rem;
     --padding-1: 1.2rem;
-
     --box-shadow: 0 2rem 3rem var(--color-buttonght);
 }
 
 
-nav{
+nav {
     width: 100%;
     position: absolute;
     display: flex;
@@ -37,83 +34,79 @@ nav{
 }
 
 
-nav img{
-    margin-left: 160px;
-    margin-top: 22px;
-    margin-bottom: 18px;
-    max-width: 130px;
-    max-height: 30px;
-    cursor: pointer;
-}
+    nav img {
+        margin-left: 160px;
+        margin-top: 22px;
+        margin-bottom: 18px;
+        max-width: 130px;
+        max-height: 25px;
+        cursor: pointer;
+    }
 
-nav ul{
-    display: flex;
-    margin-top: 15px;
-    margin-bottom: 18px;
-    margin-right: 160px;
-    justify-content: end;
-    margin-left: 330px;
-}
+    nav ul {
+        display: flex;
+        margin-top: 15px;
+        margin-bottom: 18px;
+        margin-right: 160px;
+        justify-content: end;
+        margin-left: 330px;
+    }
 
-nav ul button{
-    font-size: 19px;
-    color: #333333;
-    cursor: pointer;
+        nav ul button {
+            font-size: 19px;
+            color: #333333;
+            cursor: pointer;
+            border-radius: 24px;
+            /* transition: background-color 0.3s; */
+            display: inbuttonne-block;
+            letter-spacing: 1px;
+            background-color: var(--color-background);
+            padding: 10px 20px;
+            font-size: 13px;
+            font-family: "Open Sans", sans-serif;
+            border: none;
+        }
 
-    border-radius: 24px;
-    /* transition: background-color 0.3s; */
-    display: inbuttonne-block; 
-    letter-spacing: 1px;
-    background-color: var(--color-background);
+            nav ul button.signIn {
+                font-weight: bold;
+                margin-right: 30px;
+            }
 
-    padding: 10px 20px;
-    font-size: 13px;
-    font-family: "Open Sans", sans-serif;
-
-    border: none;
-
-}
-
-nav ul button.signIn{
-    font-weight: bold;
-    margin-right: 30px;
-}
-
-nav ul button.signIn:hover{
-    background-color: rgb(221, 219, 219);
-    color: black;
-}
+                nav ul button.signIn:hover {
+                    background-color: rgb(221, 219, 219);
+                    color: black;
+                }
 
 
-nav ul button.signUp{
-    margin-right: 30px;
-    background-color: #1fb4c2;
-    color: whitesmoke;
-}
+            nav ul button.signUp {
+                margin-right: 30px;
+                background-color: #1fb4c2;
+                color: whitesmoke;
+            }
 
-nav ul button.signUp:hover{
-    background-color: #0c7b85;
-}
+                nav ul button.signUp:hover {
+                    background-color: #0c7b85;
+                }
 
-nav ul button.sendHelp h4{
-    margin: 0%;
-    font-size: 22px;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-bottom: 1px;
-    font-family: "Jersey 25", sans-serif;
-}
+            nav ul button.sendHelp h4 {
+                margin: 0%;
+                font-size: 22px;
+                padding-right: 20px;
+                padding-left: 20px;
+                padding-bottom: 1px;
+                font-family: "Jersey 25", sans-serif;
+            }
 
-nav ul button.sendHelp{
-    padding: 0%;
-    color: #7d8da1;
-    border: 0px;
-    display: grid;
-    font-size: 12px;
-}
+            nav ul button.sendHelp {
+                padding: 0%;
+                color: #7d8da1;
+                border: 0px;
+                display: grid;
+                font-size: 12px;
+            }
 
-nav ul button.sendHelp:hover{
-    color: #070808;
-    background-color: whitesmoke;
-    border: 0px;
-}
+                nav ul button.sendHelp:hover {
+                    color: #070808;
+                    background-color: whitesmoke;
+                    border: 0px;
+                }
