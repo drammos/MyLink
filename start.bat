@@ -2,7 +2,7 @@
 setlocal
 
 :: Start the API server
-start "API Server" cmd /k "cd /d backend\ServerAPI && npm start"
+:: start "API Server" cmd /k "cd /d backend\ServerAPI && npm start"
 
 dir
 :: Start the website

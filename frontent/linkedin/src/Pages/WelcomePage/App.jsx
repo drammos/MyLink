@@ -1,4 +1,4 @@
-import React from "react"
+import { useEffect } from "react"
 import Navbar from "../../Components/Navbar/Navbar"
 import WelcomePageLogIn from "../../Components/WelcomePageLogIn/WelcomePageLogIn"
 import Footer from "../../Components/Footer/Footer"
@@ -9,6 +9,13 @@ import Description2 from "../../Components/Description/Description2"
 import './App.css'
 
 const App = () => {
+
+    const useDocumentTitle = (title) => {
+        useEffect(() => {
+            document.title = title;
+        }, [title]);
+    };
+    useDocumentTitle('Home Page');
 
     return (
         <div>

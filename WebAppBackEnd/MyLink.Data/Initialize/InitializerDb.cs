@@ -23,8 +23,20 @@ namespace MyLink.Data.Initialize
                     Email = "jrammos@outlook.com.gr"
                 };
 
+                User user2 = new User()
+                {
+                    FirstName = "Teo",
+                    LastName = "Minaidis",
+                    PhoneNumber = "1234567890",
+                    UserName = "tminaidis9",
+                    Email = "teomin2001@gmailcomr"
+                };
+
                 var result = await users.CreateAsync(user, "1234@Password");
                 await users.AddToRoleAsync(user, "Admin");
+
+                result = await users.CreateAsync(user2, "1234@Password");
+                await users.AddToRoleAsync(user2, "Admin");
 
                 await db.SaveChangesAsync();
             }

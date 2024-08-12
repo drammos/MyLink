@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import SignInImage from '../../assets/WelcomePageImg.png'
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 import './LogIn.css'
 
 const LogIn = () => {
@@ -9,12 +10,14 @@ const LogIn = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Loggin in..");
         try {
             // Send form data to backend API
-            const response = await fetch('http://localhost:3001/login', {
+            const response = await fetch('http://localhost:5175/Users/LoginUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,9 +25,9 @@ const LogIn = () => {
                 body: JSON.stringify({ username, password }),
             });
 
-            const data = await response.json();
+            /*const data = await response.text();*/
 
-            if (data.success) {
+            if (response.status == 200) {
                 setMessage('Login successful!');
                 console.log('Login successful');
             }
@@ -43,7 +46,7 @@ const LogIn = () => {
     const handleForgotPassword = (event) => {
         event.preventDefault();
         console.error("Forgot Password?");
-        history.push('/forgot-password');
+        navigate('/forgot-password');
     };
 
     const handleKeyPress = (event) => {
