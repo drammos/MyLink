@@ -1,4 +1,4 @@
-import React , { useState } from "react"
+import { useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import { useNavigate } from "react-router-dom";
@@ -13,36 +13,37 @@ const WelcomePageLogIn = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-    const handleSubmit = async (e) => {
- 
-    e.preventDefault();
-    try {
-      // Send form data to backend API
-      const response = await fetch('http://localhost:3001/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
 
-      const data = await response.json();
-      
-      if(data.success){
-        setMessage('Login successful!');
-        console.log('Login successful');
-      }
-      else {
-        setMessage('Invalid username or password');
-        console.error('Login failed');
-        throw new Error('Invalid username or password');
-      }
-    } 
-    catch (error) {
-      console.error('Error logging in:', error);
-      setError('An unexpected error occurred');
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Loggin in..");
+        try {
+            // Send form data to backend API
+            const response = await fetch('http://localhost:5175/Users/LoginUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            /*const data = await response.text();*/
+
+            if (response.status == 200) {
+                setMessage('Login successful!');
+                console.log('Login successful');
+            }
+            else {
+                setMessage('Invalid username or password');
+                console.error('Login failed');
+                throw new Error('Invalid username or password');
+            }
+        }
+        catch (error) {
+            console.error('Error logging in:', error);
+            setError('An unexpected error occurred');
+        }
+    };
 
   const handleForgotPassword = (event) => {
     event.preventDefault();
@@ -55,11 +56,11 @@ const WelcomePageLogIn = () => {
       // Trigger login when Enter key is pressed
       handleSubmit(event);
     }
-  };
+    };
 
   return (
-    <div class="glass-container">
-      <form class="WelcomePageLogInForm" onSubmit={handleSubmit}>
+    <div className="glass-container">
+      <form className="WelcomePageLogInForm" onSubmit={handleSubmit}>
         <h1>Welcome to MyLink!</h1>
         <div>
           <label htmlFor="username">Username:</label>

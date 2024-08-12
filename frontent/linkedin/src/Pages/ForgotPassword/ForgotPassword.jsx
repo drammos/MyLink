@@ -1,4 +1,4 @@
-import React from "react"
+import { useEffect } from "react"
 import './ForgotPassword.css'
 import Navbar from "../../Components/Navbar/Navbar"
 import Footer from "../../Components/Footer/Footer"
@@ -6,7 +6,12 @@ import ForgotPasswordComponent from "../../Components/ForgotPasswordComponent/Fo
 
 
 const ForgotPassword = () => {
-
+    const useDocumentTitle = (title) => {
+        useEffect(() => {
+            document.title = title;
+        }, [title]);
+    };
+    useDocumentTitle('Forgot Password');
   return (
     <div>
         <Navbar/>

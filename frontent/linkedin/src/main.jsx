@@ -9,35 +9,16 @@ import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
 import App from './Pages/WelcomePage/App.jsx'
 import './index.css'
 
-import { createRoot } from "react-dom/client";
 import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
+    createBrowserRouter,
+    RouterProvider,
 } from "react-router-dom";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App/>
-    },
-    {
-        path: "signup",
-        element: <SignUp/>,
-    },
-    {
-        path: "signin",
-        element: <SignIn />,
-    },
-    {
-        path: "forgot-password",
-        element: <ForgotPassword/>
-    },
-    {
-        path: "controlPanel",
-        element: <ControlPanel />
-    },
+    { path: "/", element: <App /> },
+    { path: "signup", element: <SignUp />, },
+    { path: "signin", element: <SignIn />, },
+    { path: "forgot-password", element: <ForgotPassword /> },
     //},
     //{
     //    path: "jobs",
@@ -58,8 +39,12 @@ const router = createBrowserRouter([
 
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+    <React.StrictMode>
+        <RouterProvider router={router}>
+        </RouterProvider>
+    </React.StrictMode>,
+);
