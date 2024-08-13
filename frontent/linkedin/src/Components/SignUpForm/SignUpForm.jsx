@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -23,44 +23,50 @@ const SignUpForm = () => {
     const [photo, setPhoto] = useState('');
     const [birthDate, setBirthDate] = useState('');
 
-    const [terms, setTerms] = useState('');
-    const [error, setError] = useState('');
+    const [terms, setTerms] = useState(false);
+    const [error, setError] = useState('An Error Occured. Please try again.');
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // Send form data to backend API
-            const response = await fetch('http://localhost:3001/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
 
-            const data = await response.json();
-
-            if (data.success) {
-                setMessage('Login successful!');
-                console.log('Login successful');
-            }
-            else {
-                setMessage('Invalid username or password');
-                console.error('Login failed');
-                throw new Error('Invalid username or password');
-            }
+        // Check that user agree with terms
+        if (terms == false) {
+            setError('You must first agree with terms.');
+            setMessage('Error');
+            throw new Error('Invalid username or password');
         }
-        catch (error) {
-            console.error('Error logging in:', error);
-            setError('An unexpected error occurred');
+        else
+        {
+            setMessage('Account created successfully!');
         }
-    };
 
-    const handleForgotPassword = (event) => {
-        event.preventDefault();
-        console.error("Forgot Password?");
-        history.push('/forgot-password');
+        //try {
+        //    // Send form data to backend API
+        //    const response = await fetch('http://localhost:3001/login', {
+        //        method: 'POST',
+        //        headers: {
+        //            'Content-Type': 'application/json',
+        //        },
+        //        body: JSON.stringify({ username, password }),
+        //    });
+
+        //    const data = await response.json();
+
+        //    if (data.success) {
+        //        setMessage('Account created successfully!');
+        //        console.log('Account created successfully!');
+        //    }
+        //    else {
+        //        setMessage(error);
+        //        console.error('Create account failed');
+        //        throw new Error('Invalid username or password');
+        //    }
+        //}
+        //catch (error) {
+        //    console.error('Error logging in:', error);
+        //    setError('An unexpected error occurred');
+        //}
     };
 
     const handleKeyPress = (event) => {
@@ -73,6 +79,10 @@ const SignUpForm = () => {
     const togglePasswordVisibility = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
     };
+
+    const handleCheckBoxChange = () => {
+        setTerms((prevState) => !prevState);
+    }
 
     return (
         <div className="glass-container-SignUpForm">
@@ -115,12 +125,13 @@ const SignUpForm = () => {
                     </button>
 
                     <div>
-                    <label htmlFor="terms">I agree with terms and conditions</label>
-                    <input type="checkbox" id="terms" value={terms} onChange={(e) => setTerms(e.target.value)} onKeyPress={handleKeyPress} />
+                        <label htmlFor="terms">I agree with terms and conditions</label>
+                        <input type="checkbox" id="terms" value={terms} onChange={handleCheckBoxChange} onKeyPress={handleKeyPress} />
                     </div>
 
-                    <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
-                        {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
+                    <div className={message === 'Account created successfully!' ? 'success-message' : (message ? 'error-message' : '')}>
+                        {message === 'Account created successfully!' ? <><GoCheckCircle /> {message}</> : (message === 'Error' ? <><GoXCircle /> {error}</> : '')}
+                    </div>
 
                     <button className="create" type="submit">Create my Account</button>
                 </div>

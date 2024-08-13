@@ -110,12 +110,14 @@ div.glass-container-SignUpForm {
                     }
 
             div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.success-message {
+                padding-top: 10px;
                 font-size: 12px;
                 color: rgb(44, 207, 66);
                 display: block;
             }
 
             div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.error-message {
+                padding-top: 10px;
                 font-size: 12px;
                 color: red;
                 display: block;

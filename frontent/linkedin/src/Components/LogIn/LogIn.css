@@ -23,7 +23,25 @@ div.glass-container-Login{
         div.glass-container-Login form.LogInForm div {
             display: grid;
             padding-top: 10px;
+            width: 20rem;
         }
+
+        div.glass-container-Login form.LogInForm div div.passwordAndVisibility{
+            display: flex;
+            padding-top: 0px;
+            width: 20rem;
+        }
+            div.glass-container-Login form.LogInForm div div.passwordAndVisibility button {
+                margin-left: 8px;
+                padding: 6px 11px;
+                border: 2px solid #C22D1F;
+                background-color: whitesmoke;
+                color: #C22D1F;
+                border-radius: 10%;
+                border-radius: 24px;
+                transition: background-color 0.3s;
+                position: relative;
+            }
 
         div.glass-container-Login form.LogInForm h1 {
             display: flex;
@@ -33,7 +51,6 @@ div.glass-container-Login{
             margin-left: 25px;
             margin-top: 10px;
             margin-bottom: 3px;
-            /*padding-bottom: 3px;*/
         }
 
         div.glass-container-Login form.LogInForm p.phrase {
@@ -52,8 +69,15 @@ div.glass-container-Login{
         }
 
         div.glass-container-Login form.LogInForm div input {
-            padding: 8px 8px 8px 8px;
-            max-width: 250px;
+            padding: 8px;
+            width: 230px;
+            font-size: 14px;
+        }
+        
+        div.glass-container-Login form.LogInForm div div input {
+            padding: 8px;
+            margin-right: 5px;
+            width: 230px;
             font-size: 14px;
         }
 
@@ -105,13 +129,18 @@ div.glass-container-Login{
             font-size: 12px;
             color: rgb(44, 207, 66);
             display: block;
-            /* visibility: hidden; */
         }
 
         div.glass-container-Login form.LogInForm div.error-message {
             font-size: 12px;
             color: red;
             display: block;
-            /* visibility: hidden; */
         }
 
+
+svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
+    overflow: visible;
+    box-sizing: content-box;
+    width: 13px;
+    height: 13px;
+}

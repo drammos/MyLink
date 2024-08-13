@@ -2,6 +2,8 @@ import { useState } from "react"
 import SignInImage from '../../assets/WelcomePageImg.png'
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './LogIn.css'
 
 const LogIn = () => {
@@ -11,6 +13,8 @@ const LogIn = () => {
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,6 +60,10 @@ const LogIn = () => {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+
     return (
         <div className="glass-container-Login">
             <form className="LogInForm" onSubmit={handleSubmit}>
@@ -67,7 +75,12 @@ const LogIn = () => {
                 </div>
                 <div>
                     <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
+                    <div className="passwordAndVisibility">
+                        <input type={showPassword ? 'text' : 'password'} id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
+                        <button type="button" onClick={togglePasswordVisibility} className="togglePassword">
+                            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                        </button>
+                    </div>
                 </div>
                 <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
                 <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
