@@ -8,7 +8,7 @@ using MyLink.Data.Repository;
 using MyLink.Data.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
-
+const string policyName = "CorsPolicy";
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -31,7 +31,15 @@ builder.Services.AddIdentityCore<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: policyName, builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,6 +49,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(policyName);
 app.UseAuthorization();
 
 app.MapControllers();

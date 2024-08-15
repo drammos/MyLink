@@ -179,7 +179,7 @@ namespace WebAppMyLink.Controllers
                 return NotFound();
             }
 
-            var n = User.Identity.Name;
+            
 
             return StatusCode(200);
         }
