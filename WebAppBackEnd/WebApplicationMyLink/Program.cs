@@ -31,6 +31,7 @@ builder.Services.AddIdentityCore<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,5 +53,5 @@ var userManager = scope.ServiceProvider
     .GetRequiredService<UserManager<User>>();
 
 await InitializerDb.Initialize(context, userManager);
-
+app.UseCors();
 app.Run();

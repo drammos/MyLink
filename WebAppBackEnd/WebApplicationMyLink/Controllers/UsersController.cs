@@ -51,7 +51,8 @@ namespace WebAppMyLink.Controllers
                 LastName = registerDTO.LastName,
                 Email = registerDTO.Email,
                 UserName = registerDTO.Username,
-                PhoneNumber = registerDTO.PhoneNumber
+                PhoneNumber = registerDTO.PhoneNumber,
+                PictureURL = registerDTO.PictureURL
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if(result.Succeeded == false)
@@ -120,11 +121,12 @@ namespace WebAppMyLink.Controllers
             User user = await _userManager.FindByNameAsync(updateUserDTO.Username);
             if (user == null)
                 return NotFound();
-
+            
             user.FirstName = updateUserDTO.FirstName;
             user.LastName = updateUserDTO.LastName;
             user.PhoneNumber = updateUserDTO.PhoneNumber;
             user.Email = updateUserDTO.Email;
+            user.PictureURL = updateUserDTO.PictureURL;
 
             if(!string.IsNullOrEmpty(updateUserDTO.NewPassword))
             {
@@ -166,6 +168,20 @@ namespace WebAppMyLink.Controllers
         {
             var users = _userManager.Users.ToList();
             return users;
+        }
+
+        [HttpPost("AddEducation")]
+        public async Task<ActionResult> AddEducation([FromForm] EducationDTO educationDTO)
+        {
+            User user = await _userManager.FindByNameAsync(educationDTO.Username);
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            var n = User.Identity.Name;
+
+            return StatusCode(200);
         }
     }
 }

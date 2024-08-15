@@ -14,5 +14,7 @@ namespace MyLink.Models.DTOS
         public string? Email { get; set; }
         [Required]
         public string? Role { get; set; }
+        [Required]
+        public string? PictureURL { get; set; }
     }
 }
