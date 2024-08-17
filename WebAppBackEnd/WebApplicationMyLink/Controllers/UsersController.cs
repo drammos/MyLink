@@ -179,8 +179,21 @@ namespace WebAppMyLink.Controllers
                 return NotFound();
             }
 
-            
+            Education education = new Education()
+            {
+                School = educationDTO.School,
+                Degree = educationDTO.Degree,
+                FieldOfStudy = educationDTO.FieldOfStudy,
+                StartDate = educationDTO.StartDate,
+                EndDate = educationDTO.EndDate,
+                Grade = educationDTO.Grade,
+                Description = educationDTO.Description,
+                UserId = user.Id,
+            };
 
+            _unitOfWork.Education.Add(education);
+            _unitOfWork.Save();
+            
             return StatusCode(200);
         }
     }
