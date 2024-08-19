@@ -204,14 +204,12 @@ namespace WebAppMyLink.Controllers
             User user = await _userManager.FindByNameAsync(Username);
             if(user == null)
             {
-                //yield return null;
                 return NotFound();
             }
 
             IEnumerable<Education> list = _unitOfWork.Education.GetAll();
-            List<Education> l =  list.ToList();
-            //yield return l;
-            return l;
+            List<Education> educations =  list.ToList();
+            return educations;
         }
 
     }
