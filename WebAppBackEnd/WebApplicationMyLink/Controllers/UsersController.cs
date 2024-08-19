@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyLink.Models;
 using MyLink.Models.DTOS;
 using MyLink.Data.Repository.IRepository;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WebAppMyLink.Controllers
 {
@@ -196,5 +197,22 @@ namespace WebAppMyLink.Controllers
             
             return StatusCode(200);
         }
+
+        [HttpGet("GetUserEducations")]
+        public async Task<ActionResult<List<Education>>> GetUserEducations(string Username)
+        {
+            User user = await _userManager.FindByNameAsync(Username);
+            if(user == null)
+            {
+                //yield return null;
+                return NotFound();
+            }
+
+            IEnumerable<Education> list = _unitOfWork.Education.GetAll();
+            List<Education> l =  list.ToList();
+            //yield return l;
+            return l;
+        }
+
     }
 }
