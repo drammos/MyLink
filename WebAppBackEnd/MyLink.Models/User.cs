@@ -14,5 +14,7 @@ namespace MyLink.Models
 
         //Educations
         public ICollection<Education> Educations { get; } = new List<Education>();
+        //Experience
+        public ICollection<Experience> Experiences { get; } = new List<Experience>();
     }
 }

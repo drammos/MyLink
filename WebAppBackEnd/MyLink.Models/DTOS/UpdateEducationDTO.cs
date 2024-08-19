@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
-namespace MyLink.Models
+namespace MyLink.Models.DTOS
 {
-    public class Education
+    public class UpdateEducationDTO
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
+        public int Id { get; set; }
         public string? School { get; set; }
         public string? Degree { get; set; }
         public string? FieldOfStudy { get; set; }
@@ -14,8 +14,5 @@ namespace MyLink.Models
         public string? EndDate { get; set; }
         public string? Grade { get; set; }
         public string? Description { get; set; }
-        [Required]
-        public string UserId { get; set; }
-        public User User { get; set; } = null;
     }
 }

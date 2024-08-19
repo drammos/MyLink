@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyLink.Data.Access;
 using MyLink.Data.Repository.IRepository;
+using System.Linq.Expressions;
 
 namespace MyLink.Data.Repository
 {
@@ -20,6 +21,12 @@ namespace MyLink.Data.Repository
         public IEnumerable<T> GetAll()
         {
             return dbSet.ToList<T>();
+        }
+
+        public T FirstOrDefault(Expression<Func<T, bool>> filter)
+        {
+            IQueryable<T> queryFromDbSet = dbSet.Where(filter);
+            return queryFromDbSet.FirstOrDefault();
         }
 
         public void Add(T entity)
