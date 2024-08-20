@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7f66c9e4-6643-4cb3-b4dd-ad1d5b469718",
+                            Id = "828d5a16-0a6a-4e6e-bb1c-550cc022a0d3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "22f1a453-7672-4291-bd9e-5fcd7e54c69c",
+                            Id = "03d76e28-cb57-49b1-8254-bb5504bad020",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -428,7 +428,7 @@ namespace MyLink.Data.Migrations
             modelBuilder.Entity("MyLink.Models.Experience", b =>
                 {
                     b.HasOne("MyLink.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Experiences")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -450,6 +450,8 @@ namespace MyLink.Data.Migrations
             modelBuilder.Entity("MyLink.Models.User", b =>
                 {
                     b.Navigation("Educations");
+
+                    b.Navigation("Experiences");
                 });
 #pragma warning restore 612, 618
         }
