@@ -952,7 +952,7 @@ The Response is **application/json**
 
 **Request**
 The Request is **multipart/form-data**
-![alt text](image-27.png)
+![alt text](image-31.png)
 
 
 **Response**
@@ -1015,11 +1015,25 @@ The Response is **application/json**
 ***First Example***
 
 *If Request is*
-
+![alt text](image-30.png)
 
 *The Response is*
 
 ```
+{
+  "id": 4,
+  "title": "software",
+  "employmentType": null,
+  "companyName": "intra",
+  "location": null,
+  "locationType": null,
+  "startDate": "2014-06-01T00:00:00",
+  "endDate": null,
+  "currentJob": true,
+  "description": null,
+  "userId": "4ab32081-319f-4705-b133-6a4bb3a04432",
+  "user": null
+}
 ```
 
 ## Delete Experience
@@ -1037,13 +1051,6 @@ The Response is **application/json**
 
 **For example**
 
-***First Example***
-
-*If Request is*
-
-
-*The Response is*
-
-```
-```
+*If Request and Response is*
+![alt text](image-32.png)
 
