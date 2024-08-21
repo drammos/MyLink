@@ -6,12 +6,15 @@ using MyLink.Data.Initialize;
 using Microsoft.AspNetCore.Identity;
 using MyLink.Data.Repository;
 using MyLink.Data.Repository.IRepository;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
+const string policyName = "CorsPolicy";
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,6 +34,15 @@ builder.Services.AddIdentityCore<User>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: policyName, builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,8 +50,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    //app.MapSwagger().RequireAuthorization();
 }
 
+app.UseCors(policyName);
 app.UseAuthorization();
 
 app.MapControllers();
@@ -52,5 +66,5 @@ var userManager = scope.ServiceProvider
     .GetRequiredService<UserManager<User>>();
 
 await InitializerDb.Initialize(context, userManager);
-
+app.UseCors();
 app.Run();

@@ -20,7 +20,8 @@ namespace MyLink.Data.Initialize
                     LastName = "Rammos",
                     PhoneNumber = "1234567890",
                     UserName = "jrammos",
-                    Email = "jrammos@outlook.com.gr"
+                    Email = "jrammos@outlook.com.gr",
+                    PictureURL = "rammos.com"
                 };
 
                 var result = await users.CreateAsync(user, "1234@Password");

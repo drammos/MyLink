@@ -5,11 +5,15 @@ namespace MyLink.Data.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ApplicationDbContext _context;
+        private ApplicationDbContext _context;
+        public IEducationRepository Education { get; set; }
+        public IExperienceRepository Experience { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+            Education = new EducationRepository(context);
+            Experience = new ExperienceRepository(context);
         }
 
         public void Save()

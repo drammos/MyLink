@@ -21,4 +21,8 @@
     <ProjectReference Include="..\MyLink.Models\MyLink.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
