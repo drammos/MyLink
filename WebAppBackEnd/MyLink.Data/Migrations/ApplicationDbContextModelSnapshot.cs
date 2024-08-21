@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "828d5a16-0a6a-4e6e-bb1c-550cc022a0d3",
+                            Id = "42cceade-2cff-4ec9-8160-e30f0364438b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "03d76e28-cb57-49b1-8254-bb5504bad020",
+                            Id = "1ba2b27c-db11-4ad7-8c95-68092f22fec0",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -231,8 +231,8 @@ namespace MyLink.Data.Migrations
                     b.Property<string>("EmploymentType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EndDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -240,9 +240,9 @@ namespace MyLink.Data.Migrations
                     b.Property<string>("LocationType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()

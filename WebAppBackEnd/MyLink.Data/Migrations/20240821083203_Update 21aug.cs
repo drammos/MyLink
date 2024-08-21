@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyLink.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class updatee : Migration
+    public partial class Update21aug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -198,8 +198,8 @@ namespace MyLink.Data.Migrations
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StartDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CurrentJob = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -241,8 +241,8 @@ namespace MyLink.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "03d76e28-cb57-49b1-8254-bb5504bad020", null, "Professional", "PROFESSIONAL" },
-                    { "828d5a16-0a6a-4e6e-bb1c-550cc022a0d3", null, "Admin", "ADMIN" }
+                    { "1ba2b27c-db11-4ad7-8c95-68092f22fec0", null, "Professional", "PROFESSIONAL" },
+                    { "42cceade-2cff-4ec9-8160-e30f0364438b", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
