@@ -319,12 +319,12 @@ namespace WebAppMyLink.Controllers
             return StatusCode(200);
         }
 
-        //[HttpPost("Authentication")]
-        //[Authorize(Roles = "Admin")]
-        //public async Task<IActionResult> Auth(string s)
-        //{
-        //    string s1 = "ela";
-        //    return StatusCode(200);
-        //}
+        [HttpPost("Authentication")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Auth(string s)
+        {
+            string s1 = "ela";
+            return StatusCode(200);
+        }
     }
 }
