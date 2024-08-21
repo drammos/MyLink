@@ -9,6 +9,9 @@ using MyLink.Data.Repository.IRepository;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MyLink.Services.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 const string policyName = "CorsPolicy";
@@ -19,7 +22,6 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
     var jwtSecurityScheme = new OpenApiSecurityScheme
@@ -46,6 +48,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration("JWT:Key")))
+    };
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -90,8 +105,7 @@ app.MapControllers();
 //Initialize my db with users
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-var userManager = scope.ServiceProvider
-    .GetRequiredService<UserManager<User>>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
 await InitializerDb.Initialize(context, userManager);
 app.UseCors();
