@@ -6,6 +6,7 @@ using MyLink.Data.Repository.IRepository;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using MyLink.Services.JsonWebTokens;
 
 namespace WebAppMyLink.Controllers
 {
@@ -15,11 +16,13 @@ namespace WebAppMyLink.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Token _token;
 
-        public UsersController(UserManager<User> _userManager, IUnitOfWork unitOfWork)
+        public UsersController(UserManager<User> userManager, IUnitOfWork unitOfWork, Token token)
         {
-            this._userManager = _userManager;
+            _userManager = userManager;
             _unitOfWork = unitOfWork;
+            _token = token;
         }
 
         [HttpPost("LoginUser")]
@@ -41,7 +44,8 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
-                Role = roles[0]
+                Role = roles[0],
+                Token = await _token.GenerateJSONWebToken(user)
             };
         }
 
@@ -167,6 +171,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
+        [Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();
@@ -321,9 +326,13 @@ namespace WebAppMyLink.Controllers
 
         [HttpPost("Authentication")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Auth(string s)
+        public async Task<IActionResult> DeleteUser(string Username)
         {
-            string s1 = "ela";
+            User user = await _userManager.FindByNameAsync(Username);
+            if (user == null)
+                return NotFound();
+
+            await _userManager.DeleteAsync(user);
             return StatusCode(200);
         }
     }

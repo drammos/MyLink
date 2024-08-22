@@ -37,10 +37,11 @@ namespace MyLink.Services.JsonWebTokens
             claims.Add(claim);
 
             var token = new JwtSecurityToken(
-                _config["JWT:Issuer"],
-                _config["JWT:Issuer"],
+                issuer: null,
+                audience: null,
                 claims,
-                expires: DateTime.Now.AddHours(24),
+                //expires: DateTime.Now.AddHours(24), 
+                expires: DateTime.Now.AddDays(30),
                 signingCredentials: credentials
                 );
 
