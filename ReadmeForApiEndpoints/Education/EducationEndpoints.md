@@ -4,10 +4,12 @@
 
 **Request**
 The Request is **multipart/form-data**
+
 ![alt text](image-17.png)
 
 **Response**
 The Response is **application/json**
+
 ![alt text](image-18.png)
 
 **For example**
@@ -41,6 +43,7 @@ The Response is **application/json**
 
 **Request**
 The Request is **Query Params**
+
 ![alt text](image-19.png)
 
 **Response**
@@ -89,6 +92,7 @@ The Response is **application/json**
 ***First Example***
 
 *If Request is*
+
 ![alt text](image-16.png)
 
 *The Response is*
@@ -193,6 +197,7 @@ The Response is **application/json**
 ***Second Example -- Wrong username***
 
 *If Request is*
+
 ![alt text](image-14.png)
 
 *The Response is*
@@ -207,6 +212,7 @@ The Response is **application/json**
 
 **Request**
 The Request is **multipart/form-data**
+
 ![alt text](image-24.png)
 
 **Response**
@@ -264,17 +270,6 @@ The Response is **application/json**
 }
 ```
 
-**For example**
-
-***First Example***
-
-*If Request is*
-
-
-*The Response is*
-
-```
-```
 
 ## Delete Education
 **Delete** 
@@ -283,21 +278,10 @@ The Response is **application/json**
 
 **Request**
 The Request is **multipart/form-data**
+
 ![alt text](image-25.png)
 
 **Response**
 The Response is **application/json**
+
 ![alt text](image-26.png)
-
-
-**For example**
-
-***First Example***
-
-*If Request is*
-
-
-*The Response is*
-
-```
-```
