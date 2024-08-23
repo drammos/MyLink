@@ -7,7 +7,7 @@ namespace MyLink.Models.DTOS
         [Required]
         public string? School { get; set; }
         [Required]
-        public string? Username { get; set; }
+        public string? UserId { get; set; }
         public string? Degree { get; set; }
         public string? FieldOfStudy { get; set; }
         public string? StartDate { get; set; }

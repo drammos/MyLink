@@ -5,7 +5,7 @@ namespace MyLink.Models.DTOS
     public class ExperienceDTO
     {
         [Required]
-        public string? Username { get; set; }
+        public string? UserId { get; set; }
         [Required]
         public string? Title { get; set; }
         public string? EmploymentType { get; set; }

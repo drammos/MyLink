@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyLink.Data.Access;
 using MyLink.Models;
-using MyLink.Data;
 using MyLink.Data.Initialize;
 using Microsoft.AspNetCore.Identity;
 using MyLink.Data.Repository;
