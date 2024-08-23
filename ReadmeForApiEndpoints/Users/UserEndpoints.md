@@ -86,7 +86,7 @@ The token expired after 24Hours
 
 ## Register
 **Post** 
-`/Users/RegisterUser`
+`/User/RegisterUser`
 
 
 **Request**
@@ -166,7 +166,7 @@ For different username, wrong password
 
 ## Get User
 **Get** 
-`/Users/GetUser`
+`/User/GetUser`
 
 
 **Request**
@@ -251,7 +251,7 @@ The Response is **application/json**
 
 ## Get Role For User
 **Get** 
-`/Users/GetRoleForUser`
+`/User/GetRoleForUser`
 
 **Request**
 The Request is **Query Params**
@@ -297,7 +297,7 @@ Admin
 
 ## Update The User details
 **Put** 
-`/Users/UpdateUser`
+`/User/UpdateUser`
 
 
 **Request**
@@ -322,7 +322,10 @@ The Response is **application/json**
 
 ## Get all Users
 **Get** 
-`/Users/GetAllUsers`
+`/User/GetAllUsers`
+
+**ONLY ADMIN USER**
+
 
 **Request**
 No Parameters
@@ -408,3 +411,20 @@ No Parameters
     }
 ]
 ```
+
+
+## Delete User
+**Get** 
+`/User/DeleteUser`
+
+**ONLY ADMIN USER**
+
+
+**Request**
+
+![alt text](image-10.png)
+
+**Response**
+The Response is **application/json**
+
+![alt text](image-11.png)
