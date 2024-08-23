@@ -178,7 +178,7 @@ namespace WebAppMyLink.Controllers
             return users;
         }
 
-        [HttpPost("Authentication")]
+        [HttpPost("DeleteUser")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(string Username)
         {

@@ -28,7 +28,8 @@ The Response is **application/json**
   "phoneNumber": "string",
   "pictureURL": "string",
   "email": "string",
-  "role": "string"
+  "role": "string",
+  "token": "string"
 }
 ```
 
@@ -47,16 +48,18 @@ The Response is **application/json**
 *The Response is*
 ```
 {
-    "id": "e3ac8dd0-1c5e-45e7-a7dd-61c75e5045d4",
-    "firstName": "Dimitris",
-    "lastName": "Rammos",
-    "username": "jrammos",
-    "phoneNumber": "1234567890",
-    "pictureURL": null,
-    "email": "jrammos@outlook.com.gr",
-    "role": "Admin"
+  "id": "56bf253f-382a-4d10-8c54-dc32cc534b88",
+  "firstName": "Dimitris",
+  "lastName": "Rammos",
+  "username": "jrammos",
+  "phoneNumber": "1234567890",
+  "pictureURL": "rammos.com",
+  "email": "jrammos@outlook.com.gr",
+  "role": "Admin",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoianJhbW1vcyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpyYW1tb3NAb3V0bG9vay5jb20uZ3IiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTcyNDQyMzk0Nn0.8aH4yDN1akc4PpWANfubd5YCrp5KyToqgj8JO2WCMC8"
 }
 ```
+The token expired after 24Hours
 
 
 ***Second Example***
