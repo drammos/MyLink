@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyLink.Models
 {
@@ -20,7 +21,8 @@ namespace MyLink.Models
         public bool CurrentJob { get; set; }
         public string? Description  { get; set; }
         [Required]
-        public string UserId { get; set; }
-        public User User { get; set; } = null;
+        [ForeignKey("UserId")]
+        public string? UserId { get; set; }
+        public User User { get; set; } = null!;
     }
 }

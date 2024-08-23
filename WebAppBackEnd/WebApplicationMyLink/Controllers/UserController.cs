@@ -6,20 +6,23 @@ using MyLink.Data.Repository.IRepository;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using MyLink.Services.JsonWebTokens;
 
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Token _token;
 
-        public UsersController(UserManager<User> _userManager, IUnitOfWork unitOfWork)
+        public UserController(UserManager<User> userManager, IUnitOfWork unitOfWork, Token token)
         {
-            this._userManager = _userManager;
+            _userManager = userManager;
             _unitOfWork = unitOfWork;
+            _token = token;
         }
 
         [HttpPost("LoginUser")]
@@ -41,7 +44,8 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
-                Role = roles[0]
+                Role = roles[0],
+                Token = await _token.GenerateJSONWebToken(user)
             };
         }
 
@@ -167,164 +171,23 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
+        [Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();
             return users;
         }
 
-        [HttpPost("AddEducation")]
-        public async Task<ActionResult<Education>> AddEducation([FromForm] EducationDTO educationDTO)
-        {
-            User user = await _userManager.FindByNameAsync(educationDTO.Username);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            Education education = new Education()
-            {
-                School = educationDTO.School,
-                Degree = educationDTO.Degree,
-                FieldOfStudy = educationDTO.FieldOfStudy,
-                StartDate = educationDTO.StartDate,
-                EndDate = educationDTO.EndDate,
-                Grade = educationDTO.Grade,
-                Description = educationDTO.Description,
-                UserId = user.Id,
-            };
-
-            _unitOfWork.Education.Add(education);
-            _unitOfWork.Save();
-
-            return education;
-        }
-
-        [HttpGet("GetEducations")]
-        public async Task<ActionResult<List<Education>>> GetUserEducations(string Username)
+        [HttpPost("DeleteUser")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser(string Username)
         {
             User user = await _userManager.FindByNameAsync(Username);
             if (user == null)
-            {
-                return NotFound();
-            }
-
-            IEnumerable<Education> list = _unitOfWork.Education.GetAll();
-
-            List<Education> educations = new List<Education>();
-            foreach (Education ed in list)
-            {
-                if (Username.Equals(ed.User.UserName))
-                    educations.Add(ed);
-            }
-            return educations;
-        }
-
-        [HttpPut("EditEducation")]
-        public ActionResult<Education> EditEducation([FromForm] UpdateEducationDTO educationDTO)
-        {
-            Education education = _unitOfWork.Education.Update(educationDTO);
-            if (education == null)
                 return NotFound();
 
-            _unitOfWork.Save();
-            return education;
-        }
-
-        [HttpDelete("DeleteEducation")]
-        public ActionResult DeleteEducation(string Id)
-        {
-            int id = int.Parse(Id);
-
-            var education = _unitOfWork.Education.FirstOrDefault(u => u.Id == id);
-            if (education == null)
-                return NotFound();
-
-            _unitOfWork.Education.Delete(education);
-            _unitOfWork.Save();
+            await _userManager.DeleteAsync(user);
             return StatusCode(200);
         }
-
-        [HttpPost("AddExperience")]
-        public async Task<ActionResult<Experience>> AddExperience([FromForm] ExperienceDTO experienceDTO)
-        {
-            User user = await _userManager.FindByNameAsync(experienceDTO.Username);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            Experience experience = new Experience()
-            {
-                Title = experienceDTO.Title,
-                EmploymentType = experienceDTO.EmploymentType,
-                CompanyName = experienceDTO.CompanyName,
-                Location = experienceDTO.Location,
-                LocationType = experienceDTO.LocationType,
-                StartDate = experienceDTO.StartDate,
-                EndDate = experienceDTO.EndDate,
-                CurrentJob = experienceDTO.CurrentJob,
-                Description = experienceDTO.Description,
-                UserId = user.Id,
-            };
-
-            _unitOfWork.Experience.Add(experience);
-            _unitOfWork.Save();
-
-            return experience;
-        }
-
-        [HttpGet("GetExperiences")]
-        public async Task<ActionResult<List<Experience>>> GetExperiences(string Username)
-        {
-            User user = await _userManager.FindByNameAsync(Username);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            IEnumerable<Experience> list = _unitOfWork.Experience.GetAll();
-
-            List<Experience> experiences = new List<Experience>();
-            foreach (Experience ex in list)
-            {
-                if (Username.Equals(ex.User.UserName))
-                    experiences.Add(ex);
-            }
-            return experiences;
-        }
-
-        [HttpPut("EditExperience")]
-        public ActionResult<Experience> EditExperience([FromForm] UpdateExperienceDTO updateExperienceDTO)
-        {
-            Experience experience = _unitOfWork.Experience.Update(updateExperienceDTO);
-            if (experience == null)
-                return NotFound();
-
-            _unitOfWork.Save();
-            return experience;
-        }
-
-        [HttpDelete("DeleteExperience")]
-        public ActionResult DeleteExperience(string Id)
-        {
-            int id = int.Parse(Id);
-
-            var experience = _unitOfWork.Experience.FirstOrDefault(u => u.Id == id);
-            if (experience == null)
-                return NotFound();
-
-            _unitOfWork.Experience.Delete(experience);
-            _unitOfWork.Save();
-            return StatusCode(200);
-        }
-
-        //[HttpPost("Authentication")]
-        //[Authorize(Roles = "Admin")]
-        //public async Task<IActionResult> Auth(string s)
-        //{
-        //    string s1 = "ela";
-        //    return StatusCode(200);
-        //}
     }
 }
