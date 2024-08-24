@@ -9,7 +9,6 @@ namespace MyLink.Data.Initialize
     {
         public static async Task Initialize(ApplicationDbContext db, UserManager<User> users)
         {
-            users.Users.ExecuteDelete();
             // Create Users
             if (!users.Users.Any())
             {
