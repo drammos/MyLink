@@ -12,8 +12,8 @@ using MyLink.Data.Access;
 namespace MyLink.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240823084657_update 23aug")]
-    partial class update23aug
+    [Migration("20240824181218_Update 24augafter")]
+    partial class Update24augafter
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d7bf60f9-4c2a-429e-8b69-d9901acf144c",
+                            Id = "dc332065-719a-48bb-8941-a6d5b0706ed4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "99708c37-b200-46d3-818e-9d8415832cd2",
+                            Id = "edc9ca7e-03b6-48dc-b392-b87ebd50fa42",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -366,6 +366,51 @@ namespace MyLink.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("UserUser", b =>
+                {
+                    b.Property<string>("ConnectedUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ConnectedUsersId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserConnections", (string)null);
+                });
+
+            modelBuilder.Entity("UserUser1", b =>
+                {
+                    b.Property<string>("PendingRequestUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("User1Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PendingRequestUsersId", "User1Id");
+
+                    b.HasIndex("User1Id");
+
+                    b.ToTable("UserPendingReqeusts", (string)null);
+                });
+
+            modelBuilder.Entity("UserUser2", b =>
+                {
+                    b.Property<string>("InComingRequestUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("User2Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("InComingRequestUsersId", "User2Id");
+
+                    b.HasIndex("User2Id");
+
+                    b.ToTable("UserInComingRequests", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -448,6 +493,51 @@ namespace MyLink.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UserUser", b =>
+                {
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("ConnectedUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserUser1", b =>
+                {
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("PendingRequestUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("User1Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserUser2", b =>
+                {
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("InComingRequestUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("User2Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MyLink.Models.User", b =>

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyLink.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Update21aug : Migration
+    public partial class Update24augafter : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -236,13 +236,82 @@ namespace MyLink.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserConnections",
+                columns: table => new
+                {
+                    ConnectedUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserConnections", x => new { x.ConnectedUsersId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserConnections_AspNetUsers_ConnectedUsersId",
+                        column: x => x.ConnectedUsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserConnections_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserInComingRequests",
+                columns: table => new
+                {
+                    InComingRequestUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    User2Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInComingRequests", x => new { x.InComingRequestUsersId, x.User2Id });
+                    table.ForeignKey(
+                        name: "FK_UserInComingRequests_AspNetUsers_InComingRequestUsersId",
+                        column: x => x.InComingRequestUsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserInComingRequests_AspNetUsers_User2Id",
+                        column: x => x.User2Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPendingReqeusts",
+                columns: table => new
+                {
+                    PendingRequestUsersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    User1Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPendingReqeusts", x => new { x.PendingRequestUsersId, x.User1Id });
+                    table.ForeignKey(
+                        name: "FK_UserPendingReqeusts_AspNetUsers_PendingRequestUsersId",
+                        column: x => x.PendingRequestUsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPendingReqeusts_AspNetUsers_User1Id",
+                        column: x => x.User1Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1ba2b27c-db11-4ad7-8c95-68092f22fec0", null, "Professional", "PROFESSIONAL" },
-                    { "42cceade-2cff-4ec9-8160-e30f0364438b", null, "Admin", "ADMIN" }
+                    { "dc332065-719a-48bb-8941-a6d5b0706ed4", null, "Admin", "ADMIN" },
+                    { "edc9ca7e-03b6-48dc-b392-b87ebd50fa42", null, "Professional", "PROFESSIONAL" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -298,6 +367,21 @@ namespace MyLink.Data.Migrations
                 name: "IX_Messages_UserId",
                 table: "Messages",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserConnections_UserId",
+                table: "UserConnections",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserInComingRequests_User2Id",
+                table: "UserInComingRequests",
+                column: "User2Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPendingReqeusts_User1Id",
+                table: "UserPendingReqeusts",
+                column: "User1Id");
         }
 
         /// <inheritdoc />
@@ -326,6 +410,15 @@ namespace MyLink.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "UserConnections");
+
+            migrationBuilder.DropTable(
+                name: "UserInComingRequests");
+
+            migrationBuilder.DropTable(
+                name: "UserPendingReqeusts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

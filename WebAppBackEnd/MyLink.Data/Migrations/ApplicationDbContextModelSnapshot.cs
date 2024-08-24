@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "04443345-716a-4d17-bdb4-df75f130e636",
+                            Id = "dc332065-719a-48bb-8941-a6d5b0706ed4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1f293097-9b67-4219-aa66-4835f6d6304c",
+                            Id = "edc9ca7e-03b6-48dc-b392-b87ebd50fa42",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -346,9 +346,6 @@ namespace MyLink.Data.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -363,9 +360,52 @@ namespace MyLink.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("UserUser", b =>
+                {
+                    b.Property<string>("ConnectedUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ConnectedUsersId", "UserId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("UserConnections", (string)null);
+                });
+
+            modelBuilder.Entity("UserUser1", b =>
+                {
+                    b.Property<string>("PendingRequestUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("User1Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("PendingRequestUsersId", "User1Id");
+
+                    b.HasIndex("User1Id");
+
+                    b.ToTable("UserPendingReqeusts", (string)null);
+                });
+
+            modelBuilder.Entity("UserUser2", b =>
+                {
+                    b.Property<string>("InComingRequestUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("User2Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("InComingRequestUsersId", "User2Id");
+
+                    b.HasIndex("User2Id");
+
+                    b.ToTable("UserInComingRequests", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -452,17 +492,53 @@ namespace MyLink.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MyLink.Models.User", b =>
+            modelBuilder.Entity("UserUser", b =>
                 {
                     b.HasOne("MyLink.Models.User", null)
-                        .WithMany("ConnectedUsers")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("ConnectedUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserUser1", b =>
+                {
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("PendingRequestUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("User1Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UserUser2", b =>
+                {
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("InComingRequestUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLink.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("User2Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MyLink.Models.User", b =>
                 {
-                    b.Navigation("ConnectedUsers");
-
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
