@@ -14,6 +14,8 @@ namespace MyLink.Data.Access
         }
         
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,6 +25,18 @@ namespace MyLink.Data.Access
                     new IdentityRole { Name = "Admin", NormalizedName = "ADMIN"},
                     new IdentityRole { Name = "Professional", NormalizedName = "PROFESSIONAL"}
                 );
+
+            builder.Entity<User>()
+               .HasMany(e => e.Educations)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.UserId)
+               .IsRequired();
+
+            builder.Entity<User>()
+               .HasMany(e => e.Experiences)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.UserId)
+               .IsRequired();
         }
     }
 }

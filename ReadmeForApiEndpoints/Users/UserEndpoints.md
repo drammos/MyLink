@@ -6,10 +6,10 @@ For example the BackEnd Api url is: http://localhost:5175
 
 ## Login
 **Post**
-`/Users/LoginUser`
-The input is **application/json**
+`/User/LoginUser`
+The Request is **application/json**
 
-**Input**
+**Request**
 ```
 {
   "username": "string",
@@ -28,7 +28,8 @@ The Response is **application/json**
   "phoneNumber": "string",
   "pictureURL": "string",
   "email": "string",
-  "role": "string"
+  "role": "string",
+  "token": "string"
 }
 ```
 
@@ -37,7 +38,7 @@ The Response is **application/json**
 
 ***First Example***
 
-*If input is*
+*If Request is*
 ```
 {
   "username": "jrammos",
@@ -47,21 +48,23 @@ The Response is **application/json**
 *The Response is*
 ```
 {
-    "id": "e3ac8dd0-1c5e-45e7-a7dd-61c75e5045d4",
-    "firstName": "Dimitris",
-    "lastName": "Rammos",
-    "username": "jrammos",
-    "phoneNumber": "1234567890",
-    "pictureURL": null,
-    "email": "jrammos@outlook.com.gr",
-    "role": "Admin"
+  "id": "56bf253f-382a-4d10-8c54-dc32cc534b88",
+  "firstName": "Dimitris",
+  "lastName": "Rammos",
+  "username": "jrammos",
+  "phoneNumber": "1234567890",
+  "pictureURL": "rammos.com",
+  "email": "jrammos@outlook.com.gr",
+  "role": "Admin",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoianJhbW1vcyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImpyYW1tb3NAb3V0bG9vay5jb20uZ3IiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTcyNDQyMzk0Nn0.8aH4yDN1akc4PpWANfubd5YCrp5KyToqgj8JO2WCMC8"
 }
 ```
+The token expired after 24Hours
 
 
 ***Second Example***
 
-*If input is*
+*If Request is*
 ```
 {
   "username": "jr",
@@ -83,11 +86,11 @@ The Response is **application/json**
 
 ## Register
 **Post** 
-`/Users/RegisterUser`
+`/User/RegisterUser`
 
 
-**Input**
-The input is **multipart/form-data**
+**Request**
+The Request is **multipart/form-data**
 
 ![alt text](image-1.png)
 
@@ -112,7 +115,7 @@ The Response is **application/json**
 
 ***First Example***
 
-*If input is*
+*If Request is*
 
 ![alt text](image.png)
 
@@ -134,7 +137,7 @@ The Response is **application/json**
 ***Second Example***
 For different username, wrong password
 
-*If input is*
+*If Request is*
 ![alt text](image-2.png)
 
 *The Response is*
@@ -163,11 +166,11 @@ For different username, wrong password
 
 ## Get User
 **Get** 
-`/Users/GetUser`
+`/User/GetUser`
 
 
-**Input**
-The input is **Query Params**
+**Request**
+The Request is **Query Params**
 
 ![alt text](image-3.png)
 
@@ -200,7 +203,7 @@ The Response is **application/json**
 
 ***First Example***
 
-*If input is*
+*If Request is*
 
 ![alt text](image-4.png)
 
@@ -231,7 +234,7 @@ The Response is **application/json**
 
 ***Second Example***
 
-*If input is*
+*If Request is*
 
 ![alt text](image-5.png)
 
@@ -248,10 +251,10 @@ The Response is **application/json**
 
 ## Get Role For User
 **Get** 
-`/Users/GetRoleForUser`
+`/User/GetRoleForUser`
 
-**Input**
-The input is **Query Params**
+**Request**
+The Request is **Query Params**
 
 ![alt text](image-6.png)
 
@@ -265,7 +268,7 @@ The Response is **application/json**
 
 ***First Example***
 
-*If input is*
+*If Request is*
 
 ![alt text](image-8.png)
 
@@ -277,7 +280,7 @@ Admin
 
 ***Second Example***
 
-*If input is*
+*If Request is*
 
 ![alt text](image-7.png)
 
@@ -294,11 +297,11 @@ Admin
 
 ## Update The User details
 **Put** 
-`/Users/UpdateUser`
+`/User/UpdateUser`
 
 
-**Input**
-The input is **multipart/form-data**
+**Request**
+The Request is **multipart/form-data**
 ![alt text](image-9.png)
 
 **Response**
@@ -319,9 +322,12 @@ The Response is **application/json**
 
 ## Get all Users
 **Get** 
-`/Users/GetAllUsers`
+`/User/GetAllUsers`
 
-**Input**
+**ONLY ADMIN USER**
+
+
+**Request**
 No Parameters
 
 **Response**
@@ -355,7 +361,7 @@ The Response is **application/json**
 
 ***First Example***
 
-*If input is*
+*If Request is*
 
 No Parameters
 
@@ -405,3 +411,20 @@ No Parameters
     }
 ]
 ```
+
+
+## Delete User
+**Get** 
+`/User/DeleteUser`
+
+**ONLY ADMIN USER**
+
+
+**Request**
+
+![alt text](image-10.png)
+
+**Response**
+The Response is **application/json**
+
+![alt text](image-11.png)

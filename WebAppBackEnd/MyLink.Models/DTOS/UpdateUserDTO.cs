@@ -21,6 +21,8 @@ namespace MyLink.Models.DTOS
         public string? PhoneNumber { get; set; }
         [Required]
         public string? Email { get; set; }
+        [Required]
+        public string? PictureURL { get; set; }
         public string? NewPassword { get; set; }
         
     }

@@ -7,7 +7,7 @@
 namespace MyLink.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Update8aug2024 : Migration
+    public partial class update23aug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,20 +15,20 @@ namespace MyLink.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "36951a3a-f7cb-4f5c-bb43-00cce4dbb9d8");
+                keyValue: "1ba2b27c-db11-4ad7-8c95-68092f22fec0");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "6ef75a24-f882-4282-89d0-f86dc50864a9");
+                keyValue: "42cceade-2cff-4ec9-8160-e30f0364438b");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "00fe3ed9-dfe4-46e6-acfc-df1532f1a088", null, "Professional", "PROFESSIONAL" },
-                    { "c06df549-854d-407c-921c-a6648e5737f9", null, "Admin", "ADMIN" }
+                    { "99708c37-b200-46d3-818e-9d8415832cd2", null, "Professional", "PROFESSIONAL" },
+                    { "d7bf60f9-4c2a-429e-8b69-d9901acf144c", null, "Admin", "ADMIN" }
                 });
         }
 
@@ -38,20 +38,20 @@ namespace MyLink.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "00fe3ed9-dfe4-46e6-acfc-df1532f1a088");
+                keyValue: "99708c37-b200-46d3-818e-9d8415832cd2");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "c06df549-854d-407c-921c-a6648e5737f9");
+                keyValue: "d7bf60f9-4c2a-429e-8b69-d9901acf144c");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36951a3a-f7cb-4f5c-bb43-00cce4dbb9d8", null, "Admin", "ADMIN" },
-                    { "6ef75a24-f882-4282-89d0-f86dc50864a9", null, "Professional", "PROFESSIONAL" }
+                    { "1ba2b27c-db11-4ad7-8c95-68092f22fec0", null, "Professional", "PROFESSIONAL" },
+                    { "42cceade-2cff-4ec9-8160-e30f0364438b", null, "Admin", "ADMIN" }
                 });
         }
     }
