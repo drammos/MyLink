@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using MyLink.Services.JsonWebTokens;
+using System.Drawing;
 
 namespace WebAppMyLink.Controllers
 {
@@ -175,155 +176,120 @@ namespace WebAppMyLink.Controllers
         //[Authorize(Roles = "Professional")]
         public async Task<ActionResult<bool>> IsConnectedUsers([FromQuery] string UserId1, [FromQuery] string UserId2)
         {
-            User user = await _userManager.FindByIdAsync(UserId1);
-            if (user == null)
-                return NotFound();
+            List<User> list = await _unitOfWork.User.GetConnectedUsers(UserId1);
+            if (list == null) return false;
+            
+            var user = list.FirstOrDefault(x => x.Id == UserId2);
+            if(user == null) return false;
 
-            foreach(User connectedUser in user.ConnectedUsers)
-            {
-                string id = connectedUser.Id;
-                if (id.Equals(UserId2))
-                    return true;
-            }
-            return false;
+            return true;
         }
 
         [HttpGet("IsPendingRequest")]
         //[Authorize(Roles = "Professional")]
         public async Task<ActionResult<bool>> IsPendingReqeuest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
-            User PendingUser = await _userManager.FindByIdAsync(PendingUserId);
-            if (PendingUser == null)
-                return NotFound();
+            var list = await _unitOfWork.User.GetPendingRequestUsers(PendingUserId);
+            if (list == null) return false;
 
-            foreach (User user in PendingUser.PendingUserRequests)
-            {
-                string id = user.Id;
-                if (id.Equals(RecipientUserId))
-                    return true;
-            }
-            return false;
+            var user = list.FirstOrDefault(x => x.Id == RecipientUserId);
+            if (user == null) return false;
+
+            return true;
         }
 
-        [HttpGet("IsComingRequest")]
+        [HttpGet("IsInComingRequest")]
         //[Authorize(Roles = "Professional")]
-        public async Task<ActionResult<bool>> IsComingRequest([FromQuery] string UserId, [FromQuery] string PendingUserId)
+        public async Task<ActionResult<bool>> IsInComingRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
-            User user = await _userManager.FindByIdAsync(UserId);
-            if (user == null)
-                return NotFound();
+            var list = await _unitOfWork.User.GetInComingRequestUsers(RecipientUserId);
+            if (list == null) return false;
 
-            foreach(User usr in user.InComingUserRequests)
-            {
-                string id = usr.Id;
-                if (id.Equals(PendingUserId))
-                    return true;
-            }
-            return false;
+            var user = list.FirstOrDefault(x => x.Id == PendingUserId);
+            if (user == null) return false;
+
+            return true;
         }
 
-        //Request For connection from SenderUserId.
-        //If Users isn't Connected, you can do this Request
         [HttpPost("RequestToConnection")]
         //[Authorize(Roles = "Professional")]
         public async Task<ActionResult> RequestToConnection([FromQuery] string SenderUserId, [FromQuery] string RecipientUserId)
         {
-            User SenderUser = await _userManager.FindByIdAsync(SenderUserId);
-            User RecipientUser = await _userManager.FindByIdAsync(RecipientUserId);
+            User senderUser = await _userManager.FindByIdAsync(SenderUserId);
+            User recipientUser = await _userManager.FindByIdAsync(RecipientUserId);
 
-            if (SenderUser == null || RecipientUser == null)
+            if (senderUser == null || recipientUser == null)
                 return NotFound();
 
-            SenderUser.PendingUserRequests.Add(RecipientUser);
-            RecipientUser.InComingUserRequests.Add(SenderUser);
+            senderUser.PendingRequestUsers.Add(recipientUser);
+            recipientUser.InComingRequestUsers.Add(senderUser);
 
+            _unitOfWork.Save();
             return StatusCode(200);
         }
 
         [HttpPost("AcceptRequest")]
+        //[Authorize(Roles = "Professional")]
         public async Task<ActionResult> AcceptRequest([FromQuery] string RecipientUserId, [FromQuery] string PendingUserId)
         {
-            User RecipientUser = await _userManager.FindByIdAsync(RecipientUserId);
-            if (RecipientUser == null)
+            var user = await _userManager.FindByIdAsync(RecipientUserId);
+            var userNewConnection = await _userManager.FindByIdAsync(PendingUserId);
+            if (user == null || userNewConnection == null)
                 return NotFound();
 
-            foreach (User PendingUser in RecipientUser.InComingUserRequests)
-            {
-                string id = PendingUser.Id;
-                if (id.Equals(PendingUserId))
-                {
-                    RecipientUser.InComingUserRequests.Remove(PendingUser);
-                    PendingUser.PendingUserRequests.Remove(RecipientUser);
-                    RecipientUser.ConnectedUsers.Add(PendingUser);
-                    PendingUser.ConnectedUsers.Add(RecipientUser);
-                    break;
-                }
-            }
+            user.ConnectedUsers.Add(userNewConnection);
+            userNewConnection.ConnectedUsers.Add(user);
+
+            bool result = await _unitOfWork.User.DeleteRequest(PendingUserId, RecipientUserId);
+            if (!result)
+                return NotFound();
+
+            _unitOfWork.Save();
             return StatusCode(200);
         }
 
         [HttpDelete("DeleteRequest")]
+        //[Authorize(Roles = "Professional")]
         public async Task<ActionResult> DeleteRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
-            User PendingUser = await _userManager.FindByIdAsync(PendingUserId);
-            if (PendingUser == null)
+            bool result = await _unitOfWork.User.DeleteRequest(PendingUserId, RecipientUserId);
+            if (!result)
                 return NotFound();
-
-            foreach (User RecipientUser in PendingUser.PendingUserRequests)
-            {
-                string id = RecipientUser.Id;
-                if (id.Equals(RecipientUserId))
-                {
-                    PendingUser.PendingUserRequests.Remove(RecipientUser);
-                    RecipientUser.InComingUserRequests.Remove(PendingUser);
-                    break;
-                }
-            }
+                
+            _unitOfWork.Save();
             return StatusCode(200);
         }
 
         [HttpGet("GetListFromConnections")]
+        //[Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromConnections([FromQuery] string UserId)
         {
-            User user = await _userManager.FindByIdAsync(UserId);
-            if (user == null)
-                return NotFound();
-
-            
-            return user.ConnectedUsers.ToList<User>();
+            return await _unitOfWork.User.GetConnectedUsers(UserId);
         }
 
         [HttpGet("GetListFromInComingRequests")]
+        //[Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromInComingRequests([FromQuery] string UserId)
         {
-            User user = await _userManager.FindByIdAsync(UserId);
-            if (user == null)
-                return NotFound();
-
-
-            return user.InComingUserRequests.ToList<User>();
+            return await _unitOfWork.User.GetInComingRequestUsers(UserId);
         }
 
         [HttpGet("GetListFromPendingRequests")]
+        //[Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromPendingRequests([FromQuery] string UserId)
         {
-            User user = await _userManager.FindByIdAsync(UserId);
-            if (user == null)
-                return NotFound();
-
-
-            return user.PendingUserRequests.ToList<User>();
+            return await _unitOfWork.User.GetPendingRequestUsers(UserId);
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();
             return users;
         }
 
-        [HttpPost("DeleteUser")]
+        [HttpDelete("DeleteUser")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(string Username)
         {
