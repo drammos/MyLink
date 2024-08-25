@@ -19,6 +19,7 @@ namespace MyLink.Data.Repository
                 .Include(x => x.ConnectedUsers)
                 .FirstOrDefaultAsync(x => x.Id == Id);
 
+            if (user == null) return null;
             return [.. user!.ConnectedUsers];
         }
 
@@ -28,6 +29,7 @@ namespace MyLink.Data.Repository
                 .Include(x => x.InComingRequestUsers)
                 .FirstOrDefaultAsync(x => x.Id == Id);
 
+            if (user == null) return null;
             return [.. user!.InComingRequestUsers];
         }
 
@@ -37,6 +39,7 @@ namespace MyLink.Data.Repository
                 .Include(x => x.PendingRequestUsers)
                 .FirstOrDefaultAsync(x => x.Id == Id);
 
+            if (user == null) return null;
             return [.. user!.PendingRequestUsers];
         }
 

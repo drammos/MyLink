@@ -171,9 +171,8 @@ namespace WebAppMyLink.Controllers
             };
         }
 
-        //Αν ειναι συνδεδεμενοι 2 χρηστες
         [HttpGet("IsConnectedUsers")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<bool>> IsConnectedUsers([FromQuery] string UserId1, [FromQuery] string UserId2)
         {
             List<User> list = await _unitOfWork.User.GetConnectedUsers(UserId1);
@@ -186,7 +185,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("IsPendingRequest")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<bool>> IsPendingReqeuest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
             var list = await _unitOfWork.User.GetPendingRequestUsers(PendingUserId);
@@ -199,7 +198,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("IsInComingRequest")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<bool>> IsInComingRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
             var list = await _unitOfWork.User.GetInComingRequestUsers(RecipientUserId);
@@ -212,7 +211,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("RequestToConnection")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult> RequestToConnection([FromQuery] string SenderUserId, [FromQuery] string RecipientUserId)
         {
             User senderUser = await _userManager.FindByIdAsync(SenderUserId);
@@ -229,8 +228,8 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("AcceptRequest")]
-        //[Authorize(Roles = "Professional")]
-        public async Task<ActionResult> AcceptRequest([FromQuery] string RecipientUserId, [FromQuery] string PendingUserId)
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult> AcceptRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
             var user = await _userManager.FindByIdAsync(RecipientUserId);
             var userNewConnection = await _userManager.FindByIdAsync(PendingUserId);
@@ -249,7 +248,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteRequest")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult> DeleteRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
         {
             bool result = await _unitOfWork.User.DeleteRequest(PendingUserId, RecipientUserId);
@@ -261,28 +260,28 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetListFromConnections")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromConnections([FromQuery] string UserId)
         {
             return await _unitOfWork.User.GetConnectedUsers(UserId);
         }
 
         [HttpGet("GetListFromInComingRequests")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromInComingRequests([FromQuery] string UserId)
         {
             return await _unitOfWork.User.GetInComingRequestUsers(UserId);
         }
 
         [HttpGet("GetListFromPendingRequests")]
-        //[Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromPendingRequests([FromQuery] string UserId)
         {
             return await _unitOfWork.User.GetPendingRequestUsers(UserId);
         }
 
         [HttpGet("GetAllUsers")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();
