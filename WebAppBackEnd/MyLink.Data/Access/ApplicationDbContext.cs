@@ -37,6 +37,22 @@ namespace MyLink.Data.Access
                .WithOne(e => e.User)
                .HasForeignKey(e => e.UserId)
                .IsRequired();
+
+            builder.Entity<User>()
+                .HasMany(e => e.ConnectedUsers)
+                .WithMany()
+                .UsingEntity(x => x.ToTable("UserConnections"));
+
+            builder.Entity<User>()
+                .HasMany(e => e.PendingRequestUsers)
+                .WithMany()
+                .UsingEntity(x => x.ToTable("UserPendingReqeusts"));
+
+            builder.Entity<User>()
+                .HasMany(e => e.InComingRequestUsers)
+                .WithMany()
+                .UsingEntity(x => x.ToTable("UserInComingRequests"));
+
         }
     }
 }
