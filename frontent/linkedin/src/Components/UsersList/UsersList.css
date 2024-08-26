@@ -1,25 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
-
-div.usersListsContainer{
+div.usersListsContainer {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.usersListsContainer {
-    width: 300px; /* Set a fixed width */
-    height: 400px; /* Set a fixed height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ccc; /* Optional: Add a border */
-    border-radius: 5px; /* Optional: Add rounded corners */
-    padding: 10px; /* Optional: Add padding inside the container */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
-}
+    div.usersListsContainer div.usersList {
+        display: grid;
+        margin-top: 100px;
+        margin-bottom: 100px;
+        padding: 20px 10px;
+        font-family: Open Sans, sans-serif;
+        box-shadow: 0px 8.369px 22.825px 0px rgba(0, 0, 0, 0.07);
+        border-radius: 16px;
+        min-width: 600px;
+        background-color: #fff;
+    }
+
+        div.usersListsContainer div.usersList h1 {
+            margin: 10px;
+        }
+
+            div.usersListsContainer div.usersList h1 span.numOfUsers {
+                font-size: 0.7em;
+            }
 
 .list {
     list-style-type: none; /* Remove default list style */
-    padding: 0; /* Remove default padding */
+    padding: 0 30px; /* Remove default padding */
     margin: 0; /* Remove default margin */
 }
 

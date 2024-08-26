@@ -16,9 +16,10 @@ import {
 
 const router = createBrowserRouter([
     { path: "/", element: <App /> },
-    { path: "signup", element: <SignUp />, },
-    { path: "signin", element: <SignIn />, },
-    { path: "forgot-password", element: <ForgotPassword /> },
+    { path: "SignUp", element: <SignUp />, },
+    { path: "SignIn", element: <SignIn />, },
+    { path: "Forgot Password", element: <ForgotPassword /> },
+    { path: "Control Panel", element: <ControlPanel /> },
     //},
     //{
     //    path: "jobs",

@@ -21,7 +21,7 @@ const WelcomePageLogIn = () => {
         console.log("Loggin in..");
         try {
             // Send form data to backend API
-            const response = await fetch('http://localhost:5175/Users/LoginUser', {
+            const response = await fetch('http://localhost:5175/User/LoginUser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

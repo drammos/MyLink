@@ -9,7 +9,7 @@ namespace MyLink.Data.Initialize
     {
         public static async Task Initialize(ApplicationDbContext db, UserManager<User> users)
         {
-            users.Users.ExecuteDelete();
+            //users.Users.ExecuteDelete();
             // Create Users
             if (!users.Users.Any())
             {
@@ -30,7 +30,8 @@ namespace MyLink.Data.Initialize
                     LastName = "Minaidis",
                     PhoneNumber = "1234567890",
                     UserName = "tminaidis9",
-                    Email = "teomin2001@gmailcomr"
+                    Email = "teomin2001@gmail.com",
+                    PictureURL = "minaidis.com"
                 };
 
                 var result = await users.CreateAsync(user, "1234@Password");
