@@ -16,6 +16,7 @@ namespace MyLink.Data.Access
         public DbSet<Message> Messages { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -39,6 +40,12 @@ namespace MyLink.Data.Access
                .IsRequired();
 
             builder.Entity<User>()
+               .HasMany(e => e.Posts)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.UserId)
+               .IsRequired();
+
+            builder.Entity<User>()
                 .HasMany(e => e.ConnectedUsers)
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserConnections"));
@@ -53,6 +60,30 @@ namespace MyLink.Data.Access
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserInComingRequests"));
 
+            builder.Entity<Post>()
+                .HasMany(e => e.Comments)
+                .WithOne(e => e.Post)
+                .HasForeignKey(e => e.PostId)
+                .IsRequired();
+
+            builder.Entity<Post>()
+                .HasMany(e => e.Reactions)
+                .WithOne(e => e.Post)
+                .HasForeignKey(e => e.PostId)
+                .IsRequired();
+
+
+            builder.Entity<Comment>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.MyComments)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
+
+            builder.Entity<Reaction>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.MyReactions)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
         }
     }
 }
