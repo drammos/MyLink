@@ -3,6 +3,7 @@ import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import UseService from "../Services/useService";
 import './WelcomePageLogIn.css'
 
 
@@ -18,32 +19,19 @@ const WelcomePageLogIn = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Loggin in..");
-        try {
-            // Send form data to backend API
-            const response = await fetch('http://localhost:5175/User/LoginUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
+        const input = JSON.stringify({ "username": username, "password": password });
+        const response = await UseService('Loggin in...', 'POST', 'http://localhost:5175/User/LoginUser', input);
+        const data = await response.json();
 
-            /*const data = await response.text();*/
-
-            if (response.status == 200) {
-                setMessage('Login successful!');
-                console.log('Login successful');
-            }
-            else {
-                setMessage('Invalid username or password');
-                console.error('Login failed');
-                throw new Error('Invalid username or password');
-            }
+        if (response.status == 200) {
+            setMessage('Login successful!');
+            console.log('Login successful');
+            localStorage.setItem('authToken', data.token);
         }
-        catch (error) {
-            console.error('Error logging in:', error);
-            setError('An unexpected error occurred');
+        else {
+            setMessage('Invalid username or password');
+            console.error('Login failed');
+            throw new Error('Invalid username or password');
         }
     };
 

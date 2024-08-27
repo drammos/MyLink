@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './LogIn.css'
+import UseService from "../Services/useService";
 
 const LogIn = () => {
     // State variables to hold username and password
@@ -17,34 +18,23 @@ const LogIn = () => {
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Loggin in..");
-        try {
-            // Send form data to backend API
-            const response = await fetch('http://localhost:5175/User/LoginUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ "username":username, "password":password }),
-            });
 
-            /*const data = await response.text();*/
+        e.preventDefault();
+
+        const input = JSON.stringify({ "username": username, "password": password });
+            const response = await UseService('Loggin in...', 'POST', 'http://localhost:5175/User/LoginUser',input);
+            const data = await response.json();
 
             if (response.status == 200) {
                 setMessage('Login successful!');
                 console.log('Login successful');
+                localStorage.setItem('authToken', data.token);
             }
             else {
                 setMessage('Invalid username or password');
                 console.error('Login failed');
                 throw new Error('Invalid username or password');
             }
-        }
-        catch (error) {
-            console.error('Error logging in:', error);
-            setError('An unexpected error occurred');
-        }
     };
 
     const handleForgotPassword = (event) => {

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap');
 
 div.usersListsContainer {
     display: flex;
@@ -13,25 +14,28 @@ div.usersListsContainer {
         margin-top: 100px;
         margin-bottom: 100px;
         padding: 20px 10px;
+        padding-bottom:60px;
         font-family: Open Sans, sans-serif;
         box-shadow: 0px 8.369px 22.825px 0px rgba(0, 0, 0, 0.07);
         border-radius: 16px;
         min-width: 600px;
         background-color: #fff;
+        font-family: 'Roboto', sans-serif;
     }
 
-        div.usersListsContainer div.usersList h1 {
+        div.usersListsContainer div.usersList h2 {
             margin: 10px;
         }
 
-            div.usersListsContainer div.usersList h1 span.numOfUsers {
-                font-size: 0.7em;
+            div.usersListsContainer div.usersList h2 span.numOfUsers {
+                font-size: 14px;
             }
 
 .list {
     list-style-type: none; /* Remove default list style */
     padding: 0 30px; /* Remove default padding */
     margin: 0; /* Remove default margin */
+    font-family: 'Roboto', sans-serif;
 }
 
 .list-item {
@@ -55,3 +59,15 @@ div.usersListsContainer {
     .usersListsContainer::-webkit-scrollbar-thumb:hover {
         background-color: #555;
     }
+
+
+p.error {
+    font-size: 14px;
+    color: red;
+    display: flex;
+    justify-content: center;
+}
+
+.p-paginator {
+    padding-top: 20px;
+}
