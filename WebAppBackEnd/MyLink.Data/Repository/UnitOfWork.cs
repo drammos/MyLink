@@ -9,6 +9,7 @@ namespace MyLink.Data.Repository
         public IUserRepository User { get; set; }
         public IEducationRepository Education { get; set; }
         public IExperienceRepository Experience { get; set; }
+        public IPostRepository Post { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -16,6 +17,7 @@ namespace MyLink.Data.Repository
             User = new UserRepository(context);
             Education = new EducationRepository(context);
             Experience = new ExperienceRepository(context);
+            Post = new PostRepository(context);
         }
 
         public void Save()

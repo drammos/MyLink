@@ -40,12 +40,6 @@ namespace MyLink.Data.Access
                .IsRequired();
 
             builder.Entity<User>()
-               .HasMany(e => e.Posts)
-               .WithOne(e => e.User)
-               .HasForeignKey(e => e.UserId)
-               .IsRequired();
-
-            builder.Entity<User>()
                 .HasMany(e => e.ConnectedUsers)
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserConnections"));
@@ -60,6 +54,14 @@ namespace MyLink.Data.Access
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserInComingRequests"));
 
+
+            // Posts
+            builder.Entity<User>()
+               .HasMany(e => e.Posts)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.UserId)
+               .IsRequired();
+
             builder.Entity<Post>()
                 .HasMany(e => e.Comments)
                 .WithOne(e => e.Post)
@@ -73,17 +75,18 @@ namespace MyLink.Data.Access
                 .IsRequired();
 
 
-            builder.Entity<Comment>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.MyComments)
-                .HasForeignKey(e => e.UserId)
-                .IsRequired();
+            //builder.Entity<User>()
+            //    .HasMany(e => e.Comments)
+            //    .WithOne(e => e.User)
+            //    .HasForeignKey(e => e.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .IsRequired();
 
-            builder.Entity<Reaction>()
-                .HasOne(e => e.User)
-                .WithMany(e => e.MyReactions)
-                .HasForeignKey(e => e.UserId)
-                .IsRequired();
+            //builder.Entity<User>()
+            //    .HasMany(e => e.Reactions)
+            //    .WithOne(e => e.User)
+            //    .HasForeignKey(e => e.UserId)
+            //    .IsRequired();
         }
     }
 }
