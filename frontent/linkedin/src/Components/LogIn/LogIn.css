@@ -104,6 +104,10 @@ div.glass-container-Login{
             margin-left: 300px;
         }
 
+        div.glass-container-Login form.LogInForm p.loading {
+            font-size: 12px;
+        }
+
         div.glass-container-Login form.LogInForm button.submit {
             font-size: 16px;
             margin-top: 30px;

@@ -103,6 +103,11 @@ div.glass-container {
                     color: #0a6c75;
                 }
 
+        div.glass-container form.WelcomePageLogInForm p.loading {
+            font-size: 12px;
+        }
+
+
         div.glass-container form.WelcomePageLogInForm div.success-message {
             font-size: 12px;
             color: rgb(44, 207, 66);

@@ -1,9 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import UseService from "../Services/useService";
+import useService from "../Services/useService";
 import './WelcomePageLogIn.css'
 
 
@@ -16,24 +16,33 @@ const WelcomePageLogIn = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
+    // API call for user LogIn
+    const input = JSON.stringify({ "username": username, "password": password });
+    const { response, loading, refetch } = useService(
+        'Logging in...',
+        'POST',
+        'http://localhost:5175/User/LoginUser',
+        input
+    );
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const input = JSON.stringify({ "username": username, "password": password });
-        const response = await UseService('Loggin in...', 'POST', 'http://localhost:5175/User/LoginUser', input);
-        const data = await response.json();
+        refetch();
+    }
 
-        if (response.status == 200) {
-            setMessage('Login successful!');
-            console.log('Login successful');
-            localStorage.setItem('authToken', data.token);
+    useEffect(() => {
+        if (response) {
+            if (response.status === 200) {
+                setMessage('Login successful!');
+                console.log('Login successful');
+                localStorage.setItem('authToken', response.data.token);
+                // Navigate to another page if needed, e.g., navigate('/dashboard');
+            } else {
+                setMessage('Invalid username or password');
+                console.error('Login failed');
+            }
         }
-        else {
-            setMessage('Invalid username or password');
-            console.error('Login failed');
-            throw new Error('Invalid username or password');
-        }
-    };
+    }, [response, navigate]);
 
     const handleForgotPassword = (event) => {
         event.preventDefault();
@@ -72,6 +81,7 @@ const WelcomePageLogIn = () => {
                 <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
                 <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
                     {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
+                {loading && <p className="loading">Loading...</p>}
                 <button type="submit">Login</button>
             </form>
             <img>

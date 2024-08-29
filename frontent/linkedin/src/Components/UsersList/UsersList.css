@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap');
 
+@import '../../../node_modules/primereact/resources/themes/saga-blue/theme.css';
+@import '../../../node_modules/primereact/resources/primereact.min.css';
+@import '../../../node_modules/primeicons/primeicons.css';
+
 div.usersListsContainer {
     display: flex;
     flex-direction: column;
@@ -68,6 +72,35 @@ p.error {
     justify-content: center;
 }
 
+p.loading {
+    font-size: 14px;
+    color: deepskyblue;
+    display: flex;
+    justify-content: center;
+}
+
 .p-paginator {
     padding-top: 20px;
+}
+
+
+.custom-toolbar .p-toolbar {
+    background-color: #f4f4f4; 
+    border-bottom: 1px solid #ddd; 
+    padding: 10px 20px; 
+}
+
+.custom-toolbar .p-toolbar-group-left {
+    display: flex;
+    align-items: center;
+}
+
+.custom-toolbar .p-toolbar-group-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto; 
+}
+
+.custom-toolbar .p-button {
+    margin-right: 10px; 
 }
