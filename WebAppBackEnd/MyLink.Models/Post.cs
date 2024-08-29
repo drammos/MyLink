@@ -18,11 +18,10 @@ namespace MyLink.Models
         public List<string> VideoUrls { get; set; } = [];
         public int LikesCount { get; set; }
         public int CommentsCount { get; set; }
-        public ICollection<Comment> Comments { get; set; } = [];
-        public ICollection<Reaction> Reactions { get; set; } = [];
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Reaction> Reactions { get; set; } = new List<Reaction>();
         [Required]
         public bool IsLikedByCurrentUser { get; set; }
-
         [Required]
         [ForeignKey("UserId")]
         public string? UserId { get; set; }

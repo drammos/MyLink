@@ -16,8 +16,6 @@ namespace MyLink.Models
         public Post Post { get; set; } = null!;
 
         [Required]
-        [ForeignKey("UserId")]
-        public string? UserId { get; set; } 
-        public User User { get; set; } = null!;
+        public string Username { get; set; }
     }
 }
