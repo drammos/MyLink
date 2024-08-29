@@ -5,6 +5,8 @@ import SignIn from './Pages/SignIn/SignIn.jsx'
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx'
 import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
 import SendHelp from './Pages/SendHelp/SendHelp.jsx'
+import PageNotFound from './Pages/PageNotFound/PageNotFound.jsx'
+import { Routes } from './routes.jsx';
 
 
 import App from './Pages/WelcomePage/App.jsx'
@@ -16,12 +18,13 @@ import {
 } from "react-router-dom";
 
 const router = createBrowserRouter([
-    { path: "/", element: <App /> },
-    { path: "SignUp", element: <SignUp />, },
-    { path: "SignIn", element: <SignIn />, },
-    { path: "Forgot Password", element: <ForgotPassword /> },
-    { path: "Control Panel", element: <ControlPanel /> },
-    { path: "Send-Help", element: <SendHelp /> },
+    { path: Routes.Home, element: <App /> },
+    { path: Routes.SignUp, element: <SignUp />, },
+    { path: Routes.SignIn, element: <SignIn />, },
+    { path: Routes.ForgotPassword, element: <ForgotPassword /> },
+    { path: Routes.ControlPanel, element: <ControlPanel /> },
+    { path: Routes.SendHelp, element: <SendHelp /> },
+    { path: Routes.PageNotFound, element: <PageNotFound /> },
     //},
     //{
     //    path: "jobs",

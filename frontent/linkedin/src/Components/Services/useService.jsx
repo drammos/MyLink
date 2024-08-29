@@ -44,7 +44,7 @@ const useService = (message, method, url, input = null, contentType = 'applicati
         } catch (error) {
             console.error('Request failed:', error);
             setResponse({
-                status: null,
+                status: 600,
                 error,
             });
         } finally {

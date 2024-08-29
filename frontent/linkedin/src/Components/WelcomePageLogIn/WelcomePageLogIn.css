@@ -58,7 +58,7 @@ div.glass-container {
             padding: 8px;
             width: 230px;
             font-size: 14px;
-            max-height: 15px;
+            max-height: 30px;
         }
 
         div.glass-container form.WelcomePageLogInForm div div input {

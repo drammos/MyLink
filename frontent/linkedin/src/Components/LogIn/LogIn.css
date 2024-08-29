@@ -106,6 +106,8 @@ div.glass-container-Login{
 
         div.glass-container-Login form.LogInForm p.loading {
             font-size: 12px;
+            display:flex;
+            justify-content: left;
         }
 
         div.glass-container-Login form.LogInForm button.submit {

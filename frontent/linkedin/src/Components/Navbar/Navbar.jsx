@@ -3,26 +3,26 @@ import './Navbar.css'
 import logo from '../../assets/Logo.png'
 import { GoAlert } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
-
+import { Routes } from '../../routes.jsx';
 
 
 const Navbar = () => {
     const navigate = useNavigate();
 
     const handleSignInClick = async () => {
-        navigate("/signin");
+        navigate(Routes.SignIn);
     };
 
     const handleSignUpClick = async () => {
-        navigate("/signup");
+        navigate(Routes.SignUp);
     };
 
     const handleLogoClick = async () => {
-        navigate("/");
+        navigate(Routes.Home);
     }
 
     const handleSendHelpClick = async () => {
-        navigate("/Send-Help");
+        navigate(Routes.SendHelp);
     }
 
     return (

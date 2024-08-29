@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import useService from "../Services/useService";
 import './WelcomePageLogIn.css'
+import { Routes } from '../../routes.jsx';
 
 
 const WelcomePageLogIn = () => {
@@ -15,6 +16,8 @@ const WelcomePageLogIn = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
+
 
     // API call for user LogIn
     const input = JSON.stringify({ "username": username, "password": password });
@@ -33,11 +36,22 @@ const WelcomePageLogIn = () => {
     useEffect(() => {
         if (response) {
             if (response.status === 200) {
+                setErrorCode(0);
                 setMessage('Login successful!');
                 console.log('Login successful');
                 localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('role', response.data.role);
+                setTimeout(() => {
+                    navigate(Routes.ControlPanel);
+                }, 2000);
                 // Navigate to another page if needed, e.g., navigate('/dashboard');
-            } else {
+            } else if (response.status === 600) {
+                setErrorCode(1);
+                setMessage('An Error Occured. Please try again later.');
+                console.error('Login failed');
+            }
+            else if (response.status === 401) {
+                setErrorCode(1);
                 setMessage('Invalid username or password');
                 console.error('Login failed');
             }
@@ -79,8 +93,9 @@ const WelcomePageLogIn = () => {
                     </div>
                 </div>
                 <button className="forgot" onClick={(event) => handleForgotPassword(event)}>Forgot Password? </button>
-                <div className={message === 'Invalid username or password' ? 'error-message' : (message === 'Login successful!' ? 'success-message' : '')}>
-                    {message === 'Invalid username or password' ? <><GoXCircle /> {message}</> : (message === 'Login successful!' ? <><GoCheckCircle /> {message}</> : '')}</div>
+                <div className={errorCode === 1 ? 'error-message' : (errorCode === 0 ? 'success-message' : '')}>
+                    {errorCode === 1 ? <><GoXCircle /> {message}</> : (errorCode === 0 ? <><GoCheckCircle /> {message}</> : '')}
+                </div>
                 {loading && <p className="loading">Loading...</p>}
                 <button type="submit">Login</button>
             </form>
