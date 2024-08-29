@@ -4,6 +4,7 @@ import SignUp from './Pages/SignUp/SignUp.jsx'
 import SignIn from './Pages/SignIn/SignIn.jsx'
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx'
 import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
+import SendHelp from './Pages/SendHelp/SendHelp.jsx'
 
 
 import App from './Pages/WelcomePage/App.jsx'
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
     { path: "SignIn", element: <SignIn />, },
     { path: "Forgot Password", element: <ForgotPassword /> },
     { path: "Control Panel", element: <ControlPanel /> },
+    { path: "Send-Help", element: <SendHelp /> },
     //},
     //{
     //    path: "jobs",

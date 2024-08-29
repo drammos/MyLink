@@ -34,9 +34,9 @@ div.glass-container-Login{
             div.glass-container-Login form.LogInForm div div.passwordAndVisibility button {
                 margin-left: 8px;
                 padding: 6px 11px;
-                border: 1px solid #C22D1F;
+                border: 1px solid #18a4b1;
                 background-color: whitesmoke;
-                color: #C22D1F;
+                color: #18a4b1;
                 border-radius: 10%;
                 border-radius: 24px;
                 transition: background-color 0.3s;

@@ -7,30 +7,34 @@ import { useNavigate } from "react-router-dom";
 
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  
-  const handleSignInClick = async (e) => {
-    navigate("/signin");
-  };
+    const navigate = useNavigate();
 
-  const handleSignUpClick = async (e) => {
-    navigate("/signup");
-  };
+    const handleSignInClick = async () => {
+        navigate("/signin");
+    };
 
-  const handleLogoClick = async (e) => {
-    navigate("/");
-  }
+    const handleSignUpClick = async () => {
+        navigate("/signup");
+    };
 
-  return (
-    <nav>
-        <img src={logo} onClick={handleLogoClick} alt=""/>
-        <ul>
-            <button class="signIn" onClick={handleSignInClick}>Sign In</button>
-            <button class="signUp" onClick={handleSignUpClick}>Sign Up</button>
-            <button class="sendHelp"><div><GoAlert/></div> Send Help!</button>
-        </ul>
-    </nav>
-  )
+    const handleLogoClick = async () => {
+        navigate("/");
+    }
+
+    const handleSendHelpClick = async () => {
+        navigate("/Send-Help");
+    }
+
+    return (
+        <nav>
+            <img src={logo} onClick={handleLogoClick} alt="" />
+            <ul>
+                <button className="signIn" onClick={handleSignInClick}>Sign In</button>
+                <button className="signUp" onClick={handleSignUpClick}>Sign Up</button>
+                <button className="sendHelp" onClick={handleSendHelpClick}><div><GoAlert /></div> Send Help!</button>
+            </ul>
+        </nav>
+    )
 }
 
 export default Navbar

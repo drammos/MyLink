@@ -1,77 +1,40 @@
-import { useState } from "react"
+import { useState } from "react";
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './SignUpForm.css'
 
 const SignUpForm = () => {
-    // State variables to hold username and password
-
     const [message, setMessage] = useState('');
-
     const [firstname, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [repeatPassword, setrepeatPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-
-
     const [phone, setPhone] = useState('');
-    const [photo, setPhoto] = useState('');
+    const [photo, setPhoto] = useState(null); // State to store photo
     const [birthDate, setBirthDate] = useState('');
-
     const [terms, setTerms] = useState(false);
     const [error, setError] = useState('An Error Occured. Please try again.');
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Check that user agree with terms
-        if (terms == false) {
+        if (!terms) {
             setError('You must first agree with terms.');
             setMessage('Error');
-            throw new Error('Invalid username or password');
-        }
-        else
-        {
-            setMessage('Account created successfully!');
+            return;
         }
 
-        //try {
-        //    // Send form data to backend API
-        //    const response = await fetch('http://localhost:3001/login', {
-        //        method: 'POST',
-        //        headers: {
-        //            'Content-Type': 'application/json',
-        //        },
-        //        body: JSON.stringify({ username, password }),
-        //    });
+        // Handle form submission here (e.g., send data to server)
 
-        //    const data = await response.json();
-
-        //    if (data.success) {
-        //        setMessage('Account created successfully!');
-        //        console.log('Account created successfully!');
-        //    }
-        //    else {
-        //        setMessage(error);
-        //        console.error('Create account failed');
-        //        throw new Error('Invalid username or password');
-        //    }
-        //}
-        //catch (error) {
-        //    console.error('Error logging in:', error);
-        //    setError('An unexpected error occurred');
-        //}
+        setMessage('Account created successfully!');
     };
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-            // Trigger login when Enter key is pressed
             handleSubmit(event);
         }
     };
@@ -82,7 +45,18 @@ const SignUpForm = () => {
 
     const handleCheckBoxChange = () => {
         setTerms((prevState) => !prevState);
-    }
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setPhoto(file);
+    };
+
+    const renderPhotoPreview = () => {
+        if (!photo) return null;
+        const objectURL = URL.createObjectURL(photo);
+        return <img src={objectURL} alt="Photo preview" className="photo-preview" />;
+    };
 
     return (
         <div className="glass-container-SignUpForm">
@@ -90,43 +64,40 @@ const SignUpForm = () => {
             <form className="SignUpForm" onSubmit={handleSubmit}>
                 <div className="firstline">
                     <div className="rowOne">
-
                         <input type="text" id="firstname" placeholder="First name" value={firstname} onChange={(e) => setFirstName(e.target.value)} onKeyPress={handleKeyPress} />
-
                         <input type="text" id="surname" placeholder="Surname" value={surname} onChange={(e) => setSurname(e.target.value)} onKeyPress={handleKeyPress} />
-
                         <input type="text" id="username" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress} />
-
                         <input type={showPassword ? 'text' : 'password'} id="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
-
-
                     </div>
 
                     <div className="rowTwo">
-
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyPress={handleKeyPress} />
-
                         <label htmlFor="phone">Phone</label>
-                        <input type="tel" id="password" value={phone} onChange={(e) => setPhone(e.target.value)} onKeyPress={handleKeyPress} />
-
+                        <input type="tel" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} onKeyPress={handleKeyPress} />
                         <label htmlFor="birthDate">Birth Date</label>
                         <input type="date" id="birthDate" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} onKeyPress={handleKeyPress} />
-
                         <label htmlFor="repeatPassword">Repeat Password</label>
-                        <input type={showPassword ? 'text' : 'password'} id="repeatpassword" value={repeatPassword} onChange={(e) => setrepeatPassword(e.target.value)} onKeyPress={handleKeyPress} />
-
+                        <input type={showPassword ? 'text' : 'password'} id="repeatpassword" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} onKeyPress={handleKeyPress} />
                     </div>
                 </div>
 
                 <div className="down-buttons">
+
                     <button type="button" onClick={togglePasswordVisibility} className="togglePassword">
                         <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                     </button>
 
+                    <div className="photo-upload">
+                        <label htmlFor="photo">Upload a photo</label>
+                        <input type="file" id="photo" accept="image/*" onChange={handleFileChange} />
+                    </div>
+
+                    {renderPhotoPreview()}
+
                     <div>
                         <label htmlFor="terms">I agree with terms and conditions</label>
-                        <input type="checkbox" id="terms" value={terms} onChange={handleCheckBoxChange} onKeyPress={handleKeyPress} />
+                        <input type="checkbox" id="terms" checked={terms} onChange={handleCheckBoxChange} onKeyPress={handleKeyPress} />
                     </div>
 
                     <div className={message === 'Account created successfully!' ? 'success-message' : (message ? 'error-message' : '')}>
@@ -136,7 +107,6 @@ const SignUpForm = () => {
                     <button className="create" type="submit">Create my Account</button>
                 </div>
             </form>
-
         </div>
     );
 };
