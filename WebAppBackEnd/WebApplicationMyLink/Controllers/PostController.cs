@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using MyLink.Models.DTOS;
@@ -38,11 +39,12 @@ namespace WebAppMyLink.Controllers
                 UserId = createPostDTO.UserId
             };
 
+            _unitOfWork.Post.Add(post);
             _unitOfWork.Save();
             return post;
         }
 
-        [HttpGet("GetPost")]
+        [HttpGet("GetPosts")]
         public async Task<ActionResult<List<Post>>> GetPosts(string UserId)
         {
             IEnumerable<Post> list = _unitOfWork.Post.GetAll();
@@ -79,7 +81,7 @@ namespace WebAppMyLink.Controllers
             return StatusCode(200);
         }
 
-        [HttpPost("AddComment")]
+        [HttpPost("CreateComment")]
         public async Task<ActionResult<Comment>> CreateComment([FromForm] CreateCommentDTO createCommentDTO)
         {
             User user = await _userManager.FindByNameAsync(createCommentDTO.Username);
@@ -99,6 +101,79 @@ namespace WebAppMyLink.Controllers
 
             _unitOfWork.Save();
             return comment;
+        }
+
+        [HttpGet("GetPostComments")]
+        public async Task<ActionResult<List<Comment>>> GetPostComments(int postId)
+        {
+            return await _unitOfWork.Post.GetComments(postId);
+        }
+
+        [HttpGet("GetUserComments")]
+        public async Task<ActionResult<List<Comment>>> GetUserComments(string userId)
+        {
+            User user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            return await _unitOfWork.Post.GetUserComments(userId);
+        }
+
+        [HttpDelete("DeleteComment")]
+        public async Task<ActionResult> DeleteComment([FromQuery] int postId,[FromQuery] int commentId)
+        {
+            bool result = _unitOfWork.Post.DeleteComment(postId, commentId);
+            if (!result)
+                return NotFound();
+ 
+            _unitOfWork.Save();
+            return StatusCode(200);
+        }
+
+        [HttpPost("CreateReaction")]
+        public async Task<ActionResult<Reaction>> CreateReaction([FromForm] CreateReactionDTO createReactionDTO)
+        {
+            User user = await _userManager.FindByNameAsync(createReactionDTO.Username);
+            if (user == null) return NotFound();
+
+            Reaction reaction = new Reaction()
+            {
+                ReactionType = createReactionDTO.ReactionType,
+                Username = createReactionDTO.Username,
+                PostId = createReactionDTO.PostId
+            };
+
+            bool result = _unitOfWork.Post.AddReaction(reaction);
+            if (!result)
+                return NotFound();
+
+            _unitOfWork.Save();
+            return reaction;
+        }
+
+        [HttpGet("GetPostReactions")]
+        public async Task<ActionResult<List<Reaction>>> GetPostReactions(int postId)
+        {
+            return await _unitOfWork.Post.GetReactions(postId);
+        }
+
+        [HttpGet("GetUserComments")]
+        public async Task<ActionResult<List<Reaction>>> GetUserReactions(string userId)
+        {
+            User user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            return await _unitOfWork.Post.GetUserReactions(userId);
+        }
+
+        [HttpDelete("DeleteComment")]
+        public async Task<ActionResult> DeleteReaction([FromQuery] int postId, [FromQuery] int reactionId)
+        {
+            bool result = _unitOfWork.Post.DeleteReaction(postId, reactionId);
+            if (!result)
+                return NotFound();
+
+            _unitOfWork.Save();
+            return StatusCode(200);
         }
     }
 }
