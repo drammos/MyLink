@@ -1,25 +1,33 @@
-import React , { useState } from "react"
-import { IoIosRocket } from "react-icons/io";
-// import 'bootstrap/dist/css/bootstrap.min.css'
-// import { useHistory } from 'react-router-dom';
-import './Description2.css'
-
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Routes } from '../../routes.jsx';
+import './Description2.css';
 
 const Description2 = () => {
-  // State variables to hold username and password
-  return (
-      <div className="glass-cont2">
-          <div className="Description2Div">
-            <h1><><IoIosRocket /></> Our Mission</h1>
-            <p>
-            Our mission is to blend cutting-edge design with seamless user experience,
-            ensuring that every interaction on your site is engaging, intuitive, and memorable.
-            </p>
+    const navigate = useNavigate();
+    const handleGetStarted = () => {
+        navigate(Routes.SignIn);
+    };
 
-            <button type="submit">Learn More</button>
+    return (
+        <div className="glass-cont2">
+            <div className="Description2Div">
+                <h1>Why Choose MyLink?</h1>
+                <p>
+                    MyLink is more than just a professional networking site; it&#8217;s a dynamic ecosystem tailored to
+                    the needs of modern professionals. With advanced algorithms that suggest connections,
+                    personalized career insights, and a platform designed for showcasing your skills and achievements,
+                    MyLink helps you stand out in a crowded marketplace. Whether you&#8217;re a seasoned professional or just
+                    starting your career, MyLink offers the tools and connections you need to succeed.
+                </p>
+                <p>
+                    Join us today and take the next step in your professional journey with confidence.
+                    Connect with peers, discover new opportunities, and let your network work for you!
+                </p>
+                <button type="button" onClick={ handleGetStarted }>Get Started</button>
+            </div>
         </div>
-    </div>
-  );
+    );
 };
 
 export default Description2;

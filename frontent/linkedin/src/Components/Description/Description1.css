@@ -10,13 +10,13 @@ div.glass-cont{
 
 div.glass-cont div.Description1Div{
     display: inline-block;
-    margin-left: 50px;
+    margin-left: 30px;
     margin-top: 230px;
     margin-bottom: 100px;
     padding: 96px 65px;
     font-family: Open Sans, sans-serif;
     border-radius: 16px;
-    min-width: 280px;
+    width: 950px;
     background-color: #fff;
 }
 
