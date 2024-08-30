@@ -8,9 +8,12 @@ import { useEffect, useState } from "react"
 
 const ControlPanel = () => {
 
-        //const [userIsAdmin, setUserAdmin] = useState(false);
-        //if (localStorage.getItem('role') == "Admin")
-        //    setUserAdmin(true);
+    const [userIsAdmin, setUserAdmin] = useState(false);
+    console.log("user role is: ", localStorage.getItem('role'))
+    //if (localStorage.getItem('role') == "Admin")
+    //{
+    //    setUserAdmin(true);
+    //}
 
     const items = Array.from({ length: 30 }, (_, i) => `Item ${i + 1}`);
 

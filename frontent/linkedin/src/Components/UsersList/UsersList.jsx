@@ -14,6 +14,8 @@ const UsersList = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [globalFilter, setGlobalFilter] = useState(null);
     const [error, setError] = useState(null);
+    const [count, setCount] = useState(0);
+    const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
     const dt = useRef(null);
 
     // Fetching users using useService custom hook
@@ -33,12 +35,16 @@ const UsersList = () => {
     useEffect(() => {
         if (response) {
             if (response.status === 200) {
+                setErrorCode(0);
                 setUsers(response.data); // Adjust according to your API response structure
                 setError(null); // Clear any previous errors
+                setCount(response.data.length);
             } else {
+                setErrorCode(1);
                 setError('An unexpected error occurred. Please refresh and try again.');
             }
         } else if (!loading) {
+            setErrorCode(1);
             // Handle the case where response is not yet available and loading is false
             setError('An unexpected error occurred. Please refresh and try again.');
         }
@@ -47,18 +53,20 @@ const UsersList = () => {
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button
-                    label="New"
-                    icon="pi pi-plus"
-                    className="p-button-success p-mr-2"
-                    onClick={() => console.log('Add new item')}
-                />
-                <Button
-                    label="Delete"
-                    icon="pi pi-trash"
-                    className="p-button-danger"
-                    onClick={() => console.log('Delete selected items')}
-                />
+                <div className="action-buttons">
+                    <Button
+                        label="New"
+                        icon="pi pi-plus"
+                        className="p-button-success p-mr-2"
+                        onClick={() => console.log('Adding user...')}
+                    />
+                    <Button
+                        label="Delete"
+                        icon="pi pi-trash"
+                        className="p-button-danger"
+                        onClick={() => console.log('Deleting user...')}
+                    />
+                </div>
             </React.Fragment>
         );
     };
@@ -78,7 +86,6 @@ const UsersList = () => {
 
     const header = (
         <div className="table-header">
-            <h5>MyLink Users</h5>
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText
@@ -123,12 +130,12 @@ const UsersList = () => {
     const userFirstNameTemplate = (rowData) => <span>{rowData.firstName}</span>;
     const userLastNameTemplate = (rowData) => <span>{rowData.lastName}</span>;
     const roleBodyTemplate = (rowData) => <span>{rowData.role}</span>;
-
+    
     return (
         <div className="usersListsContainer">
             <div className="usersList">
-                <h2>MyLink Users <span className="numOfUsers">(Num / Num Admins)</span></h2>
-                {error && <p className="error">{error}</p>}
+                <h2>MyLink Users <span className="numOfUsers">({count} / {count})</span></h2>
+                {errorCode === 1 && <p className="error">{error}</p>}
                 {loading && <p className="loading">Loading...</p>}
 
                 <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>

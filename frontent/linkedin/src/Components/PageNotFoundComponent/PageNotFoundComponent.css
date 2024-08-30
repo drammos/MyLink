@@ -1,0 +1,41 @@
+.pagenotfound-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.pagenotfound-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.pagenotfound-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.pagenotfound-description {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.p-button-info {
+    background-color: #007ad9;
+    border-color: #007ad9;
+}
+
+    .p-button-info:hover {
+        background-color: #005fa3;
+        border-color: #005fa3;
+    }

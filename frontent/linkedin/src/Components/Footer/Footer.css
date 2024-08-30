@@ -1,19 +1,16 @@
-.footer{
+.footer {
     background-color: #fcfdfd; /* bckp #1fb4c2*/
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
-
     padding-bottom: 0px;
-
-    position: absolute;
+    position: relative;
     /*bottom: 0;*/
     width: 100%;
-
+    bottom: 0;
 }
 
 .footer .closing{

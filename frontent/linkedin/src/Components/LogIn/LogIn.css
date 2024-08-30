@@ -33,15 +33,20 @@ div.glass-container-Login{
         }
             div.glass-container-Login form.LogInForm div div.passwordAndVisibility button {
                 margin-left: 8px;
-                padding: 6px 11px;
-                border: 1px solid #18a4b1;
+                padding: 5px 13px;
+                border: 2px solid #18a4b1;
                 background-color: whitesmoke;
                 color: #18a4b1;
-                border-radius: 10%;
-                border-radius: 24px;
+                border-radius: 17px;
                 transition: background-color 0.3s;
                 position: relative;
             }
+
+                div.glass-container-Login form.LogInForm div div.passwordAndVisibility button:hover {
+                    background-color: #1fb4c2;
+                    border-color: #1fb4c2;
+                    color: white;
+                }
 
         div.glass-container-Login form.LogInForm h1 {
             display: flex;

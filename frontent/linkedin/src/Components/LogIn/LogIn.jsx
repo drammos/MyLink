@@ -62,7 +62,7 @@ const LogIn = () => {
     const handleForgotPassword = (event) => {
         event.preventDefault();
         console.error("Forgot Password?");
-        navigate('/forgot-password');
+        navigate(Routes.ForgotPassword);
     };
 
     const handleKeyPress = (event) => {

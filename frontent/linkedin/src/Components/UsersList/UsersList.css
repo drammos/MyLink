@@ -32,7 +32,7 @@ div.usersListsContainer {
         }
 
             div.usersListsContainer div.usersList h2 span.numOfUsers {
-                font-size: 14px;
+                font-size: 15px;
             }
 
 .list {
@@ -103,4 +103,49 @@ p.loading {
 
 .custom-toolbar .p-button {
     margin-right: 10px; 
+}
+
+.p-button-info, .p-button.p-button-success {
+    margin-right: 5px;
+}
+
+.p-button.p-button-success {
+    background: #22c55e;
+    border: 1px solid #22c55e;
+}
+
+.p-button-danger {
+    background: #ef4444;
+    border: 1px solid #ef4444;
+}
+
+.p-button-rounded{
+    background-color: transparent !important;
+}
+
+.pi-pencil {
+    color: #007ad9;
+}
+
+.p-button-rounded .pi-trash {
+    color: #ef4444;
+}
+
+.pi-search {
+    position: relative;
+    left: 30px;
+}
+
+.p-input-icon-left {
+    width: 80%;
+}
+
+.p-inputtext {
+    width: 40%;
+    padding: 10px 0 10px 40px;
+}
+
+.p-button-help.p-button.p-component {
+    background: #9c27b0;
+    border: 1px solid #9c27b0;
 }

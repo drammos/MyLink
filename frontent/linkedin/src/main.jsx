@@ -6,6 +6,7 @@ import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx'
 import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
 import SendHelp from './Pages/SendHelp/SendHelp.jsx'
 import PageNotFound from './Pages/PageNotFound/PageNotFound.jsx'
+import MainPage from './Pages/MainPage/MainPage.jsx'
 import { Routes } from './routes.jsx';
 
 
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
     { path: Routes.ControlPanel, element: <ControlPanel /> },
     { path: Routes.SendHelp, element: <SendHelp /> },
     { path: Routes.PageNotFound, element: <PageNotFound /> },
+    { path: Routes.MainPage, element: <MainPage /> },
     //},
     //{
     //    path: "jobs",
