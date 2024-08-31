@@ -12,8 +12,8 @@ using MyLink.Data.Access;
 namespace MyLink.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240827225205_update 28aug")]
-    partial class update28aug
+    [Migration("20240830174137_update 30aug08")]
+    partial class update30aug08
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "54256c39-174f-4dac-89fb-776c15b8d496",
+                            Id = "0efe0a13-f015-4134-bba8-58033c226062",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "de842651-e1b7-47c9-891c-be6ef1ecc4b4",
+                            Id = "a22e9ec0-f86c-4ca9-9b6d-aca06c14464b",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });

@@ -3,6 +3,7 @@ using MyLink.Models;
 using MyLink.Data.Access;
 using MyLink.Data.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 
 namespace MyLink.Data.Repository
 {
@@ -41,18 +42,25 @@ namespace MyLink.Data.Repository
             if (post == null) return false;
 
             post.Comments.Add(comment);
+            post.CommentsCount++;
             return true;
         }
 
-        public bool DeleteComment(int postId, int commentId)
+        public async Task<bool> DeleteComment(int commentId)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.Id == postId);
-            if (post == null) return false;
+            var postWithComment = await _context.Posts
+                .Include(p => p.Comments)
+                .FirstOrDefaultAsync(p => p.Comments.Any(c => c.Id == commentId));
 
-            var comment = post.Comments.FirstOrDefault(c => c.Id == commentId);
-            if (comment == null) return false;
+            if (postWithComment == null) return false;
 
-            post.Comments.Remove(comment);
+            var commentToRemove = postWithComment.Comments.FirstOrDefault(c => c.Id == commentId);
+            if (commentToRemove == null) return false;
+
+            postWithComment.Comments.Remove(commentToRemove);
+            postWithComment.CommentsCount--;
+
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -66,14 +74,21 @@ namespace MyLink.Data.Repository
             return [.. comments!.Comments];
         }
 
-        public async Task<List<Comment>> GetUserComments(string userId)
+        public async Task<List<Comment>> GetUserComments(string username)
         {
             var comments = await _context.Posts
-                .Include(x => x.Comments)
-                .FirstOrDefaultAsync(x => x.UserId == userId);
-            
+                .SelectMany(p => p.Comments)
+                .ToListAsync();
+
             if (comments == null) return null;
-            return [.. comments!.Comments];
+            
+            List<Comment> userComments = [];
+            foreach(var comment in comments)
+            {
+                if (username.Equals(comment.Username))
+                    userComments.Add(comment);
+            }
+            return userComments;
         }
 
         public bool AddReaction(Reaction reaction)
@@ -83,17 +98,24 @@ namespace MyLink.Data.Repository
             if (post == null) return false;
 
             post.Reactions.Add(reaction);
+            post.ReactionsCount++;
             return true;
         }
-        public bool DeleteReaction(int postId, int reactionId)
+        public async Task<bool> DeleteReaction(int reactionId)
         {
-            var post = _context.Posts.FirstOrDefault(p => p.Id == postId);
-            if (post == null) return false;
+            var postWithReaction = await _context.Posts
+                .Include(p => p.Reactions)
+                .FirstOrDefaultAsync(p => p.Reactions.Any(c => c.Id == reactionId));
 
-            var reaction = post.Reactions.FirstOrDefault(c => c.Id == reactionId);
-            if (reaction == null) return false;
+            if (postWithReaction == null) return false;
 
-            post.Reactions.Remove(reaction);
+            var reactionToRemove = postWithReaction.Reactions.FirstOrDefault(c => c.Id == reactionId);
+            if (reactionToRemove == null) return false;
+
+            postWithReaction.Reactions.Remove(reactionToRemove);
+            postWithReaction.ReactionsCount--;
+
+            await _context.SaveChangesAsync();
             return true;
         }
         public async Task<List<Reaction>> GetReactions(int postId)
@@ -106,14 +128,21 @@ namespace MyLink.Data.Repository
             return [.. reactions!.Reactions];
         }
 
-        public async Task<List<Reaction>> GetUserReactions(string userId)
+        public async Task<List<Reaction>> GetUserReactions(string username)
         {
             var reactions = await _context.Posts
-                .Include(x => x.Reactions)
-                .FirstOrDefaultAsync(x => x.UserId == userId);
+                .SelectMany(p => p.Reactions)
+                .ToListAsync();
 
             if (reactions == null) return null;
-            return [.. reactions!.Reactions];
+
+            List<Reaction> userReactions = [];
+            foreach (var reaction in reactions)
+            {
+                if (username.Equals(reaction.Username))
+                    userReactions.Add(reaction);
+            }
+            return userReactions;
         }
     }
 }
