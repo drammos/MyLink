@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using MyLink.Models.DTOS;
@@ -115,13 +114,13 @@ namespace WebAppMyLink.Controllers
             User user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            return await _unitOfWork.Post.GetUserComments(userId);
+            return await _unitOfWork.Post.GetUserComments(user.UserName);
         }
 
         [HttpDelete("DeleteComment")]
-        public async Task<ActionResult> DeleteComment([FromQuery] int postId,[FromQuery] int commentId)
+        public async Task<ActionResult> DeleteComment([FromQuery] int commentId)
         {
-            bool result = _unitOfWork.Post.DeleteComment(postId, commentId);
+            bool result = await _unitOfWork.Post.DeleteComment(commentId);
             if (!result)
                 return NotFound();
  
@@ -156,19 +155,19 @@ namespace WebAppMyLink.Controllers
             return await _unitOfWork.Post.GetReactions(postId);
         }
 
-        [HttpGet("GetUserComments")]
+        [HttpGet("GetUserReactions")]
         public async Task<ActionResult<List<Reaction>>> GetUserReactions(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            return await _unitOfWork.Post.GetUserReactions(userId);
+            return await _unitOfWork.Post.GetUserReactions(user.UserName);
         }
 
-        [HttpDelete("DeleteComment")]
-        public async Task<ActionResult> DeleteReaction([FromQuery] int postId, [FromQuery] int reactionId)
+        [HttpDelete("DeleteReaction")]
+        public async Task<ActionResult> DeleteReaction([FromQuery] int reactionId)
         {
-            bool result = _unitOfWork.Post.DeleteReaction(postId, reactionId);
+            bool result = await _unitOfWork.Post.DeleteReaction(reactionId);
             if (!result)
                 return NotFound();
 
