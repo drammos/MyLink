@@ -16,7 +16,7 @@ namespace MyLink.Models
         public DateTime UpdateAt { get; set; }
         public List<string> PictureUrls { get; set; } = [];
         public List<string> VideoUrls { get; set; } = [];
-        public int LikesCount { get; set; }
+        public int ReactionsCount { get; set; }
         public int CommentsCount { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Reaction> Reactions { get; set; } = new List<Reaction>();
