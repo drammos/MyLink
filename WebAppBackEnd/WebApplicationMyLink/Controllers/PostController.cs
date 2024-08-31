@@ -32,7 +32,7 @@ namespace WebAppMyLink.Controllers
                 CreatedAt = createPostDTO.CreatedAt,
                 PictureUrls = createPostDTO.PictureUrls,
                 VideoUrls = createPostDTO.VideoUrls,
-                LikesCount = 0,
+                ReactionsCount = 0,
                 CommentsCount = 0,
                 IsLikedByCurrentUser = false,
                 UserId = createPostDTO.UserId
@@ -75,7 +75,10 @@ namespace WebAppMyLink.Controllers
             if (post == null)
                 return NotFound();
 
+            await _unitOfWork.Post.DeleteAllCommentsFromPost(postId);
+            await _unitOfWork.Post.DeleteAllReactionsFromPost(postId);
             _unitOfWork.Post.Delete(post);
+          
             _unitOfWork.Save();
             return StatusCode(200);
         }

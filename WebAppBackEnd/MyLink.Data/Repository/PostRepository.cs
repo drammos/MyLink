@@ -46,6 +46,21 @@ namespace MyLink.Data.Repository
             return true;
         }
 
+        public async Task<bool> DeleteAllCommentsFromPost(int postId)
+        {
+            var post = await _context.Posts
+                .Include(p => p.Comments)
+                .FirstOrDefaultAsync(p => p.Id == postId);
+
+            if (post == null) return false;
+
+            post.Comments.Clear();
+            post.CommentsCount = 0;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> DeleteComment(int commentId)
         {
             var postWithComment = await _context.Posts
@@ -101,6 +116,22 @@ namespace MyLink.Data.Repository
             post.ReactionsCount++;
             return true;
         }
+
+        public async Task<bool> DeleteAllReactionsFromPost(int postId)
+        {
+            var post = await _context.Posts
+                .Include(p => p.Reactions)
+                .FirstOrDefaultAsync(p => p.Id == postId);
+
+            if (post == null) return false;
+
+            post.Reactions.Clear();
+            post.ReactionsCount = 0;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> DeleteReaction(int reactionId)
         {
             var postWithReaction = await _context.Posts
