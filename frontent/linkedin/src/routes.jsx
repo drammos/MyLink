@@ -7,5 +7,5 @@ export const Routes = {
     ForgotPassword: '/Forgot Password',
     ControlPanel: '/Control Panel',
     MainPage: '/StartPage',
-    PageNotFound: 'PageNotFound',
+    PageNotFound: '/PageNotFound',
 };

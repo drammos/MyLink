@@ -41,10 +41,15 @@ const WelcomePageLogIn = () => {
                 console.log('Login successful');
                 localStorage.setItem('authToken', response.data.token);
                 localStorage.setItem('role', response.data.role);
-                setTimeout(() => {
-                    navigate(Routes.ControlPanel);
-                }, 2000);
-                // Navigate to another page if needed, e.g., navigate('/dashboard');
+                if( response.data.role === "Admin")
+                    setTimeout(() => {
+                        navigate(Routes.ControlPanel);
+                    }, 2000);
+                else        
+                   setTimeout(() => {
+                        navigate(Routes.MainPage);
+                    }, 2000); 
+                
             } else if (response.status === 600) {
                 setErrorCode(1);
                 setMessage('An Error Occured. Please try again later.');

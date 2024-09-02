@@ -16,7 +16,7 @@ div.glass-cont div.Description1Div{
     padding: 96px 65px;
     font-family: Open Sans, sans-serif;
     border-radius: 16px;
-    width: 950px;
+    min-width: 950px;
     background-color: #fff;
 }
 

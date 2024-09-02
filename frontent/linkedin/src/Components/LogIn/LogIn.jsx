@@ -41,9 +41,14 @@ const LogIn = () => {
                 console.log('Login successful');
                 localStorage.setItem('authToken', response.data.token);
                 localStorage.setItem('role', response.data.role);
-                setTimeout(() => {
-                    navigate(Routes.ControlPanel);
-                }, 2000);
+                if (response.data.role === "Admin")
+                    setTimeout(() => {
+                        navigate(Routes.ControlPanel);
+                    }, 2000);
+                else
+                    setTimeout(() => {
+                        navigate(Routes.MainPage);
+                    }, 2000); 
             }
             else if (response.status === 600)
             {
