@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using MyLink.Services.JsonWebTokens;
+using System.Drawing;
 
 namespace WebAppMyLink.Controllers
 {
@@ -170,6 +171,115 @@ namespace WebAppMyLink.Controllers
             };
         }
 
+        [HttpGet("IsConnectedUsers")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<bool>> IsConnectedUsers([FromQuery] string UserId1, [FromQuery] string UserId2)
+        {
+            List<User> list = await _unitOfWork.User.GetConnectedUsers(UserId1);
+            if (list == null) return false;
+            
+            var user = list.FirstOrDefault(x => x.Id == UserId2);
+            if(user == null) return false;
+
+            return true;
+        }
+
+        [HttpGet("IsPendingRequest")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<bool>> IsPendingReqeuest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
+        {
+            var list = await _unitOfWork.User.GetPendingRequestUsers(PendingUserId);
+            if (list == null) return false;
+
+            var user = list.FirstOrDefault(x => x.Id == RecipientUserId);
+            if (user == null) return false;
+
+            return true;
+        }
+
+        [HttpGet("IsInComingRequest")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<bool>> IsInComingRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
+        {
+            var list = await _unitOfWork.User.GetInComingRequestUsers(RecipientUserId);
+            if (list == null) return false;
+
+            var user = list.FirstOrDefault(x => x.Id == PendingUserId);
+            if (user == null) return false;
+
+            return true;
+        }
+
+        [HttpPost("RequestToConnection")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult> RequestToConnection([FromQuery] string SenderUserId, [FromQuery] string RecipientUserId)
+        {
+            User senderUser = await _userManager.FindByIdAsync(SenderUserId);
+            User recipientUser = await _userManager.FindByIdAsync(RecipientUserId);
+
+            if (senderUser == null || recipientUser == null)
+                return NotFound();
+
+            senderUser.PendingRequestUsers.Add(recipientUser);
+            recipientUser.InComingRequestUsers.Add(senderUser);
+
+            _unitOfWork.Save();
+            return StatusCode(200);
+        }
+
+        [HttpPost("AcceptRequest")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult> AcceptRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
+        {
+            var user = await _userManager.FindByIdAsync(RecipientUserId);
+            var userNewConnection = await _userManager.FindByIdAsync(PendingUserId);
+            if (user == null || userNewConnection == null)
+                return NotFound();
+
+            user.ConnectedUsers.Add(userNewConnection);
+            userNewConnection.ConnectedUsers.Add(user);
+
+            bool result = await _unitOfWork.User.DeleteRequest(PendingUserId, RecipientUserId);
+            if (!result)
+                return NotFound();
+
+            _unitOfWork.Save();
+            return StatusCode(200);
+        }
+
+        [HttpDelete("DeleteRequest")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult> DeleteRequest([FromQuery] string PendingUserId, [FromQuery] string RecipientUserId)
+        {
+            bool result = await _unitOfWork.User.DeleteRequest(PendingUserId, RecipientUserId);
+            if (!result)
+                return NotFound();
+                
+            _unitOfWork.Save();
+            return StatusCode(200);
+        }
+
+        [HttpGet("GetListFromConnections")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<List<User>>> GetListFromConnections([FromQuery] string UserId)
+        {
+            return await _unitOfWork.User.GetConnectedUsers(UserId);
+        }
+
+        [HttpGet("GetListFromInComingRequests")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<List<User>>> GetListFromInComingRequests([FromQuery] string UserId)
+        {
+            return await _unitOfWork.User.GetInComingRequestUsers(UserId);
+        }
+
+        [HttpGet("GetListFromPendingRequests")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<List<User>>> GetListFromPendingRequests([FromQuery] string UserId)
+        {
+            return await _unitOfWork.User.GetPendingRequestUsers(UserId);
+        }
+
         [HttpGet("GetAllUsers")]
         [Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
@@ -178,7 +288,7 @@ namespace WebAppMyLink.Controllers
             return users;
         }
 
-        [HttpPost("DeleteUser")]
+        [HttpDelete("DeleteUser")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(string Username)
         {
