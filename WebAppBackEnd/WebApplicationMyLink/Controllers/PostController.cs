@@ -120,6 +120,19 @@ namespace WebAppMyLink.Controllers
             return await _unitOfWork.Post.GetUserComments(user.UserName);
         }
 
+        [HttpDelete("DeleteAllCommentsFromPost")]
+        public async Task<ActionResult> DeleteAllCommentsFromPost(int postId)
+        {
+            var post = _unitOfWork.Post.FirstOrDefault(u => u.Id == postId);
+            if (post == null)
+                return NotFound();
+
+            await _unitOfWork.Post.DeleteAllCommentsFromPost(postId);
+
+            _unitOfWork.Save();
+            return StatusCode(200);
+        }
+
         [HttpDelete("DeleteComment")]
         public async Task<ActionResult> DeleteComment([FromQuery] int commentId)
         {
@@ -165,6 +178,19 @@ namespace WebAppMyLink.Controllers
             if (user == null) return NotFound();
 
             return await _unitOfWork.Post.GetUserReactions(user.UserName);
+        }
+
+        [HttpDelete("DeleteAllReactionsFromPost")]
+        public async Task<ActionResult> DeleteAllReactionsFromPost(int postId)
+        {
+            var post = _unitOfWork.Post.FirstOrDefault(u => u.Id == postId);
+            if (post == null)
+                return NotFound();
+
+            await _unitOfWork.Post.DeleteAllReactionsFromPost(postId);
+
+            _unitOfWork.Save();
+            return StatusCode(200);
         }
 
         [HttpDelete("DeleteReaction")]
