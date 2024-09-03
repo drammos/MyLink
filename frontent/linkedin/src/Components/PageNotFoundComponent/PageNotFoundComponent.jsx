@@ -1,11 +1,27 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Button } from 'primereact/button';
 import './PageNotFoundComponent.css';
 import PageNotFoundPhoto from '../../assets/undraw_Not_found.png'
 import { Routes } from '../../routes'
+import { useNavigate } from 'react-router-dom';
+
 
 const PageNotFoundComponent = () => {
-    // State variables to hold username and password
+
+    useEffect(() => {
+        console.log(localStorage.getItem('role'));
+    });
+
+    const navigate = useNavigate();
+    const handleGoHomeButton = () => {
+        console.log("NotFound: user is ", localStorage.getItem('role'));
+        if (localStorage.getItem('role') === 'Admin')
+            navigate(Routes.ControlPanel);
+        else if (localStorage.getItem('role') === 'Professional')
+            navigate(Routes.MainPage);
+        else
+            navigate(Routes.Home);
+    }
 
     return (
         <div className="pagenotfound-container">
@@ -23,7 +39,7 @@ const PageNotFoundComponent = () => {
                     label="Go Home"
                     icon="pi pi-home"
                     className="p-button-rounded p-button-info"
-                    onClick={() => window.location.href = Routes.Home}
+                    onClick={handleGoHomeButton}
                 />
             </div>
         </div>

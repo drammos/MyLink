@@ -10,6 +10,7 @@ import { Routes } from '../../routes.jsx';
 
 const WelcomePageLogIn = () => {
     // State variables to hold username and password
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -17,7 +18,7 @@ const WelcomePageLogIn = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
-
+    const role = localStorage.getItem('role');
 
     // API call for user LogIn
     const input = JSON.stringify({ "username": username, "password": password });
@@ -34,33 +35,45 @@ const WelcomePageLogIn = () => {
     }
 
     useEffect(() => {
-        if (response) {
-            if (response.status === 200) {
-                setErrorCode(0);
-                setMessage('Login successful!');
-                console.log('Login successful');
-                localStorage.setItem('authToken', response.data.token);
-                localStorage.setItem('role', response.data.role);
-                if( response.data.role === "Admin")
-                    setTimeout(() => {
-                        navigate(Routes.ControlPanel);
-                    }, 2000);
-                else        
-                   setTimeout(() => {
-                        navigate(Routes.MainPage);
-                    }, 2000); 
-                
-            } else if (response.status === 600) {
-                setErrorCode(1);
-                setMessage('An Error Occured. Please try again later.');
-                console.error('Login failed');
-            }
-            else if (response.status === 401) {
-                setErrorCode(1);
-                setMessage('Invalid username or password');
-                console.error('Login failed');
+        console.log("role is : ", localStorage.getItem('role'));
+        // Logged in users can't reach this page
+        if (localStorage.getItem('role') !== '') {
+            navigate(Routes.PageNotFound);
+        }
+        else {
+            localStorage.setItem('authToken', '');
+            localStorage.setItem('role', '');
+
+            if (response) {
+                if (response.status === 200) {
+                    setErrorCode(0);
+                    setMessage('Login successful!');
+                    console.log('Login successful');
+                    localStorage.setItem('authToken', response.data.token);
+                    localStorage.setItem('role', response.data.role);
+                    if (response.data.role === "Admin")
+                        setTimeout(() => {
+                            navigate(Routes.ControlPanel);
+                        }, 2000);
+                    else
+                        setTimeout(() => {
+                            navigate(Routes.MainPage);
+                        }, 2000);
+
+                } else if (response.status === 600) {
+                    setErrorCode(1);
+                    setMessage('An Error Occured. Please try again later.');
+                    console.error('Login failed');
+                }
+                else if (response.status === 401) {
+                    setErrorCode(1);
+                    setMessage('Invalid username or password');
+                    console.error('Login failed');
+                }
             }
         }
+
+
     }, [response, navigate]);
 
     const handleForgotPassword = (event) => {

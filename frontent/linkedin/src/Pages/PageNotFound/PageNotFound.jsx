@@ -13,7 +13,6 @@ const ForgotPassword = () => {
     useDocumentTitle('Forgot Password');
     return (
         <div>
-            <Navbar />
             <PageNotFoundComponent />
             <Footer />
         </div>
