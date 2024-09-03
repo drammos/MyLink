@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
-import UsersListComponent from "../../Components/UsersList/UsersList";
+import UsersListComponent from "../../Components/AfterLoginComponents/UsersList/UsersList";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import './ControlPanel.css';
 
@@ -25,7 +24,6 @@ const ControlPanel = () => {
 
     return (
         <div>
-            <Navbar />
             <UsersListComponent items={items} />
             <Footer />
         </div>

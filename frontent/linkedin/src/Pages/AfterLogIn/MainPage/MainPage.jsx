@@ -1,6 +1,6 @@
 import { useEffect } from "react"
-import Navbar from "../../Components/Navbar/Navbar"
-import Footer from "../../Components/Footer/Footer"
+import Navbar from "../../../Components/AfterLoginComponents/LoggedInNavBar/LoggedInNavBar"
+import Footer from "../../../Components/Footer/Footer"
 
 const ForgotPassword = () => {
     const useDocumentTitle = (title) => {

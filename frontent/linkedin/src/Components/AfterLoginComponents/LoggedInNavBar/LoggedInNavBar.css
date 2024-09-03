@@ -1,0 +1,108 @@
+.loggedInNavbarContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1fb4c2; 
+    padding: 10px 20px;
+    color: white;
+}
+
+    .loggedInNavbarContainer .navbar-left, .navbar-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .loggedInNavbarContainer .nav-item {
+        margin: 0 15px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        transition: color 0.3s ease;
+    }
+
+        .loggedInNavbarContainer .nav-item:hover {
+            color: #e6f9fc; 
+        }
+
+        .loggedInNavbarContainer .nav-item::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .loggedInNavbarContainer .nav-item:hover::after {
+            width: 100%;
+        }
+
+
+    .loggedInNavbarContainer .navbar-center {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .loggedInNavbarContainer .navbar-center input[type="text"] {
+            width: 250px;
+            padding: 5px;
+            border: 1px solid white;
+            border-radius: 2px;
+            margin-right: 10px;
+            background-color: #e6f9fc; 
+            color: #1fb4c2; 
+        }
+
+        .loggedInNavbarContainer .navbar-center button {
+            background-color: white; 
+            color: #1fb4c2; 
+            border: 1px solid white;
+            padding: 5px 10px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+            .loggedInNavbarContainer .navbar-center button:hover {
+                background-color: #1fb4c2; 
+                color: white; 
+            }
+
+    .loggedInNavbarContainer .logo img {
+        height: 37px;
+        width: 94px;
+        background-color: white;
+        border-radius: 17%;
+        padding: 8px 6px;
+    }
+
+    .loggedInNavbarContainer .notification {
+        background-color: red;
+        padding: 5px 10px;
+        border-radius: 50%;
+        color: white;
+        font-size: 12px;
+    }
+
+
+    .loggedInNavbarContainer .profile-pic {
+        position: relative;
+    }
+
+    .loggedInNavbarContainer .profile-pic-button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+        .loggedInNavbarContainer .profile-pic-button img {
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+        }

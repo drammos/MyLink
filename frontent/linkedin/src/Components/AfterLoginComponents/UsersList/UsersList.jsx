@@ -7,7 +7,8 @@ import { Button } from 'primereact/button';
 import PropTypes from 'prop-types';
 
 import './UsersList.css';
-import useService from '../Services/useService';
+import useService from '../../Services/useService';
+import { useNavigationHelpers } from '../Helpers/navigationHelpers'
 
 const UsersList = () => {
     const [users, setUsers] = useState([]);
@@ -17,6 +18,8 @@ const UsersList = () => {
     const [count, setCount] = useState(0);
     const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
     const dt = useRef(null);
+
+    const { handleLogoutButton } = useNavigationHelpers();
 
     // Fetching users using useService custom hook
     const { response, loading, refetch } = useService(
@@ -79,6 +82,19 @@ const UsersList = () => {
                     icon="pi pi-download"
                     className="p-button-help"
                     onClick={() => console.log('Export data')}
+                />
+            </React.Fragment>
+        );
+    };
+
+    const secondRightToolbarTemplate = () => {
+        return (
+            <React.Fragment>
+                <Button
+                    label="Logout"
+                    icon="pi pi-download"
+                    className="p-button-help"
+                    onClick={handleLogoutButton}
                 />
             </React.Fragment>
         );
@@ -164,6 +180,7 @@ const UsersList = () => {
                     <Column headerStyle={{ width: '5rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 </DataTable>
+                <Toolbar className="mb-4" center={secondRightToolbarTemplate}></Toolbar>
             </div>
         </div>
     );
