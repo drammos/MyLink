@@ -60,7 +60,8 @@ namespace WebAppMyLink.Controllers
                 Email = registerDTO.Email,
                 UserName = registerDTO.Username,
                 PhoneNumber = registerDTO.PhoneNumber,
-                PictureURL = registerDTO.PictureURL
+                PictureURL = registerDTO.PictureURL,
+                Birthday = registerDTO.Birthday
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded == false)
@@ -96,7 +97,8 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
-                Role = registerDTO.Role
+                Role = registerDTO.Role,
+                Birthday = registerDTO.Birthday
             };
         }
 
@@ -281,7 +283,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();

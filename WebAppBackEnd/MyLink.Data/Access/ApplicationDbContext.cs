@@ -16,6 +16,7 @@ namespace MyLink.Data.Access
         public DbSet<Message> Messages { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -53,6 +54,39 @@ namespace MyLink.Data.Access
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserInComingRequests"));
 
+
+            // Posts
+            builder.Entity<User>()
+               .HasMany(e => e.Posts)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.UserId)
+               .IsRequired();
+
+            builder.Entity<Post>()
+                .HasMany(e => e.Comments)
+                .WithOne(e => e.Post)
+                .HasForeignKey(e => e.PostId)
+                .IsRequired();
+
+            builder.Entity<Post>()
+                .HasMany(e => e.Reactions)
+                .WithOne(e => e.Post)
+                .HasForeignKey(e => e.PostId)
+                .IsRequired();
+
+
+            //builder.Entity<User>()
+            //    .HasMany(e => e.Comments)
+            //    .WithOne(e => e.User)
+            //    .HasForeignKey(e => e.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .IsRequired();
+
+            //builder.Entity<User>()
+            //    .HasMany(e => e.Reactions)
+            //    .WithOne(e => e.User)
+            //    .HasForeignKey(e => e.UserId)
+            //    .IsRequired();
         }
     }
 }
