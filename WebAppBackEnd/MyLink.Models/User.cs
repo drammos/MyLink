@@ -10,6 +10,8 @@ namespace MyLink.Models
         [Required]
         public string? LastName { get; set; }
         [Required]
+        public string Birthday { get; set; }
+        [Required]
         public string? PictureURL { get; set; }
         public ICollection<Education> Educations { get; } = new List<Education>();
         public ICollection<Experience> Experiences { get; } = new List<Experience>();

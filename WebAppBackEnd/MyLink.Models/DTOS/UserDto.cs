@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace MyLink.Models.DTOS
 {
     public class UserDTO
@@ -12,5 +14,6 @@ namespace MyLink.Models.DTOS
         public string Email { get; set; }
         public string Role {  get; set; }
         public string Token { get; set; }
+        public string Birthday { get; set; }
     }
 }
