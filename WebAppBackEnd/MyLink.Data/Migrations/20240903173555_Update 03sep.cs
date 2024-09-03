@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyLink.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class _01sep : Migration
+    public partial class Update03sep : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,7 @@ namespace MyLink.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Birthday = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PictureURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -381,8 +382,8 @@ namespace MyLink.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "df70f53b-a66c-4156-af20-d4e1cc896d49", null, "Professional", "PROFESSIONAL" },
-                    { "f67c3854-611f-4669-9e94-d49c04f52b69", null, "Admin", "ADMIN" }
+                    { "58023633-d31d-468e-a53b-d81d457a935e", null, "Admin", "ADMIN" },
+                    { "b254f17d-98e9-458a-b16c-73eb9a62973a", null, "Professional", "PROFESSIONAL" }
                 });
 
             migrationBuilder.CreateIndex(

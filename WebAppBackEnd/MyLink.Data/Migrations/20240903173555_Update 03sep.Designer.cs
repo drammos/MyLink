@@ -12,8 +12,8 @@ using MyLink.Data.Access;
 namespace MyLink.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240831230102_01sep")]
-    partial class _01sep
+    [Migration("20240903173555_Update 03sep")]
+    partial class Update03sep
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,13 +54,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f67c3854-611f-4669-9e94-d49c04f52b69",
+                            Id = "58023633-d31d-468e-a53b-d81d457a935e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "df70f53b-a66c-4156-af20-d4e1cc896d49",
+                            Id = "b254f17d-98e9-458a-b16c-73eb9a62973a",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -401,6 +401,10 @@ namespace MyLink.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Birthday")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
