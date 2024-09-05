@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MyLink.Models;
+using System.Reflection.Emit;
 
 
 namespace MyLink.Data.Access
@@ -17,6 +18,7 @@ namespace MyLink.Data.Access
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Job> Jobs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -75,18 +77,39 @@ namespace MyLink.Data.Access
                 .IsRequired();
 
 
-            //builder.Entity<User>()
-            //    .HasMany(e => e.Comments)
-            //    .WithOne(e => e.User)
-            //    .HasForeignKey(e => e.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict)
-            //    .IsRequired();
+            // 1. Σχέση User -> PostedJobs (One-to-Many)
+            builder.Entity<User>()
+                .HasMany(u => u.PostedJobs)
+                .WithOne(j => j.User)
+                .HasForeignKey(j => j.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            //builder.Entity<User>()
-            //    .HasMany(e => e.Reactions)
-            //    .WithOne(e => e.User)
-            //    .HasForeignKey(e => e.UserId)
-            //    .IsRequired();
+            // 2. Σχέση User -> AppliedJobs (One-to-Many για JobApplications)
+            builder.Entity<User>()
+                .HasMany(u => u.AppliedJobs)
+                .WithOne(ja => ja.User)
+                .HasForeignKey(ja => ja.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 3. Σχέση Job -> JobApplications (One-to-Many)
+            builder.Entity<Job>()
+                .HasMany(j => j.JobApplications)
+                .WithOne(ja => ja.Job)
+                .HasForeignKey(ja => ja.JobId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 4. Σχέση JobApplication -> User και Job (Many-to-One για User και Job)
+            builder.Entity<JobApplication>()
+                .HasOne(ja => ja.User)
+                .WithMany(u => u.AppliedJobs)
+                .HasForeignKey(ja => ja.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<JobApplication>()
+                .HasOne(ja => ja.Job)
+                .WithMany(j => j.JobApplications)
+                .HasForeignKey(ja => ja.JobId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

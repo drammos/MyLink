@@ -1,6 +1,7 @@
 ﻿using MyLink.Data.Access;
 using MyLink.Models.DTOS;
 using MyLink.Models;
+using MyLink.Data.Repository.IRepository;
 
 namespace MyLink.Data.Repository
 {
@@ -13,23 +14,20 @@ namespace MyLink.Data.Repository
             _context = context;
         }
 
-        public Post Update(UpdateJobDTO updateJobDTO)
+        public Job Update(UpdateJobDTO updateJobDTO)
         {
             var id = updateJobDTO.Id;
-            var post = _context.Jobs.FirstOrDefault(u => u.Id == id);
-            if (post == null)
-            {
-                return null;
-            }
+            var job = _context.Jobs.FirstOrDefault(u => u.Id == id);
+            if (job == null) return null;
 
-            post.Title = updatePostDTO.Title;
-            post.UpdateAt = updatePostDTO.UpdateAt;
-            post.VideoUrls = updatePostDTO.VideoUrls;
-            post.PictureUrls = updatePostDTO.PictureUrls;
-            post.Content = updatePostDTO.Content;
-            post.IsLikedByCurrentUser = updatePostDTO.IsLikedByCurrentUser;
+            job.Title = updateJobDTO.Title;
+            job.Description = updateJobDTO.Description;
+            job.CompanyName = updateJobDTO.CompanyName;
+            job.WorkType = updateJobDTO.WorkType;
+            job.Location = updateJobDTO.Location;
+            job.LocationType = updateJobDTO.LocationType;
 
-            return post;
+            return job;
         }
     }
 }

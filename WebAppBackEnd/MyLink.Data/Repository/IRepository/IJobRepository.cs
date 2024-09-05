@@ -1,4 +1,5 @@
 ﻿using MyLink.Models;
+using MyLink.Models.DTOS;
 
 namespace MyLink.Data.Repository.IRepository
 {
