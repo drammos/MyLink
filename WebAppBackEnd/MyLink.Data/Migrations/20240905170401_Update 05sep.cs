@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MyLink.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Update03sep : Migration
+    public partial class Update05sep : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -217,6 +217,33 @@ namespace MyLink.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Jobs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WorkType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocationType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClosingDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
@@ -335,6 +362,29 @@ namespace MyLink.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "JobApplication",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobId = table.Column<int>(type: "int", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppliedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CoverLetter = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobApplication", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_JobApplication_Jobs_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comment",
                 columns: table => new
                 {
@@ -382,8 +432,8 @@ namespace MyLink.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "58023633-d31d-468e-a53b-d81d457a935e", null, "Admin", "ADMIN" },
-                    { "b254f17d-98e9-458a-b16c-73eb9a62973a", null, "Professional", "PROFESSIONAL" }
+                    { "73aa89b0-acd6-4706-ae9d-5feb6d586027", null, "Professional", "PROFESSIONAL" },
+                    { "822e0171-7c14-4935-a7d9-1018f36a377a", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -438,6 +488,16 @@ namespace MyLink.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Experiences_UserId",
                 table: "Experiences",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplication_JobId",
+                table: "JobApplication",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_UserId",
+                table: "Jobs",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -499,6 +559,9 @@ namespace MyLink.Data.Migrations
                 name: "Experiences");
 
             migrationBuilder.DropTable(
+                name: "JobApplication");
+
+            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
@@ -515,6 +578,9 @@ namespace MyLink.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Jobs");
 
             migrationBuilder.DropTable(
                 name: "Posts");

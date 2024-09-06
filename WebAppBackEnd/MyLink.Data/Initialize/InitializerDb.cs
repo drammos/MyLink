@@ -23,6 +23,8 @@ namespace MyLink.Data.Initialize
                     PictureURL = "rammos.com",
                     Birthday = "2001-06-12"
                 };
+                var result = await users.CreateAsync(user, "1234@Password");
+                await users.AddToRoleAsync(user, "Admin");
 
                 User user2 = new User()
                 {
@@ -31,13 +33,14 @@ namespace MyLink.Data.Initialize
                     PhoneNumber = "1234567890",
                     UserName = "tminaidis9",
                     Email = "teomin2001@gmail.com",
-                    PictureURL = "minaidis.com"
+                    PictureURL = "minaidis.com",
+                    Birthday = "2001-06-12"
                 };
 
-                var result = await users.CreateAsync(user, "1234@Password");
-                await users.AddToRoleAsync(user, "Admin");
+                result = await users.CreateAsync(user2, "1234@Password");
+                await users.AddToRoleAsync(user2, "Admin");
 
-                User user1 = new User()
+                User user3 = new User()
                 {
                     FirstName = "Dimitris",
                     LastName = "Rammos",
@@ -48,10 +51,10 @@ namespace MyLink.Data.Initialize
                     Birthday = "2001-06-12"
                 };
 
-                result = await users.CreateAsync(user1, "1234@Password");
-                await users.AddToRoleAsync(user1, "Professional");
+                result = await users.CreateAsync(user3, "1234@Password");
+                await users.AddToRoleAsync(user3, "Professional");
 
-                User user2 = new User()
+                User user4 = new User()
                 {
                     FirstName = "Dimitris",
                     LastName = "Rammos",
@@ -62,10 +65,10 @@ namespace MyLink.Data.Initialize
                     Birthday = "2001-06-12"
                 };
 
-                result = await users.CreateAsync(user2, "1234@Password");
-                await users.AddToRoleAsync(user2, "Professional");
+                result = await users.CreateAsync(user4, "1234@Password");
+                await users.AddToRoleAsync(user4, "Professional");
 
-                User user3 = new User()
+                User user5 = new User()
                 {
                     FirstName = "Dimitris",
                     LastName = "Rammos",
@@ -76,11 +79,8 @@ namespace MyLink.Data.Initialize
                     Birthday = "2001-06-12"
                 };
 
-                result = await users.CreateAsync(user3, "1234@Password");
-                await users.AddToRoleAsync(user3, "Professional");
-
-
-
+                result = await users.CreateAsync(user5, "1234@Password");
+                await users.AddToRoleAsync(user5, "Professional");
 
                 await db.SaveChangesAsync();
             }

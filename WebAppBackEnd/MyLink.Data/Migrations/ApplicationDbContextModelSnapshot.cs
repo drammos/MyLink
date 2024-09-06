@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "58023633-d31d-468e-a53b-d81d457a935e",
+                            Id = "822e0171-7c14-4935-a7d9-1018f36a377a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b254f17d-98e9-458a-b16c-73eb9a62973a",
+                            Id = "73aa89b0-acd6-4706-ae9d-5feb6d586027",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -286,6 +286,86 @@ namespace MyLink.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Experiences");
+                });
+
+            modelBuilder.Entity("MyLink.Models.Job", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("ClosingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PostedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("WorkType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("MyLink.Models.JobApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AppliedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CoverLetter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("JobApplication");
                 });
 
             modelBuilder.Entity("MyLink.Models.Message", b =>
@@ -601,6 +681,28 @@ namespace MyLink.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MyLink.Models.Job", b =>
+                {
+                    b.HasOne("MyLink.Models.User", "User")
+                        .WithMany("PostedJobs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MyLink.Models.JobApplication", b =>
+                {
+                    b.HasOne("MyLink.Models.Job", "Job")
+                        .WithMany("JobApplications")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
             modelBuilder.Entity("MyLink.Models.Message", b =>
                 {
                     b.HasOne("MyLink.Models.User", "User")
@@ -679,6 +781,11 @@ namespace MyLink.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyLink.Models.Job", b =>
+                {
+                    b.Navigation("JobApplications");
+                });
+
             modelBuilder.Entity("MyLink.Models.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -691,6 +798,8 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
+
+                    b.Navigation("PostedJobs");
 
                     b.Navigation("Posts");
                 });
