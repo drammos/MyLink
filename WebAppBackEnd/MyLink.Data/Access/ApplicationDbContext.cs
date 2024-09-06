@@ -76,40 +76,24 @@ namespace MyLink.Data.Access
                 .HasForeignKey(e => e.PostId)
                 .IsRequired();
 
-
             // 1. Σχέση User -> PostedJobs (One-to-Many)
             builder.Entity<User>()
                 .HasMany(u => u.PostedJobs)
                 .WithOne(j => j.User)
                 .HasForeignKey(j => j.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // 2. Σχέση User -> AppliedJobs (One-to-Many για JobApplications)
-            builder.Entity<User>()
-                .HasMany(u => u.AppliedJobs)
-                .WithOne(ja => ja.User)
-                .HasForeignKey(ja => ja.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .IsRequired();
 
             // 3. Σχέση Job -> JobApplications (One-to-Many)
             builder.Entity<Job>()
                 .HasMany(j => j.JobApplications)
                 .WithOne(ja => ja.Job)
                 .HasForeignKey(ja => ja.JobId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // 4. Σχέση JobApplication -> User και Job (Many-to-One για User και Job)
-            builder.Entity<JobApplication>()
-                .HasOne(ja => ja.User)
-                .WithMany(u => u.AppliedJobs)
-                .HasForeignKey(ja => ja.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
 
             builder.Entity<JobApplication>()
                 .HasOne(ja => ja.Job)
                 .WithMany(j => j.JobApplications)
-                .HasForeignKey(ja => ja.JobId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(ja => ja.JobId);
         }
     }
 }
