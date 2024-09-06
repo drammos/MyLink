@@ -19,7 +19,6 @@ namespace MyLink.Models
         public ICollection<User> ConnectedUsers { get; set; } = [];
         public ICollection<User> PendingRequestUsers { get; set; } = [];
         public ICollection<User> InComingRequestUsers { get; set; } = [];
-        public ICollection<JobApplication> AppliedJobs { get; set; } = new List<JobApplication>();
         public ICollection<Job> PostedJobs { get; set; } = new List<Job>();
     }
 }

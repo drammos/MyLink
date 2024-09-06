@@ -11,12 +11,8 @@ namespace MyLink.Models
         [ForeignKey("JobId")]
         public int JobId { get; set; }
         public Job Job { get; set; }
-
         [Required]
-        [ForeignKey("UserId")]
-        public string UserId { get; set; }
-        public User User { get; set; }
-
+        public string Username { get; set; }
         [Required]
         public DateTime AppliedDate { get; set; }
         public string? CoverLetter { get; set; }
