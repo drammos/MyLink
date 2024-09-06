@@ -2,10 +2,11 @@
 using MyLink.Models.DTOS;
 using MyLink.Models;
 using MyLink.Data.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyLink.Data.Repository
 {
-    public class JobRepository : RepositoryBase<Post>, IJobRepository
+    public class JobRepository : RepositoryBase<Job>, IJobRepository
     {
         private ApplicationDbContext _context;
 
@@ -29,5 +30,22 @@ namespace MyLink.Data.Repository
 
             return job;
         }
+        
+        public async Task<List<JobApplication>> GetUserAppliedJobs(string username)
+        {
+            return await _context.Jobs
+                .SelectMany(j => j.JobApplications)
+                .Where(ja => ja.Username == username)
+                .ToListAsync();
+        }
+
+        public async Task<List<JobApplication>> GetUserStatusJobs(string username, JobApplicationStatus status = JobApplicationStatus.Pending)
+        {
+            return await _context.Jobs
+                .SelectMany(j => j.JobApplications)
+                .Where(ja => ja.Username == username && ja.Status == status)
+                .ToListAsync();
+        }
+
     }
 }
