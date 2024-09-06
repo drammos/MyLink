@@ -37,7 +37,88 @@ namespace WebAppMyLink.Controllers
                 UserId = createJobDTO.UserId
             };
 
-            _unitOfWork.Job
+            _unitOfWork.Job.Add(job);
+            _unitOfWork.Save();
+            return job;
+        }
+
+        [HttpGet("GetAllJobs")]
+        public async Task<ActionResult<List<Job>>> GetAllJobs()
+        {
+            return _unitOfWork.Job.GetAll().ToList();
+        }
+
+
+        [HttpGet("GetUserPostedJobs")]
+        public async Task<ActionResult<List<Job>>> GetUserPostedJobs([FromQuery] string userId)
+        {
+            IEnumerable<Job> list = _unitOfWork.Job.GetAll();
+
+            List<Job> jobs = new List<Job>();
+            foreach (Job job in list)
+            {
+                if (userId.Equals(job.UserId))
+                    jobs.Add(job);
+            }
+            return jobs;
+        }
+
+        [HttpPost("ApplyForJob")]
+        public async Task<ActionResult<JobApplication>> ApplyForJob([FromForm] ApplyForJobDTO applyForJobDTO)
+        {
+            User user = await _userManager.FindByNameAsync(applyForJobDTO.Username);
+            if (user == null) return NotFound();
+
+            Job job = _unitOfWork.Job.FirstOrDefault(j => j.Id == applyForJobDTO.JobId);
+            JobApplication jobApplication = new JobApplication()
+            {
+                JobId = applyForJobDTO.JobId,
+                Username = applyForJobDTO.Username,
+                CoverLetter = applyForJobDTO.CovverLetter,
+                AppliedDate = DateTime.Now,
+                Status = JobApplicationStatus.Pending
+            };
+
+            return jobApplication;
+        }
+
+        [HttpGet("GetAppliedUserJobs")]
+        public async Task<ActionResult<List<JobApplication>>> GetAppliedUserJobs([FromQuery] string username)
+        {
+            User user = await _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound();
+
+            return await _unitOfWork.Job.GetUserAppliedJobs(username);
+        }
+
+        [HttpGet("GetAppliedUserJobs")]
+        public async Task<ActionResult<List<JobApplication>>> GetAppliedUserJobs([FromQuery] string username, [FromQuery] string statusJobApplication)
+        {
+            User user = await _userManager.FindByNameAsync(username);
+            if (user == null) return NotFound();
+
+            switch (statusJobApplication)
+            {
+                case "Pending":
+                    return await _unitOfWork.Job.GetUserStatusJobs(username, JobApplicationStatus.Pending);
+
+                case "Accepted":
+                    return await _unitOfWork.Job.GetUserStatusJobs(username, JobApplicationStatus.Accepted);
+
+                case "Rejected":
+                    return await _unitOfWork.Job.GetUserStatusJobs(username, JobApplicationStatus.Rejected);
+
+                case "Withdrawn":
+                    return await _unitOfWork.Job.GetUserStatusJobs(username, JobApplicationStatus.Withdrawn);
+
+                default:
+                    return await _unitOfWork.Job.GetUserStatusJobs(username);
+            }
+        }
+
+        [HttpPut("AcceptedJobApplication")]
+        public async Task<ActionResult> AcceptedJobApplication([FromQuery] int jobApplicationId)
+        {
+
         }
     }
-}
