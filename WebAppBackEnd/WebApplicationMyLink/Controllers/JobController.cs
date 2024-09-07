@@ -79,6 +79,7 @@ namespace WebAppMyLink.Controllers
                 Status = JobApplicationStatus.Pending
             };
 
+            //_unitOfWork.Job
             return jobApplication;
         }
 
@@ -91,8 +92,8 @@ namespace WebAppMyLink.Controllers
             return await _unitOfWork.Job.GetUserAppliedJobs(username);
         }
 
-        [HttpGet("GetAppliedUserJobs")]
-        public async Task<ActionResult<List<JobApplication>>> GetAppliedUserJobs([FromQuery] string username, [FromQuery] string statusJobApplication)
+        [HttpGet("GetUserStatusJobs")]
+        public async Task<ActionResult<List<JobApplication>>> GetUserStatusJobs([FromQuery] string username, [FromQuery] string statusJobApplication)
         {
             User user = await _userManager.FindByNameAsync(username);
             if (user == null) return NotFound();
@@ -119,6 +120,9 @@ namespace WebAppMyLink.Controllers
         [HttpPut("AcceptedJobApplication")]
         public async Task<ActionResult> AcceptedJobApplication([FromQuery] int jobApplicationId)
         {
-
+            bool v = await _unitOfWork.Job.AcceptedJobApplication(jobApplicationId);
+            if (!v) return NotFound(); 
+            return StatusCode(200);
         }
     }
+}
