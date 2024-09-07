@@ -19,6 +19,7 @@ namespace MyLink.Data.Access
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

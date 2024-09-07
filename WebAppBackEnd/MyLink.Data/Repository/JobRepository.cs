@@ -47,5 +47,17 @@ namespace MyLink.Data.Repository
                 .ToListAsync();
         }
 
+        public async Task<bool> AcceptedJobApplication(int jobApplicationId)
+        {
+            var jobApplication = await _context.JobApplications
+                .FindAsync(jobApplicationId);
+
+            if (jobApplication == null) return false;
+
+            jobApplication.Status = JobApplicationStatus.Accepted;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
