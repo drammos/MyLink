@@ -3,6 +3,7 @@ using MyLink.Data.Repository.IRepository;
 using MyLink.Models.DTOS;
 using MyLink.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAppMyLink.Controllers
 {
@@ -74,9 +75,21 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetAllJobs")]
-        public async Task<ActionResult<List<Job>>> GetAllJobs()
+        public ActionResult<List<Job>> GetAllJobs()
         {
             return _unitOfWork.Job.GetAll().ToList();
+        }
+
+        [HttpGet("GetAllOpenJobs")]
+        public ActionResult<List<Job>> GetAllOpenJobs()
+        {
+            return _unitOfWork.Job.GetOpenJobs();
+        }
+        
+        [HttpGet("GetAllCloseJobs")]
+        public ActionResult<List<Job>> GetAllCloseJobs()
+        {
+            return _unitOfWork.Job.GetCloseJobs();
         }
         
         [HttpPost("ApplyForJob")]
@@ -175,5 +188,43 @@ namespace WebAppMyLink.Controllers
             
             return StatusCode(200);
         }
+
+        [HttpGet("GetFilterJobs")]
+        public ActionResult<List<Job>> GetFilterJobs([FromForm] FilterJobsDTO filterJobsDTO)
+        {
+            List<Job> filteredJobs = [];
+            List<Job> jobs = _unitOfWork.Job.GetAll().ToList();
+            if (jobs.IsNullOrEmpty()) return filteredJobs;
+            
+            
+            foreach (var job in jobs)
+            {   
+                if(!job.IsActive)
+                    continue;
+                if (job.UserId != filterJobsDTO.UserId)
+                    continue;
+                if (string.IsNullOrEmpty(filterJobsDTO.LocationType) && !filterJobsDTO.LocationType.Contains(job.LocationType))
+                    continue;
+                if (string.IsNullOrEmpty(filterJobsDTO.WorkType) && !filterJobsDTO.WorkType.Contains(job.WorkType)) 
+                    continue;
+                if (string.IsNullOrEmpty(filterJobsDTO.Category) && !filterJobsDTO.Category.Contains(job.Category))
+                    continue;
+
+                if (filterJobsDTO.LastPostedDays >= 0)
+                {
+                    TimeSpan difference = DateTime.Now - job.PostedDate;
+                    if (difference.Days > filterJobsDTO.LastPostedDays)
+                        continue;
+                }
+                filteredJobs.Add(job);
+            }
+            return filteredJobs;
+        }
+
+        [HttpPut("CloseJob")]
+        public ActionResult CloseJob([FromQuery] int jobId)
+        {
+            return !_unitOfWork.Job.CloseJob(jobId) ? NotFound() : StatusCode(200);
+        } 
     }
 }
