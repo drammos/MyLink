@@ -32,6 +32,17 @@ namespace MyLink.Data.Repository
             return job;
         }
 
+        public bool CloseJob(int jobId)
+        {
+            var job = _context.Jobs.FirstOrDefault(u => u.Id == jobId);
+            if (job == null) return false;
+
+            job.IsActive = false;
+            job.ClosingDate = DateTime.Now;
+            _context.SaveChanges();
+            return true;
+        }
+
         public async Task<List<JobApplication>> GetUserAppliedJobs(string username)
         {
             return await _context.Jobs
@@ -40,7 +51,8 @@ namespace MyLink.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<JobApplication>> GetUserStatusJobs(string username, JobApplicationStatus status = JobApplicationStatus.Pending)
+        public async Task<List<JobApplication>> GetUserStatusJobs(string username,
+            JobApplicationStatus status = JobApplicationStatus.Pending)
         {
             return await _context.Jobs
                 .SelectMany(j => j.JobApplications)
@@ -53,6 +65,7 @@ namespace MyLink.Data.Repository
             var jobId = jobApplication.Id;
             var job = _context.Jobs.FirstOrDefault(p => p.Id == jobId);
             if (job == null) return false;
+            if (!job.IsActive) return false;
 
             job.JobApplications.Add(jobApplication);
             return true;
@@ -63,6 +76,9 @@ namespace MyLink.Data.Repository
             var jobApplication = await _context.JobApplications
                 .FindAsync(jobApplicationId);
             if (jobApplication == null) return false;
+
+            Job job = _context.Jobs.FirstOrDefault(p => p.Id == jobApplication.JobId);
+            if (!job.IsActive) return false;
 
             jobApplication.Status = JobApplicationStatus.Accepted;
             await _context.SaveChangesAsync();
@@ -76,17 +92,23 @@ namespace MyLink.Data.Repository
                 .FindAsync(jobApplicationId);
             if (jobApplication == null) return false;
 
+            Job job = _context.Jobs.FirstOrDefault(p => p.Id == jobApplication.JobId);
+            if (!job.IsActive) return false;
+
             jobApplication.Status = JobApplicationStatus.Rejected;
             await _context.SaveChangesAsync();
 
             return true;
         }
-        
+
         public async Task<bool> WithdrawnJobApplication(int jobApplicationId)
         {
             var jobApplication = await _context.JobApplications
                 .FindAsync(jobApplicationId);
             if (jobApplication == null) return false;
+
+            Job job = _context.Jobs.FirstOrDefault(p => p.Id == jobApplication.JobId);
+            if (!job.IsActive) return false;
 
             jobApplication.Status = JobApplicationStatus.Withdrawn;
             await _context.SaveChangesAsync();
@@ -99,12 +121,21 @@ namespace MyLink.Data.Repository
             var job = await _context.Jobs
                 .Include(j => j.JobApplications)
                 .FirstOrDefaultAsync(j => j.Id == jobId);
-            if(job == null) return false;
-            
+            if (job == null) return false;
+
             job.JobApplications.Clear();
             await _context.SaveChangesAsync();
             return true;
         }
 
+        public List<Job> GetOpenJobs()
+        {
+            return _context.Jobs.Where(j => j.IsActive == true).ToList();
+        }
+        
+        public List<Job> GetCloseJobs()
+        {
+            return  _context.Jobs.Where(j => j.IsActive == false).ToList();
+        }
     }
 }
