@@ -18,5 +18,7 @@ namespace MyLink.Models.DTOS
         public string WorkType { get; set; }
         [Required]
         public string LocationType { get; set; }
+        [Required]
+        public string Category { get; set; }
     }
 }

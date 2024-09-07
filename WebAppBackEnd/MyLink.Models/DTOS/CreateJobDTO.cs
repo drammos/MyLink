@@ -19,6 +19,6 @@ namespace MyLink.Models.DTOS
         [Required]
         public string LocationType { get; set; }
         [Required]
-        public DateTime PostedDate { get; set; }
+        public string Category { get; set; }
     }
 }
