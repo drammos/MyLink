@@ -20,6 +20,8 @@ namespace MyLink.Models
         [Required]
         public string LocationType { get; set; }
         [Required]
+        public string Category { get; set; }
+        [Required]
         public DateTime PostedDate { get; set; }
         public DateTime? ClosingDate { get; set; }
 
