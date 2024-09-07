@@ -33,7 +33,8 @@ namespace WebAppMyLink.Controllers
                 Location = createJobDTO.Location,
                 WorkType = createJobDTO.WorkType,
                 LocationType = createJobDTO.LocationType,
-                PostedDate = createJobDTO.PostedDate,
+                Category = createJobDTO.Category,
+                PostedDate = DateTime.Now,
                 UserId = createJobDTO.UserId
             };
 
@@ -42,15 +43,66 @@ namespace WebAppMyLink.Controllers
             return job;
         }
 
+        [HttpPut("EditJob")]
+        public ActionResult<Job> EditJob([FromForm] UpdateJobDTO updateJobDTO)
+        {
+            Job job = _unitOfWork.Job.Update(updateJobDTO);
+            if(job == null) return NotFound();
+            _unitOfWork.Save();
+            return job;
+        }
+        
+        [HttpDelete("DeleteJob")]
+        public async Task<ActionResult<Job>> DeleteJob([FromQuery] int jobId)
+        {
+            var job = _unitOfWork.Job.FirstOrDefault(j => j.Id == jobId);
+            if (job == null) return NotFound();
+
+            await _unitOfWork.Job.DeleteAllJobApplications(jobId);
+            _unitOfWork.Job.Delete(job);
+          
+            _unitOfWork.Save();
+            return StatusCode(200);
+        }
+
+        [HttpGet("GetJob")]
+        public ActionResult<Job> GetJob([FromQuery] int jobId)
+        {
+            var job = _unitOfWork.Job.FirstOrDefault(j => j.Id == jobId);
+            if(job == null) return NotFound();
+            return job;
+        }
+        
         [HttpGet("GetAllJobs")]
         public async Task<ActionResult<List<Job>>> GetAllJobs()
         {
             return _unitOfWork.Job.GetAll().ToList();
         }
+        
+        [HttpPost("ApplyForJob")]
+        public async Task<ActionResult<JobApplication>> ApplyForJob([FromForm] ApplyForJobDTO applyForJobDTO)
+        {
+            User user = await _userManager.FindByNameAsync(applyForJobDTO.Username);
+            if (user == null) return NotFound();
 
+            JobApplication jobApplication = new JobApplication()
+            {
+                JobId = applyForJobDTO.JobId,
+                Username = applyForJobDTO.Username,
+                CoverLetter = applyForJobDTO.CovverLetter,
+                AppliedDate = DateTime.Now,
+                Status = JobApplicationStatus.Pending
+            };
 
+            bool result = _unitOfWork.Job.ApplyForJob(jobApplication);
+            if (!result) return NotFound();
+
+            _unitOfWork.Save();
+            return jobApplication;
+        }
+        
         [HttpGet("GetUserPostedJobs")]
-        public async Task<ActionResult<List<Job>>> GetUserPostedJobs([FromQuery] string userId)
+        public ActionResult<List<Job>> GetUserPostedJobs([FromQuery] string userId)
         {
             IEnumerable<Job> list = _unitOfWork.Job.GetAll();
 
@@ -61,26 +113,6 @@ namespace WebAppMyLink.Controllers
                     jobs.Add(job);
             }
             return jobs;
-        }
-
-        [HttpPost("ApplyForJob")]
-        public async Task<ActionResult<JobApplication>> ApplyForJob([FromForm] ApplyForJobDTO applyForJobDTO)
-        {
-            User user = await _userManager.FindByNameAsync(applyForJobDTO.Username);
-            if (user == null) return NotFound();
-
-            Job job = _unitOfWork.Job.FirstOrDefault(j => j.Id == applyForJobDTO.JobId);
-            JobApplication jobApplication = new JobApplication()
-            {
-                JobId = applyForJobDTO.JobId,
-                Username = applyForJobDTO.Username,
-                CoverLetter = applyForJobDTO.CovverLetter,
-                AppliedDate = DateTime.Now,
-                Status = JobApplicationStatus.Pending
-            };
-
-            //_unitOfWork.Job
-            return jobApplication;
         }
 
         [HttpGet("GetAppliedUserJobs")]
@@ -120,8 +152,27 @@ namespace WebAppMyLink.Controllers
         [HttpPut("AcceptedJobApplication")]
         public async Task<ActionResult> AcceptedJobApplication([FromQuery] int jobApplicationId)
         {
-            bool v = await _unitOfWork.Job.AcceptedJobApplication(jobApplicationId);
-            if (!v) return NotFound(); 
+            bool result = await _unitOfWork.Job.AcceptedJobApplication(jobApplicationId);
+            if (!result) return NotFound(); 
+            
+            return StatusCode(200);
+        }
+
+        [HttpPut("RejectJobApplication")]
+        public async Task<ActionResult> RejectJobApplication([FromQuery] int jobApplicationId)
+        {
+            bool result = await _unitOfWork.Job.RejectJobApplication(jobApplicationId);
+            if (!result) return NotFound(); 
+            
+            return StatusCode(200);
+        }
+        
+        [HttpPut("WithdrawnJobApplication")]
+        public async Task<ActionResult> WithdrawnJobApplication([FromQuery] int jobApplicationId)
+        {
+            bool result = await _unitOfWork.Job.WithdrawnJobApplication(jobApplicationId);
+            if (!result) return NotFound(); 
+            
             return StatusCode(200);
         }
     }
