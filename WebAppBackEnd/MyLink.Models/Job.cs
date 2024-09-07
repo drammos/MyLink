@@ -23,6 +23,7 @@ namespace MyLink.Models
         public string Category { get; set; }
         [Required]
         public DateTime PostedDate { get; set; }
+        public bool IsActive { get; set; }
         public DateTime? ClosingDate { get; set; }
 
         [Required]
