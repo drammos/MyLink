@@ -35,14 +35,37 @@ div.glass-container-SignUpForm {
             justify-content: center;
         }
 
+            div.glass-container-SignUpForm form.SignUpForm div.firstline .p-inputtext {
+                width: 100% !important;
+            }
+
+            div.glass-container-SignUpForm form.SignUpForm div.firstline .p-icon-field-right {
+                margin: 0 !important;
+                padding: 0;
+                height: 22px !important;
+            }
+
+            div.glass-container-SignUpForm form.SignUpForm div.firstline .p-component, 
+            div.glass-container-SignUpForm form.SignUpForm div.firstline .p-input-icon-right {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+
+            div.glass-container-SignUpForm form.SignUpForm div.firstline .p-inputwrapper {
+                padding: 0 !important;
+            }
+
             div.glass-container-SignUpForm form.SignUpForm div.firstline div.rowOne {
                 display: grid;
-                padding-top: 30px;
+                height: 250px;
                 border-right: 2px solid #18a4b1;
             }
 
                 div.glass-container-SignUpForm form.SignUpForm div.firstline div.rowOne input {
                     height: 23px;
+                    margin-bottom: 10px;
+                    padding-right: 40px;
                 }
 
 
@@ -50,12 +73,23 @@ div.glass-container-SignUpForm {
                 display: grid;
                 padding-top: 10px;
                 margin: 10px 0px;
-                padding: 5px 40px;
+                padding: 22px 40px;
             }
+
+                div.glass-container-SignUpForm form.SignUpForm div.firstline div .p-input-icon-right {
+                    height: 23px;
+                    padding:0;
+                }
+
+                    div.glass-container-SignUpForm form.SignUpForm div.firstline div .p-input-icon-right .p-icon-field-right, .p-inputwrapper {
+                        padding: 0 !important;
+                        margin: 0;
+                    }
 
             div.glass-container-SignUpForm form.SignUpForm div.firstline label {
                 font-size: 15px;
                 color: #1fb4c2;
+                height: 16px;
             }
 
             div.glass-container-SignUpForm form.SignUpForm div.firstline input {
@@ -65,9 +99,15 @@ div.glass-container-SignUpForm {
                 padding: 0px;
             }
 
-            div.glass-container-SignUpForm form.SignUpForm div.firstline div.rowTwo input {
-                height: 22px;
+            div.glass-container-SignUpForm form.SignUpForm div.firstline div.rowTwo {
+                padding-bottom: 10px;
+                height: 220px;
             }
+
+                div.glass-container-SignUpForm form.SignUpForm div.firstline div.rowTwo input {
+                    height: 22px;
+                    margin-bottom: 10px;
+                }
 
         div.glass-container-SignUpForm form.SignUpForm div.down-buttons {
             display: grid;
@@ -93,17 +133,6 @@ div.glass-container-SignUpForm {
                 max-width: 250px;
                 max-height: 250px;
                 margin: 10px;
-            }
-
-            div.glass-container-SignUpForm form.SignUpForm div.down-buttons button.togglePassword {
-                width: 38px;
-                height: 33px;
-                margin-bottom: 5px;
-                border: 1px solid #18a4b1;
-                background-color: whitesmoke;
-                border-radius: 10%;
-                border-radius: 24px;
-                transition: background-color 0.3s;
             }
 
             div.glass-container-SignUpForm form.SignUpForm div.down-buttons div label {
@@ -143,3 +172,4 @@ div.glass-container-SignUpForm {
                 color: red;
                 display: block;
             }
+

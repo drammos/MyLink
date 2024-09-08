@@ -8,6 +8,9 @@ import './LogIn.css';
 import useService from "../Services/useService";
 import { Routes } from '../../routes.jsx';
 
+import { FloatLabel } from 'primereact/floatlabel';
+import { InputText } from 'primereact/inputtext';
+
 
 const LogIn = () => {
     const [username, setUsername] = useState('');
@@ -34,32 +37,37 @@ const LogIn = () => {
 
     // Update message based on API response
     useEffect(() => {
-        if (response) {
-            if (response.status === 200) {
-                setErrorCode(0);
-                setMessage('Login successful!');
-                console.log('Login successful');
-                localStorage.setItem('authToken', response.data.token);
-                localStorage.setItem('role', response.data.role);
-                if (response.data.role === "Admin")
-                    setTimeout(() => {
-                        navigate(Routes.ControlPanel);
-                    }, 2000);
-                else
-                    setTimeout(() => {
-                        navigate(Routes.MainPage);
-                    }, 2000); 
-            }
-            else if (response.status === 600)
-            {
-                setErrorCode(1);
-                setMessage('An Error Occured. Please try again later.');
-                console.error('Login failed');
-            }
-            else if (response.status === 401) {
-                setErrorCode(1);
-                setMessage('Invalid username or password');
-                console.error('Login failed');
+        if (localStorage.getItem('role') !== '') {
+            navigate(Routes.PageNotFound);
+        }
+        else {
+
+            if (response) {
+                if (response.status === 200) {
+                    setErrorCode(0);
+                    setMessage('Login successful!');
+                    console.log('Login successful');
+                    localStorage.setItem('authToken', response.data.token);
+                    localStorage.setItem('role', response.data.role);
+                    if (response.data.role === "Admin")
+                        setTimeout(() => {
+                            navigate(Routes.ControlPanel);
+                        }, 2000);
+                    else
+                        setTimeout(() => {
+                            navigate(Routes.MainPage);
+                        }, 2000);
+                }
+                else if (response.status === 600) {
+                    setErrorCode(1);
+                    setMessage('An Error Occured. Please try again later.');
+                    console.error('Login failed');
+                }
+                else if (response.status === 401) {
+                    setErrorCode(1);
+                    setMessage('Invalid username or password');
+                    console.error('Login failed');
+                }
             }
         }
     }, [response, navigate]);
@@ -86,25 +94,19 @@ const LogIn = () => {
                 <h1>Welcome to MyLink!</h1>
                 <p className="phrase">Empowering connections for a brighter future</p>
                 <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                    />
+                    <FloatLabel>
+                        <InputText id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress} />
+                        <label htmlFor="username">Username</label>
+                    </FloatLabel>
                 </div>
                 <div>
-                    <label htmlFor="password">Password:</label>
+                    
+                    {/*<label htmlFor="password">Password:</label>*/}
                     <div className="passwordAndVisibility">
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                        />
+                        <FloatLabel>
+                            <InputText type={showPassword ? 'text' : 'password'} id="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyPress={handleKeyPress} />
+                            <label htmlFor="password">Password</label>
+                        </FloatLabel>
                         <button type="button" onClick={togglePasswordVisibility} className="togglePassword">
                             <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                         </button>

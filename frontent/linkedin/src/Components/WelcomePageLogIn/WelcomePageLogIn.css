@@ -6,6 +6,7 @@ div.glass-container {
     /*display: flex;*/
     justify-content: left;
     width: 490px;
+    background-color:#1fb4c2;
 }
 
 

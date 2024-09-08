@@ -24,6 +24,7 @@ div.WelcomePageMain {
     align-items: center; /* Align items vertically center */
     justify-content: flex-start;
     gap: 10px;
+    background-color: #1fb4c2;
 }
 
 .row {

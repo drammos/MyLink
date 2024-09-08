@@ -5,10 +5,13 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import PropTypes from 'prop-types';
+import { Dialog } from 'primereact/dialog';
+import { Chips } from 'primereact/chips';
+import { FloatLabel } from 'primereact/floatlabel';
 
 import './UsersList.css';
 import useService from '../../Services/useService';
-import { useNavigationHelpers } from '../Helpers/navigationHelpers'
+import { useNavigationHelpers } from '../Helpers/navigationHelpers';
 
 const UsersList = () => {
     const [users, setUsers] = useState([]);
@@ -17,9 +20,29 @@ const UsersList = () => {
     const [error, setError] = useState(null);
     const [count, setCount] = useState(0);
     const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
-    const dt = useRef(null);
+    const [userToDelete, setUserToDelete] = useState(null); // State for managing deletion
+    const [displayNewUserDialog, setDisplayNewUserDialog] = useState(false); // State for modal visibility
 
+    // For creating new user
+    const [newUserUsername, setNewUserUsername] = useState("");
+    const [newUserFirstName, setnewUserFirstName] = useState("");
+    const [newUserLastName, setnewUserLastName] = useState("");
+    const [newUserRole, setNewUserRole] = useState("");
+
+
+    const dt = useRef(null);
     const { handleLogoutButton } = useNavigationHelpers();
+
+    // Handling user deletion
+    const deleteUserService = useService(
+        userToDelete ? `Deleting user ${userToDelete}` : '',
+        'DELETE',
+        userToDelete ? `http://localhost:5175/User/DeleteUser?Username=${userToDelete}` : null,
+        null,
+        'application/json',
+        !!userToDelete
+    ); 
+
 
     // Fetching users using useService custom hook
     const { response, loading, refetch } = useService(
@@ -30,6 +53,7 @@ const UsersList = () => {
         undefined,
         true
     );
+
 
     useEffect(() => {
         refetch(); // Manually trigger the API call
@@ -48,10 +72,37 @@ const UsersList = () => {
             }
         } else if (!loading) {
             setErrorCode(1);
-            // Handle the case where response is not yet available and loading is false
             setError('An unexpected error occurred. Please refresh and try again.');
         }
     }, [response, loading]);
+
+    useEffect(() => {
+        if (userToDelete) {
+            deleteUserService.refetch();  // Trigger the DELETE request
+        }
+    }, [userToDelete, deleteUserService]); 
+
+    useEffect(() => {
+        if (userToDelete !== null) {
+            console.log("done");
+            setTimeout(() => {
+                refetch();
+            }, 4000);
+            setUserToDelete(null); // Reset user to delete
+        }
+    }, [userToDelete,deleteUserService.response, refetch]);
+
+    // ---------------------------- Modal PopUp ------------------------------------ //
+
+    const openNewUserDialog = () => {
+        setDisplayNewUserDialog(true); // Show modal
+    };
+
+    const hideNewUserDialog = () => {
+        setDisplayNewUserDialog(false); // Hide modal
+    };
+
+    // ---------------------------------------------------------------- //
 
     const leftToolbarTemplate = () => {
         return (
@@ -61,13 +112,13 @@ const UsersList = () => {
                         label="New"
                         icon="pi pi-plus"
                         className="p-button-success p-mr-2"
-                        onClick={() => console.log('Adding user...')}
+                        onClick={openNewUserDialog}
                     />
                     <Button
                         label="Delete"
                         icon="pi pi-trash"
                         className="p-button-danger"
-                        onClick={() => console.log('Deleting user...')}
+                        onClick={() => console.log('Deleting user(s)...')}
                     />
                 </div>
             </React.Fragment>
@@ -115,13 +166,14 @@ const UsersList = () => {
 
     const actionBodyTemplate = (rowData) => {
         const handleEdit = () => {
-            console.log('Edit user:', rowData);
+            console.log('Edit user:', rowData.userName);
             // Implement edit functionality here
         };
 
         const handleDelete = () => {
-            console.log('Delete user:', rowData);
-            // Implement delete functionality here
+            const message = `Delete user: ${rowData.userName}`;
+            console.log(message);
+            setUserToDelete(rowData.userName); 
         };
 
         return (
@@ -146,7 +198,7 @@ const UsersList = () => {
     const userFirstNameTemplate = (rowData) => <span>{rowData.firstName}</span>;
     const userLastNameTemplate = (rowData) => <span>{rowData.lastName}</span>;
     const roleBodyTemplate = (rowData) => <span>{rowData.role}</span>;
-    
+
     return (
         <div className="usersListsContainer">
             <div className="usersList">
@@ -181,6 +233,42 @@ const UsersList = () => {
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 </DataTable>
                 <Toolbar className="mb-4" center={secondRightToolbarTemplate}></Toolbar>
+
+                <Dialog
+                    visible={displayNewUserDialog}
+                    style={{ width: '450px' }}
+                    header="New User"
+                    modal
+                    className="p-fluid"
+                    footer={
+                        <div>
+                            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideNewUserDialog} />
+                            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={() => console.log('Saving user...')} />
+                        </div>
+                    }
+                    onHide={hideNewUserDialog}
+                >
+                    <FloatLabel>
+                        <InputText id="username" value={newUserUsername} onChange={(e) => setNewUserUsername(e.target.value)} />
+                        <label htmlFor="username">Username</label>
+                    </FloatLabel>
+
+                    <FloatLabel>
+                        <InputText id="firstName" value={newUserFirstName} onChange={(e) => setnewUserFirstName(e.target.value)} />
+                        <label htmlFor="firstName">First Name</label>
+                    </FloatLabel>
+
+                    <FloatLabel>
+                        <InputText id="lastName" value={newUserLastName} onChange={(e) => setnewUserLastName(e.target.value)} />
+                        <label htmlFor="lastName">Last Name</label>
+                    </FloatLabel>
+
+                    <FloatLabel>
+                        <InputText id="role" value={newUserRole} onChange={(e) => setNewUserRole(e.target.value)} />
+                        <label htmlFor="role">Role</label>
+                    </FloatLabel>
+                </Dialog>
+
             </div>
         </div>
     );

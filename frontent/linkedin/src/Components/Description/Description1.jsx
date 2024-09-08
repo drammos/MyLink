@@ -33,7 +33,6 @@ const Description1 = () => {
                   We believe in fostering a community where collaboration thrives and every interaction is a step
                   towards achieving your professional goals.
               </p>
-              <button type="submit" onClick={handleSubmit}>Learn More</button>
               {error && <p className="error">{error}</p>}
               {message && <p className="message">{message}</p>}
           </div>

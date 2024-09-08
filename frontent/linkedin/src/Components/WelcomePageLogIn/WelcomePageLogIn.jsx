@@ -6,6 +6,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import useService from "../Services/useService";
 import './WelcomePageLogIn.css'
 import { Routes } from '../../routes.jsx';
+//import UploadPhoto from '../Services/uploadPhoto';
+
 
 
 const WelcomePageLogIn = () => {

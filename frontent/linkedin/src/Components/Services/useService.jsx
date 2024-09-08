@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 
+
 const useService = (message, method, url, input = null, contentType = 'application/json', useToken = false) => {
     const [response, setResponse] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -13,9 +14,10 @@ const useService = (message, method, url, input = null, contentType = 'applicati
         setLoading(true);
         setResponse(null); // Reset response on new request
 
-        const headers = {
-            'Content-Type': contentType,
-        };
+        const headers = {};
+        if (contentType !== 'multipart/form-data') {
+            headers['Content-Type'] = contentType;
+        }
 
         if (useToken) {
             const authToken = getAuthToken();
