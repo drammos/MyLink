@@ -203,11 +203,11 @@ namespace WebAppMyLink.Controllers
                     continue;
                 if (job.UserId == filterJobsDTO.UserId)
                     continue;
-                if (string.IsNullOrEmpty(filterJobsDTO.LocationType) && !filterJobsDTO.LocationType.Contains(job.LocationType))
+                if (!string.IsNullOrEmpty(filterJobsDTO.LocationType) && !filterJobsDTO.LocationType.Contains(job.LocationType))
                     continue;
-                if (string.IsNullOrEmpty(filterJobsDTO.WorkType) && !filterJobsDTO.WorkType.Contains(job.WorkType)) 
+                if (!string.IsNullOrEmpty(filterJobsDTO.WorkType) && !filterJobsDTO.WorkType.Contains(job.WorkType)) 
                     continue;
-                if (string.IsNullOrEmpty(filterJobsDTO.Category) && !filterJobsDTO.Category.Contains(job.Category))
+                if (!string.IsNullOrEmpty(filterJobsDTO.Category) && !filterJobsDTO.Category.Contains(job.Category))
                     continue;
 
                 if (filterJobsDTO.LastPostedDays >= 0)
