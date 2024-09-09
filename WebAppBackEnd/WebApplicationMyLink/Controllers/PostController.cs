@@ -43,8 +43,8 @@ namespace WebAppMyLink.Controllers
             return post;
         }
 
-        [HttpGet("GetPosts")]
-        public async Task<ActionResult<List<Post>>> GetPosts(string UserId)
+        [HttpGet("GetUserPosts")]
+        public async Task<ActionResult<List<Post>>> GetUserPosts(string UserId)
         {
             IEnumerable<Post> list = _unitOfWork.Post.GetAll();
 
@@ -202,6 +202,22 @@ namespace WebAppMyLink.Controllers
 
             _unitOfWork.Save();
             return StatusCode(200);
+        }
+
+        [HttpGet("GetPostsFromConnectedUsers")]
+        public async Task<ActionResult<List<Post>>> GetPostsFromConnectedUsers([FromQuery] string userId)
+        {
+            var connectedUsers = await _unitOfWork.User.GetConnectedUsers(userId);
+            List<string> userIdList = new List<string>();
+            foreach (User user in connectedUsers)
+            {
+                userIdList.Add(user.Id);
+            }
+            
+            if (userIdList.Count == 0)
+                return new List<Post>();
+            
+            return await _unitOfWork.Post.GetPostsFromConnectedUsers(userIdList);
         }
     }
 }
