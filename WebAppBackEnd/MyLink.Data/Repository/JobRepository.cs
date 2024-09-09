@@ -62,7 +62,7 @@ namespace MyLink.Data.Repository
 
         public bool ApplyForJob(JobApplication jobApplication)
         {
-            var jobId = jobApplication.Id;
+            var jobId = jobApplication.JobId;
             var job = _context.Jobs.FirstOrDefault(p => p.Id == jobId);
             if (job == null) return false;
             if (!job.IsActive) return false;
