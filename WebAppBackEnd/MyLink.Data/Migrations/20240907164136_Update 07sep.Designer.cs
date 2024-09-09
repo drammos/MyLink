@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyLink.Data.Access;
 
@@ -11,9 +12,11 @@ using MyLink.Data.Access;
 namespace MyLink.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240907164136_Update 07sep")]
+    partial class Update07sep
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fc06f0ba-1d3c-4e13-817e-47f2b9bcd25e",
+                            Id = "a9d4b3ec-b637-4b2f-b6fb-d415d4af0aaa",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "10996b69-05a0-4945-a3f8-e41db1082218",
+                            Id = "9b129967-e6a0-4536-b5de-bfd18ef8fba9",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -296,10 +299,6 @@ namespace MyLink.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("ClosingDate")
                         .HasColumnType("datetime2");
 
@@ -310,9 +309,6 @@ namespace MyLink.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Location")
                         .IsRequired()

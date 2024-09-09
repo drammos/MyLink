@@ -3,11 +3,10 @@ using MyLink.Models;
 using MyLink.Data.Access;
 using MyLink.Data.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
 
 namespace MyLink.Data.Repository
 {
-    internal class PostRepository : RepositoryBase<Post>, IPostRepository
+    public class PostRepository : RepositoryBase<Post>, IPostRepository
     { 
         private ApplicationDbContext _context;
 
