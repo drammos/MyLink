@@ -36,6 +36,7 @@ namespace WebAppMyLink.Controllers
                 LocationType = createJobDTO.LocationType,
                 Category = createJobDTO.Category,
                 PostedDate = DateTime.Now,
+                IsActive = true,
                 UserId = createJobDTO.UserId
             };
 
@@ -190,18 +191,17 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetFilterJobs")]
-        public ActionResult<List<Job>> GetFilterJobs([FromForm] FilterJobsDTO filterJobsDTO)
+        public ActionResult<List<Job>> GetFilterJobs([FromQuery] FilterJobsDTO filterJobsDTO)
         {
             List<Job> filteredJobs = [];
             List<Job> jobs = _unitOfWork.Job.GetAll().ToList();
             if (jobs.IsNullOrEmpty()) return filteredJobs;
             
-            
             foreach (var job in jobs)
             {   
                 if(!job.IsActive)
                     continue;
-                if (job.UserId != filterJobsDTO.UserId)
+                if (job.UserId == filterJobsDTO.UserId)
                     continue;
                 if (string.IsNullOrEmpty(filterJobsDTO.LocationType) && !filterJobsDTO.LocationType.Contains(job.LocationType))
                     continue;
