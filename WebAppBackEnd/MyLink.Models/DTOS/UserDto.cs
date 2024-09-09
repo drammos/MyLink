@@ -15,5 +15,7 @@ namespace MyLink.Models.DTOS
         public string Role {  get; set; }
         public string Token { get; set; }
         public string Birthday { get; set; }
+        public string? CoverLetterURL { get; set; }
+        public string? WebPage { get; set; }
     }
 }

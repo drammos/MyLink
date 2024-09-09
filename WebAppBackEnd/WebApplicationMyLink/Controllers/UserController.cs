@@ -46,6 +46,8 @@ namespace WebAppMyLink.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
                 Role = roles[0],
+                CoverLetterURL = user.CoverLetterURL,
+                WebPage = user.WebPage,
                 Token = await _token.GenerateJSONWebToken(user)
             };
         }
@@ -61,7 +63,9 @@ namespace WebAppMyLink.Controllers
                 UserName = registerDTO.Username,
                 PhoneNumber = registerDTO.PhoneNumber,
                 PictureURL = registerDTO.PictureURL,
-                Birthday = registerDTO.Birthday
+                Birthday = registerDTO.Birthday,
+                CoverLetterURL = registerDTO.CoverLetterURL,
+                WebPage = registerDTO.WebPage,
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded == false)
@@ -98,7 +102,9 @@ namespace WebAppMyLink.Controllers
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
                 Role = registerDTO.Role,
-                Birthday = registerDTO.Birthday
+                Birthday = registerDTO.Birthday,
+                CoverLetterURL = registerDTO.CoverLetterURL,
+                WebPage = registerDTO.WebPage,
             };
         }
 
@@ -137,6 +143,8 @@ namespace WebAppMyLink.Controllers
             user.PhoneNumber = updateUserDTO.PhoneNumber;
             user.Email = updateUserDTO.Email;
             user.PictureURL = updateUserDTO.PictureURL;
+            user.CoverLetterURL = updateUserDTO.CoverLetterURL;
+            user.WebPage = updateUserDTO.WebPage;
 
             if (!string.IsNullOrEmpty(updateUserDTO.NewPassword))
             {
@@ -169,6 +177,8 @@ namespace WebAppMyLink.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
+                CoverLetterURL = user.CoverLetterURL,
+                WebPage = user.WebPage,
                 Role = roles[0]
             };
         }
@@ -283,7 +293,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public List<User> GetAllUsers()
         {
             var users = _userManager.Users.ToList();
