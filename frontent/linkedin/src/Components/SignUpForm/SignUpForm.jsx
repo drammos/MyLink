@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import useService from "../Services/useService";
 import { Routes } from "../../routes";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +11,6 @@ import { InputText } from 'primereact/inputtext';
 import { Divider } from 'primereact/divider';
 import { Calendar } from 'primereact/calendar';
 import UploadPhoto from '../Services/UploadPhoto';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './SignUpForm.css';
 //#endregion
@@ -33,7 +30,6 @@ const SignUpForm = () => {
 
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
 
     const [photoURL, setPhotoURL] = useState(null);
     const [printPhotoURL, setPrintPhotoURL] = useState(0);
@@ -52,7 +48,6 @@ const SignUpForm = () => {
     //const [passwordError, setpasswordError] = useState(false);
     //const [repeatPasswordError, setrepeatPasswordError] = useState(false);
 
-    const [selectedDate, setSelectedDate] = useState(null);
     const today = new Date();
     const eighteenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 18));
 
@@ -121,7 +116,7 @@ const SignUpForm = () => {
             if (response.status === 200) {
                 setErrorCode(0);
                 setMessage('Account created successfully!');
-                setTimeout(() => navigate(Routes.MainPage), 2000);
+                setTimeout(() => navigate(Routes.Home), 2000);
             } else {
                 console.log(response.data.title);
                 setError(response.data.title);
@@ -178,7 +173,7 @@ const SignUpForm = () => {
                         <label htmlFor="phone" className="font-bold block mb-2">Phone</label>
                         <InputMask id="phone" mask="(999) 999-999-9999" placeholder="(999) 999-999-9999" onChange={(e) => setPhone(e.target.value)}></InputMask>
                         <label htmlFor="birthdate" className="font-bold block mb-2">Birth Date</label>
-                        <Calendar value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="small-calendar" maxDate={eighteenYearsAgo} />
+                        <Calendar value={birthDate} onChange={(e) => setBirthDate(e.target.value)} maxDate={eighteenYearsAgo} />
                     </div>
                 </div>
 

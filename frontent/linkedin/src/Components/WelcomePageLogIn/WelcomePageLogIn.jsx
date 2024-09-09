@@ -1,3 +1,5 @@
+//#region import section
+
 import { useEffect, useState } from "react"
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +8,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import useService from "../Services/useService";
 import './WelcomePageLogIn.css'
 import { Routes } from '../../routes.jsx';
-//import UploadPhoto from '../Services/uploadPhoto';
 
-
+//#endregion
 
 const WelcomePageLogIn = () => {
     // State variables to hold username and password
@@ -37,9 +38,9 @@ const WelcomePageLogIn = () => {
     }
 
     useEffect(() => {
-        console.log("role is : ", localStorage.getItem('role'));
+        console.log("role is : ", role);
         // Logged in users can't reach this page
-        if (localStorage.getItem('role') !== '') {
+        if (role !== '') {
             navigate(Routes.PageNotFound);
         }
         else {

@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 
-
 const useService = (message, method, url, input = null, contentType = 'application/json', useToken = false) => {
     const [response, setResponse] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -54,7 +53,6 @@ const useService = (message, method, url, input = null, contentType = 'applicati
         }
     }, [message, method, url, input, contentType, useToken]);
 
-    // Return the fetchData function so it can be called manually
     return { response, loading, refetch: fetchData };
 };
 

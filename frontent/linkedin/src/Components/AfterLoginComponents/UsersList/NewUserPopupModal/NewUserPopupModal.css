@@ -1,0 +1,95 @@
+/* NewUserPopupModal.css */
+
+/* Custom Dialog Styling */
+.custom-dialog {
+    border-radius: 16px !important;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.2) !important;
+    padding: 20px !important;
+    background-color: #f3f4f6 !important;
+}
+
+    .custom-dialog .p-inputwrapper-focus,
+    .custom-dialog .p-float-label {
+        width: 100%;
+    }
+
+    .custom-dialog .p-dialog-header {
+        background-color: #0056b3 !important;
+        color: #fff !important;
+        border-top-left-radius: 16px !important;
+        border-top-right-radius: 16px !important;
+        padding: 1.5rem !important;
+        font-size: 1.4rem !important;
+        font-weight: 600 !important;
+    }
+
+    .custom-dialog .p-dialog-footer {
+        display: flex !important;
+        justify-content: space-between !important;
+        padding: 1.5rem !important;
+    }
+
+    .custom-dialog .modal-body {
+        padding: 30px 0 0 0 !important;
+    }
+
+    .custom-dialog .p-button.cancel-btn {
+        background-color: #e74c3c !important;
+        color: white !important;
+        border-radius: 12px !important;
+    }
+
+    .custom-dialog .p-button.save-btn {
+        background-color: #27ae60 !important;
+        color: white !important;
+        border-radius: 12px !important;
+    }
+
+    .custom-dialog .p-float-label {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .custom-dialog .p-inputtext,
+    .custom-dialog .p-password input,
+    .custom-dialog .p-inputmask,
+    .custom-dialog .p-calendar {
+        width: 100% !important;
+        padding: 0.45rem !important;
+        font-size: 0.8rem !important;
+        border-radius: 8px !important;
+        border: 1px solid #ccc !important;
+        background-color: #fff !important;
+    }
+
+        .custom-dialog .p-inputtext:focus,
+        .custom-dialog .p-password input:focus,
+        .custom-dialog .p-inputmask:focus,
+        .custom-dialog .p-calendar:focus {
+            border-color: #0056b3 !important;
+            outline: none !important;
+            box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.3) !important;
+        }
+
+    .custom-dialog .p-float-label label {
+        color: #333 !important;
+        font-weight: bold !important;
+        font-size: 0.85rem !important;
+    }
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .custom-dialog {
+        width: 90vw !important;
+        padding: 1rem !important;
+        border-radius: 12px !important;
+    }
+
+        .custom-dialog .p-dialog-footer {
+            flex-direction: column !important;
+            justify-content: center !important;
+        }
+
+            .custom-dialog .p-dialog-footer .p-button {
+                margin-bottom: 1rem !important;
+            }
+}

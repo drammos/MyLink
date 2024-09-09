@@ -1,3 +1,4 @@
+//#region import section
 import React, { useEffect, useState, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -5,15 +6,17 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import PropTypes from 'prop-types';
-import { Dialog } from 'primereact/dialog';
-import { Chips } from 'primereact/chips';
-import { FloatLabel } from 'primereact/floatlabel';
 
 import './UsersList.css';
 import useService from '../../Services/useService';
 import { useNavigationHelpers } from '../Helpers/navigationHelpers';
+import NewUserPopupModal from './NewUserPopupModal/NewUserPopupModal'; 
+
+//#endregion
 
 const UsersList = () => {
+
+    //#region statements
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [globalFilter, setGlobalFilter] = useState(null);
@@ -23,15 +26,12 @@ const UsersList = () => {
     const [userToDelete, setUserToDelete] = useState(null); // State for managing deletion
     const [displayNewUserDialog, setDisplayNewUserDialog] = useState(false); // State for modal visibility
 
-    // For creating new user
-    const [newUserUsername, setNewUserUsername] = useState("");
-    const [newUserFirstName, setnewUserFirstName] = useState("");
-    const [newUserLastName, setnewUserLastName] = useState("");
-    const [newUserRole, setNewUserRole] = useState("");
-
 
     const dt = useRef(null);
     const { handleLogoutButton } = useNavigationHelpers();
+    //#endregion
+
+    //#region handling endpoints
 
     // Handling user deletion
     const deleteUserService = useService(
@@ -54,6 +54,39 @@ const UsersList = () => {
         true
     );
 
+    //#endregion
+
+    //#region export to xml
+
+    const convertUsersToXML = (users) => {
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<users>\n';
+
+        users.forEach(user => {
+            xml += `  <user>\n`;
+            xml += `    <userName>${user.userName}</userName>\n`;
+            xml += `    <firstName>${user.firstName}</firstName>\n`;
+            xml += `    <lastName>${user.lastName}</lastName>\n`;
+            xml += `    <role>${user.role}</role>\n`;
+            xml += `  </user>\n`;
+        });
+
+        xml += '</users>';
+        return xml;
+    };
+
+    const exportToXML = () => {
+        const xmlData = convertUsersToXML(users); // Convert the users data to XML
+        const blob = new Blob([xmlData], { type: 'application/xml' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'users.xml';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link); // Clean up
+    };
+
+
+    //#endregion 
 
     useEffect(() => {
         refetch(); // Manually trigger the API call
@@ -92,7 +125,7 @@ const UsersList = () => {
         }
     }, [userToDelete,deleteUserService.response, refetch]);
 
-    // ---------------------------- Modal PopUp ------------------------------------ //
+    //#region modal popup
 
     const openNewUserDialog = () => {
         setDisplayNewUserDialog(true); // Show modal
@@ -102,7 +135,9 @@ const UsersList = () => {
         setDisplayNewUserDialog(false); // Hide modal
     };
 
-    // ---------------------------------------------------------------- //
+    //#endregion
+
+    //#region toolbar templates
 
     const leftToolbarTemplate = () => {
         return (
@@ -132,7 +167,7 @@ const UsersList = () => {
                     label="Export"
                     icon="pi pi-download"
                     className="p-button-help"
-                    onClick={() => console.log('Export data')}
+                    onClick={exportToXML}
                 />
             </React.Fragment>
         );
@@ -150,6 +185,8 @@ const UsersList = () => {
             </React.Fragment>
         );
     };
+
+    //#endregion
 
     const header = (
         <div className="table-header">
@@ -233,41 +270,11 @@ const UsersList = () => {
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
                 </DataTable>
                 <Toolbar className="mb-4" center={secondRightToolbarTemplate}></Toolbar>
-
-                <Dialog
+                 
+                <NewUserPopupModal
                     visible={displayNewUserDialog}
-                    style={{ width: '450px' }}
-                    header="New User"
-                    modal
-                    className="p-fluid"
-                    footer={
-                        <div>
-                            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideNewUserDialog} />
-                            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={() => console.log('Saving user...')} />
-                        </div>
-                    }
                     onHide={hideNewUserDialog}
-                >
-                    <FloatLabel>
-                        <InputText id="username" value={newUserUsername} onChange={(e) => setNewUserUsername(e.target.value)} />
-                        <label htmlFor="username">Username</label>
-                    </FloatLabel>
-
-                    <FloatLabel>
-                        <InputText id="firstName" value={newUserFirstName} onChange={(e) => setnewUserFirstName(e.target.value)} />
-                        <label htmlFor="firstName">First Name</label>
-                    </FloatLabel>
-
-                    <FloatLabel>
-                        <InputText id="lastName" value={newUserLastName} onChange={(e) => setnewUserLastName(e.target.value)} />
-                        <label htmlFor="lastName">Last Name</label>
-                    </FloatLabel>
-
-                    <FloatLabel>
-                        <InputText id="role" value={newUserRole} onChange={(e) => setNewUserRole(e.target.value)} />
-                        <label htmlFor="role">Role</label>
-                    </FloatLabel>
-                </Dialog>
+                /> 
 
             </div>
         </div>
