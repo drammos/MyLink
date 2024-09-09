@@ -13,6 +13,8 @@ namespace MyLink.Models
         public string Birthday { get; set; }
         [Required]
         public string? PictureURL { get; set; }
+        public string? CoverLetterURL { get; set; }
+        public string? WebPage { get; set; }
         public ICollection<Education> Educations { get; } = new List<Education>();
         public ICollection<Experience> Experiences { get; } = new List<Experience>();
         public ICollection<Post> Posts { get; } = new List<Post>();

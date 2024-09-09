@@ -16,5 +16,6 @@ namespace MyLink.Data.Repository.IRepository
         public Task<bool> DeleteReaction(int reactionId);
         public Task<List<Reaction>> GetReactions(int postId);
         public Task<List<Reaction>> GetUserReactions(string username);
+        public Task<List<Post>> GetPostsFromConnectedUsers(List<string> userIdList);
     }
 }

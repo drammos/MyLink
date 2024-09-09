@@ -174,5 +174,14 @@ namespace MyLink.Data.Repository
             }
             return userReactions;
         }
+
+        public async Task<List<Post>> GetPostsFromConnectedUsers(List<string> userIdList)
+        {
+            var posts = await _context.Posts
+                .Where(p => userIdList.Contains(p.UserId))
+                .ToListAsync();
+    
+            return posts;
+        }
     }
 }

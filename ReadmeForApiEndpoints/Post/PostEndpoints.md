@@ -1121,5 +1121,154 @@ The Response is **applicatio/json -- boolean**
 ![alt text](image-18.png)
 
 
+## GetPostsFromConnectedUsers
+**Get**
+`/Post/GetPostsFromConnectedUsers`
+
+
+**Request**
+The Request is **Query Params**
+
+![image](https://github.com/user-attachments/assets/08f8742e-8893-47b4-973f-b51976044385)
+
+
+
+**Response**
+The Response is **applicatio/json**
+
+```
+[
+  {
+    "id": 0,
+    "title": "string",
+    "content": "string",
+    "createdAt": "2024-09-09T22:41:42.963Z",
+    "updateAt": "2024-09-09T22:41:42.963Z",
+    "pictureUrls": [
+      "string"
+    ],
+    "videoUrls": [
+      "string"
+    ],
+    "reactionsCount": 0,
+    "commentsCount": 0,
+    "comments": [
+      {
+        "id": 0,
+        "content": "string",
+        "createdAt": "2024-09-09T22:41:42.963Z",
+        "postId": 0,
+        "post": "string",
+        "username": "string"
+      }
+    ],
+    "reactions": [
+      {
+        "id": 0,
+        "reactionType": "string",
+        "postId": 0,
+        "post": "string",
+        "username": "string"
+      }
+    ],
+    "isLikedByCurrentUser": true,
+    "userId": "string",
+    "user": {
+      "id": "string",
+      "userName": "string",
+      "normalizedUserName": "string",
+      "email": "string",
+      "normalizedEmail": "string",
+      "emailConfirmed": true,
+      "passwordHash": "string",
+      "securityStamp": "string",
+      "concurrencyStamp": "string",
+      "phoneNumber": "string",
+      "phoneNumberConfirmed": true,
+      "twoFactorEnabled": true,
+      "lockoutEnd": "2024-09-09T22:41:42.963Z",
+      "lockoutEnabled": true,
+      "accessFailedCount": 0,
+      "firstName": "string",
+      "lastName": "string",
+      "birthday": "string",
+      "pictureURL": "string",
+      "coverLetterURL": "string",
+      "webPage": "string",
+      "educations": [
+        {
+          "id": 0,
+          "school": "string",
+          "degree": "string",
+          "fieldOfStudy": "string",
+          "startDate": "string",
+          "endDate": "string",
+          "grade": "string",
+          "description": "string",
+          "userId": "string",
+          "user": "string"
+        }
+      ],
+      "experiences": [
+        {
+          "id": 0,
+          "title": "string",
+          "employmentType": "string",
+          "companyName": "string",
+          "location": "string",
+          "locationType": "string",
+          "startDate": "2024-09-09T22:41:42.963Z",
+          "endDate": "2024-09-09T22:41:42.963Z",
+          "currentJob": true,
+          "description": "string",
+          "userId": "string",
+          "user": "string"
+        }
+      ],
+      "posts": [
+        "string"
+      ],
+      "connectedUsers": [
+        "string"
+      ],
+      "pendingRequestUsers": [
+        "string"
+      ],
+      "inComingRequestUsers": [
+        "string"
+      ],
+      "postedJobs": [
+        {
+          "id": 0,
+          "title": "string",
+          "companyName": "string",
+          "description": "string",
+          "location": "string",
+          "workType": "string",
+          "locationType": "string",
+          "category": "string",
+          "postedDate": "2024-09-09T22:41:42.963Z",
+          "isActive": true,
+          "closingDate": "2024-09-09T22:41:42.963Z",
+          "userId": "string",
+          "user": "string",
+          "jobApplications": [
+            {
+              "id": 0,
+              "jobId": 0,
+              "job": "string",
+              "username": "string",
+              "appliedDate": "2024-09-09T22:41:42.963Z",
+              "coverLetter": "string",
+              "status": 0
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
+```
+
 
 

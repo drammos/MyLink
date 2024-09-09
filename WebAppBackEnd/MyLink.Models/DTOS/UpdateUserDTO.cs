@@ -24,6 +24,7 @@ namespace MyLink.Models.DTOS
         [Required]
         public string? PictureURL { get; set; }
         public string? NewPassword { get; set; }
-        
+        public string? CoverLetterURL { get; set; }
+        public string? WebPage { get; set; }
     }
 }
