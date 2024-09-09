@@ -13,6 +13,6 @@ namespace MyLink.Models.DTOS
         public int JobId { get; set; }
         [Required]
         public string Username { get; set; }
-        public string? CovverLetter { get; set; }
+        public string? CoverLetter { get; set; }
     }
 }
