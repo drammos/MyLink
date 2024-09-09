@@ -103,7 +103,7 @@ namespace WebAppMyLink.Controllers
             {
                 JobId = applyForJobDTO.JobId,
                 Username = applyForJobDTO.Username,
-                CoverLetter = applyForJobDTO.CovverLetter,
+                CoverLetter = applyForJobDTO.CoverLetter,
                 AppliedDate = DateTime.Now,
                 Status = JobApplicationStatus.Pending
             };
