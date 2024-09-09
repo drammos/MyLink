@@ -190,8 +190,8 @@ namespace WebAppMyLink.Controllers
             return StatusCode(200);
         }
 
-        [HttpGet("GetFilterJobs")]
-        public ActionResult<List<Job>> GetFilterJobs([FromQuery] FilterJobsDTO filterJobsDTO)
+        [HttpGet("GetFilteredJobs")]
+        public ActionResult<List<Job>> GetFilteredJobs([FromQuery] FilterJobsDTO filterJobsDTO)
         {
             List<Job> filteredJobs = [];
             List<Job> jobs = _unitOfWork.Job.GetAll().ToList();
