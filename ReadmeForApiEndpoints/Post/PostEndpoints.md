@@ -1129,6 +1129,8 @@ The Response is **applicatio/json -- boolean**
 **Request**
 The Request is **Query Params**
 
+![image](https://github.com/user-attachments/assets/08f8742e-8893-47b4-973f-b51976044385)
+
 
 
 **Response**
