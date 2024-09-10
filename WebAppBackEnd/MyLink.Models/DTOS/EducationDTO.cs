@@ -10,8 +10,9 @@ namespace MyLink.Models.DTOS
         public string? UserId { get; set; }
         public string? Degree { get; set; }
         public string? FieldOfStudy { get; set; }
-        public string? StartDate { get; set; }
-        public string? EndDate { get; set; }
+        [Required]
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public string? Grade { get; set; }
         public string? Description { get; set; }
 

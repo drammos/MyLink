@@ -42,17 +42,19 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetEducations")]
-        public async Task<ActionResult<List<Education>>> GetEducations(string UserId)
+        public async Task<ActionResult<List<Education>>> GetEducations(string userId)
         {
-            IEnumerable<Education> list = _unitOfWork.Education.GetAll();
+            return await _unitOfWork.Education.GetUserEducations(userId);
+        }
+        
+        [HttpGet("GetEducation")]
+        public ActionResult<Education> GetEducation(int educationId)
+        {
+            Education education = _unitOfWork.Education
+                .FirstOrDefault(e => e.Id == educationId);
 
-            List<Education> educations = new List<Education>();
-            foreach (Education ed in list)
-            {
-                if (UserId.Equals(ed.UserId))
-                    educations.Add(ed);
-            }
-            return educations;
+            if (education == null) return NotFound();
+            return education;
         }
 
         [HttpPut("EditEducation")]
