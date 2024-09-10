@@ -6,7 +6,7 @@ namespace MyLink.Models.DTOS
     {
         [Required]
         public string UserId { get; set; }
-        public int LastPostedDays { get; set; }
+        public int LastPostedDays { get; set; } = 180; 
         public string? LocationType { get; set; }
         public string? WorkType { get; set; }
         public string? Category { get; set; }
