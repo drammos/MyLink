@@ -42,19 +42,21 @@ namespace WebAppMyLink.Controllers
 
             return experience;
         }
-
+        
         [HttpGet("GetExperiences")]
-        public async Task<ActionResult<List<Experience>>> GetExperiences(string UserId)
+        public async Task<ActionResult<List<Experience>>> GetExperiences(string userId)
         {
-            IEnumerable<Experience> list = _unitOfWork.Experience.GetAll();
+            return await _unitOfWork.Experience.GetUserExperiences(userId);
+        }
 
-            List<Experience> experiences = new List<Experience>();
-            foreach (Experience ex in list)
-            {
-                if (UserId.Equals(ex.UserId))
-                    experiences.Add(ex);
-            }
-            return experiences;
+        [HttpGet("GetExperience")]
+        public ActionResult<Experience> GetExperience(int experienceId)
+        {
+            Experience experience = _unitOfWork.Experience
+                .FirstOrDefault(e => e.Id == experienceId);
+
+            if (experience == null) return NotFound();
+            return experience;
         }
 
         [HttpPut("EditExperience")]
