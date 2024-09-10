@@ -46,6 +46,8 @@ const WelcomePageLogIn = () => {
         else {
             localStorage.setItem('authToken', '');
             localStorage.setItem('role', '');
+            localStorage.setItem('username', '');
+
 
             if (response) {
                 if (response.status === 200) {
@@ -54,6 +56,8 @@ const WelcomePageLogIn = () => {
                     console.log('Login successful');
                     localStorage.setItem('authToken', response.data.token);
                     localStorage.setItem('role', response.data.role);
+                    localStorage.setItem('username', response.data.username);
+
                     if (response.data.role === "Admin")
                         setTimeout(() => {
                             navigate(Routes.ControlPanel);

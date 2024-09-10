@@ -1,11 +1,14 @@
-import React, { Suspense, useState } from 'react';
+import { useState, useEffect } from 'react';
 import './LoggedInNavBar.css';
 import logo from '../../../assets/Logo.png'
 import ProfilePopup from './ProfilePopup/ProfilePopup'
 import { useNavigationHelpers } from '../Helpers/navigationHelpers'; 
+import PropTypes from 'prop-types';
 
-const LoggedInNavBar = () => {
+
+const LoggedInNavBar = ({ userInfo }) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [userPhotoUrl, setuserPhotoUrl] = useState('');
 
     const {
         handleHomeButton,
@@ -18,6 +21,18 @@ const LoggedInNavBar = () => {
     const toggleProfileMenu = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
     };
+
+    const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
+
+    useEffect(() => {
+        if (userInfo.pictureURL != null) {
+            console.log("ll",userInfo.pictureURL );
+            setuserPhotoUrl(userInfo.pictureURL);
+        } else {
+            setuserPhotoUrl(defaultPhotoURL);
+        }
+    }, [userInfo]);
+
 
     return (
         <div className="loggedInNavbarContainer">
@@ -38,7 +53,7 @@ const LoggedInNavBar = () => {
             <div className="navbar-right">
                 <div className="nav-item notification">24</div>
                 <button className="profile-pic-button" onClick={toggleProfileMenu}>
-                    <img src="https://via.placeholder.com/30x30?text=U" alt="User" />
+                    <img src={userPhotoUrl} alt="User" />
                 </button>
                 {isProfileMenuOpen && (
                     < ProfilePopup />
@@ -46,6 +61,12 @@ const LoggedInNavBar = () => {
             </div>
         </div>
     );
+};
+
+LoggedInNavBar.propTypes = {
+    userInfo: PropTypes.shape({
+        pictureURL: PropTypes.string,
+    }).isRequired,
 };
 
 export default LoggedInNavBar;

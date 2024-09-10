@@ -28,6 +28,7 @@ export const useNavigationHelpers = () => {
         console.log('Logging out...')
         localStorage.setItem('authToken', '');
         localStorage.setItem('role', '');
+        localStorage.setItem('username', '');
         navigate(Routes.Home);
     };
 

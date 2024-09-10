@@ -7,6 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import PropTypes from 'prop-types';
 
+import useDeleteUsers from '../../Services/useDeleteUsers';
 import './UsersList.css';
 import useService from '../../Services/useService';
 import { useNavigationHelpers } from '../Helpers/navigationHelpers';
@@ -23,12 +24,13 @@ const UsersList = () => {
     const [error, setError] = useState(null);
     const [count, setCount] = useState(0);
     const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
-    const [userToDelete, setUserToDelete] = useState(null); // State for managing deletion
-    const [displayNewUserDialog, setDisplayNewUserDialog] = useState(false); // State for modal visibility
+    const [userToDelete, setUserToDelete] = useState(null); 
+    const [displayNewUserDialog, setDisplayNewUserDialog] = useState(false); 
 
 
     const dt = useRef(null);
     const { handleLogoutButton } = useNavigationHelpers();
+
     //#endregion
 
     //#region handling endpoints
@@ -55,6 +57,8 @@ const UsersList = () => {
     );
 
     //#endregion
+
+    const { DeleteUsers, deleting, deleteError } = useDeleteUsers(refetch);
 
     //#region export to xml
 
@@ -89,7 +93,7 @@ const UsersList = () => {
     //#endregion 
 
     useEffect(() => {
-        refetch(); // Manually trigger the API call
+        refetch();
     }, [refetch]);
 
     useEffect(() => {
@@ -120,10 +124,19 @@ const UsersList = () => {
             console.log("done");
             setTimeout(() => {
                 refetch();
-            }, 4000);
+            }, 2000);
             setUserToDelete(null); // Reset user to delete
         }
     }, [userToDelete,deleteUserService.response, refetch]);
+
+    const handleDeleteSelectedUsers = () => {
+        if (selectedUsers.length > 0) {
+            console.log("got it! ", selectedUsers);
+            DeleteUsers(selectedUsers);
+        } else {
+            console.log('No users selected for deletion');
+        }
+    };
 
     //#region modal popup
 
@@ -153,7 +166,8 @@ const UsersList = () => {
                         label="Delete"
                         icon="pi pi-trash"
                         className="p-button-danger"
-                        onClick={() => console.log('Deleting user(s)...')}
+                        onClick={ handleDeleteSelectedUsers } 
+                        disabled={selectedUsers.length === 0 || deleting} 
                     />
                 </div>
             </React.Fragment>
@@ -178,8 +192,8 @@ const UsersList = () => {
             <React.Fragment>
                 <Button
                     label="Logout"
-                    icon="pi pi-download"
-                    className="p-button-help"
+                    icon="pi pi-sign-out"
+                    className="p-button-danger"
                     onClick={handleLogoutButton}
                 />
             </React.Fragment>
@@ -204,7 +218,6 @@ const UsersList = () => {
     const actionBodyTemplate = (rowData) => {
         const handleEdit = () => {
             console.log('Edit user:', rowData.userName);
-            // Implement edit functionality here
         };
 
         const handleDelete = () => {

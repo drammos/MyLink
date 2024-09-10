@@ -11,7 +11,7 @@ const useService = (message, method, url, input = null, contentType = 'applicati
     const fetchData = useCallback(async () => {
         console.log(message);
         setLoading(true);
-        setResponse(null); // Reset response on new request
+        setResponse(null); 
 
         const headers = {};
         if (contentType !== 'multipart/form-data') {
