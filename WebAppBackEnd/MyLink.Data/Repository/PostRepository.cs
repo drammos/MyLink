@@ -28,6 +28,7 @@ namespace MyLink.Data.Repository
             post.UpdateAt = updatePostDTO.UpdateAt;
             post.VideoUrls = updatePostDTO.VideoUrls;
             post.PictureUrls = updatePostDTO.PictureUrls;
+            post.VoiceUrls = updatePostDTO.VoiceUrls;
             post.Content = updatePostDTO.Content;
             post.IsLikedByCurrentUser = updatePostDTO.IsLikedByCurrentUser;
 

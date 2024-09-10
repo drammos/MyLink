@@ -14,6 +14,7 @@ namespace MyLink.Models.DTOS
         public DateTime UpdateAt { get; set; }
         public List<string> PictureUrls { get; set; } = [];
         public List<string> VideoUrls { get; set; } = [];
+        public List<string> VoiceUrls { get; set; } = [];
         [Required]
         public bool IsLikedByCurrentUser { get; set; }
     }
