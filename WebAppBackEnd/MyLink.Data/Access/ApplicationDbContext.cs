@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MyLink.Models;
+using System.Reflection.Emit;
 
 
 namespace MyLink.Data.Access
@@ -16,6 +17,9 @@ namespace MyLink.Data.Access
         public DbSet<Message> Messages { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -53,6 +57,44 @@ namespace MyLink.Data.Access
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserInComingRequests"));
 
+
+            // Posts
+            builder.Entity<User>()
+               .HasMany(e => e.Posts)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.UserId)
+               .IsRequired();
+
+            builder.Entity<Post>()
+                .HasMany(e => e.Comments)
+                .WithOne(e => e.Post)
+                .HasForeignKey(e => e.PostId)
+                .IsRequired();
+
+            builder.Entity<Post>()
+                .HasMany(e => e.Reactions)
+                .WithOne(e => e.Post)
+                .HasForeignKey(e => e.PostId)
+                .IsRequired();
+
+            // 1. Σχέση User -> PostedJobs (One-to-Many)
+            builder.Entity<User>()
+                .HasMany(u => u.PostedJobs)
+                .WithOne(j => j.User)
+                .HasForeignKey(j => j.UserId)
+                .IsRequired();
+
+            // 3. Σχέση Job -> JobApplications (One-to-Many)
+            builder.Entity<Job>()
+                .HasMany(j => j.JobApplications)
+                .WithOne(ja => ja.Job)
+                .HasForeignKey(ja => ja.JobId)
+                .IsRequired();
+
+            builder.Entity<JobApplication>()
+                .HasOne(ja => ja.Job)
+                .WithMany(j => j.JobApplications)
+                .HasForeignKey(ja => ja.JobId);
         }
     }
 }

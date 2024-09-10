@@ -92,7 +92,7 @@ The token expired after 24Hours
 **Request**
 The Request is **multipart/form-data**
 
-![alt text](image-1.png)
+![alt text](image-30.png)
 
 **Response**
 The Response is **application/json**
@@ -105,7 +105,9 @@ The Response is **application/json**
   "phoneNumber": "string",
   "pictureURL": "string",
   "email": "string",
-  "role": "string"
+  "role": "string",
+  "token": "string",
+  "birthday": "string"
 }
 ```
 
