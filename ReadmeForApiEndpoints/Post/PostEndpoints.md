@@ -14,8 +14,7 @@ For example the BackEnd Api url is: http://localhost:5175
 **Request**
 The Request is **multipart/form-data**
 
-![alt text](image-1.png)
-
+![alt text](image-20.png)
 **Response**
 The Response is **applicatio/json -- boolean**
 
@@ -24,12 +23,15 @@ The Response is **applicatio/json -- boolean**
   "id": 0,
   "title": "string",
   "content": "string",
-  "createdAt": "2024-09-03T17:00:18.604Z",
-  "updateAt": "2024-09-03T17:00:18.604Z",
+  "createdAt": "2024-09-10T21:59:02.051Z",
+  "updateAt": "2024-09-10T21:59:02.051Z",
   "pictureUrls": [
     "string"
   ],
   "videoUrls": [
+    "string"
+  ],
+  "voiceUrls": [
     "string"
   ],
   "reactionsCount": 0,
@@ -38,7 +40,7 @@ The Response is **applicatio/json -- boolean**
     {
       "id": 0,
       "content": "string",
-      "createdAt": "2024-09-03T17:00:18.604Z",
+      "createdAt": "2024-09-10T21:59:02.051Z",
       "postId": 0,
       "post": "string",
       "username": "string"
@@ -68,20 +70,23 @@ The Response is **applicatio/json -- boolean**
     "phoneNumber": "string",
     "phoneNumberConfirmed": true,
     "twoFactorEnabled": true,
-    "lockoutEnd": "2024-09-03T17:00:18.605Z",
+    "lockoutEnd": "2024-09-10T21:59:02.051Z",
     "lockoutEnabled": true,
     "accessFailedCount": 0,
     "firstName": "string",
     "lastName": "string",
+    "birthday": "string",
     "pictureURL": "string",
+    "coverLetterURL": "string",
+    "webPage": "string",
     "educations": [
       {
         "id": 0,
         "school": "string",
         "degree": "string",
         "fieldOfStudy": "string",
-        "startDate": "string",
-        "endDate": "string",
+        "startDate": "2024-09-10T21:59:02.051Z",
+        "endDate": "2024-09-10T21:59:02.051Z",
         "grade": "string",
         "description": "string",
         "userId": "string",
@@ -96,8 +101,8 @@ The Response is **applicatio/json -- boolean**
         "companyName": "string",
         "location": "string",
         "locationType": "string",
-        "startDate": "2024-09-03T17:00:18.605Z",
-        "endDate": "2024-09-03T17:00:18.605Z",
+        "startDate": "2024-09-10T21:59:02.051Z",
+        "endDate": "2024-09-10T21:59:02.051Z",
         "currentJob": true,
         "description": "string",
         "userId": "string",
@@ -115,6 +120,34 @@ The Response is **applicatio/json -- boolean**
     ],
     "inComingRequestUsers": [
       "string"
+    ],
+    "postedJobs": [
+      {
+        "id": 0,
+        "title": "string",
+        "companyName": "string",
+        "description": "string",
+        "location": "string",
+        "workType": "string",
+        "locationType": "string",
+        "category": "string",
+        "postedDate": "2024-09-10T21:59:02.051Z",
+        "isActive": true,
+        "closingDate": "2024-09-10T21:59:02.051Z",
+        "userId": "string",
+        "user": "string",
+        "jobApplications": [
+          {
+            "id": 0,
+            "jobId": 0,
+            "job": "string",
+            "username": "string",
+            "appliedDate": "2024-09-10T21:59:02.051Z",
+            "coverLetter": "string",
+            "status": 0
+          }
+        ]
+      }
     ]
   }
 }
@@ -245,7 +278,7 @@ The Response is **applicatio/json -- boolean**
 **Request**
 The Request is **multipart/form-data**
 
-![alt text](image-3.png)
+![alt text](image-21.png)
 
 **Response**
 The Response is **applicatio/json -- boolean**
@@ -255,12 +288,15 @@ The Response is **applicatio/json -- boolean**
   "id": 0,
   "title": "string",
   "content": "string",
-  "createdAt": "2024-09-03T17:18:15.209Z",
-  "updateAt": "2024-09-03T17:18:15.209Z",
+  "createdAt": "2024-09-10T22:00:11.878Z",
+  "updateAt": "2024-09-10T22:00:11.878Z",
   "pictureUrls": [
     "string"
   ],
   "videoUrls": [
+    "string"
+  ],
+  "voiceUrls": [
     "string"
   ],
   "reactionsCount": 0,
@@ -269,7 +305,7 @@ The Response is **applicatio/json -- boolean**
     {
       "id": 0,
       "content": "string",
-      "createdAt": "2024-09-03T17:18:15.209Z",
+      "createdAt": "2024-09-10T22:00:11.878Z",
       "postId": 0,
       "post": "string",
       "username": "string"
@@ -299,20 +335,23 @@ The Response is **applicatio/json -- boolean**
     "phoneNumber": "string",
     "phoneNumberConfirmed": true,
     "twoFactorEnabled": true,
-    "lockoutEnd": "2024-09-03T17:18:15.209Z",
+    "lockoutEnd": "2024-09-10T22:00:11.878Z",
     "lockoutEnabled": true,
     "accessFailedCount": 0,
     "firstName": "string",
     "lastName": "string",
+    "birthday": "string",
     "pictureURL": "string",
+    "coverLetterURL": "string",
+    "webPage": "string",
     "educations": [
       {
         "id": 0,
         "school": "string",
         "degree": "string",
         "fieldOfStudy": "string",
-        "startDate": "string",
-        "endDate": "string",
+        "startDate": "2024-09-10T22:00:11.878Z",
+        "endDate": "2024-09-10T22:00:11.878Z",
         "grade": "string",
         "description": "string",
         "userId": "string",
@@ -327,8 +366,8 @@ The Response is **applicatio/json -- boolean**
         "companyName": "string",
         "location": "string",
         "locationType": "string",
-        "startDate": "2024-09-03T17:18:15.209Z",
-        "endDate": "2024-09-03T17:18:15.209Z",
+        "startDate": "2024-09-10T22:00:11.878Z",
+        "endDate": "2024-09-10T22:00:11.878Z",
         "currentJob": true,
         "description": "string",
         "userId": "string",
@@ -346,6 +385,34 @@ The Response is **applicatio/json -- boolean**
     ],
     "inComingRequestUsers": [
       "string"
+    ],
+    "postedJobs": [
+      {
+        "id": 0,
+        "title": "string",
+        "companyName": "string",
+        "description": "string",
+        "location": "string",
+        "workType": "string",
+        "locationType": "string",
+        "category": "string",
+        "postedDate": "2024-09-10T22:00:11.878Z",
+        "isActive": true,
+        "closingDate": "2024-09-10T22:00:11.878Z",
+        "userId": "string",
+        "user": "string",
+        "jobApplications": [
+          {
+            "id": 0,
+            "jobId": 0,
+            "job": "string",
+            "username": "string",
+            "appliedDate": "2024-09-10T22:00:11.878Z",
+            "coverLetter": "string",
+            "status": 0
+          }
+        ]
+      }
     ]
   }
 }
