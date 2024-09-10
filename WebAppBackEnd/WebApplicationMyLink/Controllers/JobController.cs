@@ -191,34 +191,12 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetFilteredJobs")]
-        public ActionResult<List<Job>> GetFilteredJobs([FromQuery] FilterJobsDTO filterJobsDTO)
+        public async Task<ActionResult<List<Job>>> GetFilteredJobs([FromQuery] FilterJobsDTO filterJobsDTO)
         {
-            List<Job> filteredJobs = [];
-            List<Job> jobs = _unitOfWork.Job.GetAll().ToList();
-            if (jobs.IsNullOrEmpty()) return filteredJobs;
+            User user = await _userManager.FindByIdAsync(filterJobsDTO.UserId);
+            if(user == null) return NotFound();
             
-            foreach (var job in jobs)
-            {   
-                if(!job.IsActive)
-                    continue;
-                if (job.UserId == filterJobsDTO.UserId)
-                    continue;
-                if (!string.IsNullOrEmpty(filterJobsDTO.LocationType) && !filterJobsDTO.LocationType.Contains(job.LocationType))
-                    continue;
-                if (!string.IsNullOrEmpty(filterJobsDTO.WorkType) && !filterJobsDTO.WorkType.Contains(job.WorkType)) 
-                    continue;
-                if (!string.IsNullOrEmpty(filterJobsDTO.Category) && !filterJobsDTO.Category.Contains(job.Category))
-                    continue;
-
-                if (filterJobsDTO.LastPostedDays >= 0)
-                {
-                    TimeSpan difference = DateTime.Now - job.PostedDate;
-                    if (difference.Days > filterJobsDTO.LastPostedDays)
-                        continue;
-                }
-                filteredJobs.Add(job);
-            }
-            return filteredJobs;
+            return _unitOfWork.Job.GetSortingJobs(filterJobsDTO).ToList();
         }
 
         [HttpPut("CloseJob")]

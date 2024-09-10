@@ -32,6 +32,7 @@ namespace WebAppMyLink.Controllers
                 CreatedAt = createPostDTO.CreatedAt,
                 PictureUrls = createPostDTO.PictureUrls,
                 VideoUrls = createPostDTO.VideoUrls,
+                VoiceUrls = createPostDTO.VoiceUrls,
                 ReactionsCount = 0,
                 CommentsCount = 0,
                 IsLikedByCurrentUser = false,

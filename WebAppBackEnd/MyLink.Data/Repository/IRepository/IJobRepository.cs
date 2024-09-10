@@ -16,5 +16,6 @@ namespace MyLink.Data.Repository.IRepository
         public Task<bool> DeleteAllJobApplications(int jobApplicationId);
         public List<Job> GetOpenJobs();
         public List<Job> GetCloseJobs();
+        public List<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO);
     }
 }

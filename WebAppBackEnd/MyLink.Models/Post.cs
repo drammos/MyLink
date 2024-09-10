@@ -13,9 +13,10 @@ namespace MyLink.Models
         public string? Content { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
         public List<string> PictureUrls { get; set; } = [];
         public List<string> VideoUrls { get; set; } = [];
+        public List<string> VoiceUrls { get; set; } = [];
         public int ReactionsCount { get; set; }
         public int CommentsCount { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();

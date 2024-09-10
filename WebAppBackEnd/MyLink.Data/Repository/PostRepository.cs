@@ -28,6 +28,7 @@ namespace MyLink.Data.Repository
             post.UpdateAt = updatePostDTO.UpdateAt;
             post.VideoUrls = updatePostDTO.VideoUrls;
             post.PictureUrls = updatePostDTO.PictureUrls;
+            post.VoiceUrls = updatePostDTO.VoiceUrls;
             post.Content = updatePostDTO.Content;
             post.IsLikedByCurrentUser = updatePostDTO.IsLikedByCurrentUser;
 
@@ -179,6 +180,7 @@ namespace MyLink.Data.Repository
         {
             var posts = await _context.Posts
                 .Where(p => userIdList.Contains(p.UserId))
+                .OrderByDescending(p => !p.UpdateAt.HasValue ? p.CreatedAt : p.UpdateAt)
                 .ToListAsync();
     
             return posts;

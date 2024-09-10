@@ -1,4 +1,6 @@
-﻿using MyLink.Data.Access;
+﻿using System.Collections.Immutable;
+using Microsoft.EntityFrameworkCore;
+using MyLink.Data.Access;
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using MyLink.Models.DTOS;
@@ -30,6 +32,14 @@ namespace MyLink.Data.Repository
             education.Grade = updateEducationDTO.Grade;
             education.Description = updateEducationDTO.Description;
             return education;
+        }
+
+        public async Task<List<Education>> GetUserEducations(string userId)
+        {
+            return await _context.Educations
+                .Where(e => e.UserId == userId)
+                .OrderByDescending(e => e.StartDate)
+                .ToListAsync();
         }
     }
 }
