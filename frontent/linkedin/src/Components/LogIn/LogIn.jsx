@@ -94,7 +94,7 @@ const LogIn = () => {
             <form className="LogInForm" onSubmit={handleSubmit}>
                 <h1>Welcome to MyLink!</h1>
                 <p className="phrase">Empowering connections for a brighter future</p>
-                <div>
+                <div className="username">
                     <FloatLabel>
                         <InputText id="username" value={username} onChange={(e) => setUsername(e.target.value)} onKeyPress={handleKeyPress} />
                         <label htmlFor="username">Username</label>

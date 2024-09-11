@@ -80,6 +80,7 @@ const SignUpForm = () => {
     inputFormData.append('Password', password);
     inputFormData.append('BirthDate', birthDate);
     inputFormData.append('PictureURL', photoURL);
+    inputFormData.append('Birthday', birthDate);
 
     const { response, loading, refetch } = useService(
         'Creating new user...',

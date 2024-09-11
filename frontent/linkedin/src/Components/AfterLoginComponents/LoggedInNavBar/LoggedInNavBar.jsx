@@ -25,8 +25,7 @@ const LoggedInNavBar = ({ userInfo }) => {
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
 
     useEffect(() => {
-        if (userInfo.pictureURL != null) {
-            console.log("ll",userInfo.pictureURL );
+        if (userInfo.pictureURL !== "null") {
             setuserPhotoUrl(userInfo.pictureURL);
         } else {
             setuserPhotoUrl(defaultPhotoURL);

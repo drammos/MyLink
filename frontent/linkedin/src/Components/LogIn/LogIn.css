@@ -25,6 +25,10 @@ div.glass-container-Login{
             padding-top: 10px;
             width: 20rem;
         }
+        
+        div.glass-container-Login form.LogInForm div.username {
+            padding-top: 50px;
+        }
 
         div.glass-container-Login form.LogInForm div div.passwordAndVisibility{
             display: flex;
@@ -105,7 +109,7 @@ div.glass-container-Login{
             display: flex;
             max-width: 300px;
             max-height: 300px;
-            margin-top: -186 px;
+            margin-top: -184px;
             margin-left: 300px;
         }
 
