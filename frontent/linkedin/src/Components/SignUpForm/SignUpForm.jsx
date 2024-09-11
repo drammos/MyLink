@@ -90,12 +90,10 @@ const SignUpForm = () => {
         'multipart/form-data'
     );
 
+    const isValidName = (name) => /^[A-Za-z]/.test(name);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (photoURL === null) {
-            setPhotoURL('https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png');
-        }
 
         if (!terms) {
             setError('You must first agree with terms.');
@@ -103,12 +101,37 @@ const SignUpForm = () => {
             setErrorCode(1);
             return;
         }
+
+        if (!isValidName(firstname)) {
+            setError('Firstname is not correct');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
+        if (!isValidName(surname)) {
+            setError('Lastname is not correct');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
         if (password !== repeatPassword) {
             setError('Passwords do not match');
             setMessage('Error');
             setErrorCode(1);
             return;
         }
+
+        if (photoURL === null) {
+            setError('You must add a photo');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+            //setPhotoURL('https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png');
+        }
+
+        
         refetch();
     };
 
@@ -136,7 +159,6 @@ const SignUpForm = () => {
             try {
                 console.log("uploading photo...");
                 const { originalUrl, transformedUrl, response } = await UploadPhoto(file);
-                console.log("response is: ", response);
                 console.log("transformedUrl is: ", transformedUrl);
                 console.log("originalUrl is: ", originalUrl );
                 setPhotoURL(transformedUrl); // Set the optimized URL after upload

@@ -1,0 +1,63 @@
+/* Right section container */
+.main-page-right {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Ads section */
+.ads-section, .suggestions-section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.ad-link {
+    color: #1fb4c2;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ad-description {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* People suggestion section */
+.suggestion {
+    margin-bottom: 15px;
+}
+
+.suggestion-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.suggestion-info {
+    margin-left: 10px;
+}
+
+    .suggestion-info b {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+.connect-btn {
+    background-color: #1fb4c2;
+    color: white; 
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
