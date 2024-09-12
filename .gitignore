@@ -4,7 +4,7 @@
 frontent/linkedin/node_modules/*
 
 # Ignore everything in Migrations directory
-Migrations/*
+Migrations/**
 **/Migrations/*
 # Except ApplicationDbContext.cs
 !Migrations/ApplicationDbContext.cs
