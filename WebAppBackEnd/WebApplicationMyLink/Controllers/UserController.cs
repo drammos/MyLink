@@ -24,11 +24,12 @@ namespace WebAppMyLink.Controllers
         private readonly Token _token;
         private readonly IMapper _mapper;
 
-        public UserController(UserManager<User> userManager, IUnitOfWork unitOfWork, Token token)
+        public UserController(UserManager<User> userManager, IUnitOfWork unitOfWork, Token token, IMapper mapper)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _token = token;
+            _mapper = mapper;
         }
 
         [HttpPost("LoginUser")]
