@@ -7,7 +7,7 @@ frontent/linkedin/node_modules/*
 Migrations/**
 WebAppBackEnd/MyLink.Data/Migrations/*
 # Except ApplicationDbContext.cs
-!WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContext.cs
+!WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
 
 
 # Ignore Visual Studio temporary files, build results, and
