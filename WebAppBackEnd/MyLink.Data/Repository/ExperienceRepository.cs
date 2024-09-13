@@ -1,4 +1,5 @@
-﻿using MyLink.Data.Access;
+﻿using Microsoft.EntityFrameworkCore;
+using MyLink.Data.Access;
 using MyLink.Models.DTOS;
 using MyLink.Models;
 using MyLink.Data.Repository.IRepository;
@@ -32,6 +33,14 @@ namespace MyLink.Data.Repository
             experience.CurrentJob = updateExperienceDTO.CurrentJob;
             experience.Description = updateExperienceDTO.Description;
             return experience;
+        }
+        
+        public async Task<List<Experience>> GetUserExperiences(string userId)
+        {
+            return await _context.Experiences
+                .Where(e => e.UserId == userId)
+                .OrderByDescending(e => e.StartDate)
+                .ToListAsync();
         }
     }
 }

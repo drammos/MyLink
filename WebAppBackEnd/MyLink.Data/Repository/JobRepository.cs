@@ -137,5 +137,23 @@ namespace MyLink.Data.Repository
         {
             return  _context.Jobs.Where(j => j.IsActive == false).ToList();
         }
+
+        public List<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO)
+        {
+            var dates = DateTime.Now.AddDays(-filterJobsDTO.LastPostedDays);
+            if (filterJobsDTO == null) return new List<Job>();
+            return _context.Jobs
+                .Where(
+                    j => 
+                        j.IsActive == true 
+                        && (j.UserId != filterJobsDTO.UserId)
+                        && (j.PostedDate >= dates)
+                        && (string.IsNullOrEmpty(filterJobsDTO.LocationType) ? true : j.LocationType.Contains(filterJobsDTO.LocationType))
+                        && (string.IsNullOrEmpty(filterJobsDTO.Category) ? true : j.Category.Contains(filterJobsDTO.Category))
+                        && (string.IsNullOrEmpty(filterJobsDTO.WorkType) ? true : j.WorkType.Contains(filterJobsDTO.WorkType))
+                        )
+                .OrderByDescending(j => j.PostedDate)
+                .ToList();
+        }
     }
 }

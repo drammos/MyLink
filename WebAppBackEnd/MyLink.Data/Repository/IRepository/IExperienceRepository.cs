@@ -6,5 +6,6 @@ namespace MyLink.Data.Repository.IRepository
     public interface IExperienceRepository : IRepositoryBase<Experience>
     {
         public Experience Update(UpdateExperienceDTO updateExperienceDTO);
+        public Task<List<Experience>> GetUserExperiences(string userId);
     }
 }
