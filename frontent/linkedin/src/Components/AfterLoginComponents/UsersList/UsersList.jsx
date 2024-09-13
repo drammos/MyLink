@@ -5,6 +5,7 @@ import { Column } from 'primereact/column';
 import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import {agents} from '../../../agents'; 
 import PropTypes from 'prop-types';
 
 import useDeleteUsers from '../../Services/useDeleteUsers';
@@ -35,22 +36,24 @@ const UsersList = () => {
 
     //#region handling endpoints
 
+    const url = agents.localhost + agents.deleteUser;
     // Handling user deletion
     const deleteUserService = useService(
         userToDelete ? `Deleting user ${userToDelete}` : '',
         'DELETE',
-        userToDelete ? `http://localhost:5175/User/DeleteUser?Username=${userToDelete}` : null,
+        userToDelete ? `${url}?Username=${userToDelete}` : null,
         null,
         'application/json',
         !!userToDelete
     ); 
 
+    const url2 = agents.localhost + agents.getAllUsers;
 
     // Fetching users using useService custom hook
     const { response, loading, refetch } = useService(
         'Loading users..',
         'GET',
-        'http://localhost:5175/User/GetAllUsers',
+        url2,
         null,
         undefined,
         true

@@ -24,7 +24,7 @@ const useService = (message, method, url, input = null, contentType = 'applicati
                 headers['Authorization'] = `Bearer ${authToken}`;
             }
         }
-
+        
         const options = {
             method: method,
             headers: headers,
@@ -37,16 +37,23 @@ const useService = (message, method, url, input = null, contentType = 'applicati
 
         try {
             const res = await fetch(url, options);
+            const headers = res.headers;
+            headers.forEach((value, key) => {
+                console.log(`${key}: ${value}`);
+            });
+
             const data = await res.json();
             setResponse({
                 status: res.status,
                 data,
+                headers
             });
         } catch (error) {
             console.error('Request failed:', error);
             setResponse({
                 status: 600,
                 error,
+                headers
             });
         } finally {
             setLoading(false);

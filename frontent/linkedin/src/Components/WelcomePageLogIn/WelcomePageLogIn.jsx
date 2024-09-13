@@ -8,6 +8,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import useService from "../Services/useService";
 import './WelcomePageLogIn.css'
 import { Routes } from '../../routes.jsx';
+import { agents } from '../../agents.jsx';
 
 //#endregion
 
@@ -23,12 +24,14 @@ const WelcomePageLogIn = () => {
     const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
     const role = localStorage.getItem('role');
 
+    const url = agents.localhost + agents.loginUser;
+
     // API call for user LogIn
     const input = JSON.stringify({ "username": username, "password": password });
     const { response, loading, refetch } = useService(
         'Logging in...',
         'POST',
-        'http://localhost:5175/User/LoginUser',
+        url,
         input
     );
 

@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import useService from './useService';
+import {agents} from '../../agents';
 
 const useDeleteUsers = (refetchUsers) => {
     const [deleteError, setDeleteError] = useState(null);
     const [deleting, setDeleting] = useState(false); // loading
     const [user, setUser] = useState('none');
 
+    const url = agents.localhost + agents.deleteUser;
 
     const deleteUserService = useService(
         `Deleting user: ${user}`,
         'DELETE',
-        `http://localhost:5175/User/DeleteUser?Username=${user}`,
+        `${url}?Username=${user}`,
         null,
         'application/json',
         true 

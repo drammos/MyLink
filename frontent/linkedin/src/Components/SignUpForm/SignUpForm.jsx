@@ -11,6 +11,8 @@ import { InputText } from 'primereact/inputtext';
 import { Divider } from 'primereact/divider';
 import { Calendar } from 'primereact/calendar';
 import UploadPhoto from '../Services/UploadPhoto';
+import { agents } from '../../agents';
+
 import "react-datepicker/dist/react-datepicker.css";
 import './SignUpForm.css';
 //#endregion
@@ -82,10 +84,12 @@ const SignUpForm = () => {
     inputFormData.append('PictureURL', photoURL);
     inputFormData.append('Birthday', birthDate);
 
+    const url = agents.localhost + agents.registerUser;
+
     const { response, loading, refetch } = useService(
         'Creating new user...',
         'POST',
-        'http://localhost:5175/User/RegisterUser',
+        url,
         inputFormData,
         'multipart/form-data'
     );

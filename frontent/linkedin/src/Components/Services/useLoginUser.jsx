@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useService } from './useService';
 import { useNavigate } from 'react-router-dom';
-import Routes from './Routes';
+import Routes from '../../routes';
+import {agents} from '../../agents';
 
 const useLoginUser = () => {
     const [errorCode, setErrorCode] = useState(null);
@@ -9,10 +10,12 @@ const useLoginUser = () => {
     const [inputData, setInputData] = useState(null);
     const navigate = useNavigate();
 
+    const url = agents.localhost + agents.loginUser;
+
     const { response, loading, refetch: fetchService } = useService(
         'Logging in...',
         'POST',
-        'http://localhost:5175/User/LoginUser',
+        url,
         inputData
     );
 

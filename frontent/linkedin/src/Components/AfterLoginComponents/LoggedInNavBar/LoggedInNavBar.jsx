@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import './LoggedInNavBar.css';
 import logo from '../../../assets/Logo.png'
 import ProfilePopup from './ProfilePopup/ProfilePopup'
-import { useNavigationHelpers } from '../Helpers/navigationHelpers'; 
+import { useNavigationHelpers } from '../Helpers/navigationHelpers';
+import  useGetListFromIncomingRequests  from '../../Services/useGetListFromIncomingRequests'; 
 import PropTypes from 'prop-types';
 
 
@@ -23,14 +24,17 @@ const LoggedInNavBar = ({ userInfo }) => {
     };
 
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
+    const { listLength, listInfo, refetch } = useGetListFromIncomingRequests();
 
     useEffect(() => {
+
         if (userInfo.pictureURL !== "null") {
             setuserPhotoUrl(userInfo.pictureURL);
         } else {
             setuserPhotoUrl(defaultPhotoURL);
         }
-    }, [userInfo]);
+        refetch(userInfo.id);
+    }, [userInfo, refetch]);
 
 
     return (
@@ -50,7 +54,7 @@ const LoggedInNavBar = ({ userInfo }) => {
                 <button type="submit">Search</button>
             </div>
             <div className="navbar-right">
-                <div className="nav-item notification">24</div>
+                <div className="nav-item notification">{listLength}</div>
                 <button className="profile-pic-button" onClick={toggleProfileMenu}>
                     <img src={userPhotoUrl} alt="User" />
                 </button>
@@ -65,6 +69,7 @@ const LoggedInNavBar = ({ userInfo }) => {
 LoggedInNavBar.propTypes = {
     userInfo: PropTypes.shape({
         pictureURL: PropTypes.string,
+        id: PropTypes.string,
     }).isRequired,
 };
 

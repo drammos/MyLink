@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import useService from './useService';
+import {agents} from '../../agents';
 
 const useGetUser = () => {
     const [currentUser, setcurrentUser] = useState('');
@@ -7,10 +8,12 @@ const useGetUser = () => {
     const [message, setMessage] = useState('');
     const [userInfo, setUserInfo] = useState('');
 
+    const url = agents.localhost + agents.getUser;
+
     const { response, loading, refetch: fetchService } = useService(
         'Getting user informations',
         'GET',
-        `http://localhost:5175/User/GetUser?Username=${currentUser}`,
+        `${url}?Username=${currentUser}`,
         null,
         undefined, 
         null

@@ -1,17 +1,19 @@
 import { useState, useCallback, useEffect } from 'react';
 import useService from '../Services/useService'; 
 import { useNavigate } from 'react-router-dom';
+import { agents } from '../../agents';
 
 const useSignUpUser = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const navigate = useNavigate();
     const inputFormData = new FormData();
+    const url = agents.localhost + agents.registerUser;
 
     const { response, loading, refetch: fetchService } = useService(
         'Creating new user...',
         'POST',
-        'http://localhost:5175/User/RegisterUser',
+        url,
         inputFormData,
         'multipart/form-data'
     );

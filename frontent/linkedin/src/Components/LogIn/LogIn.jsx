@@ -7,6 +7,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import './LogIn.css';
 import useService from "../Services/useService";
 import { Routes } from '../../routes.jsx';
+import {agents} from '../../agents';
+
 
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
@@ -22,11 +24,14 @@ const LogIn = () => {
 
     const input = JSON.stringify({ "username": username, "password": password });
 
+
+    const url = agents.localhost + agents.loginUser;
+
     // API call for user LogIn
     const { response, loading, refetch } = useService(
         'Logging in...',
         'POST',
-        'http://localhost:5175/User/LoginUser',
+        url,
         input
     );
 
