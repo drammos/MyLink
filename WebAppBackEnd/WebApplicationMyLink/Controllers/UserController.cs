@@ -47,7 +47,7 @@ namespace WebAppMyLink.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
@@ -103,7 +103,7 @@ namespace WebAppMyLink.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
@@ -179,7 +179,7 @@ namespace WebAppMyLink.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
@@ -300,11 +300,11 @@ namespace WebAppMyLink.Controllers
 
         [HttpGet("GetAllUsers")]
         // [Authorize(Roles = "Admin")]
-        public async Task<List<UserDTO>> GetAllUsers([FromQuery] Params paginationParams)
+        public async Task<PagedList<UserDTO>> GetAllUsers([FromQuery] Params paginationParams)
         {
             var users = _userManager.Users;
             
-            var userListPaged = await PagedList<User>.ToPagedList(users, paginationParams.numberPage, paginationParams.PageSize);
+            var userListPaged = await PagedList<User>.ToPagedList(users, paginationParams.PageNumber, paginationParams.PageSize);
             List<UserDTO> userDTOList = new List<UserDTO>();
             foreach (var user in userListPaged)
             {
