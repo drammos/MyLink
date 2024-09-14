@@ -4,7 +4,7 @@ namespace MyLink.Models.Pagination
 {
     public class Params
     {
-        public int numberPage { get; set; } = 1;
+        public int PageNumber { get; set; } = 1;
         private const int maxPageSize = 20;
         
         private int _pageSize = 10;
