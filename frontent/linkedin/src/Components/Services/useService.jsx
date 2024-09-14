@@ -37,23 +37,41 @@ const useService = (message, method, url, input = null, contentType = 'applicati
 
         try {
             const res = await fetch(url, options);
+
+            // Get the headers
+            const headersDict = {};
+            res.headers.forEach((value, key) => {
+                headersDict[key] = value;
+            });
+            
+            // Get the data
             const data = await res.json();
             setResponse({
                 status: res.status,
                 data,
+                headersDict, 
             });
+
         } catch (error) {
             console.error('Request failed:', error);
+
+            // Get the headers
+            const headersDict = {};
+            res.headers.forEach((value, key) => {
+                headersDict[key] = value;
+            });
+            
             setResponse({
                 status: 600,
                 error,
+                headersDict, 
             });
         } finally {
             setLoading(false);
         }
     }, [message, method, url, input, contentType, useToken]);
 
-    return { response, loading, refetch: fetchData };
+    return { response, loading, refetch: fetchData }; // Return the updated response object
 };
 
 export default useService;

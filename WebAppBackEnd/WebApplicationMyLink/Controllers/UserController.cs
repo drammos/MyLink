@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using MyLink.Services.JsonWebTokens;
 using System.Drawing;
+using MyLink.Models.Pagination;
+using MyLink.Services.Pagination;
+using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 
 namespace WebAppMyLink.Controllers
 {
@@ -18,12 +22,14 @@ namespace WebAppMyLink.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Token _token;
+        private readonly IMapper _mapper;
 
-        public UserController(UserManager<User> userManager, IUnitOfWork unitOfWork, Token token)
+        public UserController(UserManager<User> userManager, IUnitOfWork unitOfWork, Token token, IMapper mapper)
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
             _token = token;
+            _mapper = mapper;
         }
 
         [HttpPost("LoginUser")]
@@ -41,7 +47,7 @@ namespace WebAppMyLink.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
@@ -97,7 +103,7 @@ namespace WebAppMyLink.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
@@ -173,7 +179,7 @@ namespace WebAppMyLink.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.UserName,
+                UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 PictureURL = user.PictureURL,
@@ -293,11 +299,29 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "Admin")]
-        public List<User> GetAllUsers()
+        // [Authorize(Roles = "Admin")]
+        public async Task<PagedList<UserDTO>> GetAllUsers([FromQuery] Params paginationParams)
         {
-            var users = _userManager.Users.ToList();
-            return users;
+            var users = _userManager.Users;
+            
+            var userListPaged = await PagedList<User>.ToPagedList(users, paginationParams.PageNumber, paginationParams.PageSize);
+            List<UserDTO> userDTOList = new List<UserDTO>();
+            foreach (var user in userListPaged)
+            {
+                //Mapper the use to UserDTO
+                UserDTO userDTO = _mapper.Map<UserDTO>(user);
+                
+                //Take the role
+                var listfromroles = await _userManager.GetRolesAsync(user);
+                List<string> roles = new List<string>(listfromroles);
+                userDTO.Role = roles[0];
+                
+                //Add useDTO to list
+                userDTOList.Add(userDTO);
+            }
+            var userDTOPaginationList = new PagedList<UserDTO>(userDTOList, userListPaged.Metadata.TotalCount, userListPaged.Metadata.CurrentPage, userListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(userDTOPaginationList.Metadata);
+            return userDTOPaginationList;
         }
 
         [HttpDelete("DeleteUser")]
