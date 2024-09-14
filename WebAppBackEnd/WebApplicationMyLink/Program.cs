@@ -84,8 +84,10 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin()
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .WithExposedHeaders("Pagination", "Transfer-Encoding");
     });
+    
 });
 var app = builder.Build();
 
