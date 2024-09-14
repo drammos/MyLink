@@ -33,7 +33,7 @@ const UsersList = () => {
 
     //Page Number and Page Size
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(7);
+    const [pageSize, setPageSize] = useState(6);
     //Metadata
     const [metadata, setMetadata] = useState({
         currentPage: 1,
