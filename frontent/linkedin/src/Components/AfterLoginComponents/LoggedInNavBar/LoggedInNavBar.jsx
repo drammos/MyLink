@@ -27,8 +27,8 @@ const LoggedInNavBar = ({ userInfo }) => {
     const { listLength, listInfo, refetch } = useGetListFromIncomingRequests();
 
     useEffect(() => {
-
-        if (userInfo.pictureURL !== "null") {
+        console.log(userInfo.pictureURL);
+        if (userInfo.pictureURL && userInfo.pictureURL !== "null") {
             setuserPhotoUrl(userInfo.pictureURL);
         } else {
             setuserPhotoUrl(defaultPhotoURL);
