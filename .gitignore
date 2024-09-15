@@ -9,7 +9,7 @@ WebAppBackEnd/MyLink.Data/Migrations/*
 
 dist/
 dist/**
-frontent/linkedin/dist
+frontent/linkedin/dist/*
 # Except ApplicationDbContext.cs
 !WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
 
