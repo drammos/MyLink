@@ -20,8 +20,9 @@ const MainPage = () => {
     const { userInfo, refetch } = useGetUser();
 
     useEffect(() => {
-        refetch(localStorage.getItem('username'));
-        console.log(userInfo);
+        if (localStorage.getItem('username'))
+            refetch(localStorage.getItem('username'));
+        console.log(localStorage.getItem('username'));
     }, [refetch, userInfo]);
 
     return (
