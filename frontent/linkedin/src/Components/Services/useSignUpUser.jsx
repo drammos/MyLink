@@ -33,6 +33,8 @@ const useSignUpUser = () => {
     const signUpUser = useCallback((
         firstname, surname, phone, email, role, username, password, birthDate, photoURL
     ) => {
+        surname = surname ? surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase() : '';
+        firstname = firstname ? firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase() : '';
         inputFormData.append('FirstName', firstname);
         inputFormData.append('LastName', surname);
         inputFormData.append('PhoneNumber', phone);

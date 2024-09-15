@@ -8,13 +8,17 @@ export const useNavigationHelpers = () => {
         navigate(Routes.MainPage); 
     };
 
+    const handleViewProfile = () => {
+        navigate(Routes.PersonalInfo);
+    };
+
     const handleProfileButton = () => {
         navigate('/profile');
     };
 
     const handleNetworkButton = () => {
         navigate('/network'); 
-    };
+    };    
 
     const handleJobsButton = () => {
         navigate('/jobs'); 
@@ -29,6 +33,7 @@ export const useNavigationHelpers = () => {
         localStorage.setItem('authToken', '');
         localStorage.setItem('role', '');
         localStorage.setItem('username', '');
+        localStorage.setItem('id', '');
         navigate(Routes.Home);
     };
 
@@ -38,6 +43,7 @@ export const useNavigationHelpers = () => {
         handleNetworkButton,
         handleJobsButton,
         handleInterestsButton,
+        handleViewProfile,
         handleLogoutButton,
     };
 };

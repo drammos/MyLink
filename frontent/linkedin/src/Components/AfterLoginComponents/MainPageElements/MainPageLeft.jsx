@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import './styles/MainPageLeft.css';
 
 const MainPageLeft = ({ userInfo }) => {
-    const lastname = userInfo.lastName ? userInfo.lastName.charAt(0).toUpperCase() + userInfo.lastName.slice(1).toLowerCase() : '';
+    // if name and surname doesn't start with capitals, fix it
+    const lastname = userInfo.lastName  ? userInfo.lastName.charAt(0).toUpperCase() + userInfo.lastName.slice(1).toLowerCase() : '';
     const firstname = userInfo.firstName ? userInfo.firstName.charAt(0).toUpperCase() + userInfo.firstName.slice(1).toLowerCase() : '';
+
     const initials = firstname.charAt(0) + lastname.charAt(0);
     const [education, setEducation] = useState('');
 

@@ -50,6 +50,7 @@ const WelcomePageLogIn = () => {
             localStorage.setItem('authToken', '');
             localStorage.setItem('role', '');
             localStorage.setItem('username', '');
+            localStorage.setItem('id', '');
 
 
             if (response) {
@@ -60,6 +61,7 @@ const WelcomePageLogIn = () => {
                     localStorage.setItem('authToken', response.data.token);
                     localStorage.setItem('role', response.data.role);
                     localStorage.setItem('username', response.data.username);
+                    localStorage.setItem('id', response.data.id);
 
                     if (response.data.role === "Admin")
                         setTimeout(() => {

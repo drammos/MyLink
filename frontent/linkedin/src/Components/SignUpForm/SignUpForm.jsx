@@ -106,6 +106,9 @@ const SignUpForm = () => {
             return;
         }
 
+        const surname = surname ? surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase() : '';
+        const firstname = firstname ? firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase() : '';
+
         if (!isValidName(firstname)) {
             setError('Firstname is not correct');
             setMessage('Error');

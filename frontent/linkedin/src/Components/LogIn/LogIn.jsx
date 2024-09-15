@@ -55,6 +55,7 @@ const LogIn = () => {
                     localStorage.setItem('authToken', response.data.token);
                     localStorage.setItem('role', response.data.role);
                     localStorage.setItem('username', response.data.username);
+                    localStorage.setItem('id', response.data.id);
                     if (response.data.role === "Admin")
                         setTimeout(() => {
                             navigate(Routes.ControlPanel);

@@ -8,4 +8,5 @@ export const Routes = {
     ControlPanel: '/Control Panel',
     MainPage: '/StartPage',
     PageNotFound: '/PageNotFound',
+    PersonalInfo: '/StartPage/PersonalInformations'
 };
