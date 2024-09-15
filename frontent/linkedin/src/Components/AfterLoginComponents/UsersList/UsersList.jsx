@@ -1,5 +1,5 @@
 //#region import section
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toolbar } from 'primereact/toolbar';
@@ -7,12 +7,16 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import {agents} from '../../../agents'; 
 import PropTypes from 'prop-types';
-
+import ReactPaginate from "react-paginate";
 import useDeleteUsers from '../../Services/useDeleteUsers';
+import Grid2 from "@mui/material/Grid2";
+
 import './UsersList.css';
 import useService from '../../Services/useService';
 import { useNavigationHelpers } from '../Helpers/navigationHelpers';
 import NewUserPopupModal from './NewUserPopupModal/NewUserPopupModal'; 
+import AppPagination from '../../Pagination/AppPagination';
+import { Position } from '@cloudinary/url-gen/qualifiers';
 
 //#endregion
 
@@ -28,7 +32,16 @@ const UsersList = () => {
     const [userToDelete, setUserToDelete] = useState(null); 
     const [displayNewUserDialog, setDisplayNewUserDialog] = useState(false); 
 
-
+    //Page Number and Page Size
+    const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
+    //Metadata
+    const [metadata, setMetadata] = useState({
+        currentPage: 1,
+        totalPages: 1,
+        pageSize: 10,
+        totalCount: 10
+      });    
     const dt = useRef(null);
     const { handleLogoutButton } = useNavigationHelpers();
 
@@ -47,14 +60,20 @@ const UsersList = () => {
         !!userToDelete
     ); 
 
-    const url2 = agents.localhost + agents.getAllUsers;
-
-    // Fetching users using useService custom hook
-    const { response, loading, refetch } = useService(
+    const buildUrl = useCallback(() => {
+        const params = new URLSearchParams();
+        const url2 = agents.localhost + agents.getAllUsers;
+        params.append('PageNumber', pageNumber.toString());
+        params.append('PageSize', pageSize.toString());
+        console.log("eedo mesa", pageNumber,pageSize);
+        return `${url2}?${params}`;
+      }, [pageNumber, pageSize]);
+    
+    const {response, loading, refetch} = useService(
         'Loading users..',
         'GET',
-        url2,
-        null,
+        buildUrl(),
+        null,  
         undefined,
         true
     );
@@ -97,7 +116,7 @@ const UsersList = () => {
 
     useEffect(() => {
         refetch();
-    }, [refetch]);
+    }, [refetch, pageNumber, pageSize]);
 
     useEffect(() => {
         if (response) {
@@ -105,7 +124,13 @@ const UsersList = () => {
                 setErrorCode(0);
                 setUsers(response.data); // Adjust according to your API response structure
                 setError(null); // Clear any previous errors
+                
+                const paginationJson = JSON.parse(response.headersDict['pagination']);
+                setMetadata(paginationJson);
                 setCount(response.data.length);
+        console.log("data, ", response.data);
+        console.log("len", users.length );
+                console.log("user", users.entries());
             } else {
                 setErrorCode(1);
                 setError('An unexpected error occurred. Please refresh and try again.');
@@ -114,7 +139,7 @@ const UsersList = () => {
             setErrorCode(1);
             setError('An unexpected error occurred. Please refresh and try again.');
         }
-    }, [response, loading]);
+    }, [response, loading, pageNumber, pageSize]);
 
     useEffect(() => {
         if (userToDelete) {
@@ -260,31 +285,51 @@ const UsersList = () => {
                 {loading && <p className="loading">Loading...</p>}
 
                 <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
-                <DataTable
-                    ref={dt}
-                    value={users}
-                    paginator
-                    header={header}
-                    rows={10}
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    rowsPerPageOptions={[10, 25, 50]}
-                    dataKey="id"
-                    selectionMode="checkbox"
-                    selection={selectedUsers}
-                    onSelectionChange={(e) => setSelectedUsers(e.value)}
-                    globalFilter={globalFilter}
-                    globalFilterFields={['userName', 'firstName', 'lastName', 'role']}
-                    emptyMessage="No users found."
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                >
-                    <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                    <Column field="userName" header="Username" sortable filter filterPlaceholder="Search by username" style={{ minWidth: '10rem' }} body={userNameBodyTemplate} />
-                    <Column field="firstName" header="First Name" sortable filter filterPlaceholder="Search by first name" style={{ minWidth: '10rem' }} body={userFirstNameTemplate} />
-                    <Column field="lastName" header="Last Name" sortable filter filterPlaceholder="Search by last name" style={{ minWidth: '10rem' }} body={userLastNameTemplate} />
-                    <Column field="role" header="Role" sortable filter filterPlaceholder="Search by role" style={{ minWidth: '10rem' }} body={roleBodyTemplate} />
-                    <Column headerStyle={{ width: '5rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
-                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
-                </DataTable>
+                {users.length > 0 ? (
+                    <Grid2>
+                        <Grid2 container>
+                            <DataTable
+                                ref={dt}
+                                value={users}
+                                // paginator
+                                rows={pageSize}
+                                first={(pageNumber - 1) * pageSize}
+                                onPage={(e) => {
+                                setPageNumber(e.page + 1);
+                                refetch();  // Add this line to trigger a refetch when the page changes
+                                }}
+                                totalRecords={metadata?.totalCount}  // Change this from totalRecords to totalCount
+                                dataKey="id"
+                                selectionMode="checkbox"
+                                selection={selectedUsers}
+                                onSelectionChange={(e) => setSelectedUsers(e.value)}
+                                globalFilter={globalFilter}
+                                header={header}
+                                globalFilterFields={['userName', 'firstName', 'lastName', 'role']}
+                                emptyMessage="No users found."
+                            >
+                                <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                                <Column field="userName" header="Username" sortable filter filterPlaceholder="Search by username" style={{ minWidth: '10rem' }} body={userNameBodyTemplate} />
+                                <Column field="firstName" header="First Name" sortable filter filterPlaceholder="Search by first name" style={{ minWidth: '10rem' }} body={userFirstNameTemplate} />
+                                <Column field="lastName" header="Last Name" sortable filter filterPlaceholder="Search by last name" style={{ minWidth: '10rem' }} body={userLastNameTemplate} />
+                                <Column field="role" header="Role" sortable filter filterPlaceholder="Search by role" style={{ minWidth: '10rem' }} body={roleBodyTemplate} />
+                                <Column headerStyle={{ width: '5rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} />
+                                <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '12rem' }}></Column>
+                            </DataTable>
+                        </Grid2>
+                        <Grid2 >
+                            <Grid2 container justifyContent="center" alignItems="center">
+                                <AppPagination
+                                    metadata={metadata}
+                                    onPageChange={(page) => setPageNumber(page)}
+                                />
+                            </Grid2>
+                        </Grid2>
+                    </Grid2>
+                ) : (
+                    <h2>No users found...</h2>
+                )}
+               
                 <Toolbar className="mb-4" center={secondRightToolbarTemplate}></Toolbar>
                  
                 <NewUserPopupModal
@@ -294,6 +339,7 @@ const UsersList = () => {
 
             </div>
         </div>
+        
     );
 };
 
