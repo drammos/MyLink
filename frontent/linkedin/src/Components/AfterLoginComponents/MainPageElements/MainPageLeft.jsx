@@ -21,7 +21,7 @@ const MainPageLeft = ({ userInfo }) => {
         <div className="main-page-left">
             <div className="profile-section">
                 <div className="profile-photo">
-                    {userInfo.pictureURL !== "null" ? ( 
+                    {(userInfo.pictureURL && userInfo.pictureURL !== "null") ? ( 
                         <img src={userInfo.pictureURL} alt={`${firstname} ${lastname}`} />
                     ) : (
                         <div className="initials">{initials}</div>

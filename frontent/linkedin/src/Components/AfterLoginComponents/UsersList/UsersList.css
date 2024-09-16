@@ -85,9 +85,9 @@ p.loading {
 
 
 .custom-toolbar .p-toolbar {
-    background-color: #f4f4f4; 
-    border-bottom: 1px solid #ddd; 
-    padding: 10px 20px; 
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
 }
 
 .custom-toolbar .p-toolbar-group-left {
@@ -148,4 +148,14 @@ p.loading {
 .p-button-help.p-button.p-component {
     background: #9c27b0;
     border: 1px solid #9c27b0;
+}
+
+.MuiPagination-root.MuiPagination-text.css-0 {
+    margin: 20px 20px !important;
+    /*top: auto;*/
+    display:flex;
+}
+
+.mb-4.p-toolbar.p-component {
+    margin-top: 50px !important;
 }

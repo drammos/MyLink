@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import './LoggedInNavBar.css';
-import logo from '../../../assets/Logo.png'
-import ProfilePopup from './ProfilePopup/ProfilePopup'
+import logo from '../../../assets/Logo.png';
+import ProfilePopup from './ProfilePopup/ProfilePopup';
+import NotificationPopup from './NotificationPopup/NotificationPopup';
 import { useNavigationHelpers } from '../Helpers/navigationHelpers';
-import  useGetListFromIncomingRequests  from '../../Services/useGetListFromIncomingRequests'; 
+import useGetListFromIncomingRequests from '../../Services/useGetListFromIncomingRequests';
 import PropTypes from 'prop-types';
-
 
 const LoggedInNavBar = ({ userInfo }) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false); // State for notification popup
     const [userPhotoUrl, setuserPhotoUrl] = useState('');
 
     const {
@@ -23,19 +24,22 @@ const LoggedInNavBar = ({ userInfo }) => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
     };
 
+    const toggleNotificationPopup = () => {
+        setIsNotificationOpen(!isNotificationOpen);
+    };
+
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
-    const { listLength, listInfo, refetch } = useGetListFromIncomingRequests();
+    const { listLength, notificationList, refetch } = useGetListFromIncomingRequests();
 
     useEffect(() => {
-
-        if (userInfo.pictureURL !== "null") {
+        if (userInfo.pictureURL && userInfo.pictureURL !== "null") {
             setuserPhotoUrl(userInfo.pictureURL);
         } else {
             setuserPhotoUrl(defaultPhotoURL);
         }
         refetch(userInfo.id);
-    }, [userInfo, refetch]);
 
+    }, [userInfo, refetch]);
 
     return (
         <div className="loggedInNavbarContainer">
@@ -54,12 +58,17 @@ const LoggedInNavBar = ({ userInfo }) => {
                 <button type="submit">Search</button>
             </div>
             <div className="navbar-right">
-                <div className="nav-item notification">{listLength}</div>
+                <button className="notification-button" onClick={toggleNotificationPopup}>
+                    <span className="notification-count">{listLength}</span>
+                </button>
+                {isNotificationOpen && (
+                    <NotificationPopup notifications={notificationList} />
+                )}
                 <button className="profile-pic-button" onClick={toggleProfileMenu}>
                     <img src={userPhotoUrl} alt="User" />
                 </button>
                 {isProfileMenuOpen && (
-                    < ProfilePopup />
+                    <ProfilePopup />
                 )}
             </div>
         </div>

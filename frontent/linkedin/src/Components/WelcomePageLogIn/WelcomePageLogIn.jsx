@@ -52,15 +52,15 @@ const WelcomePageLogIn = () => {
             localStorage.setItem('username', '');
             localStorage.setItem('id', '');
 
-
             if (response) {
                 if (response.status === 200) {
                     setErrorCode(0);
                     setMessage('Login successful!');
                     console.log('Login successful');
+
                     localStorage.setItem('authToken', response.data.token);
                     localStorage.setItem('role', response.data.role);
-                    localStorage.setItem('username', response.data.username);
+                    localStorage.setItem('username', response.data.userName);
                     localStorage.setItem('id', response.data.id);
 
                     if (response.data.role === "Admin")

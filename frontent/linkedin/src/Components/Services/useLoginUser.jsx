@@ -26,7 +26,7 @@ const useLoginUser = () => {
             console.log('Login successful');
             localStorage.setItem('authToken', response.data.token);
             localStorage.setItem('role', response.data.role);
-            localStorage.setItem('username', response.data.username);
+            localStorage.setItem('username', response.data.userName);
             localStorage.setItem('id', response.data.id);
             setTimeout(() => {
                 navigate(response.data.role === "Admin" ? Routes.ControlPanel : Routes.MainPage);

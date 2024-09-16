@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: #1fb4c2; 
-    padding: 10px 20px;
+    padding: 10px 30px;
     color: white;
 }
 
@@ -13,10 +13,10 @@
     }
 
     .loggedInNavbarContainer .nav-item {
-        margin: 0 15px;
+        margin: 0 25px;
         cursor: pointer;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 15px;
         transition: color 0.3s ease;
     }
 
@@ -46,16 +46,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: -150px;
     }
 
         .loggedInNavbarContainer .navbar-center input[type="text"] {
-            width: 250px;
+            width: 350px;
             padding: 5px;
             border: 1px solid white;
             border-radius: 2px;
             margin-right: 10px;
             background-color: #e6f9fc; 
             color: #1fb4c2; 
+            font-size:15px;
         }
 
         .loggedInNavbarContainer .navbar-center button {
@@ -106,3 +108,19 @@
             height: 30px;
             width: 30px;
         }
+
+    .loggedInNavbarContainer .notification-button {
+        background: none;
+        border: none;
+        position: relative;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+
+    .loggedInNavbarContainer .notification-count {
+        background-color: red;
+        padding: 5px 10px;
+        border-radius: 50%;
+        color: white;
+        font-size: 12px;
+    }
