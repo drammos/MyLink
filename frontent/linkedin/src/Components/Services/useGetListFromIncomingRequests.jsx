@@ -54,7 +54,7 @@ const useGetListFromIncomingRequests = () => {
         }
     }, [response, handleSignUpResponse]);
 
-    return { listLength, listInfo, loading, refetch: getList };
+    return { listLength, notificationList:listInfo, loading, refetch: getList };
 };
 
 export default useGetListFromIncomingRequests;

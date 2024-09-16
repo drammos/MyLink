@@ -108,3 +108,19 @@
             height: 30px;
             width: 30px;
         }
+
+    .loggedInNavbarContainer .notification-button {
+        background: none;
+        border: none;
+        position: relative;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+
+    .loggedInNavbarContainer .notification-count {
+        background-color: red;
+        padding: 5px 10px;
+        border-radius: 50%;
+        color: white;
+        font-size: 12px;
+    }

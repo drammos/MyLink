@@ -1,0 +1,27 @@
+.notification-popup {
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    width: 250px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+    .notification-popup h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .notification-popup ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .notification-popup li {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
