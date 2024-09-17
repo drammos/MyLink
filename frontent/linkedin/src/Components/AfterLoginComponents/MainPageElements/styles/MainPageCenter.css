@@ -1,60 +1,9 @@
-/* Main container for the center page content */
 .main-page-center {
     margin: 0 auto;
     max-width: 700px;
     padding: 20px;
 }
 
-/* New post section */
-.new-post-container {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.new-post {
-    margin-bottom: 10px;
-}
-
-.post-textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    resize: none;
-}
-
-.post-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.new-post-btn, .share-media {
-    border: none;
-    background-color: #1fb4c2;
-    color: white;
-    cursor: pointer;
-    padding: 8px 16px;
-    font-size: 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-    .new-post-btn:hover, .share-media:hover {
-        background-color: #148f9a;
-    }
-
-.share-media {
-    background-color: #f3f3f3;
-    color: #1fb4c2;
-}
-
-/* Post display section */
 .show-post-container {
     background-color: #fff;
     padding: 15px;
@@ -171,3 +120,52 @@
         background-color: #e0e0e0;
     }
 
+
+.post-content {
+    margin-top: 10px;
+}
+
+.post-images, .post-videos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+    .post-images img, .post-videos video {
+        max-width: 100%;
+        height: auto;
+    }
+
+.post-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+    .post-actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+.comments-section {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+    .comment small {
+        color: #888;
+    }
+
+.like-button.liked {
+    color: #1877f2;
+}

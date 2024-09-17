@@ -6,6 +6,9 @@ export const agents = {
     getUser: 'User/GetUser',
     getListFromInComingRequests: 'User/GetListFromInComingRequests',
     deleteUser: 'User/DeleteUser',
-    getAllUsers: 'User/GetAllUsers'
+    getAllUsers: 'User/GetAllUsers',
+    // Post
+    createPost: 'Post/CreatePost',
+    getUserPosts: 'Post/GetUserPosts'
     
 };
