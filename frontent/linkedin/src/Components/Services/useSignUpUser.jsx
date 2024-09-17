@@ -8,7 +8,7 @@ const useSignUpUser = () => {
     const [errorCode, setErrorCode] = useState(2);
     const navigate = useNavigate();
     const inputFormData = new FormData();
-    const url = agents.localhost + agents.signUpUser;
+    const url = agents.localhost + agents.registerUser;
 
     const { response, loading, refetch: fetchService } = useService(
         'Creating new user ...',
@@ -42,7 +42,7 @@ const useSignUpUser = () => {
         inputFormData.append('Role', 'Professional');
         inputFormData.append('Username', username);
         inputFormData.append('Password', password);
-        inputFormData.append('BirthDate', birthDate);
+        inputFormData.append('Birthday', birthDate);
         inputFormData.append('PictureURL', photoURL);
         console.log("FormDataDone! : ", firstname, surname, phone, email, role, username, password, birthDate, photoURL);
         console.log(inputFormData);

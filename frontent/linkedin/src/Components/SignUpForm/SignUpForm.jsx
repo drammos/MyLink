@@ -80,7 +80,7 @@ const SignUpForm = () => {
     inputFormData.append('Role', 'Professional');
     inputFormData.append('Username', username);
     inputFormData.append('Password', password);
-    inputFormData.append('BirthDate', birthDate);
+    inputFormData.append('Birthday', birthDate);
     inputFormData.append('PictureURL', photoURL);
     inputFormData.append('Birthday', birthDate);
 

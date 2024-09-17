@@ -26,11 +26,23 @@ const NewUserDialog = ({ visible, onHide, }) => {
     const [newUserBirthDate, setNewUserBirthDate] = useState("");
     const [newUserPhone, setNewUserPhone] = useState("");
     const [newUserEmail, setNewUserEmail] = useState("");
+    const [creatingNewUser, setCreatingNewUser] = useState(1);
 
     const roles = [
         'Admin',
         'Professional'
     ]; 
+
+    const emptyAllFields = () => {
+        setNewUserUsername('');
+        setNewUserFirstName('');
+        setNewUserLastName('');
+        setNewUserRole('');
+        setNewUserPassword('');
+        setNewUserBirthDate('');
+        setNewUserPhone('');
+        setNewUserEmail('');
+    };
 
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
     const { signUpUser, message, errorCode, loading, refetch } = useSignUpUser();
@@ -39,8 +51,10 @@ const NewUserDialog = ({ visible, onHide, }) => {
     const eighteenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 18));
 
     useEffect(() => {
-        if (errorCode === 0) {
-            setTimeout(() => onHide(), 2000);
+        if (!creatingNewUser) {
+            if (errorCode === 0) {
+                setTimeout(() => { onHide(); emptyAllFields(); setCreatingNewUser(1); }, 2000);
+            }
         }
     }, [errorCode, onHide]);
 
@@ -55,7 +69,10 @@ const NewUserDialog = ({ visible, onHide, }) => {
                 <div className="dialog-footer">
                     <Button label="Cancel" icon="pi pi-times" className="p-button-text cancel-btn" onClick={onHide} />
                     <Button label="Save" icon="pi pi-check" className="p-button-text save-btn"
-                        onClick={() => signUpUser(newUserFirstName, newUserLastName, newUserPhone, newUserEmail, newUserRole, newUserUsername, newUserPassword, newUserBirthDate, defaultPhotoURL) }
+                        onClick={() => {
+                            setCreatingNewUser(0);
+                            signUpUser(newUserFirstName, newUserLastName, newUserPhone, newUserEmail, newUserRole, newUserUsername, newUserPassword, newUserBirthDate, defaultPhotoURL);
+                        }}
                     />
                 </div>
 
@@ -121,7 +138,19 @@ const NewUserDialog = ({ visible, onHide, }) => {
 
                 <div className="input-group">
                     <div className={errorCode === 1 ? 'error-message' : (errorCode === 0 ? 'success-message' : '')}>
-                        {errorCode === 1 ? <><GoXCircle /> {message}</> : (errorCode === 0 ? <><GoCheckCircle /> {message}</> : '')}
+                        {creatingNewUser === 0 && (
+                            errorCode === 1 ? (
+                                <>
+                                    <GoXCircle /> {message}
+                                </>
+                            ) : (
+                                errorCode === 0 ? (
+                                    <>
+                                        <GoCheckCircle /> {message}
+                                    </>
+                                ) : ''
+                            )
+                        )}
                     </div>
                 </div>
             </div>

@@ -16,7 +16,6 @@ import useService from '../../Services/useService';
 import { useNavigationHelpers } from '../Helpers/navigationHelpers';
 import NewUserPopupModal from './NewUserPopupModal/NewUserPopupModal'; 
 import AppPagination from '../../Pagination/AppPagination';
-import { Position } from '@cloudinary/url-gen/qualifiers';
 
 //#endregion
 
@@ -128,8 +127,8 @@ const UsersList = () => {
                 const paginationJson = JSON.parse(response.headersDict['pagination']);
                 setMetadata(paginationJson);
                 setCount(response.data.length);
-        console.log("data, ", response.data);
-        console.log("len", users.length );
+                console.log("data, ", response.data);
+                console.log("len", users.length );
                 console.log("user", users.entries());
             } else {
                 setErrorCode(1);
@@ -169,11 +168,11 @@ const UsersList = () => {
     //#region modal popup
 
     const openNewUserDialog = () => {
-        setDisplayNewUserDialog(true); // Show modal
+        setDisplayNewUserDialog(true); 
     };
 
     const hideNewUserDialog = () => {
-        setDisplayNewUserDialog(false); // Hide modal
+        setDisplayNewUserDialog(false);
     };
 
     //#endregion
