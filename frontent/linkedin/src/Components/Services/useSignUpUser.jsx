@@ -8,10 +8,10 @@ const useSignUpUser = () => {
     const [errorCode, setErrorCode] = useState(2);
     const navigate = useNavigate();
     const inputFormData = new FormData();
-    const url = agents.localhost + agents.registerUser;
+    const url = agents.localhost + agents.signUpUser;
 
     const { response, loading, refetch: fetchService } = useService(
-        'Creating new user...',
+        'Creating new user ...',
         'POST',
         url,
         inputFormData,
