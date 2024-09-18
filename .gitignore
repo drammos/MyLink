@@ -13,9 +13,6 @@ WebAppBackEnd/MyLink.Data/Migrations/*
 # Αγνόηση του συγκεκριμένου φακέλου frontend/linkedin/dist/ και του περιεχομένου του
 frontend/linkedin/dist/**
 
-dist/
-dist/**
-frontent/linkedin/dist/*
 # Except ApplicationDbContext.cs
 !WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
 
