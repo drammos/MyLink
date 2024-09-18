@@ -1,0 +1,83 @@
+.export-popup-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.export-popup-footer .p-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+    .export-popup-footer .p-button-success {
+        background-color: #28a745;
+        border: none;
+        color: white;
+    }
+
+        .export-popup-footer .p-button-success:hover {
+            background-color: #218838;
+        }
+
+    .export-popup-footer .p-button-info {
+        background-color: #17a2b8;
+        border: none;
+        color: white;
+    }
+
+        .export-popup-footer .p-button-info:hover {
+            background-color: #117a8b;
+        }
+
+    .export-popup-footer z.p-button-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: white;
+    }
+
+.p-button-secondary:hover {
+    background-color: #5a6268;
+}
+
+.dialog-content {
+    font-size: 1rem;
+    padding: 1rem;
+}
+
+.dialog-content p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #495057;
+}
+
+.p-dialog-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.p-dialog-content {
+    background-color: #ffffff;
+    padding: 1.5rem;
+}
+
+.p-dialog {
+    width: 550px !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.p-dialog-header-close {
+    color: #6c757d;
+    transition: color 0.2s ease;
+}
+
+.p-dialog-header-close:hover {
+    color: #343a40;
+}

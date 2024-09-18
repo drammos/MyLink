@@ -1,5 +1,5 @@
 import './ProfilePopup.css'
-import { useNavigationHelpers } from '../../Helpers/navigationHelpers'; 
+import { useNavigationHelpers } from '../../Helpers/useNavigationHelpers'; 
 
 const ProfilePopup = () => {
 

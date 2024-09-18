@@ -152,10 +152,11 @@ p.loading {
 
 .MuiPagination-root.MuiPagination-text.css-0 {
     margin: 20px 20px !important;
-    /*top: auto;*/
-    display:flex;
+    display: flex;
+    position: relative;
+    background-color: #fff;
 }
 
 .mb-4.p-toolbar.p-component {
-    margin-top: 50px !important;
+    margin-top: 5px !important;
 }
