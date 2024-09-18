@@ -7,8 +7,8 @@ frontent/linkedin/node_modules/*
 Migrations/**
 WebAppBackEnd/MyLink.Data/Migrations/*
 
-dist/
-dist/**
+./dist/
+**/dist/**
 frontent/linkedin/dist/*
 # Except ApplicationDbContext.cs
 !WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
