@@ -7,9 +7,12 @@ frontent/linkedin/node_modules/*
 Migrations/**
 WebAppBackEnd/MyLink.Data/Migrations/*
 
-./dist/
-**/dist
-frontent/linkedin/dist/*
+# Αγνόηση όλων των φακέλων dist/ και του περιεχομένου τους
+**/dist/**
+
+# Αγνόηση του συγκεκριμένου φακέλου frontend/linkedin/dist/ και του περιεχομένου του
+frontend/linkedin/dist/**
+
 # Except ApplicationDbContext.cs
 !WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
 
