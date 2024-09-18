@@ -2,11 +2,11 @@ import { Cloudinary } from '@cloudinary/url-gen';
 
 const cld = new Cloudinary({ cloud: { cloudName: 'dvhi4yyrm' } });
 
-const UploadFile = async (file) => {
+const UploadFile = async (file, location='Documents') => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', 'MyLink_preset');
-    formData.append('folder', 'Documents'); 
+    formData.append('folder', location); 
 
     try {
         const response = await fetch(`https://api.cloudinary.com/v1_1/dvhi4yyrm/auto/upload`, {
