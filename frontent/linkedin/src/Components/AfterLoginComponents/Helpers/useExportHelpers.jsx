@@ -1,8 +1,8 @@
-
 export const useExportHelpers = () => {
 
-    const exportToXML = ({ users }) => {
-        const xmlData = convertUsersToXML(users); // Convert the users data to XML
+    const exportToXML = ({ users, selectedUsers }) => {
+        const dataToExport = selectedUsers && selectedUsers.length > 0 ? selectedUsers : users;
+        const xmlData = convertUsersToXML(dataToExport); // Convert the appropriate data to XML
         const blob = new Blob([xmlData], { type: 'application/xml' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -12,8 +12,9 @@ export const useExportHelpers = () => {
         document.body.removeChild(link); // Clean up
     };
 
-    const exportToJSON = ({ users }) => {
-        const jsonData = JSON.stringify(users, null, 2); // Pretty-printed JSON
+    const exportToJSON = ({ users, selectedUsers }) => {
+        const dataToExport = selectedUsers && selectedUsers.length > 0 ? selectedUsers : users;
+        const jsonData = JSON.stringify(dataToExport, null, 2); // Pretty-printed JSON
         const blob = new Blob([jsonData], { type: 'application/json' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);

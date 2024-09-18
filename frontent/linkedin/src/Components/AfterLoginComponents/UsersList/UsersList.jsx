@@ -305,8 +305,8 @@ const UsersList = () => {
                 <ExportPopupModal
                     visible={displayExportPopup}
                     onHide={() => setDisplayExportPopup(false)}
-                    exportToXML={() => exportToXML({ users })}
-                    exportToJSON={() => exportToJSON({ users })}
+                    exportToXML={() => exportToXML({ users, selectedUsers })}
+                    exportToJSON={() => exportToJSON({ users, selectedUsers })}
                 />
 
 
