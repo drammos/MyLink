@@ -5,10 +5,9 @@ import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import useService from "../Services/useService";
+import useLoginUser from "../Services/useLoginUser";
 import './WelcomePageLogIn.css'
 import { Routes } from '../../routes.jsx';
-import { agents } from '../../agents.jsx';
 
 //#endregion
 
@@ -17,76 +16,28 @@ const WelcomePageLogIn = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
+
+    const navigate = useNavigate();
     const role = localStorage.getItem('role');
 
-    const url = agents.localhost + agents.loginUser;
-
-    // API call for user LogIn
-    const input = JSON.stringify({ "username": username, "password": password });
-    const { response, loading, refetch } = useService(
-        'Logging in...',
-        'POST',
-        url,
-        input
-    );
+    const { errorCode, message, loading, refetch } = useLoginUser();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        refetch();
+        refetch(username,password);
     }
 
     useEffect(() => {
         console.log("role is : ", role);
-        // Logged in users can't reach this page
-        if (role !== '' && role !== null) {
-            navigate(Routes.PageNotFound);
-        }
-        else {
-            localStorage.setItem('authToken', '');
-            localStorage.setItem('role', '');
-            localStorage.setItem('username', '');
-            localStorage.setItem('id', '');
 
-            if (response) {
-                if (response.status === 200) {
-                    setErrorCode(0);
-                    setMessage('Login successful!');
-                    console.log('Login successful');
+        // Initialization every time user hits this page
+        localStorage.setItem('authToken', '');
+        localStorage.setItem('role', '');
+        localStorage.setItem('username', '');
+        localStorage.setItem('id', '');
 
-                    localStorage.setItem('authToken', response.data.token);
-                    localStorage.setItem('role', response.data.role);
-                    localStorage.setItem('username', response.data.userName);
-                    localStorage.setItem('id', response.data.id);
-
-                    if (response.data.role === "Admin")
-                        setTimeout(() => {
-                            navigate(Routes.ControlPanel);
-                        }, 2000);
-                    else
-                        setTimeout(() => {
-                            navigate(Routes.MainPage);
-                        }, 2000);
-
-                } else if (response.status === 600) {
-                    setErrorCode(1);
-                    setMessage('An Error Occured. Please try again later.');
-                    console.error('Login failed');
-                }
-                else if (response.status === 401) {
-                    setErrorCode(1);
-                    setMessage('Invalid username or password');
-                    console.error('Login failed');
-                }
-            }
-        }
-
-
-    }, [response, navigate]);
+    }, [role]);
 
     const handleForgotPassword = (event) => {
         event.preventDefault();

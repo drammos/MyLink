@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useService } from './useService';
+import useService from './useService';
 import { useNavigate } from 'react-router-dom';
-import Routes from '../../routes';
-import {agents} from '../../agents';
+import { Routes } from '../../routes';
+import { agents } from '../../agents';
 
 const useLoginUser = () => {
     const [errorCode, setErrorCode] = useState(null);

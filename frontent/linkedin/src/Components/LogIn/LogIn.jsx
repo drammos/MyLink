@@ -1,83 +1,34 @@
 import { useState, useEffect } from "react";
-import SignInImage from '../../assets/WelcomePageImg.png';
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import './LogIn.css';
-import useService from "../Services/useService";
 import { Routes } from '../../routes.jsx';
-import {agents} from '../../agents';
 
-
+import SignInImage from '../../assets/WelcomePageImg.png';
+import useLoginUser from "../Services/useLoginUser";
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
+import './LogIn.css';
 
 
 const LogIn = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
-    const input = JSON.stringify({ "username": username, "password": password });
-
-
-    const url = agents.localhost + agents.loginUser;
-
-    // API call for user LogIn
-    const { response, loading, refetch } = useService(
-        'Logging in...',
-        'POST',
-        url,
-        input
-    );
+    const { errorCode, message, loading, refetch } = useLoginUser();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        refetch(); // Trigger the API call on form submission
+        refetch(username,password);
     };
 
-    // Update message based on API response
     useEffect(() => {
-        if (localStorage.getItem('role') !== '') {
+        if (localStorage.getItem('role') !== '') 
             navigate(Routes.PageNotFound);
-        }
-        else {
-
-            if (response) {
-                if (response.status === 200) {
-                    setErrorCode(0);
-                    setMessage('Login successful!');
-                    console.log('Login successful');
-                    localStorage.setItem('authToken', response.data.token);
-                    localStorage.setItem('role', response.data.role);
-                    localStorage.setItem('username', response.data.userName);
-                    localStorage.setItem('id', response.data.id);
-                    if (response.data.role === "Admin")
-                        setTimeout(() => {
-                            navigate(Routes.ControlPanel);
-                        }, 2000);
-                    else
-                        setTimeout(() => {
-                            navigate(Routes.MainPage);
-                        }, 2000);
-                }
-                else if (response.status === 600) {
-                    setErrorCode(1);
-                    setMessage('An Error Occured. Please try again later.');
-                    console.error('Login failed');
-                }
-                else if (response.status === 401) {
-                    setErrorCode(1);
-                    setMessage('Invalid username or password');
-                    console.error('Login failed');
-                }
-            }
-        }
-    }, [response, navigate]);
+    }, [navigate]);
 
     const handleForgotPassword = (event) => {
         event.preventDefault();
