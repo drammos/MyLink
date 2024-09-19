@@ -13,6 +13,7 @@ const MainPageCenter = () => {
     }, []);
 
     useEffect(() => {
+        console.log("posts are: ", posts);
         if (response) {
             setPosts(response);
         }
@@ -28,7 +29,6 @@ const MainPageCenter = () => {
             <CreatePostComponent />
 
             {loading && <p>Loading posts...</p>}
-
             {posts.map((post) => (
                 <div key={post.id} className="show-post-container">
                     <div className="show-account-name">
