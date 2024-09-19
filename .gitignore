@@ -6,6 +6,13 @@ frontent/linkedin/node_modules/*
 # Ignore everything in Migrations directory
 Migrations/**
 WebAppBackEnd/MyLink.Data/Migrations/*
+
+# Αγνόηση όλων των φακέλων dist/ και του περιεχομένου τους
+**/dist/**
+
+# Αγνόηση του συγκεκριμένου φακέλου frontend/linkedin/dist/ και του περιεχομένου του
+frontend/linkedin/dist/**
+
 # Except ApplicationDbContext.cs
 !WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
 
