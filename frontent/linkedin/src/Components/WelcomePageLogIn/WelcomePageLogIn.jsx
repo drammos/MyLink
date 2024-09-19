@@ -45,9 +45,9 @@ const WelcomePageLogIn = () => {
         
         // Logout every time user reach WelcomePage
         localStorage.setItem('authToken', '');
-            localStorage.setItem('role', '');
-            localStorage.setItem('username', '');
-            localStorage.setItem('id', '');
+        localStorage.setItem('role', '');
+        localStorage.setItem('username', '');
+        localStorage.setItem('id', '');
 
         // Logged in users can't reach this page
         if (role !== '' && role !== null) {
