@@ -43,7 +43,7 @@ const WelcomePageLogIn = () => {
     useEffect(() => {
         console.log("role is : ", role);
         // Logged in users can't reach this page
-        if (role !== '') {
+        if (role !== '' && role !== null) {
             navigate(Routes.PageNotFound);
         }
         else {
