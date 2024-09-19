@@ -5,13 +5,14 @@ const ProfilePopup = () => {
 
     const {
         handleViewProfile,
-        handleLogoutButton
+        handleLogoutButton,
+        handleSettings
     } = useNavigationHelpers();
 
     return (
         <div className="profilePopup-menu">
             <div className="profilePopup-menu-item" onClick={handleViewProfile}>View Profile</div>
-            <div className="profilePopup-menu-item">Settings</div>
+            <div className="profilePopup-menu-item" onClick={handleSettings}>Settings</div>
             <div className="profilePopup-menu-item" onClick={handleLogoutButton}>Logout</div>
         </div>
     )
