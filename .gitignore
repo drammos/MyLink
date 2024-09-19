@@ -1,7 +1,5 @@
 # .gitignore for C# Projects
-./node_modules/
-**/node_modules
-frontent/linkedin/node_modules/*
+
 
 # Ignore everything in Migrations directory
 Migrations/**
