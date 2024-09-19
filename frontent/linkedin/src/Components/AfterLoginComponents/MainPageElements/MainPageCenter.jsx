@@ -29,7 +29,7 @@ const MainPageCenter = () => {
             <CreatePostComponent />
 
             {loading && <p>Loading posts...</p>}
-            {posts.map((post) => (
+            {/* {posts.map((post) => (
                 <div key={post.id} className="show-post-container">
                     <div className="show-account-name">
                         <FaUserCircle size="2rem" color="rgba(0, 0, 0, 0.6)" />
@@ -92,7 +92,7 @@ const MainPageCenter = () => {
                         </div>
                     )}
                 </div>
-            ))}
+            ))} */}
         </div>
     );
 };
