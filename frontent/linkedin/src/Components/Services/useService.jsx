@@ -57,9 +57,6 @@ const useService = (message, method, url, input = null, contentType = 'applicati
 
             // Get the headers
             const headersDict = {};
-            res.headers.forEach((value, key) => {
-                headersDict[key] = value;
-            });
             
             setResponse({
                 status: 600,
