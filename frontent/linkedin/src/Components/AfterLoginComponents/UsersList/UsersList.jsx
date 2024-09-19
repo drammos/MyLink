@@ -7,16 +7,16 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import {agents} from '../../../agents'; 
 import PropTypes from 'prop-types';
-import ReactPaginate from "react-paginate";
 import useDeleteUsers from '../../Services/useDeleteUsers';
 import Grid2 from "@mui/material/Grid2";
 
 import './UsersList.css';
 import useService from '../../Services/useService';
-import { useNavigationHelpers } from '../Helpers/navigationHelpers';
+import { useNavigationHelpers } from '../Helpers/useNavigationHelpers';
+import { useExportHelpers } from '../Helpers/useExportHelpers'
 import NewUserPopupModal from './NewUserPopupModal/NewUserPopupModal'; 
 import AppPagination from '../../Pagination/AppPagination';
-import { Position } from '@cloudinary/url-gen/qualifiers';
+import ExportPopupModal from './ExportPopupModal/ExportPopupModal';
 
 //#endregion
 
@@ -30,7 +30,10 @@ const UsersList = () => {
     const [count, setCount] = useState(0);
     const [errorCode, setErrorCode] = useState(2); // 2 is nothing , 0 is all good, 1 is problem
     const [userToDelete, setUserToDelete] = useState(null); 
+
+    // Pop up displays
     const [displayNewUserDialog, setDisplayNewUserDialog] = useState(false); 
+    const [displayExportPopup, setDisplayExportPopup] = useState(false);
 
     //Page Number and Page Size
     const [pageNumber, setPageNumber] = useState(1);
@@ -44,6 +47,7 @@ const UsersList = () => {
       });    
     const dt = useRef(null);
     const { handleLogoutButton } = useNavigationHelpers();
+    const { exportToJSON, exportToXML } = useExportHelpers();
 
     //#endregion
 
@@ -65,7 +69,6 @@ const UsersList = () => {
         const url2 = agents.localhost + agents.getAllUsers;
         params.append('PageNumber', pageNumber.toString());
         params.append('PageSize', pageSize.toString());
-        console.log("eedo mesa", pageNumber,pageSize);
         return `${url2}?${params}`;
       }, [pageNumber, pageSize]);
     
@@ -82,38 +85,6 @@ const UsersList = () => {
 
     const { DeleteUsers, deleting, deleteError } = useDeleteUsers(refetch);
 
-    //#region export to xml
-
-    const convertUsersToXML = (users) => {
-        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<users>\n';
-
-        users.forEach(user => {
-            xml += `  <user>\n`;
-            xml += `    <userName>${user.userName}</userName>\n`;
-            xml += `    <firstName>${user.firstName}</firstName>\n`;
-            xml += `    <lastName>${user.lastName}</lastName>\n`;
-            xml += `    <role>${user.role}</role>\n`;
-            xml += `  </user>\n`;
-        });
-
-        xml += '</users>';
-        return xml;
-    };
-
-    const exportToXML = () => {
-        const xmlData = convertUsersToXML(users); // Convert the users data to XML
-        const blob = new Blob([xmlData], { type: 'application/xml' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'users.xml';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link); // Clean up
-    };
-
-
-    //#endregion 
-
     useEffect(() => {
         refetch();
     }, [refetch, pageNumber, pageSize]);
@@ -128,8 +99,8 @@ const UsersList = () => {
                 const paginationJson = JSON.parse(response.headersDict['pagination']);
                 setMetadata(paginationJson);
                 setCount(response.data.length);
-        console.log("data, ", response.data);
-        console.log("len", users.length );
+                console.log("data, ", response.data);
+                console.log("len", users.length );
                 console.log("user", users.entries());
             } else {
                 setErrorCode(1);
@@ -167,15 +138,8 @@ const UsersList = () => {
     };
 
     //#region modal popup
-
-    const openNewUserDialog = () => {
-        setDisplayNewUserDialog(true); // Show modal
-    };
-
-    const hideNewUserDialog = () => {
-        setDisplayNewUserDialog(false); // Hide modal
-    };
-
+    const openNewUserDialog = () => { setDisplayNewUserDialog(true); };
+    const hideNewUserDialog = () => { setDisplayNewUserDialog(false); };
     //#endregion
 
     //#region toolbar templates
@@ -209,11 +173,12 @@ const UsersList = () => {
                     label="Export"
                     icon="pi pi-download"
                     className="p-button-help"
-                    onClick={exportToXML}
+                    onClick={() => setDisplayExportPopup(true)} // Open export popup
                 />
             </React.Fragment>
         );
     };
+
 
     const secondRightToolbarTemplate = () => {
         return (
@@ -336,6 +301,14 @@ const UsersList = () => {
                     visible={displayNewUserDialog}
                     onHide={hideNewUserDialog}
                 /> 
+
+                <ExportPopupModal
+                    visible={displayExportPopup}
+                    onHide={() => setDisplayExportPopup(false)}
+                    exportToXML={() => exportToXML({ users, selectedUsers })}
+                    exportToJSON={() => exportToJSON({ users, selectedUsers })}
+                />
+
 
             </div>
         </div>

@@ -3,7 +3,7 @@ import './LoggedInNavBar.css';
 import logo from '../../../assets/Logo.png';
 import ProfilePopup from './ProfilePopup/ProfilePopup';
 import NotificationPopup from './NotificationPopup/NotificationPopup';
-import { useNavigationHelpers } from '../Helpers/navigationHelpers';
+import { useNavigationHelpers } from '../Helpers/useNavigationHelpers';
 import useGetListFromIncomingRequests from '../../Services/useGetListFromIncomingRequests';
 import PropTypes from 'prop-types';
 

@@ -7,9 +7,12 @@ import MainPageCenter from "../../../Components/AfterLoginComponents/MainPageEle
 import MainPageRight from "../../../Components/AfterLoginComponents/MainPageElements/MainPageRight";
 
 import useGetUser from "../../../Components/Services/useGetUser"
+import { useNavigate } from 'react-router-dom';
 import './MainPage.css'
+import { Routes } from "../../../routes";
 
 const MainPage = () => {
+    const navigate = useNavigate();
     const useDocumentTitle = (title) => {
         useEffect(() => {
             document.title = title;
@@ -20,6 +23,8 @@ const MainPage = () => {
     const { userInfo, refetch } = useGetUser();
 
     useEffect(() => {
+        if (localStorage.getItem('role') === 'Admin')
+            navigate(Routes.PageNotFound);
         if (localStorage.getItem('username'))
             refetch(localStorage.getItem('username'));
         console.log(localStorage.getItem('username'));
