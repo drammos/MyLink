@@ -15,8 +15,6 @@ const MainPageCenter = () => {
         getPostsRefetch(); 
     },[]); 
 
-    const { userInfo, errorCode: getUserErrorCode, refetch: getUserRefetch } = useGetUser();
-
     useEffect(() => {
         const fetchPostsWithUsers = async () => {
             if (response) {
@@ -46,28 +44,28 @@ const MainPageCenter = () => {
                 posts.map((post) => (
                     <div key={post.id} className="show-post-container">
                         <div className="show-account-name">
-                        {/*    {post.user.photoURL ? (*/}
-                        {/*        <img*/}
-                        {/*            src={post.photoURL}*/}
-                        {/*            alt={`${post.firstName} ${post.lastName}`}*/}
-                        {/*            className="user-profile-photo"*/}
-                        {/*            style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}*/}
-                        {/*        />*/}
-                        {/*    ) : (*/}
-                        {/*        <FaUserCircle size="2rem" color="rgba(0, 0, 0, 0.6)" />*/}
-                        {/*    )}*/}
-                        {/*    <div className="account-details">*/}
-                        {/*        <b>{post.user.firstName} {post.user.lastName}</b>&nbsp;*/}
-                        {/*        <span className="small-icon">●</span>&nbsp;1st*/}
-                        {/*        <br />*/}
-                        {/*        <p>*/}
-                        {/*            {formatDate(post.createdAt)}&nbsp;*/}
-                        {/*            <span className="small-icon">●</span>*/}
-                        {/*            {post.updateAt !== post.createdAt ? ' Edited ' : ' '}*/}
-                        {/*            <span className="small-icon">●</span> <FaGlobe />*/}
-                        {/*        </p>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
+                            {/*{post.photoURL ? (*/}
+                            {/*    <img*/}
+                            {/*        src={post.user.photoURL}*/}
+                            {/*        alt={`${post.user.firstName} ${post.user.lastName}`}*/}
+                            {/*        className="user-profile-photo"*/}
+                            {/*        style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}*/}
+                            {/*    />*/}
+                            {/*) : (*/}
+                            {/*    <FaUserCircle size="2rem" color="rgba(0, 0, 0, 0.6)" />*/}
+                            {/*)}*/}
+                            {/*<div className="account-details">*/}
+                            {/*    <b>{post.user.firstName} {post.user.lastName}</b>&nbsp;*/}
+                            {/*    <span className="small-icon">●</span>&nbsp;1st*/}
+                            {/*    <br />*/}
+                            {/*    <p>*/}
+                            {/*        {formatDate(post.createdAt)}&nbsp;*/}
+                            {/*        <span className="small-icon">●</span>*/}
+                            {/*        {post.updateAt !== post.createdAt ? ' Edited ' : ' '}*/}
+                            {/*        <span className="small-icon">●</span> <FaGlobe />*/}
+                            {/*    </p>*/}
+                            {/*</div>*/}
+                        </div>
                         <div className="post-content">
                             <h3>{post.title}</h3>
                             <p>{post.content}</p>

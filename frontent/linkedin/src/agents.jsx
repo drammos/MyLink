@@ -10,7 +10,7 @@ export const agents = {
     getAllUsers: 'User/GetAllUsers',
     // Post
     createPost: 'Post/CreatePost',
-    getUserPosts: 'Post/GetUserPosts'
+    getUserPosts: 'Post/GetUserPosts',
     getPostsFromConnectedUsers: 'Post/GetPostsFromConnectedUsers'
     
 };
