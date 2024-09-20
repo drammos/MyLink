@@ -45,14 +45,18 @@ const useLoginUser = () => {
     const logInUser = useCallback((username, password) => {
         const input = JSON.stringify({ username, password });
         setInputData(input);
-        fetchService();
-    }, [fetchService]);
+    }, []);
 
     useEffect(() => {
         if (response) {
             handleLoginResponse(response);
         }
     }, [response, handleLoginResponse]);
+
+    useEffect(() => {
+        if (inputData) 
+            fetchService();
+    }, [inputData, fetchService]);
 
     return { logInUser, errorCode, message, loading, refetch: logInUser };
 };

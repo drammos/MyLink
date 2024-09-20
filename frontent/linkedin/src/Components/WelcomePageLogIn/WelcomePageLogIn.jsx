@@ -25,7 +25,7 @@ const WelcomePageLogIn = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        refetch(username,password);
+        await refetch(username,password);
     }
 
     useEffect(() => {

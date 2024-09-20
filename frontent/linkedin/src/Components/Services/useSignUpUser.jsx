@@ -41,7 +41,7 @@ const useSignUpUser = () => {
     const isValidName = (name) => /^[A-Za-z]/.test(name);
 
     const signUpUser = useCallback((
-        firstname, surname, phone, email, role, username, password, repeatPassword, birthDate, photoURL,terms
+        firstname, surname, phone, email, role, username, password, repeatPassword, birthDate, photoURL, terms, cvURL
     ) => {
 
         if (!terms) {
@@ -93,6 +93,7 @@ const useSignUpUser = () => {
         inputFormData.append('Password', password);
         inputFormData.append('Birthday', birthDate);
         inputFormData.append('PictureURL', photoURL);
+        inputFormData.append('CoverLetterURL', cvURL);
         console.log("FormDataDone! : ", firstname, surname, phone, email, role, username, password, birthDate, photoURL);
         console.log(inputFormData);
 

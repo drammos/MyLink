@@ -114,18 +114,18 @@ div.glass-container-SignUpForm {
             place-items: center;
         }
 
-            div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.photo-upload {
+            div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.file-upload {
                 display: flex;
                 justify-content: center;
                 margin: 10px 0;
             }
 
-            div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.photo-upload label {
-                margin-right: 6px;
-                font-size: 15px;
-            }
+                div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.file-upload label {
+                    margin-right: 6px;
+                    font-size: 15px;
+                }
 
-                div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.photo-upload input {
+                div.glass-container-SignUpForm form.SignUpForm div.down-buttons div.file-upload input {
                     width: 200px;
                 }
 

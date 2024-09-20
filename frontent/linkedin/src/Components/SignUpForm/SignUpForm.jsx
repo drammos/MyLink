@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
-import useService from "../Services/useService";
-import { useNavigate } from "react-router-dom";
 import { InputMask } from 'primereact/inputmask';
 import { Password } from 'primereact/password';
 import { InputText } from 'primereact/inputtext';
 import { Divider } from 'primereact/divider';
 import { Calendar } from 'primereact/calendar';
 import UploadPhoto from '../Services/UploadPhoto';
-
+import UploadFile from '../Services/UploadFile';
 import "react-datepicker/dist/react-datepicker.css";
 import './SignUpForm.css';
 import useSignUpUser from "../Services/useSignUpUser";
@@ -30,6 +28,8 @@ const SignUpForm = () => {
 
     const [photoURL, setPhotoURL] = useState(null);
     const [printPhotoURL, setPrintPhotoURL] = useState(0);
+    const [cvURL, setCvURL] = useState(null);
+
 
     const [terms, setTerms] = useState(false);
 
@@ -147,7 +147,7 @@ const SignUpForm = () => {
         const isRepeatPasswordValid = validateRepeatPassword();
 
         if (isFirstNameValid && isSurnameValid && isUsernameValid && isEmailValid && isPhoneValid && isPasswordValid && isRepeatPasswordValid) {
-            refetch(firstname, surname, phone, email, 'Professional', username, password, repeatPassword, birthDate, photoURL, terms);
+            refetch(firstname, surname, phone, email, 'Professional', username, password, repeatPassword, birthDate, photoURL, terms, cvURL);
         } else {
             console.log("Validation failed");
         }
@@ -157,7 +157,7 @@ const SignUpForm = () => {
         setTerms((prev) => !prev);
     };
 
-    const handleFileChange = async (e) => {
+    const handlePhotoChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
             try {
@@ -165,10 +165,25 @@ const SignUpForm = () => {
                 const { originalUrl, transformedUrl } = await UploadPhoto(file);
                 console.log("transformedUrl is: ", transformedUrl);
                 console.log("originalUrl is: ", originalUrl);
-                setPhotoURL(transformedUrl); // Set the optimized URL after upload
+                setPhotoURL(transformedUrl); 
                 setPrintPhotoURL(1);
             } catch (error) {
                 console.error("Error uploading image to Cloudinary", error);
+            }
+        }
+    };
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            try {
+                console.log("uploading photo...");
+                const { originalUrl, publicId, response } = await UploadFile(file, 'CVs');
+                console.log("publicId is: ", publicId);
+                console.log("originalUrl is: ", originalUrl);
+                setCvURL(originalUrl); 
+            } catch (error) {
+                console.error("Error uploading CV to Cloudinary", error);
             }
         }
     };
@@ -183,19 +198,19 @@ const SignUpForm = () => {
                             placeholder={firstNameError ? "First name is mandatory" : "First name"}
                             value={firstname}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className={firstNameError ? 'p-invalid' : ''} // Add p-invalid for error
+                            className={firstNameError ? 'p-invalid' : ''} 
                         />
                         <InputText
                             placeholder={surnameError ? "Surname is mandatory" : "Surname"}
                             value={surname}
                             onChange={(e) => setSurname(e.target.value)}
-                            className={surnameError ? 'p-invalid' : ''} // Add p-invalid for error
+                            className={surnameError ? 'p-invalid' : ''} 
                         />
                         <InputText
                             placeholder={usernameError ? "Username is mandatory" : "Username"}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            className={usernameError ? 'p-invalid' : ''} // Add p-invalid for error
+                            className={usernameError ? 'p-invalid' : ''} 
                         />
                         <Password
                             placeholder={passwordError ? "Password is too short" : "Password"}
@@ -204,7 +219,7 @@ const SignUpForm = () => {
                             header={header}
                             footer={footer}
                             toggleMask
-                            className={passwordError ? 'p-invalid' : ''} // Add p-invalid for error
+                            className={passwordError ? 'p-invalid' : ''} 
                         />
                         <Password
                             value={repeatPassword}
@@ -212,7 +227,7 @@ const SignUpForm = () => {
                             onChange={(e) => setRepeatPassword(e.target.value)}
                             feedback={false}
                             toggleMask
-                            className={repeatPasswordError ? 'p-invalid' : ''} // Add p-invalid for error
+                            className={repeatPasswordError ? 'p-invalid' : ''} 
                         />
                     </div>
 
@@ -243,9 +258,15 @@ const SignUpForm = () => {
 
                 <div className="down-buttons">
 
-                    <div className="photo-upload">
+                    <div className="file-upload">
+                        <label htmlFor="cv">Upload your CV </label>
+                        <input type="file" id="cv" accept=".pdf,.doc,.docx" onChange={handleFileChange} />
+                    </div>
+
+
+                    <div className="file-upload">
                         <label htmlFor="photo">Upload a photo</label>
-                        <input type="file" id="photo" accept="image/*" onChange={handleFileChange} />
+                        <input type="file" id="photo" accept="image/*" onChange={handlePhotoChange} />
                     </div>
 
                     {printPhotoURL === 1 && (
