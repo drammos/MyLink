@@ -11,5 +11,6 @@ export const agents = {
     // Post
     createPost: 'Post/CreatePost',
     getUserPosts: 'Post/GetUserPosts'
+    getPostsFromConnectedUsers: 'Post/GetPostsFromConnectedUsers'
     
 };
