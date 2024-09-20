@@ -20,10 +20,10 @@ const LogIn = () => {
 
     const { errorCode, message, loading, refetch } = useLoginUser();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        refetch(username,password);
-    };
+        await refetch(username,password);
+    }
 
     useEffect(() => {
         if (localStorage.getItem('role') !== '') 

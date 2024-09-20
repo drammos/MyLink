@@ -23,6 +23,7 @@ const useGetUser = () => {
         if (response?.status === 200) {
             setErrorCode(0);
             setUserInfo(response.data);
+            console.log("user infoooo :  ", response.data);
             setMessage('User informations are here!');
             console.log('User informations are here!');
         } else {

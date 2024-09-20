@@ -1,0 +1,72 @@
+.personalInfo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f9;
+}
+
+.main-info-container {
+    width: 100%;
+    max-width: 900px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+.main-info-container {
+    display: flex;
+    align-items: center;
+}
+
+    .main-info-container .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 20px;
+    }
+
+        .main-info-container .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .main-info-container .default-picture {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ccc;
+        font-size: 48px;
+        color: white;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+    }
+
+    .main-info-container .user-details {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+        .main-info-container .user-details h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .main-info-container .user-details p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
+        }
+
+
+        /* Ensure the footer stays at the bottom */
+.footer {
+    flex-shrink: 0;
+    /* Add any other styles you need for your footer */
+}

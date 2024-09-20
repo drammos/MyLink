@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import SignUp from './Pages/SignUp/SignUp.jsx'
+import UserSettings from './Pages/UserSettings/UserSettings.jsx'
 import SignIn from './Pages/SignIn/SignIn.jsx'
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx'
 import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
@@ -29,6 +30,8 @@ const router = createBrowserRouter([
     { path: Routes.PageNotFound, element: <PageNotFound /> },
     { path: Routes.MainPage, element: <MainPage /> },
     { path: Routes.PersonalInfo, element: <PersonalInfo /> },
+    { path: Routes.UserSettings, element: <UserSettings /> },
+
     //},
     //{
     //    path: "jobs",

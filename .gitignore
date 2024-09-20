@@ -4,6 +4,7 @@
 # Ignore everything in Migrations directory
 Migrations/**
 WebAppBackEnd/MyLink.Data/Migrations/*
+
 # Except ApplicationDbContext.cs
 !WebAppBackEnd/MyLink.Data/Migrations/ApplicationDbContextModelSnapshot.cs
 
