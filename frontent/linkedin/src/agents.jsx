@@ -4,6 +4,7 @@ export const agents = {
     registerUser: 'User/RegisterUser',
     loginUser: 'User/LoginUser',
     getUser: 'User/GetUser',
+    updateUser: 'User/UpdateUser',
     getListFromInComingRequests: 'User/GetListFromInComingRequests',
     deleteUser: 'User/DeleteUser',
     getAllUsers: 'User/GetAllUsers',
