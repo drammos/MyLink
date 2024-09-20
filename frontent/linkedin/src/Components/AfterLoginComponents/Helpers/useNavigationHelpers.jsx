@@ -12,6 +12,9 @@ export const useNavigationHelpers = () => {
         navigate(Routes.PersonalInfo);
     };
 
+    const handleSettings = () => {
+        navigate(Routes.UserSettings);
+    }
     const handleProfileButton = () => {
         navigate('/profile');
     };
@@ -45,5 +48,6 @@ export const useNavigationHelpers = () => {
         handleInterestsButton,
         handleViewProfile,
         handleLogoutButton,
+        handleSettings,
     };
 };

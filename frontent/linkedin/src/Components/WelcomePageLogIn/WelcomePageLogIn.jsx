@@ -42,15 +42,18 @@ const WelcomePageLogIn = () => {
 
     useEffect(() => {
         console.log("role is : ", role);
+        
+        // Logout every time user reach WelcomePage
+        localStorage.setItem('authToken', '');
+        localStorage.setItem('role', '');
+        localStorage.setItem('username', '');
+        localStorage.setItem('id', '');
+
         // Logged in users can't reach this page
-        if (role !== '') {
+        if (role !== '' && role !== null) {
             navigate(Routes.PageNotFound);
         }
         else {
-            localStorage.setItem('authToken', '');
-            localStorage.setItem('role', '');
-            localStorage.setItem('username', '');
-            localStorage.setItem('id', '');
 
             if (response) {
                 if (response.status === 200) {
