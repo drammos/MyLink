@@ -2,10 +2,13 @@ import { useState, useCallback, useEffect } from 'react';
 import useService from '../Services/useService'; 
 import { useNavigate } from 'react-router-dom';
 import { agents } from '../../agents';
+import { Routes } from '../../routes';
+
 
 const useSignUpUser = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const inputFormData = new FormData();
     const url = agents.localhost + agents.registerUser;
@@ -18,21 +21,67 @@ const useSignUpUser = () => {
         'multipart/form-data'
     );
 
+
     const handleSignUpResponse = useCallback((response) => {
         console.log(response.status, " = status"); 
         if (response?.status === 200) {
             setErrorCode(0);
-            console.log(errorCode, " = ErrorCode"); 
+            console.log(errorCode, " = ErrorCode");
             setMessage('Account created successfully!');
+            setTimeout(() => {
+                navigate(Routes.Home);
+            }, 2000);
         } else {
             setErrorCode(1);
-            setMessage(response?.title || 'An error occurred. Please try again.');
+            setError(response?.errors || 'An error occurred. Please try again.');
+            setMessage('Error');
         }
     }, [navigate]);
 
+    const isValidName = (name) => /^[A-Za-z]/.test(name);
+
     const signUpUser = useCallback((
-        firstname, surname, phone, email, role, username, password, birthDate, photoURL
+        firstname, surname, phone, email, role, username, password, repeatPassword, birthDate, photoURL,terms
     ) => {
+
+        if (!terms) {
+            setError('You must first agree with terms.');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
+        if (!isValidName(firstname)) {
+            setError('Firstname is not correct');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
+        if (!isValidName(surname)) {
+            setError('Lastname is not correct');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
+        surname = surname ? surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase() : '';
+        firstname = firstname ? firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase() : '';
+
+        if (password !== repeatPassword) {
+            setError('Passwords do not match');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
+        if (photoURL === null) {
+            setError('You must add a photo');
+            setMessage('Error');
+            setErrorCode(1);
+            return;
+        }
+
         surname = surname ? surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase() : '';
         firstname = firstname ? firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase() : '';
         inputFormData.append('FirstName', firstname);
@@ -57,7 +106,7 @@ const useSignUpUser = () => {
         }
     }, [response, handleSignUpResponse]);
 
-    return { signUpUser, message, errorCode, loading, refetch: signUpUser };
+    return { signUpUser, message, errorCode, error, loading, refetch: signUpUser };
 };
 
 export default useSignUpUser;

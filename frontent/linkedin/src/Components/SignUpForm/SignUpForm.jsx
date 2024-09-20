@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import useService from "../Services/useService";
-import { Routes } from "../../routes";
 import { useNavigate } from "react-router-dom";
 import { InputMask } from 'primereact/inputmask';
 import { Password } from 'primereact/password';
@@ -11,17 +10,13 @@ import { InputText } from 'primereact/inputtext';
 import { Divider } from 'primereact/divider';
 import { Calendar } from 'primereact/calendar';
 import UploadPhoto from '../Services/UploadPhoto';
-import { agents } from '../../agents';
 
 import "react-datepicker/dist/react-datepicker.css";
 import './SignUpForm.css';
+import useSignUpUser from "../Services/useSignUpUser";
 //#endregion
 
 const SignUpForm = () => {
-
-    //#region Variables section (Group variables here)
-
-    const [message, setMessage] = useState('');
 
     const [firstname, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
@@ -38,21 +33,16 @@ const SignUpForm = () => {
 
     const [terms, setTerms] = useState(false);
 
-    const [error, setError] = useState('');
-    const [errorCode, setErrorCode] = useState(2);
-
     const [firstNameError, setFirstNameError] = useState(false);
     const [surnameError, setSurnameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
     const [usernameError, setUsernameError] = useState(false);
-    //const [emailError, setemailError] = useState(false);
-    //const [phoneError, setphoneError] = useState(false);
-    //const [birthDateError, setbirthDateError] = useState(false);
-    //const [passwordError, setpasswordError] = useState(false);
-    //const [repeatPasswordError, setrepeatPasswordError] = useState(false);
+    const [phoneError, setPhoneError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [repeatPasswordError, setRepeatPasswordError] = useState(false);
 
     const today = new Date();
     const eighteenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 18));
-
 
     const header = <div className="font-bold mb-3">Pick a password</div>;
     const footer = (
@@ -68,93 +58,100 @@ const SignUpForm = () => {
             </ul>
         </>
     );
-    //#endregion
 
-    const navigate = useNavigate();
+    const { message, errorCode, error, loading, refetch } = useSignUpUser();
 
-    const inputFormData = new FormData();
-    inputFormData.append('FirstName', firstname);
-    inputFormData.append('LastName', surname);
-    inputFormData.append('PhoneNumber', phone);
-    inputFormData.append('Email', email);
-    inputFormData.append('Role', 'Professional');
-    inputFormData.append('Username', username);
-    inputFormData.append('Password', password);
-    inputFormData.append('Birthday', birthDate);
-    inputFormData.append('PictureURL', photoURL);
-    inputFormData.append('Birthday', birthDate);
+    // Error validation functions
+    const validateFirstName = () => {
+        if (!firstname.trim()) {
+            setFirstNameError(true);
+            return false;
+        } else {
+            setFirstNameError(false);
+            return true;
+        }
+    };
 
-    const url = agents.localhost + agents.registerUser;
+    const validateSurname = () => {
+        if (!surname.trim()) {
+            setSurnameError(true);
+            return false;
+        } else {
+            setSurnameError(false);
+            return true;
+        }
+    };
 
-    const { response, loading, refetch } = useService(
-        'Creating new user...',
-        'POST',
-        url,
-        inputFormData,
-        'multipart/form-data'
-    );
+    const validateUsername = () => {
+        if (!username.trim()) {
+            setUsernameError(true);
+            return false;
+        } else {
+            setUsernameError(false);
+            return true;
+        }
+    };
 
-    const isValidName = (name) => /^[A-Za-z]/.test(name);
+    const validateEmail = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.trim() || !emailRegex.test(email)) {
+            setEmailError(true);
+            return false;
+        } else {
+            setEmailError(false);
+            return true;
+        }
+    };
+
+    const validatePhone = () => {
+        const phoneRegex = /^\(\d{3}\) \d{3}-\d{3}-\d{4}$/;
+        if (!phone.trim() || !phoneRegex.test(phone)) {
+            setPhoneError(true);
+            return false;
+        } else {
+            setPhoneError(false);
+            return true;
+        }
+    };
+
+    const validatePassword = () => {
+        if (password.length < 8) {
+            setPasswordError(true);
+            return false;
+        } else {
+            setPasswordError(false);
+            return true;
+        }
+    };
+
+    const validateRepeatPassword = () => {
+        if (repeatPassword !== password || repeatPassword.length < 8) {
+            setRepeatPasswordError(true);
+            return false;
+        } else {
+            setRepeatPasswordError(false);
+            return true;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!terms) {
-            setError('You must first agree with terms.');
-            setMessage('Error');
-            setErrorCode(1);
-            return;
+        // Validate all fields before submitting
+        const isFirstNameValid = validateFirstName();
+        const isSurnameValid = validateSurname();
+        const isUsernameValid = validateUsername();
+        const isEmailValid = validateEmail();
+        const isPhoneValid = validatePhone();
+        const isPasswordValid = validatePassword();
+        const isRepeatPasswordValid = validateRepeatPassword();
+
+        if (isFirstNameValid && isSurnameValid && isUsernameValid && isEmailValid && isPhoneValid && isPasswordValid && isRepeatPasswordValid) {
+            refetch(firstname, surname, phone, email, 'Professional', username, password, repeatPassword, birthDate, photoURL, terms);
+        } else {
+            console.log("Validation failed");
         }
-
-        const surname = surname ? surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase() : '';
-        const firstname = firstname ? firstname.charAt(0).toUpperCase() + firstname.slice(1).toLowerCase() : '';
-
-        if (!isValidName(firstname)) {
-            setError('Firstname is not correct');
-            setMessage('Error');
-            setErrorCode(1);
-            return;
-        }
-
-        if (!isValidName(surname)) {
-            setError('Lastname is not correct');
-            setMessage('Error');
-            setErrorCode(1);
-            return;
-        }
-
-        if (password !== repeatPassword) {
-            setError('Passwords do not match');
-            setMessage('Error');
-            setErrorCode(1);
-            return;
-        }
-
-        if (photoURL === null) {
-            setError('You must add a photo');
-            setMessage('Error');
-            setErrorCode(1);
-            return;
-            //setPhotoURL('https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png');
-        }
-
-        
-        refetch();
     };
-
-    useEffect(() => {
-        if (response) {
-            if (response.status === 200) {
-                setErrorCode(0);
-                setMessage('Account created successfully!');
-                setTimeout(() => navigate(Routes.Home), 2000);
-            } else {
-                console.log(response.data.title);
-                setError(response.data.title);
-                setErrorCode(1);
-            }
-        }
-    }, [response, navigate, message]);
 
     const handleCheckBoxChange = () => {
         setTerms((prev) => !prev);
@@ -165,15 +162,13 @@ const SignUpForm = () => {
         if (file) {
             try {
                 console.log("uploading photo...");
-                const { originalUrl, transformedUrl, response } = await UploadPhoto(file);
+                const { originalUrl, transformedUrl } = await UploadPhoto(file);
                 console.log("transformedUrl is: ", transformedUrl);
-                console.log("originalUrl is: ", originalUrl );
+                console.log("originalUrl is: ", originalUrl);
                 setPhotoURL(transformedUrl); // Set the optimized URL after upload
                 setPrintPhotoURL(1);
             } catch (error) {
-                setErrorCode(1);
                 console.error("Error uploading image to Cloudinary", error);
-                setError('Error uploading image. Please try again.');
             }
         }
     };
@@ -184,26 +179,65 @@ const SignUpForm = () => {
             <form className="SignUpForm" onSubmit={handleSubmit}>
                 <div className="firstline">
                     <div className="rowOne">
-                        <InputText placeholder={firstNameError ? "First name is mandatory" : "First name"} value={firstname}
-                            onChange={(e) => setFirstName(e.target.value)} className={firstNameError ? 'input-error' : ''} />
-                        <InputText placeholder={surnameError ? "Surname is mandatory" : "Surname"}
-                            value={surname} onChange={(e) => setSurname(e.target.value)} className={surnameError ? 'input-error' : ''} />
-                        <InputText placeholder={usernameError ? "Username is mandatory" : "Username"}
-                            value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? 'input-error' : ''} />
-                        <Password placeholder={usernameError ? "{Password} is mandatory" : "Password"} value={password}
-                            onChange={(e) => setPassword(e.target.value)} header={header} footer={footer} toggleMask />
-                        <Password value={repeatPassword} placeholder={firstNameError ? "" : "Repeat Password"}
-                            onChange={(e) => setRepeatPassword(e.target.value)} feedback={false} tabIndex={1} toggleMask/>
-
+                        <InputText
+                            placeholder={firstNameError ? "First name is mandatory" : "First name"}
+                            value={firstname}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            className={firstNameError ? 'p-invalid' : ''} // Add p-invalid for error
+                        />
+                        <InputText
+                            placeholder={surnameError ? "Surname is mandatory" : "Surname"}
+                            value={surname}
+                            onChange={(e) => setSurname(e.target.value)}
+                            className={surnameError ? 'p-invalid' : ''} // Add p-invalid for error
+                        />
+                        <InputText
+                            placeholder={usernameError ? "Username is mandatory" : "Username"}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className={usernameError ? 'p-invalid' : ''} // Add p-invalid for error
+                        />
+                        <Password
+                            placeholder={passwordError ? "Password is too short" : "Password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            header={header}
+                            footer={footer}
+                            toggleMask
+                            className={passwordError ? 'p-invalid' : ''} // Add p-invalid for error
+                        />
+                        <Password
+                            value={repeatPassword}
+                            placeholder={repeatPasswordError ? "Passwords do not match" : "Repeat Password"}
+                            onChange={(e) => setRepeatPassword(e.target.value)}
+                            feedback={false}
+                            toggleMask
+                            className={repeatPasswordError ? 'p-invalid' : ''} // Add p-invalid for error
+                        />
                     </div>
 
-                    <div className="rowTwo"> 
+                    <div className="rowTwo">
                         <label htmlFor="email" className="font-bold block mb-2">Email</label>
-                        <InputText value={email} onChange={(e) => setEmail(e.target.value)} keyfilter="email" />
+                        <InputText
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className={emailError ? 'p-invalid' : ''}
+                        />
                         <label htmlFor="phone" className="font-bold block mb-2">Phone</label>
-                        <InputMask id="phone" mask="(999) 999-999-9999" placeholder="(999) 999-999-9999" onChange={(e) => setPhone(e.target.value)}></InputMask>
+                        <InputMask
+                            id="phone"
+                            mask="(999) 999-999-9999"
+                            placeholder="(999) 999-999-9999"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className={phoneError ? 'p-invalid' : ''}
+                        />
                         <label htmlFor="birthdate" className="font-bold block mb-2">Birth Date</label>
-                        <Calendar value={birthDate} onChange={(e) => setBirthDate(e.target.value)} maxDate={eighteenYearsAgo} />
+                        <Calendar
+                            value={birthDate}
+                            onChange={(e) => setBirthDate(e.target.value)}
+                            maxDate={eighteenYearsAgo}
+                        />
                     </div>
                 </div>
 
