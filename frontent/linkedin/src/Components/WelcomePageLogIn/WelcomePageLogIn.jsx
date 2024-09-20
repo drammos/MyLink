@@ -37,7 +37,7 @@ const WelcomePageLogIn = () => {
         localStorage.setItem('username', '');
         localStorage.setItem('id', '');
 
-    }, [role]);
+    }, []);
 
     const handleForgotPassword = (event) => {
         event.preventDefault();
