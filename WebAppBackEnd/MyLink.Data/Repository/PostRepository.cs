@@ -181,6 +181,7 @@ namespace MyLink.Data.Repository
             var posts = await _context.Posts
                 .Where(p => userIdList.Contains(p.UserId))
                 .OrderByDescending(p => !p.UpdateAt.HasValue ? p.CreatedAt : p.UpdateAt)
+                .Include(p => p.User)
                 .ToListAsync();
     
             return posts;
