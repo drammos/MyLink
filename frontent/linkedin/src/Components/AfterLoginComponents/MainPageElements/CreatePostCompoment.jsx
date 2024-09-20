@@ -86,15 +86,26 @@ const CreatePostComponent = () => {
         if (postIt) {
             if (title && text) {
                 createPostRefetch(userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls);
-                setInfoMessage(message);
                 clearData();
 
             } else {
                 setInfoMessage("Please enter both title and content for your post.");
+                setErrorCode(1);
             }
             setPostIt(0);
         }
     }, [postIt, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, createPostRefetch, message]);
+
+    useEffect(() => {
+        if (errorCode === 1) {
+            setInfoMessage("An error occured. Please try again.");
+            setErrorCode(1);
+        }
+        else if (errorCode === 0) {
+            setInfoMessage("Post uploaded!");
+            setErrorCode(0);
+        }
+    }, [errorCode]);
 
     return (
         <div className="new-post-container">
@@ -148,12 +159,12 @@ const CreatePostComponent = () => {
 
             <div className={
                 loading ? 'loading' :
-                    (errorCode === 1 ? 'error-message' :
-                        (errorCode === 0 ? 'success-message' : ''))
+                    (ErrorCode === 1 ? 'error-message' :
+                        (ErrorCode === 0 ? 'success-message' : ''))
             }>
                 {loading ? (<>Loading...</>) :
-                    (errorCode === 1 ? (<><GoXCircle /> {infoMessage}</>) :
-                        (errorCode === 0 ? (<><GoCheckCircle /> {infoMessage}</>) : ''))}
+                    (ErrorCode === 1 ? (<><GoXCircle /> {infoMessage}</>) :
+                        (ErrorCode === 0 ? (<><GoCheckCircle /> {infoMessage}</>) : ''))}
             </div>
             {loading && <p className="loading">Loading...</p>}
         </div>

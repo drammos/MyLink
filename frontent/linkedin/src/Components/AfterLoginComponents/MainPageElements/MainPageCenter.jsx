@@ -1,26 +1,35 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { FaUserCircle, FaThumbsUp, FaGlobe, FaRegCommentAlt } from "react-icons/fa";
 import './styles/MainPageCenter.css';
 import CreatePostComponent from "./CreatePostCompoment";
 import useGetUserPosts from '../../Services/useGetUserPosts';
-import { array } from "prop-types";
+//import { array } from "prop-types";
 
 const MainPageCenter = () => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
     const [posts, setPosts] = useState([]);
+    const [usersOfPosts, setUsersOfPosts] = useState([]); 
     const [postsNumber, setPostsNumber] = useState([]);
 
     useEffect(() => {
-        getPostsRefetch();
-    }, []);
+        getPostsRefetch(); 
+    },[]); 
+
+    const { userInfo, errorCode: getUserErrorCode, refetch: getUserRefetch } = useGetUser();
 
     useEffect(() => {
-        console.log("posts are: ", posts.length);
-        setPostsNumber(posts.length);
-        if (response) {
-            setPosts(response.data);
-        }
+        const fetchPostsWithUsers = async () => {
+            if (response) {
+                setPosts(response.data);
+            }
+        };
+        fetchPostsWithUsers();
     }, [response]);
+
+    useEffect(() => {
+        console.log("posts are: ", posts);
+        setPostsNumber(posts.length);
+    }, [posts]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -36,21 +45,29 @@ const MainPageCenter = () => {
                 (postsNumber > 0) ? (
                 posts.map((post) => (
                     <div key={post.id} className="show-post-container">
-                        {/* <div className="show-account-name">
-                            <FaUserCircle size="2rem" color="rgba(0, 0, 0, 0.6)" />
-                            <div className="account-details">
-                                <b>{post.user.firstName} {post.user.lastName}</b>&nbsp;
-                                <span className="small-icon">●</span>&nbsp;1st
-                                <br />
-                                <p>{post.user.email}</p>
-                                <p>
-                                    {formatDate(post.createdAt)}&nbsp;
-                                    <span className="small-icon">●</span>
-                                    {post.updateAt !== post.createdAt ? ' Edited ' : ' '}
-                                    <span className="small-icon">●</span> <FaGlobe />
-                                </p>
-                            </div>
-                        </div> */}
+                        <div className="show-account-name">
+                        {/*    {post.user.photoURL ? (*/}
+                        {/*        <img*/}
+                        {/*            src={post.photoURL}*/}
+                        {/*            alt={`${post.firstName} ${post.lastName}`}*/}
+                        {/*            className="user-profile-photo"*/}
+                        {/*            style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}*/}
+                        {/*        />*/}
+                        {/*    ) : (*/}
+                        {/*        <FaUserCircle size="2rem" color="rgba(0, 0, 0, 0.6)" />*/}
+                        {/*    )}*/}
+                        {/*    <div className="account-details">*/}
+                        {/*        <b>{post.user.firstName} {post.user.lastName}</b>&nbsp;*/}
+                        {/*        <span className="small-icon">●</span>&nbsp;1st*/}
+                        {/*        <br />*/}
+                        {/*        <p>*/}
+                        {/*            {formatDate(post.createdAt)}&nbsp;*/}
+                        {/*            <span className="small-icon">●</span>*/}
+                        {/*            {post.updateAt !== post.createdAt ? ' Edited ' : ' '}*/}
+                        {/*            <span className="small-icon">●</span> <FaGlobe />*/}
+                        {/*        </p>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <div className="post-content">
                             <h3>{post.title}</h3>
                             <p>{post.content}</p>
