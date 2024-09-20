@@ -143,7 +143,22 @@ namespace WebAppMyLink.Controllers
             User user = await _userManager.FindByNameAsync(updateUserDTO.Username);
             if (user == null)
                 return NotFound();
-
+            
+            if (user == null || !await _userManager.CheckPasswordAsync(user, updateUserDTO.CurrentPassword))
+            {
+                return ValidationProblem("Wrong Current password");
+            }
+            
+            if (user.Email != updateUserDTO.Email)
+            {
+                var userWithSameEmail = await _userManager.FindByEmailAsync(updateUserDTO.Email);
+                if (userWithSameEmail != null && userWithSameEmail.Id != user.Id)
+                {
+                    return ValidationProblem("The email is already taken.");
+                }
+            }
+            
+            
             user.FirstName = updateUserDTO.FirstName;
             user.LastName = updateUserDTO.LastName;
             user.PhoneNumber = updateUserDTO.PhoneNumber;
