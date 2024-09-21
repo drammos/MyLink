@@ -130,12 +130,18 @@ namespace MyLink.Data.Repository
 
         public List<Job> GetOpenJobs()
         {
-            return _context.Jobs.Where(j => j.IsActive == true).ToList();
+            return _context.Jobs
+                .Where(j => j.IsActive == true)
+                .Include(j => j.User)
+                .ToList();
         }
         
         public List<Job> GetCloseJobs()
         {
-            return  _context.Jobs.Where(j => j.IsActive == false).ToList();
+            return  _context.Jobs
+                .Where(j => j.IsActive == false)
+                .Include(j => j.User)
+                .ToList();
         }
 
         public List<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO)
@@ -153,6 +159,7 @@ namespace MyLink.Data.Repository
                         && (string.IsNullOrEmpty(filterJobsDTO.WorkType) ? true : j.WorkType.Contains(filterJobsDTO.WorkType))
                         )
                 .OrderByDescending(j => j.PostedDate)
+                .Include(j => j.User)
                 .ToList();
         }
     }
