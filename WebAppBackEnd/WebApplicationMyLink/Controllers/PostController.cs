@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using MyLink.Models.DTOS;
+using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 
 namespace WebAppMyLink.Controllers
 {
@@ -12,11 +15,13 @@ namespace WebAppMyLink.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
-
-        public PostController(IUnitOfWork unitOfWork, UserManager<User> userManager)
+        private readonly IMapper _mapper;
+        
+        public PostController(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [HttpPost("CreatePost")]
@@ -107,9 +112,30 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostComments")]
-        public async Task<ActionResult<List<Comment>>> GetPostComments(int postId)
+        public async Task<ActionResult<List<CommentDTO>>> GetPostComments(int postId)
         {
-            return await _unitOfWork.Post.GetComments(postId);
+            var comments = await _unitOfWork.Post.GetComments(postId);
+            List<CommentDTO> commentDTOs = new List<CommentDTO>();
+            foreach (var comment in comments)
+            {
+                User user = await _userManager.FindByNameAsync(comment.Username);
+                if(user == null) continue;
+                CommentDTO commentDTO = new CommentDTO()
+                {
+                    Id = comment.Id,
+                    Content = comment.Content,
+                    CreatedAt = comment.CreatedAt,
+                    PostId = comment.PostId,
+                    Username = comment.Username,
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PictureURL = user.PictureURL,
+                };
+                commentDTOs.Add(commentDTO);
+            }
+
+            return commentDTOs;
         }
 
         [HttpGet("GetUserComments")]
@@ -167,9 +193,30 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostReactions")]
-        public async Task<ActionResult<List<Reaction>>> GetPostReactions(int postId)
+        public async Task<ActionResult<List<ReactionDTO>>> GetPostReactions(int postId)
         {
-            return await _unitOfWork.Post.GetReactions(postId);
+            var reactions = await _unitOfWork.Post.GetReactions(postId);
+            
+            List<ReactionDTO> reactionDtos = new List<ReactionDTO>();
+            foreach (var reaction in reactions)
+            {
+                User user = await _userManager.FindByNameAsync(reaction.Username);
+                if(user == null) continue;
+                ReactionDTO reactionDtoDTO = new ReactionDTO()
+                {
+                    Id = reaction.Id,
+                    ReactionType = reaction.ReactionType,
+                    PostId = reaction.PostId,
+                    Username = reaction.Username,
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PictureURL = user.PictureURL,
+                };
+                reactionDtos.Add(reactionDtoDTO);
+            }
+
+            return reactionDtos;
         }
 
         [HttpGet("GetUserReactions")]
@@ -206,7 +253,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostsFromConnectedUsers")]
-        public async Task<ActionResult<List<Post>>> GetPostsFromConnectedUsers([FromQuery] string userId)
+        public async Task<ActionResult<List<PostDTO>>> GetPostsFromConnectedUsers([FromQuery] string userId)
         {
             var connectedUsers = await _unitOfWork.User.GetConnectedUsers(userId);
             List<string> userIdList = new List<string>();
@@ -214,11 +261,13 @@ namespace WebAppMyLink.Controllers
             {
                 userIdList.Add(user.Id);
             }
+            userIdList.Add(userId);
             
             if (userIdList.Count == 0)
-                return new List<Post>();
+                return new List<PostDTO>();
             
-            return await _unitOfWork.Post.GetPostsFromConnectedUsers(userIdList);
+            var posts = await _unitOfWork.Post.GetPostsFromConnectedUsers(userIdList);
+            return _mapper.Map<List<PostDTO>>(posts);
         }
     }
 }

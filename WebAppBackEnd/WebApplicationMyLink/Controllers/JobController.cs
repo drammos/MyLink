@@ -4,6 +4,8 @@ using MyLink.Models.DTOS;
 using MyLink.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 
 namespace WebAppMyLink.Controllers
 {
@@ -13,11 +15,13 @@ namespace WebAppMyLink.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public JobController(IUnitOfWork unitOfWork, UserManager<User> userManager)
+        public JobController(IUnitOfWork unitOfWork, UserManager<User> userManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         [HttpPost("CreateJob")]
@@ -76,21 +80,24 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetAllJobs")]
-        public ActionResult<List<Job>> GetAllJobs()
+        public ActionResult<List<JobDTO>> GetAllJobs()
         {
-            return _unitOfWork.Job.GetAll().ToList();
+            var jobs = _unitOfWork.Job.GetAll().ToList();
+            return _mapper.Map<List<JobDTO>>(jobs);
         }
 
         [HttpGet("GetAllOpenJobs")]
-        public ActionResult<List<Job>> GetAllOpenJobs()
+        public ActionResult<List<JobDTO>> GetAllOpenJobs()
         {
-            return _unitOfWork.Job.GetOpenJobs();
+            var jobs = _unitOfWork.Job.GetOpenJobs();
+            return _mapper.Map<List<JobDTO>>(jobs);
         }
         
         [HttpGet("GetAllCloseJobs")]
-        public ActionResult<List<Job>> GetAllCloseJobs()
+        public ActionResult<List<JobDTO>> GetAllCloseJobs()
         {
-            return _unitOfWork.Job.GetCloseJobs();
+            var jobs = _unitOfWork.Job.GetCloseJobs();
+            return _mapper.Map<List<JobDTO>>(jobs);
         }
         
         [HttpPost("ApplyForJob")]
@@ -191,12 +198,13 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetFilteredJobs")]
-        public async Task<ActionResult<List<Job>>> GetFilteredJobs([FromQuery] FilterJobsDTO filterJobsDTO)
+        public async Task<ActionResult<List<JobDTO>>> GetFilteredJobs([FromQuery] FilterJobsDTO filterJobsDTO)
         {
             User user = await _userManager.FindByIdAsync(filterJobsDTO.UserId);
             if(user == null) return NotFound();
             
-            return _unitOfWork.Job.GetSortingJobs(filterJobsDTO).ToList();
+            var jobs = _unitOfWork.Job.GetSortingJobs(filterJobsDTO).ToList();
+            return _mapper.Map<List<JobDTO>>(jobs);
         }
 
         [HttpPut("CloseJob")]
