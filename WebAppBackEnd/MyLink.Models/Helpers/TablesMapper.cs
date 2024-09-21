@@ -12,6 +12,12 @@ namespace MyLink.Models.Helpers
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.PictureURL, opt => opt.MapFrom(src => src.User.PictureURL));
+            
+            CreateMap<Job, JobDTO>()
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.PictureURL, opt => opt.MapFrom(src => src.User.PictureURL));
         }
     }
 }
