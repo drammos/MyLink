@@ -7,6 +7,7 @@ const cld = new Cloudinary({ cloud: { cloudName: 'dvhi4yyrm' } });
 const UploadPhoto = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('folder', 'Photos'); 
     formData.append('upload_preset', 'MyLink_preset'); // Replace with your unsigned upload preset
 
     try {
