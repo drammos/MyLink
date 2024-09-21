@@ -9,7 +9,7 @@ const useGetPostsFromConnectedUsers = () => {
     const url = agents.localhost + agents.getPostsFromConnectedUsers + '?UserId=' + userId;
 
     const { response, loading, refetch: fetchService } = useService(
-        'Getting all posts ...',
+        'Getting posts from connected users ...',
         'GET',
         url,
         null,
