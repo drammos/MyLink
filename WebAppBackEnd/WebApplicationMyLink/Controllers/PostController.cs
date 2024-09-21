@@ -112,9 +112,30 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostComments")]
-        public async Task<ActionResult<List<Comment>>> GetPostComments(int postId)
+        public async Task<ActionResult<List<CommentDTO>>> GetPostComments(int postId)
         {
-            return await _unitOfWork.Post.GetComments(postId);
+            var comments = await _unitOfWork.Post.GetComments(postId);
+            List<CommentDTO> commentDTOs = new List<CommentDTO>();
+            foreach (var comment in comments)
+            {
+                User user = await _userManager.FindByNameAsync(comment.Username);
+                if(user == null) continue;
+                CommentDTO commentDTO = new CommentDTO()
+                {
+                    Id = comment.Id,
+                    Content = comment.Content,
+                    CreatedAt = comment.CreatedAt,
+                    PostId = comment.PostId,
+                    Username = comment.Username,
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PictureURL = user.PictureURL,
+                };
+                commentDTOs.Add(commentDTO);
+            }
+
+            return commentDTOs;
         }
 
         [HttpGet("GetUserComments")]
@@ -172,9 +193,30 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostReactions")]
-        public async Task<ActionResult<List<Reaction>>> GetPostReactions(int postId)
+        public async Task<ActionResult<List<ReactionDTO>>> GetPostReactions(int postId)
         {
-            return await _unitOfWork.Post.GetReactions(postId);
+            var reactions = await _unitOfWork.Post.GetReactions(postId);
+            
+            List<ReactionDTO> reactionDtos = new List<ReactionDTO>();
+            foreach (var reaction in reactions)
+            {
+                User user = await _userManager.FindByNameAsync(reaction.Username);
+                if(user == null) continue;
+                ReactionDTO reactionDtoDTO = new ReactionDTO()
+                {
+                    Id = reaction.Id,
+                    ReactionType = reaction.ReactionType,
+                    PostId = reaction.PostId,
+                    Username = reaction.Username,
+                    UserId = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PictureURL = user.PictureURL,
+                };
+                reactionDtos.Add(reactionDtoDTO);
+            }
+
+            return reactionDtos;
         }
 
         [HttpGet("GetUserReactions")]
