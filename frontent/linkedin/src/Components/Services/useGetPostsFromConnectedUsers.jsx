@@ -18,7 +18,6 @@ const useGetPostsFromConnectedUsers = () => {
     );
 
     const handleSignUpResponse = useCallback((response) => {
-        console.log(response.status, " = status");
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");

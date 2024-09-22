@@ -21,7 +21,6 @@ const UserSettings = () => {
     useEffect(() => {
         if (username !== null && username !== '') {
             refetch(username);
-            console.log("fuk ", userInfo);
         }
     });
 

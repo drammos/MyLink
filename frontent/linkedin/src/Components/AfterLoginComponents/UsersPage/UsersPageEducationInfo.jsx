@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const UsersPageEducationInfo = ({ userInfo }) => {
-    console.log("WTF ", userInfo.educations)
+const UsersPageExperienceInfo = ({ userInfo }) => {
     const educations = userInfo.educations || [];
     return (
         <div className="education-info-container">
@@ -23,7 +22,7 @@ const UsersPageEducationInfo = ({ userInfo }) => {
     );
 };
 
-UsersPageEducationInfo.propTypes = {
+UsersPageExperienceInfo.propTypes = {
     userInfo: PropTypes.shape({
         educations: PropTypes.arrayOf(PropTypes.shape({
             degree: PropTypes.string,
@@ -34,4 +33,4 @@ UsersPageEducationInfo.propTypes = {
     }).isRequired,
 };
 
-export default UsersPageEducationInfo;
+export default UsersPageExperienceInfo;

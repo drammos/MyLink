@@ -6,6 +6,7 @@ import Footer from "../../../Components/Footer/Footer"
 
 import MainInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/MainInfo";
 import EducationInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/EducationInfo";
+import ExperienceInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/ExperienceInfo";
 
 import useGetUser from '../../../Components/Services/useGetUser';
 
@@ -25,7 +26,6 @@ const PersonalInfo = () => {
     useEffect(() => {
         if (username !== null && username !== '') {
             refetch(username);
-            console.log("fuk ", userInfo);
         }
     });
 
@@ -35,6 +35,8 @@ const PersonalInfo = () => {
             <div className="personalInfo-container">
                     <MainInfo userInfo={userInfo} />
                 <EducationInfo userInfo={userInfo} />
+                <ExperienceInfo userInfo={userInfo} />
+
             </div>
             <Footer />
         </div>

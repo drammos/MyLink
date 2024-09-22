@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const EducationInfo = ({ userInfo }) => {
-    console.log("WTF ",userInfo.educations)
     const educations = userInfo.educations || []; 
     return (
         <div className="education-info-container">

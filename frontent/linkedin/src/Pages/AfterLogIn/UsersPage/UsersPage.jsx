@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useParams } from 'react-router-dom';
 
+import LoggedInNavBar from "../../../Components/AfterLoginComponents/LoggedInNavBar/LoggedInNavBar";
 import Footer from "../../../Components/Footer/Footer";
 import UsersPageMainInfo from "../../../Components/AfterLoginComponents/UsersPage/UsersPageMainInfo";
-import useGetUser from '../../../Components/Services/useGetUser.jsx'
-//import './ControlPanel.css';
+import UsersPageEducationInfo from "../../../Components/AfterLoginComponents/UsersPage/UsersPageEducationInfo";
+import UsersPageExperienceInfo from "../../../Components/AfterLoginComponents/UsersPage/UsersPageExperienceInfo";
+import useGetUser from '../../../Components/Services/useGetUser.jsx';
+import './UsersPage.css';
 
 const useDocumentTitle = (title) => {
     useEffect(() => {
@@ -15,7 +18,6 @@ const useDocumentTitle = (title) => {
 const UsersPage = () => {
 
     const { userInfo, message, errorCode, refetch } = useGetUser();
-
     const { username } = useParams();
 
     useEffect(() => {
@@ -25,10 +27,15 @@ const UsersPage = () => {
     useDocumentTitle('FirstName Surname');
 
     return (
-        <div>
-            <UsersPageMainInfo userInfo={userInfo} />
+        <>
+            <LoggedInNavBar userInfo={userInfo} />
+            <div className="usersPage-container">
+                <UsersPageMainInfo userInfo={userInfo} />
+                <UsersPageEducationInfo userInfo={userInfo} />
+                <UsersPageExperienceInfo userInfo={userInfo} />
+            </div>
             <Footer />
-        </div>
+        </>
     );
 };
 
