@@ -8,7 +8,7 @@ using MyLink.Services.JsonWebTokens;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ExperienceController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;

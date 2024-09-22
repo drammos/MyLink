@@ -1,5 +1,5 @@
 export const agents = {
-    localhost: 'http://localhost:5175/',
+    localhost: 'https://localhost:44329/api/',
     // User
     registerUser: 'User/RegisterUser',
     loginUser: 'User/LoginUser',

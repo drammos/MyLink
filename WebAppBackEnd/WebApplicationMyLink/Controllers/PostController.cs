@@ -7,7 +7,7 @@ using MyLink.Models.DTOS;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
