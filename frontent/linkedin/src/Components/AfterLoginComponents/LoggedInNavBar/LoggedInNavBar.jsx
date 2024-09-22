@@ -30,7 +30,6 @@ const LoggedInNavBar = ({ userInfo }) => {
         setIsNotificationOpen(!isNotificationOpen);
         if (isProfileMenuOpen)
             setIsProfileMenuOpen(false);
-
     };
 
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
@@ -42,7 +41,17 @@ const LoggedInNavBar = ({ userInfo }) => {
         } else {
             setuserPhotoUrl(defaultPhotoURL);
         }
+
+        // Initial fetch
         refetch(userInfo.id);
+
+        // Set up an interval to refetch every 20 seconds
+        const intervalId = setInterval(() => {
+            refetch(userInfo.id);
+        }, 20000); // 20000ms = 20 seconds
+
+        // Clean up the interval on component unmount
+        return () => clearInterval(intervalId);
 
     }, [userInfo, refetch]);
 
