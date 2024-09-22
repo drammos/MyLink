@@ -35,6 +35,7 @@ namespace WebAppMyLink.Controllers
                 CurrentJob = experienceDTO.CurrentJob,
                 Description = experienceDTO.Description,
                 UserId = experienceDTO.UserId,
+                IsPublic = experienceDTO.IsPublic,
             };
 
             _unitOfWork.Experience.Add(experience);
