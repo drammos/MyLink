@@ -32,6 +32,7 @@ namespace MyLink.Data.Repository
             experience.EndDate = updateExperienceDTO.EndDate;
             experience.CurrentJob = updateExperienceDTO.CurrentJob;
             experience.Description = updateExperienceDTO.Description;
+            experience.IsPublic = updateExperienceDTO.IsPublic;
             return experience;
         }
         

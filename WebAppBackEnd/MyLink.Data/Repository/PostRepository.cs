@@ -31,7 +31,8 @@ namespace MyLink.Data.Repository
             post.VoiceUrls = updatePostDTO.VoiceUrls;
             post.Content = updatePostDTO.Content;
             post.IsLikedByCurrentUser = updatePostDTO.IsLikedByCurrentUser;
-
+            post.IsPublic = updatePostDTO.IsPublic;
+            
             return post;
         }
 

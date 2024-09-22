@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "25dd426d-71aa-4c46-8f3c-24550dd24bff",
+                            Id = "3073e61c-015d-4646-9e14-77d832b28644",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "24eeb3c9-b55d-484f-abfb-6f6218922239",
+                            Id = "1d20dcc9-f4a0-4596-920e-fce3ea452e56",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -221,6 +221,9 @@ namespace MyLink.Data.Migrations
                     b.Property<string>("Grade")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
                     b.Property<string>("School")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -262,6 +265,9 @@ namespace MyLink.Data.Migrations
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -421,6 +427,9 @@ namespace MyLink.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsLikedByCurrentUser")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
                     b.Property<string>("PictureUrls")

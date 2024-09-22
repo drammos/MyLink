@@ -21,6 +21,8 @@ namespace MyLink.Models
         public bool CurrentJob { get; set; }
         public string? Description  { get; set; }
         [Required]
+        public bool IsPublic { get; set; }
+        [Required]
         [ForeignKey("UserId")]
         public string? UserId { get; set; }
         public User User { get; set; } = null!;
