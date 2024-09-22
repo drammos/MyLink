@@ -15,6 +15,7 @@
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Reaction> Reactions { get; set; }
         public bool IsLikedByCurrentUser { get; set; }
+        public bool IsPublic { get; set; }
 
         // User details
         public string UserId { get; set; }

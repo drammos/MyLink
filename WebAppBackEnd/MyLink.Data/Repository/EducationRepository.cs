@@ -31,6 +31,7 @@ namespace MyLink.Data.Repository
             education.EndDate = updateEducationDTO.EndDate;
             education.Grade = updateEducationDTO.Grade;
             education.Description = updateEducationDTO.Description;
+            education.IsPublic = updateEducationDTO.IsPublic;
             return education;
         }
 

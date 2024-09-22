@@ -17,5 +17,7 @@ namespace MyLink.Models.DTOS
         public List<string> VoiceUrls { get; set; } = [];
         [Required]
         public bool IsLikedByCurrentUser { get; set; }
+        [Required]
+        public bool IsPublic { get; set; }
     }
 }

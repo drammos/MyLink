@@ -41,7 +41,8 @@ namespace WebAppMyLink.Controllers
                 ReactionsCount = 0,
                 CommentsCount = 0,
                 IsLikedByCurrentUser = false,
-                UserId = createPostDTO.UserId
+                UserId = createPostDTO.UserId,
+                IsPublic = createPostDTO.IsPublic,
             };
 
             _unitOfWork.Post.Add(post);

@@ -19,5 +19,7 @@ namespace MyLink.Models.DTOS
         [Required]
         public bool CurrentJob { get; set; }
         public string? Description { get; set; }
+        [Required]
+        public bool IsPublic { get; set; }
     }
 }

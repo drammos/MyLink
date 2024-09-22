@@ -103,22 +103,22 @@ namespace MyLink.Data.Initialize
                 // Add Educations
                 var educations = new List<Education>
                 {
-                    new Education { School = "University of Athens", Degree = "Bachelor's", FieldOfStudy = "Computer Science", StartDate = new DateTime(2015, 9, 1), EndDate = new DateTime(2019, 6, 30), Grade = "8.5", Description = "Focused on software engineering and data structures", UserId = frammos.Id },
-                    new Education { School = "Stanford University", Degree = "Master's", FieldOfStudy = "Artificial Intelligence", StartDate = new DateTime(2019, 9, 1), EndDate = new DateTime(2021, 6, 30), Grade = "3.9", Description = "Specialized in machine learning and natural language processing", UserId = frammos.Id },
-                    new Education { School = "Coursera", Degree = "Certificate", FieldOfStudy = "Web Development", StartDate = new DateTime(2022, 1, 1), EndDate = new DateTime(2022, 3, 31), Grade = "Pass", Description = "Completed full-stack web development course", UserId = frammos.Id },
-                    new Education { School = "MIT OpenCourseWare", Degree = "Online Course", FieldOfStudy = "Algorithms", StartDate = new DateTime(2022, 6, 1), EndDate = new DateTime(2022, 8, 31), Grade = "N/A", Description = "Self-paced study of advanced algorithms", UserId = frammos.Id },
-                    new Education { School = "Google Developers Certification", Degree = "Professional Certificate", FieldOfStudy = "Android Development", StartDate = new DateTime(2023, 1, 1), EndDate = new DateTime(2023, 4, 30), Grade = "Pass", Description = "Certified Android developer", UserId = frammos.Id }
+                    new Education { School = "University of Athens", Degree = "Bachelor's", FieldOfStudy = "Computer Science", StartDate = new DateTime(2015, 9, 1), EndDate = new DateTime(2019, 6, 30), Grade = "8.5", Description = "Focused on software engineering and data structures", UserId = frammos.Id , IsPublic = true},
+                    new Education { School = "Stanford University", Degree = "Master's", FieldOfStudy = "Artificial Intelligence", StartDate = new DateTime(2019, 9, 1), EndDate = new DateTime(2021, 6, 30), Grade = "3.9", Description = "Specialized in machine learning and natural language processing", UserId = frammos.Id , IsPublic = true},
+                    new Education { School = "Coursera", Degree = "Certificate", FieldOfStudy = "Web Development", StartDate = new DateTime(2022, 1, 1), EndDate = new DateTime(2022, 3, 31), Grade = "Pass", Description = "Completed full-stack web development course", UserId = frammos.Id , IsPublic = true},
+                    new Education { School = "MIT OpenCourseWare", Degree = "Online Course", FieldOfStudy = "Algorithms", StartDate = new DateTime(2022, 6, 1), EndDate = new DateTime(2022, 8, 31), Grade = "N/A", Description = "Self-paced study of advanced algorithms", UserId = frammos.Id , IsPublic = true},
+                    new Education { School = "Google Developers Certification", Degree = "Professional Certificate", FieldOfStudy = "Android Development", StartDate = new DateTime(2023, 1, 1), EndDate = new DateTime(2023, 4, 30), Grade = "Pass", Description = "Certified Android developer", UserId = frammos.Id , IsPublic = true}
                 };
                 db.Educations.AddRange(educations);
 
                 // Add Experiences
                 var experiences = new List<Experience>
                 {
-                    new Experience { Title = "Software Engineer", EmploymentType = "Full-time", CompanyName = "TechCorp", Location = "Athens, Greece", LocationType = "On-site", StartDate = new DateTime(2019, 7, 1), EndDate = new DateTime(2021, 8, 31), CurrentJob = false, Description = "Developed and maintained web applications using .NET Core and Angular", UserId = frammos.Id },
-                    new Experience { Title = "AI Research Assistant", EmploymentType = "Part-time", CompanyName = "Stanford AI Lab", Location = "Stanford, CA", LocationType = "On-site", StartDate = new DateTime(2020, 1, 1), EndDate = new DateTime(2021, 6, 30), CurrentJob = false, Description = "Assisted in natural language processing research projects", UserId = frammos.Id },
-                    new Experience { Title = "Freelance Web Developer", EmploymentType = "Contract", CompanyName = "Self-employed", Location = "Remote", LocationType = "Remote", StartDate = new DateTime(2021, 9, 1), EndDate = new DateTime(2022, 12, 31), CurrentJob = false, Description = "Developed custom websites for small businesses", UserId = frammos.Id },
-                    new Experience { Title = "Mobile App Developer", EmploymentType = "Full-time", CompanyName = "InnoTech Solutions", Location = "Berlin, Germany", LocationType = "Hybrid", StartDate = new DateTime(2023, 1, 1), EndDate = null, CurrentJob = true, Description = "Developing Android applications using Kotlin and Jetpack Compose", UserId = frammos.Id },
-                    new Experience { Title = "Open Source Contributor", EmploymentType = "Volunteer", CompanyName = "Various Projects", Location = "Remote", LocationType = "Remote", StartDate = new DateTime(2020, 1, 1), EndDate = null, CurrentJob = true, Description = "Contributing to various open-source projects in free time", UserId = frammos.Id }
+                    new Experience { Title = "Software Engineer", EmploymentType = "Full-time", CompanyName = "TechCorp", Location = "Athens, Greece", LocationType = "On-site", StartDate = new DateTime(2019, 7, 1), EndDate = new DateTime(2021, 8, 31), CurrentJob = false, Description = "Developed and maintained web applications using .NET Core and Angular", UserId = frammos.Id , IsPublic = true},
+                    new Experience { Title = "AI Research Assistant", EmploymentType = "Part-time", CompanyName = "Stanford AI Lab", Location = "Stanford, CA", LocationType = "On-site", StartDate = new DateTime(2020, 1, 1), EndDate = new DateTime(2021, 6, 30), CurrentJob = false, Description = "Assisted in natural language processing research projects", UserId = frammos.Id , IsPublic = true},
+                    new Experience { Title = "Freelance Web Developer", EmploymentType = "Contract", CompanyName = "Self-employed", Location = "Remote", LocationType = "Remote", StartDate = new DateTime(2021, 9, 1), EndDate = new DateTime(2022, 12, 31), CurrentJob = false, Description = "Developed custom websites for small businesses", UserId = frammos.Id , IsPublic = true},
+                    new Experience { Title = "Mobile App Developer", EmploymentType = "Full-time", CompanyName = "InnoTech Solutions", Location = "Berlin, Germany", LocationType = "Hybrid", StartDate = new DateTime(2023, 1, 1), EndDate = null, CurrentJob = true, Description = "Developing Android applications using Kotlin and Jetpack Compose", UserId = frammos.Id , IsPublic = true},
+                    new Experience { Title = "Open Source Contributor", EmploymentType = "Volunteer", CompanyName = "Various Projects", Location = "Remote", LocationType = "Remote", StartDate = new DateTime(2020, 1, 1), EndDate = null, CurrentJob = true, Description = "Contributing to various open-source projects in free time", UserId = frammos.Id , IsPublic = true}
                 };
                 db.Experiences.AddRange(experiences);
 
@@ -138,7 +138,8 @@ namespace MyLink.Data.Initialize
                         ReactionsCount = i * 10, // Just for variation
                         CommentsCount = i * 2,
                         IsLikedByCurrentUser = i % 2 == 0, // Alternating true/false
-                        UserId = frammos.Id
+                        UserId = frammos.Id,
+                        IsPublic = true
                     });
                 }
                 db.Posts.AddRange(posts);
