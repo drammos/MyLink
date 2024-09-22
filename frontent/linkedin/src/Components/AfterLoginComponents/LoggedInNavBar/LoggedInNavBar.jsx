@@ -22,10 +22,15 @@ const LoggedInNavBar = ({ userInfo }) => {
 
     const toggleProfileMenu = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
+        if (isNotificationOpen)
+            setIsNotificationOpen(false);
     };
 
     const toggleNotificationPopup = () => {
         setIsNotificationOpen(!isNotificationOpen);
+        if (isProfileMenuOpen)
+            setIsProfileMenuOpen(false);
+
     };
 
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
@@ -48,10 +53,9 @@ const LoggedInNavBar = ({ userInfo }) => {
                     <img src={logo} alt="Logo" />
                 </div>
                 <div className="nav-item" onClick={handleHomeButton}>Home</div>
-                <div className="nav-item" onClick={handleProfileButton}>Profile</div>
                 <div className="nav-item" onClick={handleNetworkButton}>Network</div>
                 <div className="nav-item" onClick={handleJobsButton}>Jobs</div>
-                <div className="nav-item" onClick={handleInterestsButton}>Interests</div>
+                <div className="nav-item" onClick={handleInterestsButton}>Messages</div>
             </div>
             <div className="navbar-center">
                 <input type="text" placeholder="Search" />
