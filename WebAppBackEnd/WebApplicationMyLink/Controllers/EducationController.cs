@@ -32,7 +32,8 @@ namespace WebAppMyLink.Controllers
                 EndDate = educationDTO.EndDate,
                 Grade = educationDTO.Grade,
                 Description = educationDTO.Description,
-                UserId = educationDTO.UserId
+                UserId = educationDTO.UserId,
+                IsPublic = educationDTO.IsPublic
             };
 
             _unitOfWork.Education.Add(education);

@@ -16,5 +16,7 @@ namespace MyLink.Models.DTOS
         public DateTime? EndDate { get; set; }
         public string? Grade { get; set; }
         public string? Description { get; set; }
+        [Required]
+        public bool IsPublic { get; set; }
     }
 }
