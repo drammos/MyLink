@@ -5,6 +5,7 @@ import UserSettings from './Pages/UserSettings/UserSettings.jsx'
 import SignIn from './Pages/SignIn/SignIn.jsx'
 import ForgotPassword from './Pages/ForgotPassword/ForgotPassword.jsx'
 import ControlPanel from './Pages/ControlPanel/ControlPanel.jsx'
+import UsersPage from './Pages/AfterLogin/UsersPage/UsersPage.jsx'
 import SendHelp from './Pages/SendHelp/SendHelp.jsx'
 import PageNotFound from './Pages/PageNotFound/PageNotFound.jsx'
 import MainPage from './Pages/AfterLogIn/MainPage/MainPage.jsx'
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     { path: Routes.MainPage, element: <MainPage /> },
     { path: Routes.PersonalInfo, element: <PersonalInfo /> },
     { path: Routes.UserSettings, element: <UserSettings /> },
+    { path: Routes.UserInfo, element: <UsersPage /> },
+    { path: "*", element: <PageNotFound /> },
+
+
 
     //},
     //{
@@ -45,10 +50,6 @@ const router = createBrowserRouter([
     //    path: "notifications",
     //    element: <Notifications />,
     //},
-    //{
-    //    path: "MyLinks",
-    //    element: <MyLinks />,
-    //}
 
 ]);
 

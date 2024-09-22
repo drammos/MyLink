@@ -10,7 +10,7 @@ const ForgotPassword = () => {
             document.title = title;
         }, [title]);
     };
-    useDocumentTitle('Forgot Password');
+    useDocumentTitle('Page Not Found');
     return (
         <div>
             <PageNotFoundComponent />
