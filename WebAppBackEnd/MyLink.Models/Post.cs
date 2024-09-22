@@ -19,6 +19,8 @@ namespace MyLink.Models
         public List<string> VoiceUrls { get; set; } = [];
         public int ReactionsCount { get; set; }
         public int CommentsCount { get; set; }
+        [Required]
+        public bool IsPublic { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Reaction> Reactions { get; set; } = new List<Reaction>();
         [Required]

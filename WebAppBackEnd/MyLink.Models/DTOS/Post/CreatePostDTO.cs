@@ -15,5 +15,7 @@ namespace MyLink.Models.DTOS
         public List<string> PictureUrls { get; set; } = [];
         public List<string> VideoUrls { get; set; } = [];
         public List<string> VoiceUrls { get; set; } = [];
+        [Required]
+        public bool IsPublic { get; set; }
     }
 }
