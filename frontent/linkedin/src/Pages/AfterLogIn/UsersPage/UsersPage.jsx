@@ -24,6 +24,8 @@ const UsersPage = () => {
     const { username } = useParams();
 
     useEffect(() => {
+        if (localStorage.getItem('role') !== 'Professional')
+            navigate(Routes.PageNotFound);
         refetch(username);
     }, [username]);
 
