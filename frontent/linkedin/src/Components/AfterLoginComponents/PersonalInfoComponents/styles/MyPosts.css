@@ -32,8 +32,8 @@
         .myposts-container .post-header h4 {
             margin: 0;
             font-size: 1.25em;
-            flex-grow: 1; /* Allows the title to take up remaining space */
-            margin-right: 20px; /* Space between title and switch */
+            flex-grow: 1;
+            margin-right: 20px; 
         }
 
     .myposts-container .visibility-toggle {
