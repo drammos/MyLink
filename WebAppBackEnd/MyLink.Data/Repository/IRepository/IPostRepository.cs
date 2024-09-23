@@ -17,5 +17,7 @@ namespace MyLink.Data.Repository.IRepository
         public Task<List<Reaction>> GetReactions(int postId);
         public Task<List<Reaction>> GetUserReactions(string username);
         public Task<List<Post>> GetPostsFromConnectedUsers(List<string> userIdList);
+        public Task<List<PostUserDTO>> GetPostsFromOtherUsers(User user);
+
     }
 }
