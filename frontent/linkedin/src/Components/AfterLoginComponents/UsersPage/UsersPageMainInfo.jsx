@@ -21,6 +21,7 @@ const UsersPageMainInfo = ({ userInfo }) => {
                 <h2>{`${firstname} ${lastname}`}</h2>
                 <p>Email: {userInfo.email}</p>
                 <p>Phone: {userInfo.phoneNumber}</p>
+                <p>Birthday: {userInfo.birthday}</p>
             </div>
         </div>
     );
@@ -33,6 +34,7 @@ UsersPageMainInfo.propTypes = {
         pictureURL: PropTypes.string,
         email: PropTypes.string.isRequired,
         phoneNumber: PropTypes.string.isRequired,
+        birthday: PropTypes.string.isRequired,
     }).isRequired,
 };
 

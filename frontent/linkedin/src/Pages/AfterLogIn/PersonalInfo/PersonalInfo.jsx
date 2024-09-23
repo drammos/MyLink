@@ -7,6 +7,7 @@ import Footer from "../../../Components/Footer/Footer"
 import MainInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/MainInfo";
 import EducationInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/EducationInfo";
 import ExperienceInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/ExperienceInfo";
+import MyPosts from "../../../Components/AfterLoginComponents/PersonalInfoComponents/MyPosts";
 
 import useGetUser from '../../../Components/Services/useGetUser';
 
@@ -36,6 +37,7 @@ const PersonalInfo = () => {
                     <MainInfo userInfo={userInfo} />
                 <EducationInfo userInfo={userInfo} />
                 <ExperienceInfo userInfo={userInfo} />
+                <MyPosts userInfo={userInfo} />
 
             </div>
             <Footer />

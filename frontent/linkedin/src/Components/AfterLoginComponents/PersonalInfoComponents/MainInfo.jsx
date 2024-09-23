@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { agents } from '../../../agents';
+import { Routes } from '../../../routes';
 
 const MainInfo = ({ userInfo }) => {
 
@@ -21,6 +23,15 @@ const MainInfo = ({ userInfo }) => {
                 <h2>{`${firstname} ${lastname}`}</h2>
                 <p>Email: {userInfo.email}</p>
                 <p>Phone: {userInfo.phoneNumber}</p>
+                <p>Birthday: {userInfo.birthday}</p>
+                <p> Url: 
+                    <a
+                        href={`${agents.frontLocalhost}${Routes.UserInfo.replace(':username', userInfo.userName)}`}
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        {` ${agents.frontLocalhost}${Routes.UserInfo.replace(':username', userInfo.userName)}`}
+                    </a>
+                </p>
             </div>
         </div>
     );
@@ -33,6 +44,8 @@ MainInfo.propTypes = {
         pictureURL: PropTypes.string,
         email: PropTypes.string.isRequired,
         phoneNumber: PropTypes.string.isRequired,
+        birthday: PropTypes.string.isRequired,
+        userName: PropTypes.string.isRequired,
     }).isRequired,
 };
 

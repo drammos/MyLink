@@ -1,0 +1,76 @@
+.myposts-container {
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+}
+
+    .myposts-container .posts-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .myposts-container .post-item {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px 60px;
+        margin-bottom: 16px;
+        background-color: #fff;
+        transition: box-shadow 0.3s;
+    }
+
+        .myposts-container .post-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .myposts-container .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap; /* Ensures everything stays in one line */
+    }
+
+        .myposts-container .post-header h4 {
+            margin: 0;
+            font-size: 1.25em;
+            flex-grow: 1; /* Allows the title to take up remaining space */
+            margin-right: 20px; /* Space between title and switch */
+        }
+
+    .myposts-container .visibility-toggle {
+        display: flex;
+        align-items: center;
+        white-space: nowrap; /* Prevents breaking */
+    }
+
+        .myposts-container .visibility-toggle span {
+            margin-right: 12px;
+            font-size: 0.875em;
+        }
+
+    .myposts-container .p-inputswitch {
+        width: 60px;
+    }
+
+    .myposts-container .post-date {
+        color: #777;
+        font-size: 0.875em;
+    }
+
+    .myposts-container .post-media a {
+        display: inline-block;
+        margin: 8px 0;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+        .myposts-container .post-media a:hover {
+            text-decoration: underline;
+        }
+
+    .myposts-container .post-info {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875em;
+        margin-top: 12px;
+        color: #555;
+    }
