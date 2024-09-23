@@ -99,6 +99,7 @@ if (app.Environment.IsDevelopment())
     app.MapSwagger().RequireAuthorization();
 }
 
+app.UseHttpsRedirection();
 app.UseCors(policyName);
 app.UseAuthorization();
 

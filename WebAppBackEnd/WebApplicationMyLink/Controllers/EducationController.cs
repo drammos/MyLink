@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EducationController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
