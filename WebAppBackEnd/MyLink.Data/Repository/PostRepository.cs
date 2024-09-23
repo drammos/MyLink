@@ -188,13 +188,16 @@ namespace MyLink.Data.Repository
             return posts;
         }
         
-        public async Task<List<PostUserDTO>> GetPostsFromOtherUsers(User user)
+        public async Task<List<PostUserDTO>> GetPostsFromOtherUsers(User usr)
         {
-            var connectedUserIds = user.ConnectedUsers.Select(u => u.Id).ToList();
-            var connectedUsernames = await _context.Users
-                .Where(u => connectedUserIds.Contains(u.Id))
-                .Select(u => u.UserName)
-                .ToListAsync();
+           
+            var user  = await _context.Users
+                .Include(x => x.ConnectedUsers)
+                .FirstOrDefaultAsync(x => x.Id == usr.Id);
+            
+            List<User> connectedUsers = [.. user.ConnectedUsers];
+            var connectedUserIds = connectedUsers.Select(x => x.Id).ToList();
+            var connectedUsernames = connectedUsers.Select(x => x.UserName).ToList();
             
             
             var posts = await _context.Posts
