@@ -68,3 +68,24 @@
 .uploaded-files-info {
     font-size: 14px;
 }
+
+
+.public-private-toggle {
+    display: flex; 
+    align-items: center;
+    margin-top: 20px; 
+    font-size: 16px; 
+}
+
+    .public-private-toggle label {
+        margin-right: 10px; 
+        font-weight: bold; 
+    }
+
+.p-inputswitch {
+    margin-left: 10px; 
+}
+
+    .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+        background-color: #28a745; /* Color when off */
+    }

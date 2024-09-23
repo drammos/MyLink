@@ -48,7 +48,7 @@ const LoggedInNavBar = ({ userInfo }) => {
         // Set up an interval to refetch every 20 seconds
         const intervalId = setInterval(() => {
             refetch(userInfo.id);
-        }, 20000); // 20000ms = 20 seconds
+        }, 20000);
 
         // Clean up the interval on component unmount
         return () => clearInterval(intervalId);

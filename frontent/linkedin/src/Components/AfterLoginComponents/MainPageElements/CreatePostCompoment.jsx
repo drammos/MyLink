@@ -3,6 +3,7 @@ import { InputText } from 'primereact/inputtext';
 import { useState, useEffect } from 'react';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
+import { InputSwitch } from 'primereact/inputswitch'; // Import InputSwitch
 
 import useCreatePost from '../../Services/useCreatePost';
 import UploadPhoto from '../../Services/UploadPhoto';
@@ -12,7 +13,6 @@ import UploadVideo from '../../Services/UploadVideo';
 import './styles/CreatePostComponent.css';
 
 const CreatePostComponent = () => {
-
     const userId = localStorage.getItem('id');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
@@ -26,6 +26,7 @@ const CreatePostComponent = () => {
     const [infoMessage, setInfoMessage] = useState('');
     const [postIt, setPostIt] = useState(0);
     const [ErrorCode, setErrorCode] = useState(2);
+    const [isPublic, setIsPublic] = useState(true); // Add state for post visibility
 
     const { message, errorCode, loading, createPostRefetch } = useCreatePost();
 
@@ -85,23 +86,21 @@ const CreatePostComponent = () => {
     useEffect(() => {
         if (postIt) {
             if (title && text) {
-                createPostRefetch(userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls);
+                createPostRefetch(userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic); 
                 clearData();
-
             } else {
                 setInfoMessage("Please enter both title and content for your post.");
                 setErrorCode(1);
             }
             setPostIt(0);
         }
-    }, [postIt, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, createPostRefetch, message]);
+    }, [postIt, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic, createPostRefetch, message]);
 
     useEffect(() => {
         if (errorCode === 1) {
-            setInfoMessage("An error occured. Please try again.");
+            setInfoMessage("An error occurred. Please try again.");
             setErrorCode(1);
-        }
-        else if (errorCode === 0) {
+        } else if (errorCode === 0) {
             setInfoMessage("Post uploaded!");
             setErrorCode(0);
         }
@@ -157,14 +156,15 @@ const CreatePostComponent = () => {
                 </div>
             </div>
 
-            <div className={
-                loading ? 'loading' :
-                    (ErrorCode === 1 ? 'error-message' :
-                        (ErrorCode === 0 ? 'success-message' : ''))
-            }>
-                {loading ? (<>Loading...</>) :
-                    (ErrorCode === 1 ? (<><GoXCircle /> {infoMessage}</>) :
-                        (ErrorCode === 0 ? (<><GoCheckCircle /> {infoMessage}</>) : ''))}
+            {/* Toggle switch for public/private */}
+            <div className="public-private-toggle">
+                <label>Post Visibility: </label>
+                <InputSwitch checked={isPublic} onChange={(e) => setIsPublic(e.value)} />
+                <span>{isPublic ? 'Public' : 'Private'}</span>
+            </div>
+
+            <div className={loading ? 'loading' : (ErrorCode === 1 ? 'error-message' : (ErrorCode === 0 ? 'success-message' : ''))}>
+                {loading ? (<>Loading...</>) : (ErrorCode === 1 ? (<><GoXCircle /> {infoMessage}</>) : (ErrorCode === 0 ? (<><GoCheckCircle /> {infoMessage}</>) : ''))}
             </div>
             {loading && <p className="loading">Loading...</p>}
         </div>
@@ -172,4 +172,3 @@ const CreatePostComponent = () => {
 };
 
 export default CreatePostComponent;
- 
