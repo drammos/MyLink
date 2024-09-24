@@ -19,7 +19,7 @@ const SearchResults = () => {
     });
     
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(2);
+    const [pageSize, setPageSize] = useState(8);
 
     const buildUrl = () => {
         const params = new URLSearchParams();
