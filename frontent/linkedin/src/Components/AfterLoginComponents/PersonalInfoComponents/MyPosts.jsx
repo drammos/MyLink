@@ -41,7 +41,7 @@ const MyPosts = ({ userInfo }) => {
         } else if (deletePostErrorCode > 0) {
             console.log("Error deleting post.");
         }
-    }, [deletePostErrorCode]);
+    }, [deletePostMessage]);
 
     if (loading) return <p>Loading posts...</p>;
     if (errorCode !== 0) return <p>Error loading posts: {message}</p>;

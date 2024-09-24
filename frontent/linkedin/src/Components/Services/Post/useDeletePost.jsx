@@ -9,7 +9,7 @@ const useCreatePost = () => {
     const url = agents.localhost + agents.deletePost;
 
     const { response, loading, refetch: fetchService } = useService(
-        'Deleting post ...',
+        `Deleting post ${postId}`,
         'DELETE',
         `${url}?postId=${postId}`,
         null,
@@ -18,13 +18,14 @@ const useCreatePost = () => {
     );
 
     // Handle the delete post response
-    const handleDeletePost = useCallback((response) => {
+    const handleDeletePost = useCallback((response, id) => {
+        setErrorCode(2);
         if (response) {
-            setMessage('Post Deleted!');
-            console.log('Post Deleted!');
-            setErrorCode(0);  
+            setMessage(`Deleted post ${id}!`);
+            console.log(`Deleted post ${id}!`); 
+            setErrorCode(0);
         } else {
-            setErrorCode(1);  
+            setErrorCode(1);
         }
     }, []);
 
@@ -35,19 +36,19 @@ const useCreatePost = () => {
     useEffect(() => {
         if (postId && postId !== 0) {
             fetchService();
-            setPostId(0);  
         }
     }, [fetchService, postId]);
 
     useEffect(() => {
         if (response) {
-            handleDeletePost(response);
+            handleDeletePost(response, postId); 
+            setPostId(0);
         }
-    }, [response, handleDeletePost]);
+    }, [response, handleDeletePost, postId]);
 
     useEffect(() => {
         console.log(`ErrorCode updated: ${errorCode}`);
-    }, [errorCode]);  
+    }, [errorCode]);
 
     return { message, errorCode, loading, deletePostRefetch: deletePost };
 };
