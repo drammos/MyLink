@@ -19,7 +19,7 @@ const useCreatePost = () => {
         true
     );
 
-    const handleSignUpResponse = useCallback((response) => {
+    const handleCreatePost = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
@@ -50,9 +50,9 @@ const useCreatePost = () => {
 
     useEffect(() => {
         if (response) {
-            handleSignUpResponse(response);
+            handleCreatePost(response);
         }
-    }, [response, handleSignUpResponse]);
+    }, [response, handleCreatePost]);
 
     return { createPost, message, errorCode, loading, createPostRefetch: createPost };
 };

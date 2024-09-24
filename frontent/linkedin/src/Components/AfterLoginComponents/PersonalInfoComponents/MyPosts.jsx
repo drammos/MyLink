@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import { InputSwitch } from 'primereact/inputswitch';
+import useDeletePost from '../../Services/Post/useDeletePost'
 import { FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
 import './styles/MyPosts.css';
 
 const MyPosts = ({ userInfo }) => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
-
+    const { message: deletePostMessage, errorCode: deletePostErrorCode, loading: deletePostLoading, deletePostRefetch } = useDeletePost();
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -26,8 +27,18 @@ const MyPosts = ({ userInfo }) => {
                 index === postIndex ? { ...post, isPublic } : post
             )
         );
-        // Optionally, you can also send an API request to update the visibility in the backend here.
     };
+
+    const handleDeletePost = async (postId) => {
+        await deletePostRefetch(postId);
+    };
+
+    useEffect(() => {
+        console.log("Myposts error code: ", deletePostErrorCode);
+        if (deletePostErrorCode === 0) {
+            getPostsRefetch();
+        }
+    }, [deletePostErrorCode, getPostsRefetch]);
 
     if (loading) return <p>Loading posts...</p>;
     if (errorCode !== 0) return <p>Error loading posts: {message}</p>;
@@ -48,6 +59,14 @@ const MyPosts = ({ userInfo }) => {
                                         onChange={(e) => handleVisibilityToggle(index, e.value)}
                                     />
                                 </div>
+                                {/* Delete button */}
+                                <button
+                                    className="delete-button"
+                                    onClick={() => handleDeletePost(post.id)}
+                                    disabled={deletePostLoading} // Disable button while deleting
+                                >
+                                    {deletePostLoading ? 'Deleting...' : 'Delete'}
+                                </button>
                             </div>
                             <p>{post.content}</p>
                             {post.videoUrl && (

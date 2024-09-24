@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import useService from '../Services/useService';
+import useService from '../useService';
 import { agents } from '../../../agents';
 import { useMemo } from 'react';
 
@@ -7,54 +7,50 @@ import { useMemo } from 'react';
 const useCreatePost = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
+    const [postId, setPostId] = useState(0);
     const inputFormData = useMemo(() => new FormData(), []);
     const url = agents.localhost + agents.deletePost;
 
     const { response, loading, refetch: fetchService } = useService(
         'Deleting post ...',
         'DELETE',
-        url,
+        `${url}?postId=${postId}`,
         inputFormData,
-        'multipart/form-data',
+        'application/json',
         true
     );
 
-    const handleSignUpResponse = useCallback((response) => {
+    const handleDeletePost = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
-            setMessage('Posts are here!');
+            setMessage('Post Deleted!');
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
         }
     }, [errorCode]);
 
-    const createPost = useCallback((
-        userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls
+    const deletePost = useCallback((
+        postID
     ) => {
+        setPostId(postID);
 
-        inputFormData.append('UserId', userId);
-        inputFormData.append('Title', title);
-        inputFormData.append('Content', content);
-        inputFormData.append('CreatedAt', createdAt);
-        inputFormData.append('PictureUrls', PictureUrls);
-        inputFormData.append('VideoUrls', videoUrls);
-        inputFormData.append('VoiceUrls', voiceUrls);
-
-        console.log("Create post using: ", userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls);
-        console.log(inputFormData);
-
-        fetchService();
-    }, [fetchService, inputFormData]);
+    }, [fetchService, postId]);
 
     useEffect(() => {
-        if (response) {
-            handleSignUpResponse(response);
+        if (postId && postId !== 0) {
+            fetchService();
+            setPostId(0);
         }
-    }, [response, handleSignUpResponse]);
+    }, [fetchService, postId]);
 
-    return { createPost, message, errorCode, loading, createPostRefetch: createPost };
+    useEffect(() => {
+        if (response)
+            handleDeletePost(response);
+    }, [response, handleDeletePost]);
+
+    return { message, errorCode, loading, deletePostRefetch: deletePost };
 };
 
 export default useCreatePost;
