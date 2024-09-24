@@ -10,5 +10,6 @@ export const Routes = {
     MainPage: '/StartPage',
     PageNotFound: '/PageNotFound',
     PersonalInfo: '/StartPage/PersonalInformations',
-    UserInfo: '/UserPage/:username'
+    UserInfo: '/UserPage/:username',
+    SearchUser: '/SearchUser'
 };
