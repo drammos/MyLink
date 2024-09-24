@@ -68,7 +68,7 @@ const MyPosts = ({ userInfo }) => {
                                     onClick={() => handleDeletePost(post.id)}
                                     disabled={deletePostLoading} // Disable button while deleting
                                 >
-                                    {deletePostLoading ? 'Deleting...' : 'Delete'}
+                                    {'Delete'}
                                 </button>
                             </div>
                             <p>{post.content}</p>
