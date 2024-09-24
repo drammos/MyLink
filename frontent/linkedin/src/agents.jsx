@@ -17,6 +17,7 @@ export const agents = {
     deleteRequest: 'User/DeleteRequest',
     getListFromConnections: 'User/GetListFromConnections ',
     getListFromPendingRequests: 'User/GetListFromPendingRequests ',
+    searchUsers: 'User/SearchUsers',
 
     // Post
     createPost: 'Post/CreatePost',
