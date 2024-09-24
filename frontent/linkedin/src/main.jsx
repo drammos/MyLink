@@ -10,6 +10,7 @@ import SendHelp from './Pages/SendHelp/SendHelp.jsx'
 import PageNotFound from './Pages/PageNotFound/PageNotFound.jsx'
 import MainPage from './Pages/AfterLogIn/MainPage/MainPage.jsx'
 import PersonalInfo from './Pages/AfterLogIn/PersonalInfo/PersonalInfo.jsx'
+import SearchUsers from './Pages/SearchUsers/searchUsers.jsx'
 import { Routes } from './routes.jsx';
 
 
@@ -33,23 +34,8 @@ const router = createBrowserRouter([
     { path: Routes.PersonalInfo, element: <PersonalInfo /> },
     { path: Routes.UserSettings, element: <UserSettings /> },
     { path: Routes.UserInfo, element: <UsersPage /> },
+    { path: Routes.SearchUsers,  element: <SearchUsers /> },
     { path: "*", element: <PageNotFound /> },
-
-
-    //},
-    //{
-    //    path: "jobs",
-    //    element: <Jobs />,
-    //},
-    //{
-    //    path: "mesages",
-    //    element: <Messages />,
-    //},
-    //{
-    //    path: "notifications",
-    //    element: <Notifications />,
-    //},
-
 ]);
 
 

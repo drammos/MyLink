@@ -10,7 +10,7 @@ using AutoMapper.Configuration.Annotations;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PostController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -269,6 +269,28 @@ namespace WebAppMyLink.Controllers
             
             var posts = await _unitOfWork.Post.GetPostsFromConnectedUsers(userIdList);
             return _mapper.Map<List<PostDTO>>(posts);
+        }
+        
+        [HttpGet("GetPostsFromOtherUsers")]
+        public async Task<ActionResult<List<PostUserDTO>>> GetPostsFromOtherUsers([FromQuery] string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+  
+            var posts = await _unitOfWork.Post.GetPostsFromOtherUsers(user);
+            foreach (var post in posts)
+            {
+                if (!post.IsMyPost && !post.IsFromConnectedUser)
+                {
+                    User connectedUser = await _userManager.FindByNameAsync(post.ConnectedUserName);
+                    post.ConnectedFirstName = connectedUser.FirstName;
+                    post.ConnectedLastName = connectedUser.LastName;
+                    post.ConnectedUserId = connectedUser.Id;
+                    post.ConnectedPictureURL = connectedUser.PictureURL;
+                }
+            }
+
+            return posts;
         }
     }
 }

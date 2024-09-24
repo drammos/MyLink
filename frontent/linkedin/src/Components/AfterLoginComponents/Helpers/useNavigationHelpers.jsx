@@ -31,6 +31,10 @@ export const useNavigationHelpers = () => {
         navigate('/interests'); 
     };
 
+    const handleSearchUsers = () => {
+        navigate(Routes.SearchUsers); 
+    };
+
     const handleLogoutButton = () => {
         console.log('Logging out...')
         localStorage.setItem('authToken', '');
@@ -49,5 +53,6 @@ export const useNavigationHelpers = () => {
         handleViewProfile,
         handleLogoutButton,
         handleSettings,
+        handleSearchUsers,
     };
 };

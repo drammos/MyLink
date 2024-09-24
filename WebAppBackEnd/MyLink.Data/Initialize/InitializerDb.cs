@@ -40,7 +40,7 @@ namespace MyLink.Data.Initialize
                 result = await users.CreateAsync(user2, "1234@Password");
                 await users.AddToRoleAsync(user2, "Admin");
 
-                User user3 = new User()
+                User drammos = new User()
                 {
                     FirstName = "Dimitris",
                     LastName = "Rammos",
@@ -51,8 +51,8 @@ namespace MyLink.Data.Initialize
                     Birthday = "2001-06-12"
                 };
 
-                result = await users.CreateAsync(user3, "1234@Password");
-                await users.AddToRoleAsync(user3, "Professional");
+                result = await users.CreateAsync(drammos, "1234@Password");
+                await users.AddToRoleAsync(drammos, "Professional");
 
                 User frammos = new User()
                 {
@@ -68,7 +68,7 @@ namespace MyLink.Data.Initialize
                 result = await users.CreateAsync(frammos, "1234@Password");
                 await users.AddToRoleAsync(frammos, "Professional");
 
-                User user5 = new User()
+                User prammos = new User()
                 {
                     FirstName = "Dimitris",
                     LastName = "Rammos",
@@ -79,8 +79,20 @@ namespace MyLink.Data.Initialize
                     Birthday = "2001-06-12"
                 };
 
-                result = await users.CreateAsync(user5, "1234@Password");
-                await users.AddToRoleAsync(user5, "Professional");
+                result = await users.CreateAsync(prammos, "1234@Password");
+                await users.AddToRoleAsync(prammos, "Professional");
+                
+                frammos.ConnectedUsers.Add(prammos);
+                prammos.ConnectedUsers.Add(frammos);
+
+                // Σύνδεση prammos με drammos
+                prammos.ConnectedUsers.Add(drammos); // drammos
+                drammos.ConnectedUsers.Add(prammos);
+                await db.SaveChangesAsync();
+                // Αποθήκευση των αλλαγών
+                // db.Users.Update(frammos);
+                // db.Users.Update(prammos);
+                // db.Users.Update(drammos);
 
 
                 for (int i = 1; i <= 20; i++)
@@ -99,6 +111,40 @@ namespace MyLink.Data.Initialize
                     await users.AddToRoleAsync(newUser, "Professional");
                 }
 
+                // Δημιουργία post από τον drammos
+                var postByDrammos = new Post
+                {
+                    Title = "New Technologies in AI",
+                    Content = "Exploring the latest advancements in artificial intelligence.",
+                    CreatedAt = DateTime.Now,
+                    UpdateAt = DateTime.Now.AddHours(2),
+                    PictureUrls = new List<string> { "https://example.com/drammos_post_image.jpg" },
+                    VideoUrls = new List<string>(),
+                    VoiceUrls = new List<string>(),
+                    ReactionsCount = 50,
+                    CommentsCount = 1,
+                    IsLikedByCurrentUser = false,
+                    UserId = drammos.Id, // drammos
+                    IsPublic = true
+                };
+                db.Posts.Add(postByDrammos);
+                
+                await db.SaveChangesAsync();
+
+                // Δημιουργία comment από τον prammos στο post του drammos
+                var commentByPrammos = new Comment
+                {
+                    Content = "Great insights! Looking forward to more updates on AI advancements.",
+                    CreatedAt = DateTime.Now.AddMinutes(5),
+                    PostId = postByDrammos.Id,
+                    Username = prammos.UserName // prammos
+                };
+                postByDrammos.Comments.Add(commentByPrammos);
+                postByDrammos.CommentsCount++;
+
+                // Αποθήκευση του comment
+                await db.SaveChangesAsync();
+                
                 
                 // Add Educations
                 var educations = new List<Education>
