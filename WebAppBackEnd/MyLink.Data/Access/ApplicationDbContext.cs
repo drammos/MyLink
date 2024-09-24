@@ -57,6 +57,11 @@ namespace MyLink.Data.Access
                 .WithMany()
                 .UsingEntity(x => x.ToTable("UserInComingRequests"));
 
+            builder.Entity<User>()
+                .HasMany(u => u.Messages)
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.UserId)
+                .IsRequired();
 
             // Posts
             builder.Entity<User>()
