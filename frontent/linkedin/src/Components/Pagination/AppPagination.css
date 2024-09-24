@@ -1,0 +1,13 @@
+.custom-pagination .MuiPaginationItem-root {
+    color: #1fb4c2; 
+}
+
+.custom-pagination .MuiPaginationItem-page.Mui-selected {
+    background-color: #1fb4c2; 
+    color: #fff; 
+    border-radius: 50%; 
+}
+
+.custom-pagination .MuiPaginationItem-page.Mui-selected:hover {
+    background-color: #18a1b1;
+}
