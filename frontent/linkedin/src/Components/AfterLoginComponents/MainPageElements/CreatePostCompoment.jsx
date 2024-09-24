@@ -38,11 +38,8 @@ const CreatePostComponent = () => {
             return;
         }
 
-        // Set the creation date and make sure it's awaited
         const currentDate = new Date().toISOString();
         setCreatedAt(currentDate);
-
-        // Set the form as submitted
         setIsFormSubmitted(true);
     };
 

@@ -31,7 +31,7 @@ const useCreatePost = () => {
     }, [errorCode]);
 
     const createPost = useCallback(async (
-        userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls
+        userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls, isPublic
     ) => {
         inputFormData.append('UserId', userId);
         inputFormData.append('Title', title);
@@ -40,8 +40,9 @@ const useCreatePost = () => {
         inputFormData.append('PictureUrls', PictureUrls);
         inputFormData.append('VideoUrls', videoUrls);
         inputFormData.append('VoiceUrls', voiceUrls);
+        inputFormData.append('isPublic', isPublic);
         setInputFormUpdate(1);
-        console.log("Create post using: ", userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls);
+        console.log("Create post using: ", userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls, isPublic);
         console.log(inputFormData);
         //await fetchService();
     }, [inputFormData]);
@@ -57,6 +58,7 @@ const useCreatePost = () => {
                 inputFormData.delete('PictureUrls'); 
                 inputFormData.delete('VideoUrls'); 
                 inputFormData.delete('VoiceUrls'); 
+                inputFormData.delete('isPublic'); 
                 setInputFormUpdate(0);
             }
         };
