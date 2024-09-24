@@ -89,10 +89,6 @@ namespace MyLink.Data.Initialize
                 prammos.ConnectedUsers.Add(drammos); // drammos
                 drammos.ConnectedUsers.Add(prammos);
                 await db.SaveChangesAsync();
-                // Αποθήκευση των αλλαγών
-                // db.Users.Update(frammos);
-                // db.Users.Update(prammos);
-                // db.Users.Update(drammos);
 
 
                 for (int i = 1; i <= 20; i++)
@@ -131,7 +127,6 @@ namespace MyLink.Data.Initialize
                 
                 await db.SaveChangesAsync();
 
-                // Δημιουργία comment από τον prammos στο post του drammos
                 var commentByPrammos = new Comment
                 {
                     Content = "Great insights! Looking forward to more updates on AI advancements.",
@@ -142,7 +137,6 @@ namespace MyLink.Data.Initialize
                 postByDrammos.Comments.Add(commentByPrammos);
                 postByDrammos.CommentsCount++;
 
-                // Αποθήκευση του comment
                 await db.SaveChangesAsync();
                 
                 
@@ -189,7 +183,24 @@ namespace MyLink.Data.Initialize
                     });
                 }
                 db.Posts.AddRange(posts);
-                
+
+
+                // Adding Jobs for frammos
+                var jobs = new List<Job>
+                {
+                    new Job { Title = "Senior Software Engineer", CompanyName = "Tech Innovators", Description = "Develop and maintain high-scale software applications.", Location = "Athens, Greece", WorkType = "Full-time", LocationType = "On-site", Category = "Software Development", PostedDate = DateTime.Now.AddDays(-30), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "AI Researcher", CompanyName = "AI Labs", Description = "Conduct research in artificial intelligence and machine learning.", Location = "Stanford, CA", WorkType = "Part-time", LocationType = "Hybrid", Category = "Research & Development", PostedDate = DateTime.Now.AddDays(-25), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "Web Developer", CompanyName = "Digital Ventures", Description = "Build and maintain responsive websites for clients.", Location = "Remote", WorkType = "Contract", LocationType = "Remote", Category = "Web Development", PostedDate = DateTime.Now.AddDays(-20), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "Mobile App Developer", CompanyName = "App Masters", Description = "Develop cutting-edge mobile applications.", Location = "Berlin, Germany", WorkType = "Full-time", LocationType = "Hybrid", Category = "Mobile Development", PostedDate = DateTime.Now.AddDays(-15), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "Data Scientist", CompanyName = "Data Solutions", Description = "Analyze large datasets to provide actionable insights.", Location = "New York, USA", WorkType = "Full-time", LocationType = "On-site", Category = "Data Science", PostedDate = DateTime.Now.AddDays(-10), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "DevOps Engineer", CompanyName = "CloudTech", Description = "Manage cloud infrastructure and automate deployment pipelines.", Location = "London, UK", WorkType = "Full-time", LocationType = "Hybrid", Category = "DevOps", PostedDate = DateTime.Now.AddDays(-5), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "UI/UX Designer", CompanyName = "Design Studio", Description = "Create engaging user interfaces and improve user experiences.", Location = "San Francisco, CA", WorkType = "Contract", LocationType = "On-site", Category = "Design", PostedDate = DateTime.Now.AddDays(-2), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "Cybersecurity Analyst", CompanyName = "SecureTech", Description = "Monitor and improve the security of network systems.", Location = "Remote", WorkType = "Contract", LocationType = "Remote", Category = "Cybersecurity", PostedDate = DateTime.Now.AddDays(-7), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "Blockchain Developer", CompanyName = "Crypto Innovators", Description = "Develop decentralized applications and blockchain technology.", Location = "Tokyo, Japan", WorkType = "Full-time", LocationType = "On-site", Category = "Blockchain", PostedDate = DateTime.Now.AddDays(-12), IsActive = true, UserId = frammos.Id },
+                    new Job { Title = "Project Manager", CompanyName = "Agile Solutions", Description = "Oversee projects and ensure timely delivery.", Location = "Athens, Greece", WorkType = "Full-time", LocationType = "On-site", Category = "Project Management", PostedDate = DateTime.Now.AddDays(-30), IsActive = true, UserId = frammos.Id }
+                };
+
+                db.Jobs.AddRange(jobs);
 
                 await db.SaveChangesAsync();
             }
