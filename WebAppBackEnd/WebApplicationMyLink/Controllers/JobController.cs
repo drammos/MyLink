@@ -115,10 +115,20 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetAllCloseJobs")]
-        public ActionResult<List<JobDTO>> GetAllCloseJobs()
+        public async Task<ActionResult<PagedList<JobDTO>>> GetAllCloseJobs([FromQuery] Params paginationParams)
         {
             var jobs = _unitOfWork.Job.GetCloseJobs();
-            return _mapper.Map<List<JobDTO>>(jobs);
+
+            var jobsListPaged = await PagedList<Job>.ToPagedList(jobs, paginationParams.PageNumber, paginationParams.PageSize);
+            List<JobDTO> jobDTOList = new List<JobDTO>();
+            foreach (var job in jobsListPaged)
+            {
+                JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                jobDTOList.Add(jobDTO);
+            }
+            var jobDTOPaginationList = new PagedList<JobDTO>(jobDTOList, jobsListPaged.Metadata.TotalCount, jobsListPaged.Metadata.CurrentPage, jobsListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(jobDTOPaginationList.Metadata);
+            return jobDTOPaginationList;
         }
         
         [HttpPost("ApplyForJob")]
