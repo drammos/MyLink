@@ -41,39 +41,33 @@
         }
 
 
-    .loggedInNavbarContainer .navbar-center {
+    /* .loggedInNavbarContainer .navbar-center {
         flex-grow: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         margin-left: -150px;
+    } */
+    .loggedInNavbarContainer .navbar-center {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative; 
+    }
+    
+
+    .loggedInNavbarContainer .navbar-center input[type="text"] {
+        width: 450px;
+        padding: 5px;
+        border: 1px solid white;
+        border-radius: 2px;
+        margin-right: 10px;
+        background-color: #e6f9fc;
+        color: #1fb4c2;
+        font-size: 16px;
     }
 
-        .loggedInNavbarContainer .navbar-center input[type="text"] {
-            width: 450px;
-            padding: 5px;
-            border: 1px solid white;
-            border-radius: 2px;
-            margin-right: 10px;
-            background-color: #e6f9fc;
-            color: #1fb4c2;
-            font-size: 16px;
-        }
-
-        .loggedInNavbarContainer .navbar-center button {
-            background-color: white; 
-            color: #1fb4c2; 
-            border: 1px solid white;
-            padding: 5px 10px;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-            .loggedInNavbarContainer .navbar-center button:hover {
-                background-color: #1fb4c2; 
-                color: white; 
-            }
 
     .loggedInNavbarContainer .logo img {
         height: 37px;
@@ -123,4 +117,75 @@
         border-radius: 50%;
         color: white;
         font-size: 13px;
+    }
+
+
+    
+    
+    .search-dropdown {
+        position: absolute;
+        top: 100%;
+        width: 450px;
+        border-radius: 2px;
+        margin-right: 10px;
+        max-height: 1000px;
+        overflow-y: auto;
+        background-color: #ffffff; 
+        border: 1px solid #ccc;
+        z-index: 1000;
+    } 
+
+    
+    
+    
+    .search-result-item span {
+        display: block;
+        font-size: 14px;
+        color: #000; /* Αλλαγή σε μαύρο χρώμα για το κείμενο */
+    }
+    
+    .search-result-item:hover {
+        background-color: #f0f0f0; /* Εφέ hover */
+    }
+    
+    .see-all-results {
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #f7f7f7; 
+        border-top: 1px solid #ccc;
+        color: #1fb4c2;
+    }
+    
+    .see-all-results:hover {
+        background-color: #e0e0e0;
+    }
+    
+
+    .search-result-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        background-color: white; 
+        color: #333;
+    }
+    
+    .result-info {
+        display: flex;
+        flex-direction: column; 
+        margin-left: 10px;
+    }
+    
+    .search-result-item img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    
+    .result-info.name-highlight {
+        color: #1fb4c2;
+        font-weight: bold;
     }

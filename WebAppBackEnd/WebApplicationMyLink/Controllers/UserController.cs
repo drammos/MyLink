@@ -314,7 +314,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetAllUsers")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<PagedList<UserDTO>> GetAllUsers([FromQuery] Params paginationParams)
         {
             var users = _userManager.Users;
@@ -349,6 +349,31 @@ namespace WebAppMyLink.Controllers
 
             await _userManager.DeleteAsync(user);
             return StatusCode(200);
+        }
+
+        [HttpGet("SearchUsers")]
+        public async Task<ActionResult<PagedList<UserDTO>>> SearchUserS([FromQuery] string SearchName, [FromQuery] Params paginationParams)
+        {
+            var users = _unitOfWork.User.SearchUsers(SearchName);
+            
+            var userListPaged = await PagedList<User>.ToPagedList(users, paginationParams.PageNumber, paginationParams.PageSize);
+            List<UserDTO> userDTOList = new List<UserDTO>();
+            foreach (var user in userListPaged)
+            {
+                //Mapper the use to UserDTO
+                UserDTO userDTO = _mapper.Map<UserDTO>(user);
+                
+                //Take the role
+                var listfromroles = await _userManager.GetRolesAsync(user);
+                List<string> roles = new List<string>(listfromroles);
+                userDTO.Role = roles[0];
+                
+                //Add useDTO to list
+                userDTOList.Add(userDTO);
+            }
+            var userDTOPaginationList = new PagedList<UserDTO>(userDTOList, userListPaged.Metadata.TotalCount, userListPaged.Metadata.CurrentPage, userListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(userDTOPaginationList.Metadata);
+            return userDTOPaginationList;
         }
     }
 }

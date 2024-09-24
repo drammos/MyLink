@@ -1,13 +1,14 @@
 import React from 'react';
 import { Pagination } from '@mui/material';
+import './AppPagination.css';
 
 const AppPagination = ({ metadata, onPageChange }) => {
-  console.log("apppag --  ", metadata)
+  console.log("apppag --  ", metadata);
   const { currentPage, totalPages } = metadata;
-  
+
   return (
     <Pagination
-      color="secondary"
+      classes={{ ul: 'custom-pagination' }} // Assign custom CSS class
       size="large"
       count={totalPages}
       page={currentPage}

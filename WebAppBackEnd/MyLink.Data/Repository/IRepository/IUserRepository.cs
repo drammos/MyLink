@@ -8,5 +8,6 @@ namespace MyLink.Data.Repository.IRepository
         public Task<List<User>> GetInComingRequestUsers(string Id);
         public Task<List<User>> GetPendingRequestUsers(string Id);
         public Task<bool> DeleteRequest(string PendingUserId, string RecipientUserId);
+        public IQueryable<User> SearchUsers(string SearchQuery);
     }
 }
