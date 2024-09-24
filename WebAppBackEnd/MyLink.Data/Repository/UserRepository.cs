@@ -72,5 +72,16 @@ namespace MyLink.Data.Repository
 
             return true;
         }
+
+        public IQueryable<User> SearchUsers(string SearchQuery)
+        {
+            var users =  _context.Users
+                .Where(
+                    u => u.UserName.StartsWith(SearchQuery) ||
+                         (u.FirstName + " " + u.LastName).StartsWith(SearchQuery))
+                ;
+
+            return users;
+        }
     }
 }
