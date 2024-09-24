@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3d7f5836-f555-4e48-9abf-5f2d61143184",
+                            Id = "33c0ded9-5d7a-4ca5-94e4-39bb82372d33",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "54f63338-a322-4918-8f65-aba12ac2a9a4",
+                            Id = "8ab6676e-932f-4dee-8d26-c39ec430b9b8",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -388,6 +388,9 @@ namespace MyLink.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MessageBody")
                         .IsRequired()
@@ -732,7 +735,7 @@ namespace MyLink.Data.Migrations
             modelBuilder.Entity("MyLink.Models.Message", b =>
                 {
                     b.HasOne("MyLink.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -824,6 +827,8 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
+
+                    b.Navigation("Messages");
 
                     b.Navigation("PostedJobs");
 
