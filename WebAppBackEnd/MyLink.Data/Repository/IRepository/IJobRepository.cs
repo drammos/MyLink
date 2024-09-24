@@ -14,8 +14,8 @@ namespace MyLink.Data.Repository.IRepository
         public Task<bool> RejectJobApplication(int jobApplicationId);
         public Task<bool> WithdrawnJobApplication(int jobApplicationId);
         public Task<bool> DeleteAllJobApplications(int jobApplicationId);
-        public List<Job> GetOpenJobs();
-        public List<Job> GetCloseJobs();
-        public List<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO);
+        public IQueryable<Job> GetOpenJobs();
+        public IQueryable<Job> GetCloseJobs();
+        public IQueryable<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO);
     }
 }
