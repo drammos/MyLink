@@ -160,7 +160,7 @@ const LoggedInNavBar = ({ userInfo }) => {
                             <div key={index} className="search-result-item">
                             <img src={result.pictureURL || defaultPhotoURL} alt={result.name} />
                             <div className="result-info"> {}
-                                <span className="fullname">{result.firstName + " " + result.lastName}</span>
+                                <span className="name-highlight">{result.firstName + " " + result.lastName}</span>
                                 <span>{result.userName}</span>
                             </div>
                         </div>

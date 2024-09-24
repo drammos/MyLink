@@ -155,7 +155,7 @@
         cursor: pointer;
         background-color: #f7f7f7; 
         border-top: 1px solid #ccc;
-        color: #000;
+        color: #1fb4c2;
     }
     
     .see-all-results:hover {
@@ -185,7 +185,7 @@
     }
 
     
-.fullname {
-    font-weight: bold; 
-    color: #1fb4c2;
-}
+    .result-info.name-highlight {
+        color: #1fb4c2;
+        font-weight: bold;
+    }
