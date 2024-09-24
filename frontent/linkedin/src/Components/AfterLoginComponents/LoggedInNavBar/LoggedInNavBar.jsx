@@ -20,7 +20,7 @@ const LoggedInNavBar = ({ userInfo }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(6);
+    const [pageSize, setPageSize] = useState(8);
     const navigate = useNavigate();
     //Metadata
     const [metadata, setMetadata] = useState({

@@ -128,7 +128,7 @@
         width: 450px;
         border-radius: 2px;
         margin-right: 10px;
-        max-height: 300px;
+        max-height: 1000px;
         overflow-y: auto;
         background-color: #ffffff; 
         border: 1px solid #ccc;
@@ -187,5 +187,5 @@
     
 .fullname {
     font-weight: bold; 
-    color: black; 
+    color: #1fb4c2;
 }
