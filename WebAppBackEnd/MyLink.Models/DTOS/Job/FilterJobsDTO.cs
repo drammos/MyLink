@@ -1,8 +1,9 @@
+using MyLink.Models.Pagination;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyLink.Models.DTOS
 {
-    public class FilterJobsDTO
+    public class FilterJobsDTO : Params
     {
         [Required]
         public string UserId { get; set; }
