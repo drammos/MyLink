@@ -102,7 +102,6 @@ const LoggedInNavBar = ({ userInfo }) => {
     const handleSearchChange = async (event) => {
         const term = event.target.value;       
         setSearchTerm(term);
-        refetchService(); 
         setShowDropdown(term.length > 0); 
     };
     
