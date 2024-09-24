@@ -3,10 +3,10 @@ import useService from '../Services/useService';
 import { agents } from '../../agents';
 import { useMemo } from 'react';
 
-
 const useCreatePost = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
+    const [inputFormUpdate, setInputFormUpdate] = useState(2);
     const inputFormData = useMemo(() => new FormData(), []);
     const url = agents.localhost + agents.createPost;
 
@@ -19,7 +19,7 @@ const useCreatePost = () => {
         true
     );
 
-    const handleCreatePost = useCallback((response) => {
+    const handleCreatePost = useCallback(async (response) => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
@@ -30,10 +30,9 @@ const useCreatePost = () => {
         }
     }, [errorCode]);
 
-    const createPost = useCallback((
+    const createPost = useCallback(async (
         userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls
     ) => {
-
         inputFormData.append('UserId', userId);
         inputFormData.append('Title', title);
         inputFormData.append('Content', content);
@@ -41,18 +40,38 @@ const useCreatePost = () => {
         inputFormData.append('PictureUrls', PictureUrls);
         inputFormData.append('VideoUrls', videoUrls);
         inputFormData.append('VoiceUrls', voiceUrls);
-
+        setInputFormUpdate(1);
         console.log("Create post using: ", userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls);
         console.log(inputFormData);
-
-        fetchService();
-    }, [fetchService, inputFormData]);
+        //await fetchService();
+    }, [inputFormData]);
 
     useEffect(() => {
-        if (response) {
-            handleCreatePost(response);
-        }
-    }, [response, handleCreatePost]);
+        const handlePostCreation = async () => {
+            if (response) {
+                await handleCreatePost(response);
+                inputFormData.delete('UserId'); 
+                inputFormData.delete('Title');
+                inputFormData.delete('Content');
+                inputFormData.delete('CreatedAt'); 
+                inputFormData.delete('PictureUrls'); 
+                inputFormData.delete('VideoUrls'); 
+                inputFormData.delete('VoiceUrls'); 
+                setInputFormUpdate(0);
+            }
+        };
+        handlePostCreation();
+    }, [response, handleCreatePost, setInputFormUpdate]);
+
+
+    useEffect(() => {
+        const update = async () => {
+            if (inputFormUpdate === 1) {
+                await fetchService();
+            }
+        };
+        update();
+    }, [inputFormUpdate, fetchService]);
 
     return { createPost, message, errorCode, loading, createPostRefetch: createPost };
 };

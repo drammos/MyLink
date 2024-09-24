@@ -120,7 +120,6 @@ const UsersList = () => {
 
     useEffect(() => {
         if (userToDelete !== null) {
-            console.log("done");
             setTimeout(() => {
                 refetch();
             }, 2000);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import { InputSwitch } from 'primereact/inputswitch';
-import useDeletePost from '../../Services/Post/useDeletePost'
+import useDeletePost from '../../Services/Post/useDeletePost';
 import { FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
 import './styles/MyPosts.css';
 
@@ -19,7 +19,7 @@ const MyPosts = ({ userInfo }) => {
         if (response && response.data) {
             setPosts(response.data);
         }
-    }, [response, errorCode]);
+    }, [response]);
 
     const handleVisibilityToggle = (postIndex, isPublic) => {
         setPosts((prevPosts) =>
@@ -30,15 +30,18 @@ const MyPosts = ({ userInfo }) => {
     };
 
     const handleDeletePost = async (postId) => {
-        await deletePostRefetch(postId);
+        await deletePostRefetch(postId); 
     };
 
-    useEffect(() => {
-        console.log("Myposts error code: ", deletePostErrorCode);
+    useEffect(() => { 
+        console.log("Delete Post Error Code: ", deletePostErrorCode);
         if (deletePostErrorCode === 0) {
-            getPostsRefetch();
+            console.log("Post deleted successfully!");
+            setTimeout(() => { getPostsRefetch(); }, 2000);
+        } else if (deletePostErrorCode > 0) {
+            console.log("Error deleting post.");
         }
-    }, [deletePostErrorCode, getPostsRefetch]);
+    }, [deletePostErrorCode]);
 
     if (loading) return <p>Loading posts...</p>;
     if (errorCode !== 0) return <p>Error loading posts: {message}</p>;

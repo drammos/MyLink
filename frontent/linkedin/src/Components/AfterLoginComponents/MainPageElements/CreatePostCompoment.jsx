@@ -24,16 +24,26 @@ const CreatePostComponent = () => {
     const [videoName, setVideoName] = useState('');
     const [fileName, setFileName] = useState('');
     const [infoMessage, setInfoMessage] = useState('');
-    const [postIt, setPostIt] = useState(0);
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [ErrorCode, setErrorCode] = useState(2);
-    const [isPublic, setIsPublic] = useState(true); // Add state for post visibility
+    const [isPublic, setIsPublic] = useState(true);
 
     const { message, errorCode, loading, createPostRefetch } = useCreatePost();
 
     const handlePostSubmit = () => {
+        // Validate both title and text
+        if (!title || !text) {
+            setInfoMessage("Please enter both title and content for your post.");
+            setErrorCode(1);
+            return;
+        }
+
+        // Set the creation date and make sure it's awaited
         const currentDate = new Date().toISOString();
         setCreatedAt(currentDate);
-        setPostIt(1);
+
+        // Set the form as submitted
+        setIsFormSubmitted(true);
     };
 
     const handlePhotoUpload = async (e) => {
@@ -42,7 +52,7 @@ const CreatePostComponent = () => {
             try {
                 const uploadResult = await UploadPhoto(file);
                 setPictureUrls(uploadResult.transformedUrl);
-                setPictureName(file.name); // Set the name of the uploaded photo
+                setPictureName(file.name); 
             } catch (error) {
                 console.error("Error uploading image", error);
             }
@@ -55,7 +65,7 @@ const CreatePostComponent = () => {
             try {
                 const uploadResult = await UploadFile(file);
                 setFileUrls(uploadResult.originalUrl);
-                setFileName(file.name); // Set the name of the uploaded file
+                setFileName(file.name); 
             } catch (error) {
                 console.error("Error uploading file", error);
             }
@@ -68,33 +78,37 @@ const CreatePostComponent = () => {
             try {
                 const uploadResult = await UploadVideo(file);
                 setVideoUrls(uploadResult.originalUrl);
-                setVideoName(file.name); // Set the name of the uploaded video
+                setVideoName(file.name); 
             } catch (error) {
                 console.error("Error uploading video", error);
             }
         }
     };
 
-    const clearData = () => {
-        setText("");
-        setTitle("");
+    const clearData = async () => {
+        setText('');
+        setTitle('');
         setPictureName('');
         setFileName('');
         setVideoName('');
+        setIsFormSubmitted(false);
     };
 
     useEffect(() => {
-        if (postIt) {
-            if (title && text) {
-                createPostRefetch(userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic); 
-                clearData();
+        const handlePost = async () => {
+            if (isFormSubmitted) {
+                await createPostRefetch(userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic);
+                await clearData();
             } else {
                 setInfoMessage("Please enter both title and content for your post.");
                 setErrorCode(1);
             }
-            setPostIt(0);
+        };
+
+        if (isFormSubmitted) {
+            handlePost();
         }
-    }, [postIt, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic, createPostRefetch, message]);
+    }, [isFormSubmitted, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic, createPostRefetch, message]);
 
     useEffect(() => {
         if (errorCode === 1) {
@@ -136,19 +150,14 @@ const CreatePostComponent = () => {
                     <FaEdit />&nbsp;Post
                 </button>
                 <div className="media-buttons">
-                    {/* File Upload - Accept only common document types */}
                     <label htmlFor="file-upload" className="share-media">
                         <FaFileAlt />
                         <input id="file-upload" type="file" accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx" style={{ display: 'none' }} onChange={handleFileUpload} />
                     </label>
-
-                    {/* Video Upload - Accept only video types */}
                     <label htmlFor="video-upload" className="share-media">
                         <FaVideo />
                         <input id="video-upload" type="file" accept="video/*" style={{ display: 'none' }} onChange={handleVideoUpload} />
                     </label>
-
-                    {/* Image Upload - Accept only image types */}
                     <label htmlFor="photo-upload" className="share-media">
                         <FaCamera />
                         <input id="photo-upload" type="file" accept="image/*" style={{ display: 'none' }} onChange={handlePhotoUpload} />
@@ -156,7 +165,6 @@ const CreatePostComponent = () => {
                 </div>
             </div>
 
-            {/* Toggle switch for public/private */}
             <div className="public-private-toggle">
                 <label>Post Visibility: </label>
                 <InputSwitch checked={isPublic} onChange={(e) => setIsPublic(e.value)} />
