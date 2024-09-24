@@ -36,6 +36,7 @@ const LoggedInNavBar = ({ userInfo }) => {
         handleNetworkButton,
         handleJobsButton,
         handleInterestsButton,
+        handleSearchAllUsers
     } = useNavigationHelpers();
 
     const toggleProfileMenu = () => {
@@ -109,7 +110,6 @@ const LoggedInNavBar = ({ userInfo }) => {
     useEffect(() => {
         if (response) {
             if (response.status === 200) {
-                console.log("rewsp", response.data);
                 setUsers(response.data); 
                 setSearchResults(response.data); 
                 
@@ -127,12 +127,12 @@ const LoggedInNavBar = ({ userInfo }) => {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        navigate(`/search?term=${searchTerm}`);
+        navigate(`/searchUsers?term=${searchTerm}`);
     };
 
     const handleSeeAllResults = () => {
-        navigate(`/search?term=${searchTerm}`);
-    };
+        navigate(`/searchUsers?term=${searchTerm}`);
+    };    
 
     return (
         <div className="loggedInNavbarContainer">
