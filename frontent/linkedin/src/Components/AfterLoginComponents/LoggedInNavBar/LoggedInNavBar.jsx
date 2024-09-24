@@ -9,6 +9,7 @@ import useGetListFromIncomingRequests from '../../Services/useGetListFromIncomin
 import PropTypes from 'prop-types';
 import useService from '../../Services/useService';
 import {agents} from '../../../agents'; 
+import {Routes} from '../../../routes'; 
 
 const LoggedInNavBar = ({ userInfo }) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -105,6 +106,12 @@ const LoggedInNavBar = ({ userInfo }) => {
         setSearchTerm(term);
         setShowDropdown(term.length > 0); 
     };
+
+    const handleNavigateToUser = async (url) => {
+        navigate(url);
+        setShowDropdown(false); 
+        setSearchTerm('');
+    };
     
 
     useEffect(() => {
@@ -157,18 +164,22 @@ const LoggedInNavBar = ({ userInfo }) => {
                 {showDropdown && (
                     <div className="search-dropdown">
                         {searchResults.map((result, index) => (
-                            <div key={index} className="search-result-item">
-                            <img src={result.pictureURL || defaultPhotoURL} alt={result.name} />
-                            <div className="result-info"> {}
-                                <span className="name-highlight">{result.firstName + " " + result.lastName}</span>
-                                <span>{result.userName}</span>
+                            <div
+                                key={index}
+                                className="search-result-item"
+                                onClick={() => { handleNavigateToUser(Routes.UserInfo.replace(':username', result.userName)) }} >
+                                <img src={result.pictureURL || defaultPhotoURL} alt={result.name} />
+                                <div className="result-info">
+                                    <span className="name-highlight">{result.firstName + " " + result.lastName}</span>
+                                    <span>{result.userName}</span>
+                                </div>
                             </div>
-                        </div>
                         ))}
                         <div className="see-all-results" onClick={handleSeeAllResults}>
                             See all results
                         </div>
                     </div>
+
                 )}
             </div>
             <div className="navbar-right">
