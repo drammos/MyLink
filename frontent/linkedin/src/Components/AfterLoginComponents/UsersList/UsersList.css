@@ -160,3 +160,8 @@ p.loading {
 .mb-4.p-toolbar.p-component {
     margin-top: 5px !important;
 }
+
+.result-info .name-highlight {
+    color: #1fb4c2;
+    font-weight: bold;
+}
