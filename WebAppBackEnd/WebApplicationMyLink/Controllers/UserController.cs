@@ -434,5 +434,15 @@ namespace WebAppMyLink.Controllers
             Response.AddPaginationHeader(messageDTOPaginationList.Metadata);
             return messageDTOPaginationList;
         }
+
+        [HttpGet("GetUserChats")]
+        public async Task<ActionResult<List<ChatOutDTO>>> GetUserChats([FromQuery] string Username)
+        {
+            User myUser = await _userManager.FindByNameAsync(Username);
+            if(myUser == null) return NotFound();
+
+            var chats = _unitOfWork.Message.GetChats(myUser);
+            return chats;
+        }
     }
 }
