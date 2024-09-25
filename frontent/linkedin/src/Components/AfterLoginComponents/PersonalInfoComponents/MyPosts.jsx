@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import { InputSwitch } from 'primereact/inputswitch';
 import useDeletePost from '../../Services/Post/useDeletePost';
+import useEditPost from '../../Services/Post/useEditPost';
 import { FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
 import './styles/MyPosts.css';
 
 const MyPosts = ({ userInfo }) => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
     const { message: deletePostMessage, errorCode: deletePostErrorCode, loading: deletePostLoading, deletePostRefetch } = useDeletePost();
+    const { message: editPostMessage, errorCode: editPostErrorCode, loading: editPostLoading, editPostRefetch } = useEditPost();
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -22,10 +24,25 @@ const MyPosts = ({ userInfo }) => {
     }, [response]);
 
     const handleVisibilityToggle = (postIndex, isPublic) => {
-        setPosts((prevPosts) =>
-            prevPosts.map((post, index) =>
-                index === postIndex ? { ...post, isPublic } : post
-            )
+        // Update the local state
+        const updatedPosts = posts.map((post, index) =>
+            index === postIndex ? { ...post, isPublic } : post
+        );
+        setPosts(updatedPosts);
+
+        // Refetch and call editPost with updated visibility status
+        const postToUpdate = updatedPosts[postIndex];
+        console.log("Post to update: ", postToUpdate);
+        editPostRefetch(
+            postToUpdate.id,        
+            postToUpdate.title,     
+            postToUpdate.content,   
+            new Date().toISOString(),             
+            postToUpdate.pictureUrls, 
+            postToUpdate.videoUrls,   
+            postToUpdate.voiceUrls,   
+            postToUpdate.isLikedByCurrentUser, 
+            isPublic                
         );
     };
 

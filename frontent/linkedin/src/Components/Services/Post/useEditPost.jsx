@@ -15,7 +15,7 @@ const useCreatePost = () => {
         'PUT',
         url,
         inputFormData,
-        undefined,
+        'multipart/form-data',
         true
     );
 
@@ -42,7 +42,7 @@ const useCreatePost = () => {
             setMessage('Edit information failed');
             console.error('Edit information failed');
         }
-    }, [navigate]);
+    }, []);
 
     const editPost = useCallback((
         Id, Title, Content, UpdateAt, PictureUrls, VideoUrls, VoiceUrls, IsLikedByCurrentUser, IsPublic) => {
@@ -54,10 +54,10 @@ const useCreatePost = () => {
         inputFormData.append('VideoUrls', VideoUrls);
         inputFormData.append('VoiceUrls', VoiceUrls);
         inputFormData.append('IsLikedByCurrentUser', IsLikedByCurrentUser);
-        inputFormData.append('IsPublic ', IsPublic);
+        inputFormData.append('IsPublic', IsPublic);
         setInputFormUpdate(1);
         fetchService();
-        //console.log("Create post using: ", userId, title, content, createdAt, PictureUrls, videoUrls, voiceUrls, isPublic);
+        console.log("Create post using: ", Id, Title, Content, UpdateAt, PictureUrls, VideoUrls, VoiceUrls, IsLikedByCurrentUser, IsPublic);
         console.log(inputFormData);
     }, []);
 
@@ -67,7 +67,7 @@ const useCreatePost = () => {
         }
     }, [response, handleEditResponse]);
 
-    return { message, errorCode, loading, deletePostRefetch: editPost };
+    return { message, errorCode, loading, editPostRefetch: editPost };
 };
 
 export default useCreatePost;
