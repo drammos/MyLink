@@ -1,0 +1,6 @@
+.message-interface {
+    display: flex;
+    height: calc(100vh - 120px); /* Προσαρμόστε ανάλογα με το ύψος του navbar και του footer */
+    background-color: #f0f2f5;
+    margin-bottom: 60px; /* Προσθέστε περιθώριο για το footer */
+}
