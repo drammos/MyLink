@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyLink.Models
 {
@@ -10,10 +11,14 @@ namespace MyLink.Models
         public string? MessageBody { get; set; }
 
         [Required]
+        [ForeignKey("UserId")]
         public string? UserId { get; set; }
-        public User User { get; set; } = null!;
+        public User User { get; set; }
 
         [Required]
         public string? SenderUsername { get; set; }
+        
+        [Required]
+        public DateTime DateCreated { get; set; }
     }
 }
