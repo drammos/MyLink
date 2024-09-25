@@ -144,7 +144,7 @@ const MyPosts = ({ userInfo }) => {
                     ))}
                 </ul>
             ) : (
-                <p>No posts available</p>
+                    <p className="post-item">No posts available</p>
             )}
         </div>
     );

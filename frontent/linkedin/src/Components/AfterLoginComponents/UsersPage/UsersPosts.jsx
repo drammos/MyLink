@@ -81,7 +81,7 @@ const UserPosts = ({ userInfo }) => {
                     ))}
                 </ul>
             ) : (
-                <p>No public posts available</p>
+                    <p className="post-item">No public posts available</p>
             )}
         </div>
     );
