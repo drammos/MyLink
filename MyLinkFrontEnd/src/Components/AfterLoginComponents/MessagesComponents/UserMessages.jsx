@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import useService from '../../Services/useService';
 import { agents } from '../../../agents'; 
 import AppPagination from '../../Pagination/AppPagination';
-import './SearchResults.css';
+import './UserMessages.css';
 
 const UserMessages = ({ userInfo }) => {
     const location = useLocation();
