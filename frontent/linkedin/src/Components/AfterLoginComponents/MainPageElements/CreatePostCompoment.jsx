@@ -169,7 +169,7 @@ const CreatePostComponent = () => {
             </div>
 
             <div className={loading ? 'loading' : (ErrorCode === 1 ? 'error-message' : (ErrorCode === 0 ? 'success-message' : ''))}>
-                {loading ? (<>Loading...</>) : (ErrorCode === 1 ? (<><GoXCircle /> {infoMessage}</>) : (ErrorCode === 0 ? (<><GoCheckCircle /> {infoMessage}</>) : ''))}
+                {loading ? (<></>) : (ErrorCode === 1 ? (<><GoXCircle /> {infoMessage}</>) : (ErrorCode === 0 ? (<><GoCheckCircle /> {infoMessage}</>) : ''))}
             </div>
             {loading && <p className="loading">Loading...</p>}
         </div>
