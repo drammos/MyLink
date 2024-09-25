@@ -11,7 +11,7 @@ import PageNotFound from './Pages/PageNotFound/PageNotFound.jsx'
 import MainPage from './Pages/AfterLogIn/MainPage/MainPage.jsx'
 import PersonalInfo from './Pages/AfterLogIn/PersonalInfo/PersonalInfo.jsx'
 import SearchUsers from './Pages/SearchUsers/searchUsers.jsx'
-import { Messages } from './Pages/Messages/Messages.jsx'
+import Messages from './Pages/Messages/Messages.jsx'
 import { Routes } from './routes.jsx';
 
 

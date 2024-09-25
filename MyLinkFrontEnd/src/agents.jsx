@@ -68,5 +68,11 @@ export const agents = {
     getEducations: 'Education/GetEducations',
     getEducation: 'Education/GetEducation',
     editEducation: 'Education/EditEducation',
-    deleteEducation: 'Education/DeleteEducation'
+    deleteEducation: 'Education/DeleteEducation',
+
+    //Messages
+    postMessage: 'User/AddMessage',
+    getMessage: 'User/GetMessage',
+    getDiscussion: 'User/GetDiscussion',
+    getMessage: 'User/GetUserChats',
 };
