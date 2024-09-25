@@ -5,7 +5,7 @@ backend =>
         - to run : node server.js   OR   npm start
 
 
-frontent/linkedin =>
+MyLinkFrontEnd =>
 
         - to run: npm start
         - to build: npm run build   
