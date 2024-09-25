@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import useService from '../useService';
 import { agents } from '../../../agents';
 
-const useCreatePost = () => {
+const useDeletePost = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [postId, setPostId] = useState(0);
@@ -53,4 +53,4 @@ const useCreatePost = () => {
     return { message, errorCode, loading, deletePostRefetch: deletePost };
 };
 
-export default useCreatePost;
+export default useDeletePost;

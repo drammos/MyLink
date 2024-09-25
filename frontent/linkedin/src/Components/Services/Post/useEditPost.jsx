@@ -5,16 +5,15 @@ import { agents } from '../../../agents';
 const useCreatePost = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
-    const [inputFormUpdate, setInputFormUpdate] = useState(2);
+    const [postData, setPostData] = useState(null);
     const [postId, setPostId] = useState(0);
     const url = agents.localhost + agents.editPost;
-    const inputFormData = new FormData();
 
     const { response, loading, refetch: fetchService } = useService(
         `Editing post ${postId}`,
         'PUT',
         url,
-        inputFormData,
+        postData,
         'multipart/form-data',
         true
     );
@@ -22,17 +21,9 @@ const useCreatePost = () => {
     const handleEditResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
-            setMessage('Post informations are updated!');
-            console.log('Post informations are updated!');
-            inputFormData.delete('UserId');
-            inputFormData.delete('Title');
-            inputFormData.delete('Content');
-            inputFormData.delete('CreatedAt');
-            inputFormData.delete('PictureUrls');
-            inputFormData.delete('VideoUrls');
-            inputFormData.delete('VoiceUrls');
-            inputFormData.delete('isPublic');
-            setInputFormUpdate(0);
+            setMessage('Post information is updated!');
+            console.log('Post information is updated!');
+            setPostData(null);
         } else if (response?.status === 600) {
             setErrorCode(1);
             setMessage('An error occurred. Please try again later.');
@@ -45,21 +36,31 @@ const useCreatePost = () => {
     }, []);
 
     const editPost = useCallback((
-        Id, Title, Content, UpdateAt, PictureUrls, VideoUrls, VoiceUrls, IsLikedByCurrentUser, IsPublic) => {
-        inputFormData.append('Id', Id);
-        inputFormData.append('Title', Title);
-        inputFormData.append('Content', Content);
-        inputFormData.append('UpdateAt', UpdateAt);
-        inputFormData.append('PictureUrls', PictureUrls);
-        inputFormData.append('VideoUrls', VideoUrls);
-        inputFormData.append('VoiceUrls', VoiceUrls);
-        inputFormData.append('IsLikedByCurrentUser', IsLikedByCurrentUser);
-        inputFormData.append('IsPublic', IsPublic);
-        setInputFormUpdate(1);
-        fetchService();
-        console.log("Create post using: ", Id, Title, Content, UpdateAt, PictureUrls, VideoUrls, VoiceUrls, IsLikedByCurrentUser, IsPublic);
-        console.log(inputFormData);
+        Id, Title, Content, UpdateAt, PictureUrls, VideoUrls, VoiceUrls, IsLikedByCurrentUser, IsPublic
+    ) => {
+        console.log("useEdit", Id);
+        const formData = new FormData();
+        formData.append('Id', Id);
+        formData.append('Title', Title);
+        formData.append('Content', Content);
+        formData.append('UpdateAt', UpdateAt);
+        formData.append('PictureUrls', PictureUrls);
+        formData.append('VideoUrls', VideoUrls);
+        formData.append('VoiceUrls', VoiceUrls);
+        formData.append('IsLikedByCurrentUser', IsLikedByCurrentUser);
+        formData.append('IsPublic', IsPublic);
+
+        setPostId(Id);
+        setPostData(formData);
+
+        console.log("Edit post using: ", Id, Title, Content, UpdateAt, PictureUrls, VideoUrls, VoiceUrls, IsLikedByCurrentUser, IsPublic);
     }, []);
+
+    useEffect(() => {
+        if (postId !== 0 && postData) {
+            fetchService();
+        }
+    }, [postId, postData, fetchService]);
 
     useEffect(() => {
         if (response) {

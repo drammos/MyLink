@@ -60,6 +60,16 @@ const MyPosts = ({ userInfo }) => {
         }
     }, [deletePostMessage]);
 
+    useEffect(() => { 
+        console.log("Edit Post Error Code: ", editPostErrorCode);
+        if (editPostErrorCode === 0) {
+            console.log("Post edited successfully!");
+            //setTimeout(() => { getPostsRefetch(); }, 2000);
+        } else if (editPostErrorCode > 0) {
+            console.log("Error editing post.");
+        }
+    }, [editPostMessage]);
+
     if (loading) return <p>Loading posts...</p>;
     if (errorCode !== 0) return <p>Error loading posts: {message}</p>;
 
