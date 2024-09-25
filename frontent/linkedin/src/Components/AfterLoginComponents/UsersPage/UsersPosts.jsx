@@ -11,7 +11,7 @@ const UserPosts = ({ userInfo }) => {
 
     useEffect(() => {
         getPostsRefetch(userInfo.id);
-    }, [userInfo]);
+    }, [userInfo.id]);
 
     useEffect(() => {
         if (response && response.data) {
