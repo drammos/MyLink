@@ -10,7 +10,7 @@ const UserPosts = ({ userInfo }) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        getPostsRefetch();
+        getPostsRefetch(userInfo.id);
     }, [userInfo]);
 
     useEffect(() => {

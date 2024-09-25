@@ -46,7 +46,7 @@ export const useNavigationHelpers = () => {
     };
 
     const handleUsernameClick = (username) => {
-        navigate(Routes.UserInfo.replace(':username', username)); 
+        window.open(Routes.UserInfo.replace(':username', username), '_blank');
     };
 
     return {
