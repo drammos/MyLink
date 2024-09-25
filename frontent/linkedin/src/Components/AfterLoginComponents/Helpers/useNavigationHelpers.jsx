@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Routes } from '../../../routes'
+import { Routes } from '../../../routes';
+import { agents } from '../../../agents';
 
 export const useNavigationHelpers = () => {
     const navigate = useNavigate();
@@ -44,6 +45,10 @@ export const useNavigationHelpers = () => {
         navigate(Routes.Home);
     };
 
+    const handleUsernameClick = (username) => {
+        navigate(Routes.UserInfo.replace(':username', username)); 
+    };
+
     return {
         handleHomeButton,
         handleProfileButton,
@@ -54,5 +59,6 @@ export const useNavigationHelpers = () => {
         handleLogoutButton,
         handleSettings,
         handleSearchUsers,
+        handleUsernameClick,
     };
 };

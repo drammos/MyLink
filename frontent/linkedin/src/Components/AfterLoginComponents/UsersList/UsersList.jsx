@@ -46,7 +46,7 @@ const UsersList = () => {
         totalCount: 10
       });    
     const dt = useRef(null);
-    const { handleLogoutButton } = useNavigationHelpers();
+    const { handleLogoutButton, handleUsernameClick } = useNavigationHelpers();
     const { exportToJSON, exportToXML } = useExportHelpers();
 
     //#endregion
@@ -236,7 +236,12 @@ const UsersList = () => {
         );
     };
 
-    const userNameBodyTemplate = (rowData) => <span>{rowData.userName}</span>;
+    const userNameBodyTemplate = (rowData) => (
+        <span
+            onClick={() => handleUsernameClick(rowData.userName)} style={{ cursor: 'pointer', color: '#1fb4c2', textDecoration: 'underline' }} >
+            {rowData.userName}
+        </span>
+    );
     const userFirstNameTemplate = (rowData) => <span>{rowData.firstName}</span>;
     const userLastNameTemplate = (rowData) => <span>{rowData.lastName}</span>;
     const roleBodyTemplate = (rowData) => <span>{rowData.role}</span>;
