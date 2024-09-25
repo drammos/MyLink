@@ -11,5 +11,6 @@ export const Routes = {
     PageNotFound: '/PageNotFound',
     PersonalInfo: '/StartPage/PersonalInformations',
     UserInfo: '/UserPage/:username',
-    SearchUsers: '/SearchUsers'
+    SearchUsers: '/SearchUsers',
+    Messages: '/Messages'
 };

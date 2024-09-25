@@ -11,6 +11,7 @@ import PageNotFound from './Pages/PageNotFound/PageNotFound.jsx'
 import MainPage from './Pages/AfterLogIn/MainPage/MainPage.jsx'
 import PersonalInfo from './Pages/AfterLogIn/PersonalInfo/PersonalInfo.jsx'
 import SearchUsers from './Pages/SearchUsers/searchUsers.jsx'
+import { Messages } from './Pages/Messages/Messages.jsx'
 import { Routes } from './routes.jsx';
 
 
@@ -21,6 +22,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import { Rotate } from '@cloudinary/url-gen/actions'
 
 const router = createBrowserRouter([
     { path: Routes.Home, element: <App /> },
@@ -35,6 +37,7 @@ const router = createBrowserRouter([
     { path: Routes.UserSettings, element: <UserSettings /> },
     { path: Routes.UserInfo, element: <UsersPage /> },
     { path: Routes.SearchUsers,  element: <SearchUsers /> },
+    { path: Routes.Messages, element: <Messages />},
     { path: "*", element: <PageNotFound /> },
 ]);
 
