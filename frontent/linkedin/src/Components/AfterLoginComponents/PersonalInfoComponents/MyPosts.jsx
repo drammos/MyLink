@@ -96,6 +96,28 @@ const MyPosts = ({ userInfo }) => {
                                     </a>
                                 </div>
                             )}
+                            {post.pictureUrls && post.pictureUrls.length > 0 && post.pictureUrls[0] !== null && (
+                                <div className="post-media">
+                                    {post.pictureUrls.map((url, picIndex) => (
+                                        url && (
+                                            <div key={picIndex} className="post-image">
+                                                <img src={url} alt={`Post media ${picIndex + 1}`} />
+                                            </div>
+                                        )
+                                    ))}
+                                </div>
+                            )}
+                            {post.videoUrls && post.videoUrls.length > 0 && post.videoUrls[0] !== null && (
+                                <div className="post-media">
+                                    {post.videoUrls.map((url, vidIndex) => (
+                                        url && (
+                                            <div key={vidIndex} className="post-video">
+                                                <a href={url} target="_blank" rel="noopener noreferrer">Watch Video {vidIndex + 1}</a>
+                                            </div>
+                                        )
+                                    ))}
+                                </div>
+                            )}
                             {post.voiceUrl && (
                                 <div className="post-media">
                                     <a href={post.voiceUrl} target="_blank" rel="noopener noreferrer">
