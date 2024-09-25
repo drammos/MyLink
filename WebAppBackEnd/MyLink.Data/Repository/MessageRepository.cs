@@ -2,6 +2,7 @@
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using MyLink.Data.Access;
+using MyLink.Models.DTOS;
 
 namespace MyLink.Data.Repository
 {
@@ -32,6 +33,50 @@ namespace MyLink.Data.Repository
                 .OrderByDescending(message => message.DateCreated)
                 .Include(message => message.User);
             
+        }
+
+        public List<ChatOutDTO> GetChats(User myUser)
+        {
+            var messages =  _context.Messages
+                .Include(m => m.User) 
+                .Where(m => m.SenderUsername == myUser.UserName|| m.User.UserName == myUser.UserName) // Ο χρήστης είναι είτε αποστολέας είτε παραλήπτης
+                .GroupBy(m => m.SenderUsername == myUser.UserName ? m.User.UserName : m.SenderUsername) // Ομαδοποίηση με βάση τον συνομιλητή (username)
+                .Select(g => g.OrderByDescending(m => m.DateCreated).First()) // Παίρνουμε το πιο πρόσφατο μήνυμα από κάθε συνομιλία
+                // Φορτώνουμε τον παραλήπτη (τον συνομιλητή αν ο χρήστης είναι αποστολέας)
+                .ToList();
+            
+            
+            List<ChatOutDTO> chats = new List<ChatOutDTO>();
+            foreach (var msg in messages)
+            {
+                if (msg.SenderUsername == myUser.UserName)
+                {
+                    ChatOutDTO dto = new ChatOutDTO()
+                    {
+                        InterlocutorFirstname = msg.User.FirstName,
+                        InterlocutorLastname = msg.User.LastName,
+                        InterlocutorUsename = msg.User.UserName,
+                        InterlocutorPictureURL = msg.User.PictureURL,
+                        LastMessage = msg.MessageBody
+                    };
+                    chats.Add(dto);
+                }
+                else
+                {
+                    User user = _context.Users.FirstOrDefault(u => u.UserName == msg.SenderUsername);
+                    ChatOutDTO dto = new ChatOutDTO()
+                    {
+                        InterlocutorFirstname = user.FirstName,
+                        InterlocutorLastname = user.LastName,
+                        InterlocutorUsename = user.UserName,
+                        InterlocutorPictureURL = user.PictureURL,
+                        LastMessage = msg.MessageBody
+                    };
+                    chats.Add(dto);
+                }
+            }
+            
+            return chats;
         }
     }    
 }
