@@ -2,7 +2,14 @@
     width: 350px;
     border-right: 1px solid #e0e0e0;
     background-color: white;
+    height: calc(100vh - 60px); /* Ρύθμιση του ύψους ώστε να καλύπτει την οθόνη */
+    overflow-y: auto; /* Ενεργοποίηση scrolling */
 }
+
+.chat-list-items {
+    max-height: 100%; /* Ρύθμιση για να σέβεται το ύψος του γονικού */
+}
+
 
 .chat-list-header {
     padding: 20px;
