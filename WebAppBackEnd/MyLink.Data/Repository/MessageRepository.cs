@@ -30,7 +30,7 @@ namespace MyLink.Data.Repository
                         (message.SenderUsername == myUser.UserName && message.UserId == interactedUser.Id) ||
                         (message.SenderUsername == interactedUser.UserName && message.UserId == myUser.Id)
                     )
-                .OrderByDescending(message => message.DateCreated)
+                .OrderBy(message => message.DateCreated)
                 .Include(message => message.User);
             
         }
@@ -55,9 +55,10 @@ namespace MyLink.Data.Repository
                     {
                         InterlocutorFirstname = msg.User.FirstName,
                         InterlocutorLastname = msg.User.LastName,
-                        InterlocutorUsename = msg.User.UserName,
+                        InterlocutorUsername = msg.User.UserName,
                         InterlocutorPictureURL = msg.User.PictureURL,
-                        LastMessage = msg.MessageBody
+                        LastMessage = msg.MessageBody,
+                        InterlocutorUserId = msg.User.Id,
                     };
                     chats.Add(dto);
                 }
@@ -68,8 +69,9 @@ namespace MyLink.Data.Repository
                     {
                         InterlocutorFirstname = user.FirstName,
                         InterlocutorLastname = user.LastName,
-                        InterlocutorUsename = user.UserName,
+                        InterlocutorUsername = user.UserName,
                         InterlocutorPictureURL = user.PictureURL,
+                        InterlocutorUserId = user.Id,
                         LastMessage = msg.MessageBody
                     };
                     chats.Add(dto);

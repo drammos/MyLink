@@ -413,7 +413,7 @@ namespace WebAppMyLink.Controllers
         public async Task<ActionResult<PagedList<ChatMessageDTO>>> GetDiscussion([FromQuery] ChatDTO chatDTO)
         {
             User myUser = await _userManager.FindByNameAsync(chatDTO.MyUsename);
-            User interlocutorUser = await _userManager.FindByNameAsync(chatDTO.InterlocutorUsename);
+            User interlocutorUser = await _userManager.FindByNameAsync(chatDTO.InterlocutorUsername);
             if(myUser == null || interlocutorUser == null) return NotFound();
             
             var messages = _unitOfWork.Message.GetDiscussion(myUser, interlocutorUser);
@@ -427,12 +427,37 @@ namespace WebAppMyLink.Controllers
                     OwnerId = owner.Id,
                     OwnerUsername = owner.UserName,
                     MessageBody = msg.MessageBody,
+                    OwnerPictureURL = owner.PictureURL,
                 };
                 messagesDTOList.Add(chatMessageDto);
             }
             var messageDTOPaginationList = new PagedList<ChatMessageDTO>(messagesDTOList, messagesListPaged.Metadata.TotalCount, messagesListPaged.Metadata.CurrentPage, messagesListPaged.Metadata.PageSize);
             Response.AddPaginationHeader(messageDTOPaginationList.Metadata);
             return messageDTOPaginationList;
+        }
+        
+        [HttpGet("GetDiscussionWithoutPagination")]
+        public async Task<ActionResult<List<ChatMessageDTO>>> GetDiscussionWithoutPagination([FromQuery] ChatDTO chatDTO)
+        {
+            User myUser = await _userManager.FindByNameAsync(chatDTO.MyUsename);
+            User interlocutorUser = await _userManager.FindByNameAsync(chatDTO.InterlocutorUsername);
+            if(myUser == null || interlocutorUser == null) return NotFound();
+            
+            var messages = _unitOfWork.Message.GetDiscussion(myUser, interlocutorUser).ToList();
+            List<ChatMessageDTO> messagesDTOList = new List<ChatMessageDTO>();
+            foreach (var msg in messages)
+            {
+                User owner = await _userManager.FindByNameAsync(msg.SenderUsername);
+                ChatMessageDTO chatMessageDto = new ChatMessageDTO()
+                {
+                    OwnerId = owner.Id,
+                    OwnerUsername = owner.UserName,
+                    MessageBody = msg.MessageBody,
+                    OwnerPictureURL = owner.PictureURL,
+                };
+                messagesDTOList.Add(chatMessageDto);
+            }
+            return messagesDTOList;
         }
 
         [HttpGet("GetUserChats")]
