@@ -84,6 +84,7 @@ namespace MyLink.Data.Initialize
                 
                 frammos.ConnectedUsers.Add(prammos);
                 prammos.ConnectedUsers.Add(frammos);
+                
 
                 // Σύνδεση prammos με drammos
                 prammos.ConnectedUsers.Add(drammos); // drammos
@@ -103,6 +104,8 @@ namespace MyLink.Data.Initialize
                         PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
                         Birthday = "2000-01-01"
                     };
+                    frammos.ConnectedUsers.Add(newUser);
+                    newUser.ConnectedUsers.Add(frammos);
                     await users.CreateAsync(newUser, "1234@Password");
                     await users.AddToRoleAsync(newUser, "Professional");
                 }
