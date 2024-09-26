@@ -75,5 +75,6 @@ export const agents = {
     getMessage: 'User/GetMessage',
     getDiscussion: 'User/GetDiscussion',
     getChats: 'User/GetUserChats',
+    getUserConnectedChats: 'User/GetUserConnectedChats',
     getDiscussionWithoutPagination: 'User/GetDiscussionWithoutPagination'
 };
