@@ -72,6 +72,7 @@ namespace WebAppMyLink.Controllers
                 Birthday = registerDTO.Birthday,
                 CoverLetterURL = registerDTO.CoverLetterURL,
                 WebPage = registerDTO.WebPage,
+                IsAdmin = (registerDTO.Role == "Admin"),
             };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded == false)
@@ -352,7 +353,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("SearchUsers")]
-        public async Task<ActionResult<PagedList<UserDTO>>> SearchUserS([FromQuery] string SearchName, [FromQuery] Params paginationParams)
+        public async Task<ActionResult<PagedList<UserDTO>>> SearchUsers([FromQuery] string SearchName, [FromQuery] Params paginationParams)
         {
             var users = _unitOfWork.User.SearchUsers(SearchName);
             

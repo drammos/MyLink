@@ -15,6 +15,7 @@ namespace MyLink.Models
         public string? PictureURL { get; set; }
         public string? CoverLetterURL { get; set; }
         public string? WebPage { get; set; }
+        public bool IsAdmin { get; set; }
         public ICollection<Message> Messages { get;} = new List<Message>();
         public ICollection<Education> Educations { get; } = new List<Education>();
         public ICollection<Experience> Experiences { get; } = new List<Experience>();
