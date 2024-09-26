@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import { InputSwitch } from 'primereact/inputswitch';
+import useDeletePost from '../../Services/Post/useDeletePost';
+import useEditPost from '../../Services/Post/useEditPost';
 import { FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
 import './styles/MyPosts.css';
 
 const MyPosts = ({ userInfo }) => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
-
+    const { message: deletePostMessage, errorCode: deletePostErrorCode, loading: deletePostLoading, deletePostRefetch } = useDeletePost();
+    const { message: editPostMessage, errorCode: editPostErrorCode, editPostRefetch } = useEditPost();
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -18,16 +21,54 @@ const MyPosts = ({ userInfo }) => {
         if (response && response.data) {
             setPosts(response.data);
         }
-    }, [response, errorCode]);
+    }, [response]);
 
     const handleVisibilityToggle = (postIndex, isPublic) => {
-        setPosts((prevPosts) =>
-            prevPosts.map((post, index) =>
-                index === postIndex ? { ...post, isPublic } : post
-            )
+        // Update the local state
+        const updatedPosts = posts.map((post, index) =>
+            index === postIndex ? { ...post, isPublic } : post
         );
-        // Optionally, you can also send an API request to update the visibility in the backend here.
+        setPosts(updatedPosts);
+
+        // Refetch and call editPost with updated visibility status
+        const postToUpdate = updatedPosts[postIndex];
+        console.log("Post to update: ", postToUpdate);
+        editPostRefetch(
+            postToUpdate.id,        
+            postToUpdate.title,     
+            postToUpdate.content,   
+            new Date().toISOString(),             
+            postToUpdate.pictureUrls, 
+            postToUpdate.videoUrls,   
+            postToUpdate.voiceUrls,   
+            postToUpdate.isLikedByCurrentUser, 
+            isPublic                
+        );
     };
+
+    const handleDeletePost = async (postId) => {
+        await deletePostRefetch(postId); 
+    };
+
+    useEffect(() => { 
+        console.log("Delete Post Error Code: ", deletePostErrorCode);
+        if (deletePostErrorCode === 0) {
+            console.log("Post deleted successfully!");
+            setTimeout(() => { getPostsRefetch(); }, 2000);
+        } else if (deletePostErrorCode > 0) {
+            console.log("Error deleting post.");
+        }
+    }, [deletePostMessage]);
+
+    useEffect(() => { 
+        console.log("Edit Post Error Code: ", editPostErrorCode);
+        if (editPostErrorCode === 0) {
+            console.log("Post edited successfully!");
+            //setTimeout(() => { getPostsRefetch(); }, 2000);
+        } else if (editPostErrorCode > 0) {
+            console.log("Error editing post.");
+        }
+    }, [editPostMessage]);
 
     if (loading) return <p>Loading posts...</p>;
     if (errorCode !== 0) return <p>Error loading posts: {message}</p>;
@@ -48,6 +89,14 @@ const MyPosts = ({ userInfo }) => {
                                         onChange={(e) => handleVisibilityToggle(index, e.value)}
                                     />
                                 </div>
+                                {/* Delete button */}
+                                <button
+                                    className="delete-button"
+                                    onClick={() => handleDeletePost(post.id)}
+                                    disabled={deletePostLoading} // Disable button while deleting
+                                >
+                                    {'Delete'}
+                                </button>
                             </div>
                             <p>{post.content}</p>
                             {post.videoUrl && (
@@ -55,6 +104,28 @@ const MyPosts = ({ userInfo }) => {
                                     <a href={post.videoUrl} target="_blank" rel="noopener noreferrer">
                                         Watch Video
                                     </a>
+                                </div>
+                            )}
+                            {post.pictureUrls && post.pictureUrls.length > 0 && post.pictureUrls[0] !== null && (
+                                <div className="post-media">
+                                    {post.pictureUrls.map((url, picIndex) => (
+                                        url && (
+                                            <div key={picIndex} className="post-image">
+                                                <img src={url} alt={`Post media ${picIndex + 1}`} />
+                                            </div>
+                                        )
+                                    ))}
+                                </div>
+                            )}
+                            {post.videoUrls && post.videoUrls.length > 0 && post.videoUrls[0] !== null && (
+                                <div className="post-media">
+                                    {post.videoUrls.map((url, vidIndex) => (
+                                        url && (
+                                            <div key={vidIndex} className="post-video">
+                                                <a href={url} target="_blank" rel="noopener noreferrer">Watch Video {vidIndex + 1}</a>
+                                            </div>
+                                        )
+                                    ))}
                                 </div>
                             )}
                             {post.voiceUrl && (
@@ -73,7 +144,7 @@ const MyPosts = ({ userInfo }) => {
                     ))}
                 </ul>
             ) : (
-                <p>No posts available</p>
+                    <p className="post-item">No posts available</p>
             )}
         </div>
     );

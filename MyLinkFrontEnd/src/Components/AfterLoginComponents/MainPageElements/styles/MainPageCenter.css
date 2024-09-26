@@ -1,10 +1,11 @@
-.main-page-center {
+.posts-container {
     margin: 0 auto;
     max-width: 700px;
     padding: 20px;
 }
 
-.show-post-container {
+/* Post item container */
+.post-item {
     background-color: #fff;
     padding: 15px;
     margin-bottom: 15px;
@@ -12,12 +13,8 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.show-comment {
-    font-size: 14px;
-    color: black;
-}
-
-.show-account-name {
+/* Post header section (profile info) */
+.post-header {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -35,108 +32,45 @@
         margin: 2px 0;
     }
 
+/* Small icons used in post details */
 .small-icon {
     font-size: 4px;
     color: black;
 }
 
-.show-activity {
-    margin-top: 10px;
-}
-
-    .show-activity a {
-        color: #1fb4c2;
-    }
-
-/* Main container for the center page content */
-.main-page-center {
-    margin: 0 auto;
-    max-width: 700px;
-    padding: 20px;
-}
-
-/* New post section */
-.new-post-container {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.new-post {
-    margin-bottom: 10px;
-}
-
-.post-textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    resize: none;
-}
-
-.post-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.new-post-btn {
-    border: none;
-    background-color: #1fb4c2;
-    color: white;
-    cursor: pointer;
-    padding: 8px 16px;
-    font-size: 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-    .new-post-btn:hover {
-        background-color: #148f9a;
-    }
-
-.media-buttons {
-    display: flex;
-    gap: 5px;
-    justify-content: flex-end;
-}
-
-.share-media {
-    border: none;
-    background-color: #f3f3f3;
-    color: #1fb4c2;
-    cursor: pointer;
-    padding: 8px;
-    font-size: 16px;
-    margin: 2px;
-    transition: background-color 0.3s ease;
-}
-
-    .share-media:hover {
-        background-color: #e0e0e0;
-    }
-
-
+/* Post content section */
 .post-content {
     margin-top: 10px;
 }
 
-.post-images, .post-videos {
+/* Post images and videos container */
+.post-media {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
 }
 
-    .post-images img, .post-videos video {
+    .post-media img, .post-media video {
         max-width: 100%;
         height: auto;
     }
 
+/* Post activity information (likes, comments count) */
+.post-info {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+    .post-info .post-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #1fb4c2;
+    }
+
+/* Post actions (like, comment buttons) */
 .post-actions {
     display: flex;
     justify-content: space-around;
@@ -152,6 +86,12 @@
         gap: 5px;
     }
 
+/* Like button when liked */
+.like-button.liked {
+    color: #1877f2;
+}
+
+/* Comment section */
 .comments-section {
     margin-top: 20px;
     border-top: 1px solid #eee;
@@ -166,6 +106,9 @@
         color: #888;
     }
 
-.like-button.liked {
-    color: #1877f2;
-}
+/* Comment input section */
+.comment-input {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+} 

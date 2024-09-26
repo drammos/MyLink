@@ -6,6 +6,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import {agents} from '../../../agents'; 
+import {Routes} from '../../../routes'; 
 import PropTypes from 'prop-types';
 import useDeleteUsers from '../../Services/useDeleteUsers';
 import Grid2 from "@mui/material/Grid2";
@@ -46,7 +47,7 @@ const UsersList = () => {
         totalCount: 10
       });    
     const dt = useRef(null);
-    const { handleLogoutButton } = useNavigationHelpers();
+    const { handleLogoutButton, handleUsernameClick } = useNavigationHelpers();
     const { exportToJSON, exportToXML } = useExportHelpers();
 
     //#endregion
@@ -120,7 +121,6 @@ const UsersList = () => {
 
     useEffect(() => {
         if (userToDelete !== null) {
-            console.log("done");
             setTimeout(() => {
                 refetch();
             }, 2000);
@@ -237,7 +237,21 @@ const UsersList = () => {
         );
     };
 
-    const userNameBodyTemplate = (rowData) => <span>{rowData.userName}</span>;
+    const userNameBodyTemplate = (rowData) => (
+        <a
+            href={`${agents.frontLocalhost}${Routes.UserInfo.replace(':username', rowData.userName)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="username-link"
+            onClick={(e) => {
+                e.preventDefault();
+                handleUsernameClick(rowData.userName);
+            }}
+            style={{ cursor: 'pointer', color: '#1fb4c2', textDecoration: 'underline' }}
+        >
+            {rowData.userName}
+        </a>
+    );
     const userFirstNameTemplate = (rowData) => <span>{rowData.firstName}</span>;
     const userLastNameTemplate = (rowData) => <span>{rowData.lastName}</span>;
     const roleBodyTemplate = (rowData) => <span>{rowData.role}</span>;

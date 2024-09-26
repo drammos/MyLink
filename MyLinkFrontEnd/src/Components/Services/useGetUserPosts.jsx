@@ -5,7 +5,7 @@ import { agents } from '../../agents';
 const useGetUserPosts = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
-    const userId = localStorage.getItem('id');
+    const [userId, setUserId] = useState('');
     const url = agents.localhost + agents.getUserPosts + '?UserId=' + userId;
 
     const { response, loading, refetch: fetchService } = useService(
@@ -17,7 +17,7 @@ const useGetUserPosts = () => {
         true
     );
 
-    const handleSignUpResponse = useCallback((response) => {
+    const handleGetUserPostsResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
@@ -28,13 +28,24 @@ const useGetUserPosts = () => {
         }
     }, [errorCode]);
 
+    const getUserPosts = useCallback((userId = localStorage.getItem('id')) => {
+        if (userId)
+            setUserId(userId);
+        else
+            setUserId(localStorage.getItem('id'));
+    }, [errorCode]);
+
     useEffect(() => {
         if (response) {
-            handleSignUpResponse(response);
+            handleGetUserPostsResponse(response);
         }
-    }, [response, handleSignUpResponse]);
+    }, [response, handleGetUserPostsResponse]);
 
-    return { response, message, errorCode, loading, getPostsRefetch: fetchService };
+    useEffect(() => {
+        fetchService();
+    }, [userId]);
+
+    return { response, message, errorCode, loading, getPostsRefetch: getUserPosts };
 };
 
 export default useGetUserPosts;

@@ -14,7 +14,7 @@ const useService = (message, method, url, input = null, contentType = 'applicati
         setResponse(null); 
 
         const headers = {};
-        if (contentType !== 'multipart/form-data') {
+        if (contentType !== 'multipart/form-data' && contentType !== undefined) {
             headers['Content-Type'] = contentType;
         }
 

@@ -1,5 +1,6 @@
 # .gitignore for C# Projects
-
+frontent/linkedin/dist/assets/*
+frontent/linkedin/dist/*
 
 # Ignore everything in Migrations directory
 Migrations/**

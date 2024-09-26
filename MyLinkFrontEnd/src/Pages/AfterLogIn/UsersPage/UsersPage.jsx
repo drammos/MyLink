@@ -24,8 +24,6 @@ const UsersPage = () => {
     const { username } = useParams();
 
     useEffect(() => {
-        if (localStorage.getItem('role') !== 'Professional')
-            navigate(Routes.PageNotFound);
         refetch(username);
     }, [username]);
 
@@ -35,10 +33,10 @@ const UsersPage = () => {
     }, [errorCode]);
 
     useDocumentTitle('FirstName Surname');
+    //<LoggedInNavBar userInfo={userInfo} /> !! REMOVED
 
     return (
         <>
-            <LoggedInNavBar userInfo={userInfo} />
             <div className="usersPage-container">
                 <UsersPageMainInfo userInfo={userInfo} />
                 <UsersPageEducationInfo userInfo={userInfo} />
