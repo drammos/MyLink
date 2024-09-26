@@ -75,12 +75,12 @@ namespace MyLink.Data.Repository
 
         public IQueryable<User> SearchUsers(string SearchQuery)
         {
-            var users =  _context.Users
+            var users = _context.Users
                 .Where(
-                    u => u.UserName.StartsWith(SearchQuery) ||
-                         (u.FirstName + " " + u.LastName).StartsWith(SearchQuery))
-                ;
-
+                    u => 
+                        (u.UserName.StartsWith(SearchQuery) 
+                         || (u.FirstName + " " + u.LastName).StartsWith(SearchQuery))
+                            && u.IsAdmin == false);
             return users;
         }
     }

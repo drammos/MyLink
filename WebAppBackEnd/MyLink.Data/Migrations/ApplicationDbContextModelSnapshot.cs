@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3d7f5836-f555-4e48-9abf-5f2d61143184",
+                            Id = "968c0986-1ffe-49db-8d5e-925a40c438af",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "54f63338-a322-4918-8f65-aba12ac2a9a4",
+                            Id = "7f9b9466-865d-49cb-9448-c265ce836986",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -389,6 +389,9 @@ namespace MyLink.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("MessageBody")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -520,6 +523,9 @@ namespace MyLink.Data.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -732,7 +738,7 @@ namespace MyLink.Data.Migrations
             modelBuilder.Entity("MyLink.Models.Message", b =>
                 {
                     b.HasOne("MyLink.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -824,6 +830,8 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
+
+                    b.Navigation("Messages");
 
                     b.Navigation("PostedJobs");
 

@@ -11,6 +11,7 @@ namespace MyLink.Data.Repository
         public IExperienceRepository Experience { get; set; }
         public IPostRepository Post { get; set; }
         public IJobRepository Job { get; set; }
+        public IMessageRepository Message { get; set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -20,6 +21,7 @@ namespace MyLink.Data.Repository
             Experience = new ExperienceRepository(context);
             Post = new PostRepository(context);
             Job = new JobRepository(context);
+            Message = new MessageRepository(context);
         }
 
         public void Save()

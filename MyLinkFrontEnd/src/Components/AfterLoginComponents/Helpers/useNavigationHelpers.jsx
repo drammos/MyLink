@@ -28,8 +28,8 @@ export const useNavigationHelpers = () => {
         navigate('/jobs'); 
     };
 
-    const handleInterestsButton = () => {
-        navigate('/interests'); 
+    const handleMessagesButton = () => {
+        navigate(Routes.Messages); 
     };
 
     const handleSearchUsers = () => {
@@ -54,7 +54,7 @@ export const useNavigationHelpers = () => {
         handleProfileButton,
         handleNetworkButton,
         handleJobsButton,
-        handleInterestsButton,
+        handleMessagesButton,
         handleViewProfile,
         handleLogoutButton,
         handleSettings,

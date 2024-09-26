@@ -8,6 +8,7 @@ namespace MyLink.Data.Repository.IRepository
         public IExperienceRepository Experience { get; set; }
         public IPostRepository Post { get; set; }
         public IJobRepository Job { get; set; }
+        public IMessageRepository Message { get; set; }
         void Save();
     }
 }

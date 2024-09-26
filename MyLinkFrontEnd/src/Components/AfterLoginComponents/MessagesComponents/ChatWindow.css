@@ -1,0 +1,104 @@
+.chat-window {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    max-width: calc(100% - 350px); /* Προσαρμόστε ανάλογα με το πλάτος του ChatList */
+}
+
+
+.chat-header {
+    padding: 20px;
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+    gap: 10px;
+  }
+  
+
+.chat-header h2{
+    color: #1fb4c2;
+}
+
+
+.message-list {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    max-width: 70%;
+}
+
+.message.sent {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message.received {
+    align-self: flex-start;
+}
+
+.message-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+.message-content {
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.4;
+    position: relative;
+}
+
+.message.sent .message-content {
+    background-color: #1fb4c2;
+    color: white;
+}
+
+.message.received .message-content {
+    background-color: #e4e6eb;
+    color: black;
+}
+
+.message-input {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.message-input input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.message-input button {
+    padding: 10px 20px;
+    background-color: #1fb4c2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #65676B;
+    height: 100%;
+}

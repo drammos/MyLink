@@ -36,7 +36,7 @@ const LoggedInNavBar = ({ userInfo }) => {
         handleProfileButton,
         handleNetworkButton,
         handleJobsButton,
-        handleInterestsButton,
+        handleMessagesButton,
         handleSearchAllUsers
     } = useNavigationHelpers();
 
@@ -150,7 +150,7 @@ const LoggedInNavBar = ({ userInfo }) => {
                 <div className="nav-item" onClick={handleHomeButton}>Home</div>
                 <div className="nav-item" onClick={handleNetworkButton}>Network</div>
                 <div className="nav-item" onClick={handleJobsButton}>Jobs</div>
-                <div className="nav-item" onClick={handleInterestsButton}>Messages</div>
+                <div className="nav-item" onClick={handleMessagesButton}>Messages</div>
             </div>
             <div className="navbar-center">
                 <form onSubmit={handleSearchSubmit}>
