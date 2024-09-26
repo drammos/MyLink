@@ -3,56 +3,114 @@ import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import useCreateComment from '../../Services/Post/useCreateComment';
 import useCreateReaction from '../../Services/Post/useCreateReaction';
+import useGetPostComments from '../../Services/Post/useGetPostComments';
 
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
-import { FcLike, FcLikePlaceholder, FcComments , FcCalendar } from "react-icons/fc";
+import { FcLike, FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
 import './styles/UserPosts.css';
 
 const UserPosts = ({ userInfo }) => {
-    const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
-    const { reactId, message: CreateReactMessage, errorCode: CreateReactErrorCode, loading: CreateReactLoading, createReactionRefetch } = useCreateReaction();
-    const { message: CreateCommentMessage, errorCode: CreateCommentErrorCode, loading: CreateCommentLoading, createCommentRefetch } = useCreateComment();
+    // Hooks must be called at the top level
+    const { response: postsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetUserPosts();
+    const { createReactionRefetch } = useCreateReaction();
+    const { message: createCommentMessage,errorCode: createCommenterrorCode, createCommentRefetch } = useCreateComment();
+    const { commentsData, message:getPostCommentsMessage ,getPostCommentsRefetch } = useGetPostComments();
+    const [commentMessages, setCommentMessages] = useState({});
+
 
     const [posts, setPosts] = useState([]);
+    const [refetchWithTimeout, setRefetchWithTimeout] = useState([]);
     const [commentInputs, setCommentInputs] = useState({});
+    const [visibleComments, setVisibleComments] = useState({});
+    const [comments, setComments] = useState({}); // Comments per post
+    const [fetchedComments, setFetchedComments] = useState({}); 
+    const [createMessage, setCreateMessage] = useState(''); 
+    const [createMessageValue, setCreateMessageValue] = useState(2); 
+    const [postId, setPostId] = useState(''); 
 
+    //#region Get Posts
     useEffect(() => {
         getPostsRefetch(userInfo.id);
-    }, [userInfo.id]);
+    }, [userInfo.id]); 
 
     useEffect(() => {
-        if (response) {
-            console.log("API Response:", response); // For debugging
-            if (Array.isArray(response)) {
-                setPosts(response);
-            } else if (typeof response === 'object' && response.data) {
-                if (Array.isArray(response.data)) {
-                    setPosts(response.data);
-                } else {
-                    console.error("Unexpected response structure:", response);
-                    setPosts([]);
-                }
-            } else {
-                console.error("Unexpected response structure:", response);
-                setPosts([]);
-            }
+        if (createCommenterrorCode === 0) {
+            setCreateMessage(createCommentMessage);
+            setCreateMessageValue(0);
         }
-    }, [response, errorCode]);
+        else {
+            setCreateMessageValue(1);
+            setCreateMessage(createCommentMessage);
+        }
+        setRefetchWithTimeout(0);
+    }, [createCommentMessage]);
 
-    if (loading) return <p>Loading posts...</p>;
-    if (errorCode !== 0) return <p>Error loading posts: {message}</p>;
 
-    // Filter out private posts
-    const publicPosts = posts.filter(post => post.isPublic);
+    useEffect(() => {
+        if (postsResponse) {
+            let postsData = [];
 
-    // Handle reactions
-    const handleLike = async (postId) => {
+            if (Array.isArray(postsResponse)) {
+                postsData = postsResponse;
+            } else if (typeof postsResponse === 'object' && Array.isArray(postsResponse.data)) {
+                postsData = postsResponse.data;
+            } else {
+                console.error("Unexpected posts response structure:", postsResponse);
+            }
+
+            setPosts(postsData);
+        }
+    }, [postsResponse]);
+    //#endregion
+
+    // Function to handle fetching comments for each post
+    const fetchPostComments = async (PostId) => {
         try {
-            await createReactionRefetch("Like", postId, userInfo.userName);
-            setPosts(posts.map(post =>
-                post.id === postId
+            await getPostCommentsRefetch(PostId);
+            console.log("First step:", commentsData);
+            console.log("First step:", getPostCommentsMessage);
+            setPostId(PostId);
+            //setFetchedComments(commentsData);
+
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
+
+    useEffect(() => {
+        console.log("Second step:", commentsData, postId);
+        if (commentsData) {
+            setComments(prevState => ({
+                ...prevState,
+                [postId]: commentsData || [] 
+            }));
+        }
+    }, [commentsData]);
+
+
+
+
+    // Function to toggle comment visibility and fetch if needed
+    const toggleCommentsVisibility = (PostId) => {
+        setVisibleComments(prevState => ({
+            ...prevState,
+            [PostId]: !prevState[PostId]
+        }));
+
+        // Fetch comments for this post if not already fetched
+        if (!comments[PostId]) {
+            fetchPostComments(PostId);
+        }
+    };
+
+    //#region Likes
+    const handleLike = async (PostId) => {
+        try {
+            await createReactionRefetch("Like", PostId, userInfo.userName);
+            setPosts(prevPosts => prevPosts.map(post =>
+                post.id === PostId
                     ? {
                         ...post,
                         reactionsCount: post.reactionsCount + 1,
@@ -60,91 +118,92 @@ const UserPosts = ({ userInfo }) => {
                     }
                     : post
             ));
-            getPostsRefetch(userInfo.id);
         } catch (error) {
             console.error("Error liking post:", error);
         }
     };
+    //#endregion
 
-    const handleCommentSubmit = async (postId) => {
-        const commentText = commentInputs[postId] || '';
+    // Comments section
+    const handleCommentSubmit = async (PostId) => {
+        const commentText = commentInputs[PostId] || '';
         if (commentText.trim() === '') return;
 
         try {
-            const currentDate = new Date().toISOString();
-            await createCommentRefetch(commentText, postId, userInfo.userName, currentDate); 
-            setPosts(posts.map(post =>
-                post.id === postId
+            // Increment the comments count locally
+            setPosts(prevPosts => prevPosts.map(post =>
+                post.id === PostId
                     ? { ...post, commentsCount: post.commentsCount + 1 }
                     : post
             ));
+
+            const currentDate = new Date().toISOString();
+            await createCommentRefetch(commentText, PostId, userInfo.userName, currentDate);
+
+            // Clear the input after comment submission
             setCommentInputs(prevState => ({
                 ...prevState,
-                [postId]: ''
+                [PostId]: ''
             }));
-            getPostsRefetch(userInfo.id);
+
+            setCommentMessages(prevState => ({
+                ...prevState,
+                [PostId]: { type: 'success', text: 'Comment created!' }
+            }));
+
+            setTimeout(() => {
+                setCommentMessages(prevState => ({
+                    ...prevState,
+                    [PostId]: null
+                }));
+            }, 3000);
+
+            // Fetch updated comments for the post
+            await fetchPostComments(PostId);
         } catch (error) {
             console.error("Error submitting comment:", error);
+
+            setCommentMessages(prevState => ({
+                ...prevState,
+                [PostId]: { type: 'error', text: 'Failed to create comment.' }
+            }));
+
+            // Roll back comment count on error
+            setPosts(prevPosts => prevPosts.map(post =>
+                post.id === PostId
+                    ? { ...post, commentsCount: post.commentsCount - 1 }
+                    : post
+            ));
+
         }
     };
 
-    const handleCommentInputChange = (postId, value) => {
+    const handleCommentInputChange = (PostId, value) => {
         setCommentInputs(prevState => ({
             ...prevState,
-            [postId]: value
+            [PostId]: value
         }));
     };
+
+    if (postsLoading) return <p>Loading posts...</p>;
+    if (postsErrorCode !== 0) return <p>Error loading posts: {postsMessage}</p>;
+
+    const publicPosts = posts.filter(post => post.isPublic);
 
     return (
         <div className="posts-container">
             <h3>User Posts</h3>
             {publicPosts.length > 0 ? (
                 <ul className="posts-list">
-                    {publicPosts.map((post, index) => (
-                        <li key={index} className="post-item">
+                    {publicPosts.map((post) => (
+                        <li key={post.id} className="post-item">
                             <div className="post-header">
                                 <h4>{post.title}</h4>
                             </div>
                             <p>{post.content}</p>
-                            {post.videoUrl && (
-                                <div className="post-media">
-                                    <a href={post.videoUrl} target="_blank" rel="noopener noreferrer">
-                                        Watch Video
-                                    </a>
-                                </div>
-                            )}
-                            {post.pictureUrls && post.pictureUrls.length > 0 && post.pictureUrls[0] !== null && (
-                                <div className="post-media">
-                                    {post.pictureUrls.map((url, picIndex) => (
-                                        url && (
-                                            <div key={picIndex} className="post-image">
-                                                <img src={url} alt={`Post media ${picIndex + 1}`} />
-                                            </div>
-                                        )
-                                    ))}
-                                </div>
-                            )}
-                            {post.videoUrls && post.videoUrls.length > 0 && post.videoUrls[0] !== null && (
-                                <div className="post-media">
-                                    {post.videoUrls.map((url, vidIndex) => (
-                                        url && (
-                                            <div key={vidIndex} className="post-video">
-                                                <a href={url} target="_blank" rel="noopener noreferrer">Watch Video {vidIndex + 1}</a>
-                                            </div>
-                                        )
-                                    ))}
-                                </div>
-                            )}
-                            {post.voiceUrl && (
-                                <div className="post-media">
-                                    <a href={post.voiceUrl} target="_blank" rel="noopener noreferrer">
-                                        Listen Audio
-                                    </a>
-                                </div>
-                            )}
                             <div className="post-info">
                                 <div className="post-action">
-                                    <FcComments /> {post.commentsCount} Comment
+                                    <FcComments /> {post.commentsCount} Comment(s)
                                 </div>
                                 <button
                                     className="post-action"
@@ -156,22 +215,54 @@ const UserPosts = ({ userInfo }) => {
                                     {post.isLikedByCurrentUser ? 'Liked' : 'Like'}
                                 </button>
                                 <span><FcCalendar /> Created on: {new Date(post.createdAt).toLocaleDateString()}</span>
+                                <div className="message-container">
+                                    {commentMessages[post.id] && (
+                                        <div className={`message-container ${commentMessages[post.id].type}-message`}>
+                                            {commentMessages[post.id].text}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-
-                            <div className="comment-input">
-                                <InputText
-                                    value={commentInputs[post.id] || ''}
-                                    onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
-                                    placeholder="Write a comment..."
-                                    className="p-inputtext-sm" 
-                                />
+                            <div className="toggle-comments-button">
                                 <Button
-                                    label="Submit"
-                                    icon="pi pi-check"
-                                    onClick={() => handleCommentSubmit(post.id)}
-                                    className="p-button-sm" // PrimeReact class for a smaller button
+                                    label={visibleComments[post.id] ? "Hide Comments" : "Show Comments"}
+                                    icon={visibleComments[post.id] ? "pi pi-chevron-up" : "pi pi-chevron-down"}
+                                    onClick={() => toggleCommentsVisibility(post.id)}
+                                    className="p-button-sm"
                                 />
                             </div>
+                            {visibleComments[post.id] && (
+                                <div className="comments-section">
+                                    <div className="comment-input">
+                                        <InputText
+                                            value={commentInputs[post.id] || ''}
+                                            onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
+                                            placeholder="Write a comment..."
+                                            className="p-inputtext-sm"
+                                        />
+                                        <Button
+                                            label="Submit"
+                                            icon="pi pi-check"
+                                            onClick={() => handleCommentSubmit(post.id)}
+                                            className="p-button-sm"
+                                        />
+                                    </div>
+                                    {comments[post.id] && comments[post.id].length > 0 ? (
+                                        <ul className="comments-list">
+                                            {comments[post.id].map((comment, index) => (
+                                                <li key={index} className="comment-item">
+                                                    <strong>{comment.firstName} {comment.lastName}</strong>: {comment.content}
+                                                    <span className="comment-date">
+                                                        {new Date(comment.createdAt).toLocaleString()}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>No comments yet.</p>
+                                    )}
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>
@@ -191,6 +282,8 @@ UserPosts.propTypes = {
 
 export default UserPosts;
 
+
+ 
 
 
 // !!!!!!!!!!!!!!! Code for fixed likes

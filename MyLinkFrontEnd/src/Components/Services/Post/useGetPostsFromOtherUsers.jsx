@@ -1,15 +1,15 @@
 import { useState, useCallback, useEffect } from 'react';
-import useService from '../Services/useService';
-import { agents } from '../../agents';
+import useService from '..//useService';
+import { agents } from '../../../agents';
 
-const useGetUserPosts = () => {
+const useGetPostsFromOtherUsers = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [userId, setUserId] = useState('');
-    const url = agents.localhost + agents.getUserPosts + '?UserId=' + userId;
+    const url = agents.localhost + agents.getPostsFromOtherUsers + '?UserId=' + userId;
 
     const { response, loading, refetch: fetchService } = useService(
-        'Getting all posts ...',
+        'Getting posts from other users ...',
         'GET',
         url,
         null,
@@ -17,37 +17,35 @@ const useGetUserPosts = () => {
         true
     );
 
-    const handleGetUserPostsResponse = useCallback((response) => {
+    const handleGetPostsResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
             setMessage('Posts are here!');
-            setUserId(0);
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
         }
     }, [errorCode]);
 
-    const getUserPosts = useCallback((UserId = localStorage.getItem('id')) => {
-        if (UserId)
-            setUserId(UserId); 
+    const getUserPosts = useCallback((userId = localStorage.getItem('id')) => {
+        if (userId)
+            setUserId(userId);
         else
             setUserId(localStorage.getItem('id'));
     }, [errorCode]);
 
     useEffect(() => {
         if (response) {
-            handleGetUserPostsResponse(response);
+            handleGetPostsResponse(response);
         }
-    }, [response, handleGetUserPostsResponse]);
+    }, [response, handleGetPostsResponse]);
 
     useEffect(() => {
-        if(userId !==0)
-            fetchService();
+        fetchService();
     }, [userId]);
 
     return { response, message, errorCode, loading, getPostsRefetch: getUserPosts };
 };
 
-export default useGetUserPosts;
+export default useGetPostsFromOtherUsers;

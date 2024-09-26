@@ -99,3 +99,89 @@
         cursor: not-allowed; 
     }
 
+.myposts-container .comments-count-button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    outline: inherit;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .myposts-container .comments-count-button:hover {
+        text-decoration: underline;
+    }
+
+.myposts-container .comments-section {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.myposts-container .comment {
+    margin-bottom: 10px;
+}
+
+    .myposts-container .comment small {
+        color: #888;
+    }
+
+/* Comment input section */
+.myposts-container .comment-input {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    gap: 8px;
+}
+
+    .myposts-container .comment-input input {
+        flex-grow: 1;
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+        font-size: 0.9em;
+        transition: border-color 0.3s ease;
+    }
+
+        .myposts-container .comment-input input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+    .myposts-container .comment-input .p-button-sm {
+        background-color: #007bff;
+        color: white;
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-size: 0.9em;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .myposts-container .comment-input .p-button-sm:hover {
+            background-color: #0056b3;
+        }
+
+        /* Submit Button Style */
+        .myposts-container .comment-input .p-button-sm:disabled {
+            background-color: #d6d6d6;
+            cursor: not-allowed;
+        }
+
+.myposts-container .comment-item {
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s;
+}
+
+    .myposts-container .comment-item:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }

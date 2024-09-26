@@ -21,8 +21,8 @@ const useCreateComment = () => {
     const handleCommentResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
-            setMessage('Post Comment created!');
-            console.log('Post Comment created!');
+            setMessage('Comment created!');
+            console.log('Comment created!');
             setPostData(null);
         } else if (response?.status === 600) {
             setErrorCode(1);
@@ -30,8 +30,8 @@ const useCreateComment = () => {
             console.error('Post Comment failed');
         } else {
             setErrorCode(1);
-            setMessage('Post Comment failed');
-            console.error('Post Comment failed');
+            setMessage('Comment failed');
+            console.error('Comment failed');
         }
     }, []);
 

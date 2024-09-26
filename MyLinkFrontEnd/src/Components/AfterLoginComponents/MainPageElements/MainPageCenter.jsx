@@ -3,6 +3,9 @@
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import useCreateComment from '../../Services/Post/useCreateComment';
 import useCreateReaction from '../../Services/Post/useCreateReaction';
+import useGetPostComments from '../../Services/Post/useGetPostComments';
+import useGetPostsFromOtherUsers from '../../Services/Post/useGetPostsFromOtherUsers';
+
 import './styles/MainPageCenter.css'; 
 import CreatePostComponent from "./CreatePostCompoment";
 
@@ -13,68 +16,104 @@ import { FcLike, FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/f
 
 
 const MainPageCenter = () => {
-    const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
-    const { reactId, message: CreateReactMessage, errorCode: CreateReactErrorCode, loading: CreateReactLoading, createReactionRefetch } = useCreateReaction();
-    const { message: CreateCommentMessage, errorCode: CreateCommentErrorCode, loading: CreateCommentLoading, createCommentRefetch } = useCreateComment();
+    const { response: postsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetPostsFromOtherUsers();
+    const { createReactionRefetch } = useCreateReaction();
+    const { message: createCommentMessage, errorCode: createCommenterrorCode, createCommentRefetch } = useCreateComment();
+    const { commentsData, message: getPostCommentsMessage, getPostCommentsRefetch } = useGetPostComments();
+
     const [posts, setPosts] = useState([]);
-    const [postsNumber, setPostsNumber] = useState(0);
-
+    const [refetchWithTimeout, setRefetchWithTimeout] = useState([]);
     const [commentInputs, setCommentInputs] = useState({});
+    const [visibleComments, setVisibleComments] = useState({});
+    const [comments, setComments] = useState({}); // Comments per post
+    const [fetchedComments, setFetchedComments] = useState({});
+    const [createMessage, setCreateMessage] = useState('');
+    const [createMessageValue, setCreateMessageValue] = useState(2);
+    const [postId, setPostId] = useState('');
+    const [commentMessages, setCommentMessages] = useState({});
 
-    useEffect(() => {
-        getPostsRefetch();
-    }, []);
 
-    useEffect(() => {
-        if (response) {
-            setPosts(response.data);
-        }
-    }, [response]);
-
-    useEffect(() => {
-        setPostsNumber(posts.length);
-    }, [posts]);
-
-    //const formatDate = (dateString) => {
-    //    const date = new Date(dateString);
-    //    return date.toLocaleString();
-    //};
-
+    //#region Get Posts
     useEffect(() => {
         getPostsRefetch(localStorage.getItem('id'));
-    }, []);
+    }, [localStorage.getItem('id')]);
 
     useEffect(() => {
-        if (response) {
-            console.log("API Response:", response); // For debugging
-            if (Array.isArray(response)) {
-                setPosts(response);
-            } else if (typeof response === 'object' && response.data) {
-                if (Array.isArray(response.data)) {
-                    setPosts(response.data);
-                } else {
-                    console.error("Unexpected response structure:", response);
-                    setPosts([]);
-                }
-            } else {
-                console.error("Unexpected response structure:", response);
-                setPosts([]);
-            }
+        if (createCommenterrorCode === 0) {
+            setCreateMessage(createCommentMessage);
+            setCreateMessageValue(0);
         }
-    }, [response, errorCode]);
+        else {
+            setCreateMessageValue(1);
+            setCreateMessage(createCommentMessage);
+        }
+        setRefetchWithTimeout(0);
+    }, [createCommentMessage]);
 
-    if (loading) return <p>Loading posts...</p>;
-    if (errorCode !== 0) return <p>Error loading posts: {message}</p>;
 
-    // Filter out private posts
-    const publicPosts = posts.filter(post => post.isPublic);
+    useEffect(() => {
+        if (postsResponse) {
+            let postsData = [];
 
-    // Handle reactions
-    const handleLike = async (postId) => {
+            if (Array.isArray(postsResponse)) {
+                postsData = postsResponse;
+            } else if (typeof postsResponse === 'object' && Array.isArray(postsResponse.data)) {
+                postsData = postsResponse.data;
+            } else {
+                console.error("Unexpected posts response structure:", postsResponse);
+            }
+
+            setPosts(postsData);
+        }
+    }, [postsResponse]);
+    //#endregion
+
+    // Function to handle fetching comments for each post
+    const fetchPostComments = async (PostId) => {
         try {
-            await createReactionRefetch("Like", postId, localStorage.getItem('username'));
-            setPosts(posts.map(post =>
-                post.id === postId
+            await getPostCommentsRefetch(PostId);
+            console.log("First step:", commentsData);
+            console.log("First step:", getPostCommentsMessage);
+            setPostId(PostId);
+            //setFetchedComments(commentsData);
+
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
+
+    useEffect(() => {
+        console.log("Second step:", commentsData, postId);
+        if (commentsData) {
+            setComments(prevState => ({
+                ...prevState,
+                [postId]: commentsData || []
+            }));
+        }
+    }, [commentsData]);
+
+
+
+
+    // Function to toggle comment visibility and fetch if needed
+    const toggleCommentsVisibility = (PostId) => {
+        setVisibleComments(prevState => ({
+            ...prevState,
+            [PostId]: !prevState[PostId]
+        }));
+
+        // Fetch comments for this post if not already fetched
+        if (!comments[PostId]) {
+            fetchPostComments(PostId);
+        }
+    };
+
+    //#region Likes
+    const handleLike = async (PostId) => {
+        try {
+            await createReactionRefetch("Like", PostId, localStorage.getItem('username'));
+            setPosts(prevPosts => prevPosts.map(post =>
+                post.id === PostId
                     ? {
                         ...post,
                         reactionsCount: post.reactionsCount + 1,
@@ -82,93 +121,102 @@ const MainPageCenter = () => {
                     }
                     : post
             ));
-            getPostsRefetch(localStorage.getItem('id'));
         } catch (error) {
             console.error("Error liking post:", error);
         }
     };
+    //#endregion
 
-    const handleCommentSubmit = async (postId) => {
-        const commentText = commentInputs[postId] || '';
+    // Comments section
+    const handleCommentSubmit = async (PostId) => {
+        const commentText = commentInputs[PostId] || '';
         if (commentText.trim() === '') return;
 
         try {
-            const currentDate = new Date().toISOString();
-            await createCommentRefetch(commentText, postId, localStorage.getItem('username'), currentDate);
-            setPosts(posts.map(post =>
-                post.id === postId
+            // Increment the comments count locally
+            setPosts(prevPosts => prevPosts.map(post =>
+                post.id === PostId
                     ? { ...post, commentsCount: post.commentsCount + 1 }
                     : post
             ));
+
+            const currentDate = new Date().toISOString();
+            await createCommentRefetch(commentText, PostId, localStorage.getItem('username'), currentDate);
+
+            // Clear the input after comment submission
             setCommentInputs(prevState => ({
                 ...prevState,
-                [postId]: ''
+                [PostId]: ''
             }));
-            getPostsRefetch(localStorage.getItem('id'));
+
+            setCommentMessages(prevState => ({
+                ...prevState,
+                [PostId]: { type: 'success', text: 'Comment created!' }
+            }));
+
+            setTimeout(() => {
+                setCommentMessages(prevState => ({
+                    ...prevState,
+                    [PostId]: null
+                }));
+            }, 3000);
+
+            // Fetch updated comments for the post
+            await fetchPostComments(PostId);
         } catch (error) {
             console.error("Error submitting comment:", error);
+
+            setCommentMessages(prevState => ({
+                ...prevState,
+                [PostId]: { type: 'error', text: 'Failed to create comment.' }
+            }));
+
+            // Roll back comment count on error
+            setPosts(prevPosts => prevPosts.map(post =>
+                post.id === PostId
+                    ? { ...post, commentsCount: post.commentsCount - 1 }
+                    : post
+            ));
         }
     };
 
-    const handleCommentInputChange = (postId, value) => {
+    const handleCommentInputChange = (PostId, value) => {
         setCommentInputs(prevState => ({
             ...prevState,
-            [postId]: value
+            [PostId]: value
         }));
     };
 
-    return (
+    if (postsLoading) return <p>Loading posts...</p>;
+    if (postsErrorCode !== 0) return <p>Error loading posts: {postsMessage}</p>;
 
-        <div className="posts-container">
+    const publicPosts = posts.filter(post => post.isPublic);
+
+    return (
+        <>
             <CreatePostComponent />
-            <h3>User Posts</h3>
+        <div className="main-posts-container">
+
             {publicPosts.length > 0 ? (
                 <ul className="posts-list">
-                    {publicPosts.map((post, index) => (
-                        <li key={index} className="post-item">
+                    {posts.map((post) => (
+                        <li key={post.id} className="post-item">
                             <div className="post-header">
-                                <h4>{post.title}</h4>
+                                <img
+                                    src={post.pictureURL || 'default-avatar.png'}
+                                    alt={`${post.firstName} ${post.lastName}`}
+                                    className="user-avatar"
+                                />
+                                <div className="user-info">
+                                    <h4>{post.firstName} {post.lastName}</h4>
+                                    <span>@{post.userName}</span>
+                                </div>
                             </div>
+                            <h4>{post.title}</h4>
                             <p>{post.content}</p>
-                            {post.videoUrl && (
-                                <div className="post-media">
-                                    <a href={post.videoUrl} target="_blank" rel="noopener noreferrer">
-                                        Watch Video
-                                    </a>
-                                </div>
-                            )}
-                            {post.pictureUrls && post.pictureUrls.length > 0 && post.pictureUrls[0] !== null && (
-                                <div className="post-media">
-                                    {post.pictureUrls.map((url, picIndex) => (
-                                        url && (
-                                            <div key={picIndex} className="post-image">
-                                                <img src={url} alt={`Post media ${picIndex + 1}`} />
-                                            </div>
-                                        )
-                                    ))}
-                                </div>
-                            )}
-                            {post.videoUrls && post.videoUrls.length > 0 && post.videoUrls[0] !== null && (
-                                <div className="post-media">
-                                    {post.videoUrls.map((url, vidIndex) => (
-                                        url && (
-                                            <div key={vidIndex} className="post-video">
-                                                <a href={url} target="_blank" rel="noopener noreferrer">Watch Video {vidIndex + 1}</a>
-                                            </div>
-                                        )
-                                    ))}
-                                </div>
-                            )}
-                            {post.voiceUrl && (
-                                <div className="post-media">
-                                    <a href={post.voiceUrl} target="_blank" rel="noopener noreferrer">
-                                        Listen Audio
-                                    </a>
-                                </div>
-                            )}
                             <div className="post-info">
                                 <div className="post-action">
-                                    <FcComments /> {post.commentsCount} Comment
+                                    <FcComments /> {post.commentsCount} Comment(s)
                                 </div>
                                 <button
                                     className="post-action"
@@ -180,127 +228,62 @@ const MainPageCenter = () => {
                                     {post.isLikedByCurrentUser ? 'Liked' : 'Like'}
                                 </button>
                                 <span><FcCalendar /> Created on: {new Date(post.createdAt).toLocaleDateString()}</span>
+                                <div className="message-container">
+                                    {commentMessages[post.id] && (
+                                        <div className={`message-container ${commentMessages[post.id].type}-message`}>
+                                            {commentMessages[post.id].text}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-
-                            <div className="comment-input">
-                                <InputText
-                                    value={commentInputs[post.id] || ''}
-                                    onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
-                                    placeholder="Write a comment..."
-                                    className="p-inputtext-sm" 
-                                />
+                            <div className="toggle-comments-button">
                                 <Button
-                                    label="Submit"
-                                    icon="pi pi-check"
-                                    onClick={() => handleCommentSubmit(post.id)}
-                                    className="p-button-sm" // PrimeReact class for a smaller button
+                                    label={visibleComments[post.id] ? "Hide Comments" : "Show Comments"}
+                                    icon={visibleComments[post.id] ? "pi pi-chevron-up" : "pi pi-chevron-down"}
+                                    onClick={() => toggleCommentsVisibility(post.id)}
+                                    className="p-button-sm"
                                 />
                             </div>
+                            {visibleComments[post.id] && (
+                                <div className="comments-section">
+                                    <div className="comment-input">
+                                        <InputText
+                                            value={commentInputs[post.id] || ''}
+                                            onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
+                                            placeholder="Write a comment..."
+                                            className="p-inputtext-sm"
+                                        />
+                                        <Button
+                                            label="Submit"
+                                            icon="pi pi-check"
+                                            onClick={() => handleCommentSubmit(post.id)}
+                                            className="p-button-sm"
+                                        />
+                                    </div>
+                                    {comments[post.id] && comments[post.id].length > 0 ? (
+                                        <ul className="comments-list">
+                                            {comments[post.id].map((comment, index) => (
+                                                <li key={index} className="comment-item">
+                                                    <strong>{comment.firstName} {comment.lastName}</strong>: {comment.content}
+                                                    <span className="comment-date">
+                                                        {new Date(comment.createdAt).toLocaleString()}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>No comments yet.</p>
+                                    )}
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>
             ) : (
                 <p className="post-item">No public posts available</p>
             )}
-        </div>
-        //<div className="posts-container">
-        //    {loading && <p>Loading posts...</p>}
-        //    {
-        //        postsNumber > 0 ? (
-        //            posts.map((post) => (
-        //                <div key={post.id} className="post-item">
-        //                    {/* User Info */}
-        //                    {/*<div className="post-header">*/}
-        //                    {/*    <FaUserCircle size="2rem" color="rgba(0, 0, 0, 0.6)" />*/}
-        //                    {/*    <div className="account-details">*/}
-        //                    {/*        <b>{post.user.firstName} {post.user.lastName}</b>*/}
-        //                    {/*        <p>*/}
-        //                    {/*            {formatDate(post.createdAt)}{' '}*/}
-        //                    {/*            {post.updatedAt !== post.createdAt && ' (Edited)'}{' '}*/}
-        //                    {/*            <FaGlobe />*/}
-        //                    {/*        </p>*/}
-        //                    {/*    </div>*/}
-        //                    {/*</div>*/}
-
-        //                    {/* Post Content */}
-        //                    <div className="post-content">
-        //                        <h3>{post.title}</h3>
-        //                        <p>{post.content}</p>
-
-        //                        {post.pictureUrls && post.pictureUrls.length > 0 && (
-        //                            <div className="post-media">
-        //                                {post.pictureUrls.map((url, index) => (
-        //                                    <img key={index} src={url} alt={`Post image ${index + 1}`} />
-        //                                ))}
-        //                            </div>
-        //                        )}
-
-        //                        {post.videoUrls && post.videoUrls.length > 0 && (
-        //                            <div className="post-media">
-        //                                {post.videoUrls.map((url, index) => (
-        //                                    <video key={index} controls>
-        //                                        <source src={url} type="video/mp4" />
-        //                                        Your browser does not support the video tag.
-        //                                    </video>
-        //                                ))}
-        //                            </div>
-        //                        )}
-        //                    </div>
-
-        //                    {/* Post Activity */}
-        //                    <div className="post-info">
-        //                        <div className="post-action">
-        //                            <FaThumbsUp /> {post.reactionsCount} {post.reactionsCount === 1 ? 'reaction' : 'reactions'}
-        //                        </div>
-        //                        <div className="post-action">
-        //                            <FaRegCommentAlt /> {post.commentsCount} {post.commentsCount === 1 ? 'comment' : 'comments'}
-        //                        </div>
-        //                    </div>
-
-        //                    {/* Post Actions (Like, Comment buttons) */}
-        //                    <div className="post-actions">
-        //                        <button className={`like-button ${post.isLikedByCurrentUser ? 'liked' : ''}`}>
-        //                            <FaThumbsUp /> {post.isLikedByCurrentUser ? 'Liked' : 'Like'}
-        //                        </button>
-        //                        <button className="comment-button">
-        //                            <FaRegCommentAlt /> Comment
-        //                        </button>
-        //                    </div>
-
-        //                    {/* Comments Section */}
-        //                    {post.comments && post.comments.length > 0 && (
-        //                        <div className="comments-section">
-        //                            <h4>Comments</h4>
-        //                            {post.comments.map((comment) => (
-        //                                <div key={comment.id} className="comment">
-        //                                    <p><strong>{comment.username}</strong>: {comment.content}</p>
-        //                                    <small>{formatDate(comment.createdAt)}</small>
-        //                                </div>
-        //                            ))}
-        //                        </div>
-        //                    )}
-
-        //                    <div className="comment-input">
-        //                        <InputText
-        //                            value={commentInputs[post.id] || ''}
-        //                            onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
-        //                            placeholder="Write a comment..."
-        //                            className="p-inputtext-sm"
-        //                        />
-        //                        <Button
-        //                            label="Submit"
-        //                            icon="pi pi-check"
-        //                            onClick={() => handleCommentSubmit(post.id)}
-        //                            className="p-button-sm" // PrimeReact class for a smaller button
-        //                        />
-        //                    </div>
-        //                </div>
-        //            ))
-        //        ) : (
-        //            <p>No posts available</p>
-        //        )
-        //    }
-        //</div>
+            </div>
+        </>
     );
 };
 
