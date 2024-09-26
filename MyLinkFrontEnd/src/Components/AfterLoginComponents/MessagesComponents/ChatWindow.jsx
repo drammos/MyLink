@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef  } from 'react';
 import { agents } from '../../../agents';
 import useService from "../../Services/useService";
 import './ChatWindow.css';
-import { bool } from 'prop-types';
 
 const ChatWindow = ({ selectedChat, userInfo }) => {
     const [messages, setMessages] = useState([]);
@@ -18,8 +17,44 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
     const messageListRef = useRef(null);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(8);
-    const [addMessage, setAddMessage] = bool(false);
+    const [addMessage, setAddMessage] = useState(0);
+    const inputFormData = new FormData();
+    const [data, setData] = useState(null);
 
+
+    const url = agents.localhost + agents.postMessage;
+
+    const addMessageService = useService(
+        addMessage === 1 ? 'Creating new message...' : '',
+        'POST',
+        addMessage === 1 ? url : null,
+        data,
+        'multipart/form-data'
+    );
+
+    useEffect(() => {
+        if (addMessage === 1) {
+            addMessageService.refetch(); 
+        }
+    }, [data]);
+
+    useEffect(() => {
+        if (addMessageService.response && addMessage === 1 && data != null) {
+            const theMessage = {
+                id: messages.length + 1,
+                sender: userInfo.userName,
+                content: newMessage,
+                avatar: userInfo.pictureURL
+            };
+            setMessages([...messages, theMessage]);
+            setAddMessage(0);  
+            setNewMessage('');
+            setData(null);
+            setTimeout(scrollToBottom, 0);  
+        }
+    }, [addMessageService.response, addMessage, data]);
+
+    
     const buildUrl = () => {
         console.log("user", userInfo);
         const params = new URLSearchParams();
@@ -38,26 +73,12 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
         true
     );
 
-
     useEffect(() => {
         if (selectedChat) {
             refetch();
         }
     }, [selectedChat]);
 
-    useEffect(() => {
-        if (newMessage.trim()) {
-            const url = agents.localhost + agents.addMessage;
-            const { response, loading, refetch } = useService(
-                'Updating user...',
-                'GET',
-                url,
-                null,
-                undefined,
-                true
-            );
-        }
-    }), [addMessage]
     useEffect(() => {
         if (response) {
             if (response.status === 200) {
@@ -89,15 +110,16 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
     };
 
     const handleSendMessage = (e) => {
-        
         e.preventDefault();
         if (newMessage.trim()) {
-
-
-            setAddMessage(true);
-            setMessages([...messages, { id: Date.now(), sender: userInfo.name, content: newMessage, avatar: userInfo.avatar }]);
-            setNewMessage('');
-            setTimeout(scrollToBottom, 0);
+            inputFormData.append('MessageBody', newMessage);
+            inputFormData.append('SenderUsername', userInfo.userName);
+            if (selectedChat) {
+                inputFormData.append('RecipientUsername', selectedChat.interlocutorUsername);
+            }
+            
+            setAddMessage(1);
+            setData(inputFormData);
         }
     };
 
@@ -122,10 +144,10 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
                 ))}
             </div>
             <form onSubmit={handleSendMessage} className="message-input">
-                <input 
-                    type="text" 
-                    value={newMessage} 
-                    onChange={(e) => setNewMessage(e.target.value)} 
+                <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Write a message..."
                 />
                 <button type="submit">Send</button>
