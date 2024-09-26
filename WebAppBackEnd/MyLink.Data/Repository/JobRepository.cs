@@ -128,26 +128,24 @@ namespace MyLink.Data.Repository
             return true;
         }
 
-        public List<Job> GetOpenJobs()
+        public IQueryable<Job> GetOpenJobs()
         {
             return _context.Jobs
                 .Where(j => j.IsActive == true)
-                .Include(j => j.User)
-                .ToList();
+                .Include(j => j.User);
         }
         
-        public List<Job> GetCloseJobs()
+        public IQueryable<Job> GetCloseJobs()
         {
             return  _context.Jobs
                 .Where(j => j.IsActive == false)
-                .Include(j => j.User)
-                .ToList();
+                .Include(j => j.User);
         }
 
-        public List<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO)
+        public IQueryable<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO)
         {
             var dates = DateTime.Now.AddDays(-filterJobsDTO.LastPostedDays);
-            if (filterJobsDTO == null) return new List<Job>();
+            if (filterJobsDTO == null) return Enumerable.Empty<Job>().AsQueryable(); ;
             return _context.Jobs
                 .Where(
                     j => 
@@ -159,8 +157,7 @@ namespace MyLink.Data.Repository
                         && (string.IsNullOrEmpty(filterJobsDTO.WorkType) ? true : j.WorkType.Contains(filterJobsDTO.WorkType))
                         )
                 .OrderByDescending(j => j.PostedDate)
-                .Include(j => j.User)
-                .ToList();
+                .Include(j => j.User);
         }
     }
 }

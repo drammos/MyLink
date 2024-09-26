@@ -21,6 +21,11 @@ namespace MyLink.Data.Repository
             return dbSet.ToList<T>();
         }
 
+        public IQueryable<T> GetAllIQueryable()
+        {
+            return dbSet.AsQueryable<T>();
+        }
+
         public T FirstOrDefault(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> queryFromDbSet = dbSet.Where(filter);

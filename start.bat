@@ -6,10 +6,10 @@ setlocal
 
 dir
 :: Start the website
-start "Website" cmd /k "cd /d frontent\linkedin && npm start"
+start "Website" cmd /k "cd /d MyLinkFrontEnd && npm start"
 
 :: Build the website
-cd /d frontent\linkedin
+cd /d MyLinkFrontEnd
 npm run build
 
 endlocal

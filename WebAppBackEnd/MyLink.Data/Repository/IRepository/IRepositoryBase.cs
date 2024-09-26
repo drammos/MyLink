@@ -7,6 +7,7 @@ namespace MyLink.Data.Repository.IRepository
     public interface IRepositoryBase<T> where T : class
     {
         public IEnumerable<T> GetAll();
+        public IQueryable<T> GetAllIQueryable();
         public T FirstOrDefault(Expression<Func<T, bool>> filter);
         public void Add(T entity);
         public void Update(T entity);

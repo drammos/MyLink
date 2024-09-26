@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
 using AutoMapper.Configuration.Annotations;
+using MyLink.Services.Pagination;
+using MyLink.Models.Pagination;
 
 namespace WebAppMyLink.Controllers
 {
@@ -80,24 +82,53 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetAllJobs")]
-        public ActionResult<List<JobDTO>> GetAllJobs()
+        public async Task<ActionResult<PagedList<JobDTO>>> GetAllJobs([FromQuery] Params paginationParams)
         {
-            var jobs = _unitOfWork.Job.GetAll().ToList();
-            return _mapper.Map<List<JobDTO>>(jobs);
+            var jobs = _unitOfWork.Job.GetAllIQueryable();
+            
+            var jobsListPaged = await PagedList<Job>.ToPagedList(jobs, paginationParams.PageNumber, paginationParams.PageSize);
+            List<JobDTO> jobDTOList = new List<JobDTO>();
+            foreach (var job in jobsListPaged)
+            {
+                JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                jobDTOList.Add(jobDTO);
+            }
+            var jobDTOPaginationList = new PagedList<JobDTO>(jobDTOList, jobsListPaged.Metadata.TotalCount, jobsListPaged.Metadata.CurrentPage, jobsListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(jobDTOPaginationList.Metadata);
+            return jobDTOPaginationList;
         }
 
         [HttpGet("GetAllOpenJobs")]
-        public ActionResult<List<JobDTO>> GetAllOpenJobs()
+        public async Task<ActionResult<PagedList<JobDTO>>> GetAllOpenJobs([FromQuery] Params paginationParams)
         {
             var jobs = _unitOfWork.Job.GetOpenJobs();
-            return _mapper.Map<List<JobDTO>>(jobs);
+            var jobsListPaged = await PagedList<Job>.ToPagedList(jobs, paginationParams.PageNumber, paginationParams.PageSize);
+            List<JobDTO> jobDTOList = new List<JobDTO>();
+            foreach (var job in jobsListPaged)
+            {
+                JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                jobDTOList.Add(jobDTO);
+            }
+            var jobDTOPaginationList = new PagedList<JobDTO>(jobDTOList, jobsListPaged.Metadata.TotalCount, jobsListPaged.Metadata.CurrentPage, jobsListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(jobDTOPaginationList.Metadata);
+            return jobDTOPaginationList;
         }
         
         [HttpGet("GetAllCloseJobs")]
-        public ActionResult<List<JobDTO>> GetAllCloseJobs()
+        public async Task<ActionResult<PagedList<JobDTO>>> GetAllCloseJobs([FromQuery] Params paginationParams)
         {
             var jobs = _unitOfWork.Job.GetCloseJobs();
-            return _mapper.Map<List<JobDTO>>(jobs);
+
+            var jobsListPaged = await PagedList<Job>.ToPagedList(jobs, paginationParams.PageNumber, paginationParams.PageSize);
+            List<JobDTO> jobDTOList = new List<JobDTO>();
+            foreach (var job in jobsListPaged)
+            {
+                JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                jobDTOList.Add(jobDTO);
+            }
+            var jobDTOPaginationList = new PagedList<JobDTO>(jobDTOList, jobsListPaged.Metadata.TotalCount, jobsListPaged.Metadata.CurrentPage, jobsListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(jobDTOPaginationList.Metadata);
+            return jobDTOPaginationList;
         }
         
         [HttpPost("ApplyForJob")]
@@ -203,8 +234,18 @@ namespace WebAppMyLink.Controllers
             User user = await _userManager.FindByIdAsync(filterJobsDTO.UserId);
             if(user == null) return NotFound();
             
-            var jobs = _unitOfWork.Job.GetSortingJobs(filterJobsDTO).ToList();
-            return _mapper.Map<List<JobDTO>>(jobs);
+            var jobs = _unitOfWork.Job.GetSortingJobs(filterJobsDTO);
+
+            var jobsListPaged = await PagedList<Job>.ToPagedList(jobs, filterJobsDTO.PageNumber, filterJobsDTO.PageSize);
+            List<JobDTO> jobDTOList = new List<JobDTO>();
+            foreach (var job in jobsListPaged)
+            {
+                JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                jobDTOList.Add(jobDTO);
+            }
+            var jobDTOPaginationList = new PagedList<JobDTO>(jobDTOList, jobsListPaged.Metadata.TotalCount, jobsListPaged.Metadata.CurrentPage, jobsListPaged.Metadata.PageSize);
+            Response.AddPaginationHeader(jobDTOPaginationList.Metadata);
+            return jobDTOPaginationList;
         }
 
         [HttpPut("CloseJob")]
