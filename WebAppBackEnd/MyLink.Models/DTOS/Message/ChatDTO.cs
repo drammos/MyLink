@@ -8,6 +8,6 @@ namespace MyLink.Models.DTOS
         [Required]
         public string MyUsename { get; set; }
         [Required]
-        public string InterlocutorUsename { get; set;}
+        public string InterlocutorUsername { get; set;}
     }
 }
