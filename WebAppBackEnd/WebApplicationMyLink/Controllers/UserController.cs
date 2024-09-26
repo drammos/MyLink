@@ -293,7 +293,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetListFromConnections")]
-        [Authorize(Roles = "Professional")]
+        // [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromConnections([FromQuery] string UserId)
         {
             return await _unitOfWork.User.GetConnectedUsers(UserId);
@@ -467,6 +467,36 @@ namespace WebAppMyLink.Controllers
             if(myUser == null) return NotFound();
 
             var chats = _unitOfWork.Message.GetChats(myUser);
+            return chats;
+        }
+        
+        [HttpGet("GetUserConnectedChats")]
+        public async Task<ActionResult<List<ChatOutDTO>>> GetUserConnectedChats([FromQuery] string Username)
+        {
+            User myUser = await _userManager.FindByNameAsync(Username);
+            if(myUser == null) return NotFound();
+
+            var chats = _unitOfWork.Message.GetChats(myUser);
+            var connectedUsers = await _unitOfWork.User.GetConnectedUsers(myUser.Id);
+            foreach (var user in connectedUsers)
+            {
+                //If the user don't exit
+                if (!chats.Any(c => c.InterlocutorUsername == user.UserName))
+                {
+                    
+                    var newChatOutDTO = new ChatOutDTO
+                    {
+                        InterlocutorUsername = user.UserName,
+                        InterlocutorPictureURL = user.PictureURL,
+                        InterlocutorFirstname = user.FirstName,
+                        InterlocutorLastname = user.LastName,
+                        InterlocutorUserId = user.Id,
+                        LastMessage = ""
+                    };
+
+                    chats.Add(newChatOutDTO);
+                }
+            }
             return chats;
         }
     }
