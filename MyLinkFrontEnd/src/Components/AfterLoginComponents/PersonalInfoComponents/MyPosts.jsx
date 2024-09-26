@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import { InputSwitch } from 'primereact/inputswitch';
 import useDeletePost from '../../Services/Post/useDeletePost';
 import useEditPost from '../../Services/Post/useEditPost';
+import useGetPostComments from '../../Services/Post/useGetPostComments';
+
 import { FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
 import './styles/MyPosts.css';
 
@@ -11,7 +13,12 @@ const MyPosts = ({ userInfo }) => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
     const { message: deletePostMessage, errorCode: deletePostErrorCode, loading: deletePostLoading, deletePostRefetch } = useDeletePost();
     const { message: editPostMessage, errorCode: editPostErrorCode, editPostRefetch } = useEditPost();
+    const { commentsData, message: getPostCommentsMessage, getPostCommentsRefetch } = useGetPostComments();
+
     const [posts, setPosts] = useState([]);
+    const [visibleComments, setVisibleComments] = useState({});
+    const [comments, setComments] = useState({});
+    const [currentPostId, setCurrentPostId] = useState(null);
 
     useEffect(() => {
         getPostsRefetch();
@@ -23,55 +30,56 @@ const MyPosts = ({ userInfo }) => {
         }
     }, [response]);
 
+    useEffect(() => {
+        if (commentsData && currentPostId) {
+            setComments(prevComments => ({
+                ...prevComments,
+                [currentPostId]: commentsData
+            }));
+        }
+    }, [commentsData, currentPostId]);
+
     const handleVisibilityToggle = (postIndex, isPublic) => {
-        // Update the local state
         const updatedPosts = posts.map((post, index) =>
             index === postIndex ? { ...post, isPublic } : post
         );
         setPosts(updatedPosts);
 
-        // Refetch and call editPost with updated visibility status
         const postToUpdate = updatedPosts[postIndex];
-        console.log("Post to update: ", postToUpdate);
         editPostRefetch(
-            postToUpdate.id,        
-            postToUpdate.title,     
-            postToUpdate.content,   
-            new Date().toISOString(),             
-            postToUpdate.pictureUrls, 
-            postToUpdate.videoUrls,   
-            postToUpdate.voiceUrls,   
-            postToUpdate.isLikedByCurrentUser, 
-            isPublic                
+            postToUpdate.id,
+            postToUpdate.title,
+            postToUpdate.content,
+            new Date().toISOString(),
+            postToUpdate.pictureUrls,
+            postToUpdate.videoUrls,
+            postToUpdate.voiceUrls,
+            postToUpdate.isLikedByCurrentUser,
+            isPublic
         );
     };
 
     const handleDeletePost = async (postId) => {
-        await deletePostRefetch(postId); 
+        await deletePostRefetch(postId);
     };
 
-    useEffect(() => { 
-        console.log("Delete Post Error Code: ", deletePostErrorCode);
+    useEffect(() => {
         if (deletePostErrorCode === 0) {
-            console.log("Post deleted successfully!");
             setTimeout(() => { getPostsRefetch(); }, 2000);
-        } else if (deletePostErrorCode > 0) {
-            console.log("Error deleting post.");
         }
     }, [deletePostMessage]);
 
-    useEffect(() => { 
-        console.log("Edit Post Error Code: ", editPostErrorCode);
-        if (editPostErrorCode === 0) {
-            console.log("Post edited successfully!");
-            //setTimeout(() => { getPostsRefetch(); }, 2000);
-        } else if (editPostErrorCode > 0) {
-            console.log("Error editing post.");
-        }
-    }, [editPostMessage]);
+    const toggleCommentsVisibility = (postId) => {
+        setVisibleComments(prevState => ({
+            ...prevState,
+            [postId]: !prevState[postId]
+        }));
 
-    if (loading) return <p>Loading posts...</p>;
-    if (errorCode !== 0) return <p>Error loading posts: {message}</p>;
+        if (!comments[postId]) {
+            setCurrentPostId(postId);
+            getPostCommentsRefetch(postId);
+        }
+    };
 
     return (
         <div className="myposts-container">
@@ -89,62 +97,47 @@ const MyPosts = ({ userInfo }) => {
                                         onChange={(e) => handleVisibilityToggle(index, e.value)}
                                     />
                                 </div>
-                                {/* Delete button */}
                                 <button
                                     className="delete-button"
                                     onClick={() => handleDeletePost(post.id)}
-                                    disabled={deletePostLoading} // Disable button while deleting
+                                    disabled={deletePostLoading}
                                 >
-                                    {'Delete'}
+                                    Delete
                                 </button>
                             </div>
                             <p>{post.content}</p>
-                            {post.videoUrl && (
-                                <div className="post-media">
-                                    <a href={post.videoUrl} target="_blank" rel="noopener noreferrer">
-                                        Watch Video
-                                    </a>
-                                </div>
-                            )}
-                            {post.pictureUrls && post.pictureUrls.length > 0 && post.pictureUrls[0] !== null && (
-                                <div className="post-media">
-                                    {post.pictureUrls.map((url, picIndex) => (
-                                        url && (
-                                            <div key={picIndex} className="post-image">
-                                                <img src={url} alt={`Post media ${picIndex + 1}`} />
-                                            </div>
-                                        )
-                                    ))}
-                                </div>
-                            )}
-                            {post.videoUrls && post.videoUrls.length > 0 && post.videoUrls[0] !== null && (
-                                <div className="post-media">
-                                    {post.videoUrls.map((url, vidIndex) => (
-                                        url && (
-                                            <div key={vidIndex} className="post-video">
-                                                <a href={url} target="_blank" rel="noopener noreferrer">Watch Video {vidIndex + 1}</a>
-                                            </div>
-                                        )
-                                    ))}
-                                </div>
-                            )}
-                            {post.voiceUrl && (
-                                <div className="post-media">
-                                    <a href={post.voiceUrl} target="_blank" rel="noopener noreferrer">
-                                        Listen Audio
-                                    </a>
-                                </div>
-                            )}
+
                             <div className="post-info">
-                                <span><FcComments /> {post.commentsCount} comments</span>
+                                <button
+                                    className="comments-count-button"
+                                    onClick={() => toggleCommentsVisibility(post.id)}
+                                >
+                                    <FcComments /> {post.commentsCount} comments
+                                </button>
                                 <span><FcLikePlaceholder /> {post.reactionsCount} reactions</span>
                                 <span><FcCalendar /> Created on: {new Date(post.createdAt).toLocaleDateString()}</span>
                             </div>
+
+                            {visibleComments[post.id] && (
+                                <div className="comments-section">
+                                    {comments[post.id] && comments[post.id].length > 0 ? (
+                                        <ul className="comments-list">
+                                            {comments[post.id].map((comment, commentIndex) => (
+                                                <li key={commentIndex} className="comment-item">
+                                                    <strong>{comment.firstName} {comment.lastName}</strong>: {comment.content}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p>No comments yet.</p>
+                                    )}
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>
             ) : (
-                    <p className="post-item">No posts available</p>
+                <p className="post-item">No posts available</p>
             )}
         </div>
     );
@@ -155,14 +148,11 @@ MyPosts.propTypes = {
         posts: PropTypes.arrayOf(PropTypes.shape({
             title: PropTypes.string,
             content: PropTypes.string,
-            startDate: PropTypes.string,
-            endDate: PropTypes.string,
-            commentCount: PropTypes.number,
             createdAt: PropTypes.string,
             isPublic: PropTypes.bool,
             videoUrl: PropTypes.string,
             voiceUrl: PropTypes.string,
-            reactionCount: PropTypes.number,
+            reactionsCount: PropTypes.number,
         }))
     }).isRequired,
 };

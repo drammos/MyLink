@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import useService from '../Services/useService';
+import useService from '..//useService';
 import { agents } from '../../../agents';
 
 const useGetPostsFromOtherUsers = () => {

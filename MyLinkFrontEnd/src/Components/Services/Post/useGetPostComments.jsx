@@ -6,7 +6,9 @@ const useGetPostComments = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [postId, setPostId] = useState('');
-    const url = agents.localhost + agents.useGetPostComments + '?postId=' + postId;
+    const [commentsData, setCommentsData] = useState(null);
+
+    const url = agents.localhost + agents.getPostComments + '?postId=' + postId;
 
     const { response, loading, refetch: fetchService } = useService(
         `Getting comments for post ${postId}`,
@@ -18,20 +20,26 @@ const useGetPostComments = () => {
     );
 
     const handleGetPostCommentsResponse = useCallback((response) => {
+        console.log("Get commments response is ", response);
         if (response?.status === 200) {
             setErrorCode(0);
-            console.log(errorCode, " = ErrorCode");
             setMessage('Comments are here!');
+            console.log("Get commments response is ", response.data);
+
+            setCommentsData(response.data);
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
+            setCommentsData(null);
         }
-    }, [errorCode]);
+    }, [postId]);
 
     const getPostComments = useCallback((PostId) => {
-        if (PostId)
+        if (PostId) {
             setPostId(PostId);
-    }, [errorCode]);
+            setCommentsData(null);
+        }
+    }, []);
 
     useEffect(() => {
         if (response) {
@@ -40,10 +48,12 @@ const useGetPostComments = () => {
     }, [response, handleGetPostCommentsResponse]);
 
     useEffect(() => {
-        fetchService();
-    }, [postId]);
+        if (postId) {
+            fetchService();
+        }
+    }, [postId, fetchService]);
 
-    return { response, message, errorCode, loading, getPostCommentsRefetch: getPostComments };
+    return { commentsData, message, errorCode, loading, getPostCommentsRefetch: getPostComments };
 };
 
 export default useGetPostComments;

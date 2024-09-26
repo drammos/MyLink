@@ -22,15 +22,16 @@ const useGetUserPosts = () => {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
             setMessage('Posts are here!');
+            setUserId(0);
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
         }
     }, [errorCode]);
 
-    const getUserPosts = useCallback((userId = localStorage.getItem('id')) => {
-        if (userId)
-            setUserId(userId);
+    const getUserPosts = useCallback((UserId = localStorage.getItem('id')) => {
+        if (UserId)
+            setUserId(UserId); 
         else
             setUserId(localStorage.getItem('id'));
     }, [errorCode]);
@@ -42,7 +43,8 @@ const useGetUserPosts = () => {
     }, [response, handleGetUserPostsResponse]);
 
     useEffect(() => {
-        fetchService();
+        if(userId !==0)
+            fetchService();
     }, [userId]);
 
     return { response, message, errorCode, loading, getPostsRefetch: getUserPosts };
