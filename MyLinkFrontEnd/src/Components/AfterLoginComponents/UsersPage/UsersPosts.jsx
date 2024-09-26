@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import useCreateComment from '../../Services/Post/useCreateComment';
 import useCreateReaction from '../../Services/Post/useCreateReaction';
+import useGetPostComments from '../../Services/Post/useGetPostComments';
 
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -13,8 +14,10 @@ import './styles/UserPosts.css';
 const UserPosts = ({ userInfo }) => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
     const { reactId, message: CreateReactMessage, errorCode: CreateReactErrorCode, loading: CreateReactLoading, createReactionRefetch } = useCreateReaction();
-    const { message: CreateCommentMessage, errorCode: CreateCommentErrorCode, loading: CreateCommentLoading, createCommentRefetch } = useCreateComment();
-
+    const { message: CreateCommentMessage,
+        errorCode: CreateCommentErrorCode, loading: CreateCommentLoading, createCommentRefetch } = useCreateComment();
+    const { response: postCommentsResponse, message: postCommentsMessage,
+        errorCode: postCommentsErrorCode, loading: postCommentsLoading, getPostCommentsRefetch } = useGetPostComments();
     const [posts, setPosts] = useState([]);
     const [commentInputs, setCommentInputs] = useState({});
 

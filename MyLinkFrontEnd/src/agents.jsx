@@ -36,6 +36,7 @@ export const agents = {
     deleteAllReactionsFromPost: 'Post/DeleteAllReactionsFromPost',
     deleteReaction: 'Post/DeleteReaction',
     getPostsFromConnectedUsers: 'Post/GetPostsFromConnectedUsers',
+    getPostsFromOtherUsers: 'Post/GetPostsFromOtherUsers',
 
 
     // Job
