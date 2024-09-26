@@ -21,7 +21,7 @@ const MessageInterface = ({ userInfo }) => {
     const buildUrl = () => {
         console.log("user", userInfo);
         const params = new URLSearchParams();
-        const url2 = agents.localhost + agents.getChats;
+        const url2 = agents.localhost + agents.getUserConnectedChats;
         params.append('Username', userInfo.userName);
         // params.append('PageNumber', pageNumber.toString());
         // params.append('PageSize', pageSize.toString());
