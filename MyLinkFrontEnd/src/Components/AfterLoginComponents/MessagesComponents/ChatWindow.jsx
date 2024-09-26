@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { agents } from '../../../agents';
 import useService from "../../Services/useService";
 import './ChatWindow.css';
+import { bool } from 'prop-types';
 
 const ChatWindow = ({ selectedChat, userInfo }) => {
     const [messages, setMessages] = useState([]);
@@ -14,9 +15,10 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
         pageSize: 6,
         totalCount: 0,
     });
-    
+    const messageListRef = useRef(null);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(8);
+    const [addMessage, setAddMessage] = bool(false);
 
     const buildUrl = () => {
         console.log("user", userInfo);
@@ -39,19 +41,28 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
 
     useEffect(() => {
         if (selectedChat) {
-            console.log("mitsoooooo ", selectedChat);
-            console.log("user info is ", userInfo);
             refetch();
         }
     }, [selectedChat]);
 
-
+    useEffect(() => {
+        if (newMessage.trim()) {
+            const url = agents.localhost + agents.addMessage;
+            const { response, loading, refetch } = useService(
+                'Updating user...',
+                'GET',
+                url,
+                null,
+                undefined,
+                true
+            );
+        }
+    }), [addMessage]
     useEffect(() => {
         if (response) {
             if (response.status === 200) {
                 setErrorCode(0);
                 const discussion = [];
-                console.log("consolerrrrrrrr ", response.data);
                 response.data.forEach(element => {
                     
                     discussion.push({
@@ -62,6 +73,7 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
                     });
                 });
                 setMessages(discussion);
+                setTimeout(scrollToBottom, 0);
             } else {
                 console.log(response.data.detail);
                 setError(response.data.detail);
@@ -70,12 +82,22 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
         }
     }, [response]);
 
+    const scrollToBottom = () => {
+        if (messageListRef.current) {
+            messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+        }
+    };
 
     const handleSendMessage = (e) => {
+        
         e.preventDefault();
         if (newMessage.trim()) {
+
+
+            setAddMessage(true);
             setMessages([...messages, { id: Date.now(), sender: userInfo.name, content: newMessage, avatar: userInfo.avatar }]);
             setNewMessage('');
+            setTimeout(scrollToBottom, 0);
         }
     };
 
@@ -89,7 +111,7 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
                 <h2>{selectedChat.interlocutorFirstname + " " + selectedChat.interlocutorLastname}</h2>
                 <h3>{selectedChat.interlocutorUsername}</h3>
             </div>
-            <div className="message-list">
+            <div className="message-list" ref={messageListRef}>
                 {messages.map(message => (
                     <div key={message.id} className={`message ${message.sender === userInfo.userName ? 'sent' : 'received'}`}>
                         <img src={message.avatar} alt={message.sender} className="message-avatar" />
