@@ -29,7 +29,10 @@ const useGetUserPosts = () => {
     }, [errorCode]);
 
     const getUserPosts = useCallback((userId = localStorage.getItem('id')) => {
-        setUserId(userId);
+        if (userId)
+            setUserId(userId);
+        else
+            setUserId(localStorage.getItem('id'));
     }, [errorCode]);
 
     useEffect(() => {

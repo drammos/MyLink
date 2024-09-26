@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useGetUserPosts from '../../Services/useGetUserPosts';
 import { InputSwitch } from 'primereact/inputswitch';
@@ -10,7 +10,7 @@ import './styles/MyPosts.css';
 const MyPosts = ({ userInfo }) => {
     const { response, message, errorCode, loading, getPostsRefetch } = useGetUserPosts();
     const { message: deletePostMessage, errorCode: deletePostErrorCode, loading: deletePostLoading, deletePostRefetch } = useDeletePost();
-    const { message: editPostMessage, errorCode: editPostErrorCode, loading: editPostLoading, editPostRefetch } = useEditPost();
+    const { message: editPostMessage, errorCode: editPostErrorCode, editPostRefetch } = useEditPost();
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {

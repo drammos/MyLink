@@ -7,11 +7,11 @@ const useCreateComment = () => {
     const [errorCode, setErrorCode] = useState(2);
     const [postData, setPostData] = useState(null);
     const [postId, setPostId] = useState(0);
-    const url = agents.localhost + agents.editPost;
+    const url = agents.localhost + agents.createComment;
 
     const { response, loading, refetch: fetchService } = useService(
         `Creating comment on ${postId}`,
-        'PUT',
+        'POST',
         url,
         postData,
         'multipart/form-data',
@@ -36,12 +36,13 @@ const useCreateComment = () => {
     }, []);
 
     const createComment = useCallback((
-        CommentType, PostId, Username
+        Content, PostId, Username, CreatedAt 
     ) => {
         const formData = new FormData();
-        formData.append('CommentType ', CommentType);
-        formData.append('PostId ', PostId);
-        formData.append('Username ', Username);
+        formData.append('Content', Content);
+        formData.append('CreatedAt', CreatedAt);
+        formData.append('PostId', PostId);
+        formData.append('Username', Username);
 
         setPostId(PostId);
         setPostData(formData);
@@ -53,7 +54,7 @@ const useCreateComment = () => {
         if (postId !== 0 && postData) {
             fetchService();
         }
-    }, [postId, postData, fetchService]);
+    }, [postData]);
 
     useEffect(() => {
         if (response) {

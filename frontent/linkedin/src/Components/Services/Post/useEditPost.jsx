@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import useService from '../useService';
 import { agents } from '../../../agents';
 
-const useCreatePost = () => {
+const useEditPost = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [postData, setPostData] = useState(null);
@@ -71,4 +71,4 @@ const useCreatePost = () => {
     return { message, errorCode, loading, editPostRefetch: editPost };
 };
 
-export default useCreatePost;
+export default useEditPost;

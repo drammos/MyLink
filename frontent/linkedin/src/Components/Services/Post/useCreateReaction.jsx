@@ -6,13 +6,14 @@ const useCreateReaction = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [postData, setPostData] = useState(null);
+    const [reactId, setReactId] = useState(0);
     const [postId, setPostId] = useState(0);
-    const url = agents.localhost + agents.editPost;
+    const url = agents.localhost + agents.createReaction;
 
     const { response, loading, refetch: fetchService } = useService(
         `Reacting on ${postId}`,
-        'PUT',
-        url,
+        'POST',
+        url, 
         postData,
         'multipart/form-data',
         true
@@ -21,6 +22,7 @@ const useCreateReaction = () => {
     const handleReactionResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
+            setReactId(response.data.id);
             setMessage('Post reaction created!');
             console.log('Post reaction created!');
             setPostData(null);
@@ -39,9 +41,10 @@ const useCreateReaction = () => {
         ReactionType, PostId, Username
     ) => {
         const formData = new FormData();
-        formData.append('ReactionType ', ReactionType);
-        formData.append('PostId ', PostId);
-        formData.append('Username ', Username);
+        console.log(ReactionType, PostId, Username);
+        formData.append('ReactionType', ReactionType);
+        formData.append('PostId', PostId);
+        formData.append('Username', Username);
 
         setPostId(PostId);
         setPostData(formData);
@@ -53,7 +56,7 @@ const useCreateReaction = () => {
         if (postId !== 0 && postData) {
             fetchService();
         }
-    }, [postId, postData, fetchService]);
+    }, [postData, fetchService]);
 
     useEffect(() => {
         if (response) {
@@ -61,7 +64,7 @@ const useCreateReaction = () => {
         }
     }, [response, handleReactionResponse]);
 
-    return { message, errorCode, loading, createReactionRefetch: createReaction };
+    return { reactId, message, errorCode, loading, createReactionRefetch: createReaction };
 };
 
 export default useCreateReaction;
