@@ -21,7 +21,8 @@ namespace MyLink.Data.Initialize
                     UserName = "jrammos",
                     Email = "jrammos@outook.com.gr",
                     PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                    Birthday = "2001-06-12"
+                    Birthday = "2001-06-12",
+                    IsAdmin = true
                 };
                 var result = await users.CreateAsync(user, "1234@Password");
                 await users.AddToRoleAsync(user, "Admin");
@@ -34,7 +35,8 @@ namespace MyLink.Data.Initialize
                     UserName = "tminaidis9",
                     Email = "teomin2001@gmail.com",
                     PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                    Birthday = "2001-06-12"
+                    Birthday = "2001-06-12",
+                    IsAdmin = true
                 };
 
                 result = await users.CreateAsync(user2, "1234@Password");
@@ -62,7 +64,8 @@ namespace MyLink.Data.Initialize
                     UserName = "frammos",
                     Email = "frammos@outlook.com.gr",
                     PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                    Birthday = "2001-06-12"
+                    Birthday = "2001-06-12",
+                    IsAdmin = false
                 };
 
                 result = await users.CreateAsync(frammos, "1234@Password");
@@ -76,7 +79,8 @@ namespace MyLink.Data.Initialize
                     UserName = "prammos",
                     Email = "prammos@outlook.com.gr",
                     PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                    Birthday = "2001-06-12"
+                    Birthday = "2001-06-12",
+                    IsAdmin = false
                 };
 
                 result = await users.CreateAsync(prammos, "1234@Password");
@@ -102,7 +106,8 @@ namespace MyLink.Data.Initialize
                         UserName = "user" + i,
                         Email = "user" + i + "@example.com",
                         PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                        Birthday = "2000-01-01"
+                        Birthday = "2000-01-01",
+                        IsAdmin = false
                     };
                     frammos.ConnectedUsers.Add(newUser);
                     newUser.ConnectedUsers.Add(frammos);

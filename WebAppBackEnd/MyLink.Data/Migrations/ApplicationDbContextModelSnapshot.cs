@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "33c0ded9-5d7a-4ca5-94e4-39bb82372d33",
+                            Id = "968c0986-1ffe-49db-8d5e-925a40c438af",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8ab6676e-932f-4dee-8d26-c39ec430b9b8",
+                            Id = "7f9b9466-865d-49cb-9448-c265ce836986",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -523,6 +523,9 @@ namespace MyLink.Data.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
