@@ -76,6 +76,13 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
     useEffect(() => {
         if (selectedChat) {
             refetch();
+            
+            // every 20seconds
+            const interval = setInterval(() => {
+                refetch();
+            }, 20000); 
+
+            return () => clearInterval(interval); 
         }
     }, [selectedChat]);
 
