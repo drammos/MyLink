@@ -10,13 +10,13 @@ const ChatList = ({ chats, onSelectChat, selectedChatId }) => {
             <div className="chat-list-items">
                 {chats.map(chat => (
                     <div 
-                        key={chat.id} 
-                        className={`chat-item ${selectedChatId === chat.id ? 'selected' : ''}`}
+                        key={chat.interlocutorUserId} 
+                        className={`chat-item ${selectedChatId === chat.interlocutorUserId ? 'selected' : ''}`}
                         onClick={() => onSelectChat(chat)}
                     >
-                        <img src={`https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png`} alt={chat.name} className="chat-avatar" />
+                        <img src={chat.interlocutorPictureURL} alt={chat.interlocutorFirstname + " " + chat.interlocutorLastname} className="chat-avatar" />
                         <div className="chat-info">
-                            <h3>{chat.name}</h3>
+                            <h3>{chat.interlocutorFirstname + " " + chat.interlocutorLastname}</h3>
                             <p>{chat.lastMessage}</p>
                         </div>
                     </div>

@@ -6,14 +6,20 @@
     max-width: calc(100% - 350px); /* Προσαρμόστε ανάλογα με το πλάτος του ChatList */
 }
 
+
 .chat-header {
     padding: 20px;
+    display: flex;
     border-bottom: 1px solid #e0e0e0;
-}
+    align-items: center;
+    gap: 10px;
+  }
+  
 
 .chat-header h2{
     color: #1fb4c2;
 }
+
 
 .message-list {
     flex-grow: 1;
