@@ -294,7 +294,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetListFromConnections")]
-        // [Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<User>>> GetListFromConnections([FromQuery] string UserId)
         {
             return await _unitOfWork.User.GetConnectedUsers(UserId);
