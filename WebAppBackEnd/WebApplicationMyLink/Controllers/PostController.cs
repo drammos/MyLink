@@ -53,13 +53,19 @@ namespace WebAppMyLink.Controllers
         [HttpGet("GetUserPosts")]
         public async Task<ActionResult<List<Post>>> GetUserPosts(string UserId)
         {
+            User user = await _userManager.FindByIdAsync(UserId);
+            if(user == null) return NotFound();
             IEnumerable<Post> list = _unitOfWork.Post.GetAll();
 
             List<Post> posts = new List<Post>();
             foreach (Post pos in list)
             {
                 if (UserId.Equals(pos.UserId))
+                {
+                    var reactions = await _unitOfWork.Post.GetReactions(pos.Id);
+                    pos.IsLikedByCurrentUser = reactions.Any(r => r.Username == user.UserName && string.Equals(r.ReactionType, "Like"));
                     posts.Add(pos);
+                }
             }
             return posts;
         }
