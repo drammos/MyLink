@@ -77,5 +77,8 @@ export const agents = {
     getDiscussion: 'User/GetDiscussion',
     getChats: 'User/GetUserChats',
     getUserConnectedChats: 'User/GetUserConnectedChats',
-    getDiscussionWithoutPagination: 'User/GetDiscussionWithoutPagination'
+    getDiscussionWithoutPagination: 'User/GetDiscussionWithoutPagination',
+
+    //Viewed POST
+    addViewedPost: 'ViewedPosts/PostViewedPosts'
 };
