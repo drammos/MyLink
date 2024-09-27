@@ -209,9 +209,6 @@ const UsersList = () => {
     );
 
     const actionBodyTemplate = (rowData) => {
-        const handleEdit = () => {
-            console.log('Edit user:', rowData.userName);
-        };
 
         const handleDelete = () => {
             const message = `Delete user: ${rowData.userName}`;
@@ -221,12 +218,7 @@ const UsersList = () => {
 
         return (
             <div className="action-buttons">
-                <Button
-                    icon="pi pi-pencil"
-                    className="p-button-rounded p-button-info p-mr-2"
-                    onClick={handleEdit}
-                    aria-label="Edit"
-                />
+                
                 <Button
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-danger"
