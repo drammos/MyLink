@@ -41,10 +41,10 @@ namespace MyLink.Services.MatrixFactorization
 
             using (var scope = _services.CreateScope())
             {
-                var matrixFactorizationService = scope.ServiceProvider.GetRequiredService<MatrixFactorizationAlgorithm>();
-                matrixFactorizationService.CalculateForJobs();
-                matrixFactorizationService.CalculateForPosts();
-                _logger.LogInformation("Running matrix factorization");
+                // var matrixFactorizationService = scope.ServiceProvider.GetRequiredService<MatrixFactorizationAlgorithm>();
+                // matrixFactorizationService.CalculateForJobs();
+                // matrixFactorizationService.CalculateForPosts();
+                // _logger.LogInformation("Running matrix factorization");
             }
         }
         // Stop ASYNC
