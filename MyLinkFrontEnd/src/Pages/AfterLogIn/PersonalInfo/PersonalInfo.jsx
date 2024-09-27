@@ -5,8 +5,8 @@ import Navbar from "../../../Components/AfterLoginComponents/LoggedInNavBar/Logg
 import Footer from "../../../Components/Footer/Footer"
 
 import MainInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/MainInfo";
-import EducationInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/EducationInfo";
-import ExperienceInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/ExperienceInfo";
+import EducationInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/EducationComponent";
+import ExperienceInfo from "../../../Components/AfterLoginComponents/PersonalInfoComponents/ExperienceComponent";
 import MyPosts from "../../../Components/AfterLoginComponents/PersonalInfoComponents/MyPosts";
 
 import useGetUser from '../../../Components/Services/useGetUser';
