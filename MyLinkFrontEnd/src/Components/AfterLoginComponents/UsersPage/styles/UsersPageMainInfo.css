@@ -1,0 +1,14 @@
+.main-info-container .connect-button {
+    padding: 8px 16px;
+    background-color: transparent;
+    color: #1fb4c2;
+    border: 1px solid #1fb4c2;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .main-info-container .connect-button:hover {
+        background-color: rgba(10, 102, 194, 0.1);
+    }
