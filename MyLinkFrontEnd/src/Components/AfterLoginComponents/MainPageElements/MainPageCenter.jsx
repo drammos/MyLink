@@ -4,7 +4,9 @@ import useGetUserPosts from '../../Services/useGetUserPosts';
 import useCreateComment from '../../Services/Post/useCreateComment';
 import useCreateReaction from '../../Services/Post/useCreateReaction';
 import useGetPostComments from '../../Services/Post/useGetPostComments';
+import { agents } from '../../../agents';
 import useGetPostsFromOtherUsers from '../../Services/Post/useGetPostsFromOtherUsers';
+import useService from '../../Services/useService';
 import './styles/MainPageCenter.css'; 
 import CreatePostComponent from "./CreatePostCompoment";
 
@@ -32,7 +34,7 @@ const MainPageCenter = () => {
     const [createMessageValue, setCreateMessageValue] = useState(2);
     const [postId, setPostId] = useState('');
     const [commentMessages, setCommentMessages] = useState({});
-
+    const [data, setData] = useState(null);
 
     //#region Get Posts
     useEffect(() => {
@@ -188,6 +190,46 @@ const MainPageCenter = () => {
         }));
     };
 
+    const urlForPost = agents.localhost + agents.addViewedPost;
+
+    const myPostedService = useService(
+        'Add Experience ...',
+        'POST',
+        urlForPost,
+        data,
+        'multipart/form-data'
+    );
+    
+    useEffect(() => {
+        if (data != null) {
+            myPostedService.refetch(); 
+        }
+    }, [data]);
+    
+    useEffect(() => {
+        if (myPostedService.response) {
+          if (myPostedService.response.status === 200) {
+            setData(null);
+          } else {
+            console.log(alltogether.response.data.detail);
+            setError(alltogether.response.data.detail);
+            setData(null);
+          }
+        }
+    }, [myPostedService.response, data]);
+
+    const handlePostClick = (postId) => {
+        const userId = localStorage.getItem('id');    
+        console.log("CLICKKK: post id ", postId, userId);
+        const informdata = new FormData();
+            
+
+        informdata.append("UserId", userId);
+        informdata.append("PostId", postId);
+
+        setData(informdata);
+    };
+
     if (postsLoading) return <p>Loading posts...</p>;
     if (postsErrorCode !== 0) return <p>Error loading posts: {postsMessage}</p>;
 
@@ -201,7 +243,8 @@ const MainPageCenter = () => {
             {publicPosts.length > 0 ? (
                 <ul className="posts-list">
                     {posts.map((post) => (
-                        <li key={post.id} className="post-item">
+                        <li key={post.id} className="post-item" 
+                        onClick={() => handlePostClick(post.id)}>
                             <div className="post-header">
                                 <img
                                     src={post.pictureURL || 'default-avatar.png'}
