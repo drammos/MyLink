@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { Avatar } from 'primereact/avatar';
 import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import useGetListFromIncomingRequests from '../Services/useGetListFromIncomingRequests';
+import useAcceptRequest from '../Services/User/useAcceptRequest';
+import useDeleteRequest from '../Services/User/useDeleteRequest';
 import './styles/PrintPendingUsers.css'
 import { useNavigationHelpers } from '../AfterLoginComponents/Helpers/useNavigationHelpers';
 
 const PrintPendingUsers = () => {
+    const [resultMessage, setResultMessage] = useState(null);
     const { handleUsernameClick } = useNavigationHelpers();
     const { listLength, notificationList, loading, refetch: getList } = useGetListFromIncomingRequests();
+    const { errorCode: acceptErrorCode, message: acceptMessage, loading: acceptLoading, acceptRequestRefetch } = useAcceptRequest();
+    const { errorCode: deleteErrorode, message: deleteMessage, loading: deleteLoading, deleteRequestRefetch } = useDeleteRequest();
+    const currentUser = localStorage.getItem('id');
 
     useEffect(() => {
         getList(localStorage.getItem('id'));
@@ -19,9 +26,40 @@ const PrintPendingUsers = () => {
         return <ProgressSpinner />;
     }
 
+    // #region Connection answer
+
+    const handleAccept = async (userId) => {
+        try {
+            await acceptRequestRefetch(currentUser,userId);
+            setResultMessage({ severity: 'success', text: acceptMessage || 'Request accepted successfully' });
+            getList(localStorage.getItem('id'));
+        } catch (error) {
+            setResultMessage({ severity: 'error', text: `Error accepting request: ${acceptErrorCode}` });
+        }
+    };
+
+    const handleReject = async (userId) => {
+        try {
+            await deleteRequestRefetch(userId, currentUser);
+            setResultMessage({ severity: 'info', text: deleteMessage || 'Request rejected successfully' });
+            getList(localStorage.getItem('id'));
+        } catch (error) {
+            setResultMessage({ severity: 'error', text: `Error rejecting request: ${deleteErrorCode}` });
+        }
+    };
+
+    //#endregion
+
 
     return (
         <div className="pending-users">
+            {resultMessage && (
+                <Message
+                    severity={resultMessage.severity}
+                    text={resultMessage.text}
+                    style={{ marginBottom: '1rem' }}
+                />
+            )}
             <h2 className="text-xl font-bold mb-4">Pending Requests ({listLength})</h2>
             {Array.isArray(notificationList) && notificationList.length > 0 ? (
                 <div className="grid grid-cols-1 gap-4">
@@ -45,10 +83,10 @@ const PrintPendingUsers = () => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleUsernameClick(user.userName);
-                                } } />
+                                }} />
                             <div className="p-d-flex p-jc-between mt-3">
-                            <Button label="Accept" className="p-button-success" />
-                            <Button label="Reject" className="p-button-danger" />
+                                <Button label="Accept" className="p-button-success" onClick={() => handleAccept(user.id)} />
+                                <Button label="Reject" className="p-button-danger" onClick={() => handleReject(user.id)} />
                             </div>
                         </Card>
                     ))}

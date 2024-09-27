@@ -49,6 +49,8 @@ export const useNavigationHelpers = () => {
         window.open(Routes.UserInfo.replace(':username', username), '_blank');
     };
 
+
+
     return {
         handleHomeButton,
         handleProfileButton,

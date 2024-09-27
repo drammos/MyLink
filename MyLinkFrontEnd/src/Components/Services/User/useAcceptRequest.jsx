@@ -7,13 +7,14 @@ const useAcceptRequest = () => {
     const [message, setMessage] = useState('');
     const [pendingUserId, setPendingUserId] = useState('');
     const [recipientUserId, setRecipientUserId] = useState('');
+    const [url, setUrl] = useState('');
 
-    const url = agents.localhost + agents.acceptRequest;
+    const serviceurl = agents.localhost + agents.acceptRequest;
 
     const { response, loading, refetch: fetchService } = useService(
         'Accepting Request',
         'POST',
-        `${url}?PendingUserId=${pendingUserId}&RecipientUserId=${recipientUserId}`,
+        url,
         null,
         undefined,
         true
@@ -32,9 +33,9 @@ const useAcceptRequest = () => {
     }, []);
 
     const acceptRequest = useCallback((PendingUserId, RecipientUserId) => {
-        setPendingUserId(PendingUserId);
-        setRecipientUserId(RecipientUserId);
-    }, []);
+        const queryParams = `?PendingUserId=${PendingUserId}&RecipientUserId=${RecipientUserId}`;
+        setUrl(`${serviceurl}${queryParams}`);
+    }, [setUrl, serviceurl]);
 
     useEffect(() => {
         if (response) {
@@ -43,9 +44,9 @@ const useAcceptRequest = () => {
     }, [response, handleAcceptRequestResponse]);
 
     useEffect(() => {
-        if (pendingUserId !== '' && recipientUserId !== '')
+        if (url !== '') 
             fetchService();
-    }, [pendingUserId, recipientUserId, fetchService]);
+    }, [url, fetchService]);
 
     return { errorCode, message, loading, acceptRequestRefetch: acceptRequest };
 };

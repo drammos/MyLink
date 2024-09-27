@@ -10,12 +10,21 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import './Network.css';
 
+
+const useDocumentTitle = (title) => {
+    useEffect(() => {
+        document.title = title;
+    }, [title]);
+};
+
 const Network = () => {
 
     const { userInfo, refetch } = useGetUser();
     useEffect(() => {
         refetch(localStorage.getItem('username'));
     }, []);
+
+    useDocumentTitle("Network");
 
     return (
         <div className="network-page">
