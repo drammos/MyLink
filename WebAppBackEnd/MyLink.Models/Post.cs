@@ -29,5 +29,6 @@ namespace MyLink.Models
         [ForeignKey("UserId")]
         public string? UserId { get; set; }
         public User User { get; set; } = null!;
+        public ICollection<ViewedPosts> ViewedPosts { get; set; } = new List<ViewedPosts>();
     }
 }
