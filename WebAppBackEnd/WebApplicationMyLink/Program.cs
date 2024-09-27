@@ -12,6 +12,7 @@ using MyLink.Services.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MyLink.Models.Helpers;
+using MyLink.Services.MatrixFactorization;
 
 var builder = WebApplication.CreateBuilder(args);
 const string policyName = "CorsPolicy";
@@ -47,7 +48,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+builder.Services.AddSingleton<IHostedService, MatrixBackgroundService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
