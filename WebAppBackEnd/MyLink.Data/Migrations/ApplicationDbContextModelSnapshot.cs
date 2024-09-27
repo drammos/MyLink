@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f14cf8b-8447-4292-9ab6-0519e49fa916",
+                            Id = "968c0986-1ffe-49db-8d5e-925a40c438af",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f7bdf259-2f37-46d4-aab0-b2a2a56fb102",
+                            Id = "7f9b9466-865d-49cb-9448-c265ce836986",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -475,9 +475,6 @@ namespace MyLink.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
