@@ -204,7 +204,27 @@ namespace WebAppMyLink.Controllers
                 Role = roles[0]
             };
         }
-
+        
+        [HttpGet("GetCommunicationType")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<string>> GetCommunicationType([FromQuery] string UserId1, [FromQuery] string UserId2)
+        {
+            // If is connected
+            var isConnected = await IsConnectedUsers(UserId1, UserId2);
+            if(isConnected.Value) return "Connected";
+            
+            // If the UserId1 have send request Οντως ο χρηστης 1 εχει στειλει να συνδεσθει στο 2
+            var isPendingRequest = await IsPendingReqeuest(UserId1, UserId2);
+            if(isPendingRequest.Value) return "Pending";
+            
+            // Ο χρηστης 1 εχει δεχθει αιτημα φιλιασ απο τον 2
+            var isIncoming = await IsInComingRequest(UserId2, UserId1);
+            if(isIncoming.Value) return "InComing";
+            
+            // αλλιως δεν ειναι συνδεδεμενοι
+            return "NotConnected";
+        }
+        
         [HttpGet("IsConnectedUsers")]
         [Authorize(Roles = "Professional")]
         public async Task<ActionResult<bool>> IsConnectedUsers([FromQuery] string UserId1, [FromQuery] string UserId2)
