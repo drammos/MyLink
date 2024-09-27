@@ -206,23 +206,51 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetCommunicationType")]
-        [Authorize(Roles = "Professional")]
-        public async Task<ActionResult<string>> GetCommunicationType([FromQuery] string UserId1, [FromQuery] string UserId2)
+        // [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<ResultDTO>> GetCommunicationType([FromQuery] string UserId1, [FromQuery] string UserId2)
         {
             // If is connected
             var isConnected = await IsConnectedUsers(UserId1, UserId2);
-            if(isConnected.Value) return "Connected";
+            if (isConnected.Value)
+            {
+                return new ResultDTO()
+                {
+                    Result = "Connected",
+                    User1 = UserId1,
+                    User2 = UserId2,
+                };
+            }
             
             // If the UserId1 have send request Οντως ο χρηστης 1 εχει στειλει να συνδεσθει στο 2
             var isPendingRequest = await IsPendingReqeuest(UserId1, UserId2);
-            if(isPendingRequest.Value) return "Pending";
+            if(isPendingRequest.Value) {
+                return new ResultDTO()
+                {
+                    Result = "Pending",
+                    User1 = UserId1,
+                    User2 = UserId2,
+                };
+            }
             
             // Ο χρηστης 1 εχει δεχθει αιτημα φιλιασ απο τον 2
             var isIncoming = await IsInComingRequest(UserId2, UserId1);
-            if(isIncoming.Value) return "InComing";
+            if(isIncoming.Value) 
+            {
+                return new ResultDTO()
+                {
+                    Result = "InComing",
+                    User1 = UserId1,
+                    User2 = UserId2,
+                };
+            }
             
             // αλλιως δεν ειναι συνδεδεμενοι
-            return "NotConnected";
+            return new ResultDTO()
+            {
+                Result = "NotConnected",
+                User1 = UserId1,
+                User2 = UserId2,
+            };
         }
         
         [HttpGet("IsConnectedUsers")]
