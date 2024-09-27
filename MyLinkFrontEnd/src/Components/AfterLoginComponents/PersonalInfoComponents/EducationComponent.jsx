@@ -179,15 +179,16 @@ const EducationComponent = ({ userInfo }) => {
         </div>
         <div className="education-list-container">
           <ul className="education-list">
-            {educations.map((edu, index) => (
-              <li key={index} className="education-item">
-                <h3>{edu.school}</h3>
-                <p>{edu.degree} in {edu.fieldOfStudy}</p>
-                <p>{new Date(edu.startDate).getFullYear()} - {edu.endDate ? new Date(edu.endDate).getFullYear() : 'Present'}</p>
-                {edu.grade && <p>Grade: {edu.grade}</p>}
-                {edu.description && <p>{edu.description}</p>}
-              </li>
-            ))}
+          {educations.map((edu, index) => (
+                    <li key={index} className="education-item">
+                    <h3>School: {edu.school}</h3>
+                    <p>Degree: {edu.degree} </p>
+                    <p>Field of Study: {edu.fieldOfStudy}</p>
+                    <p>{new Date(edu.startDate).toLocaleDateString()} - {edu.endDate ? new Date(edu.endDate).toLocaleDateString() : 'Present'}</p>
+                    {edu.grade && <p>Grade: {edu.grade}</p>}
+                    {edu.description && <p>{edu.description}</p>}
+                    </li>
+                ))}
           </ul>
         </div>
       </div>

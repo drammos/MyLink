@@ -200,16 +200,17 @@ const ExperienceComponent = ({ userInfo }) => {
         </div>
         <div className="experience-list-container">
           <ul className="experience-list">
-            {experiences.map((exp, index) => (
-              <li key={index} className="experience-item">
-                <h3>{exp.title}</h3>
-                <p>{exp.companyName}</p>
-                <p>{exp.employmentType}</p>
-                <p>{new Date(exp.startDate).toLocaleDateString()} - {exp.currentJob ? 'Present' : new Date(exp.endDate).toLocaleDateString()}</p>
-                {exp.location && <p>Location: {exp.location} ({exp.locationType})</p>}
-                {exp.description && <p>{exp.description}</p>}
-              </li>
-            ))}
+          {experiences.map((exp, index) => (
+                <li key={index} className="experience-item">
+                  <h3>Title: {exp.title}</h3>
+                  <p>Company Name: {exp.companyName}</p>
+                  <p>Employment Type: {exp.employmentType}</p>
+                  <p>{new Date(exp.startDate).toLocaleDateString()} - {exp.currentJob ? 'Present' : new Date(exp.endDate).toLocaleDateString()}</p>
+                  <p>Location Type: {exp.locationType}</p>
+                  <p>Location: {exp.location}</p>
+                  {exp.description && <p>{exp.description}</p>}
+                </li>
+              ))}
           </ul>
         </div>
       </div>
