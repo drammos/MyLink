@@ -25,7 +25,7 @@ const useRequestToConnections = () => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
-            setMessage('New request Created!');
+            setMessage('Request Sent!');
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');

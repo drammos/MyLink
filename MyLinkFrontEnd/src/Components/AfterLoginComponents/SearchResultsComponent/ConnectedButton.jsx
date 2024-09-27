@@ -1,23 +1,43 @@
+import PropTypes from 'prop-types';
 import { useEffect, useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
-import useService from '../../Services/useService';
-import useGetCommunicationType from '../../Services/User/useGetCommunicationType';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '../../../routes';
 
-const ConnectedButton = ({ statuses, userId, handleConnectClick, requestToConnectLoading }) => {
+const ConnectedButton = ({ statuses, userId, handleConnectClick, requestToConnectLoading, typeDictionary }) => {
+
+    const isDisabled = typeDictionary[statuses[userId]] === 'Incoming' || requestToConnectLoading;
+    const type = typeDictionary[statuses[userId]];
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (typeDictionary[statuses[userId]] === 'Connect')
+            handleConnectClick(userId);
+        else if (typeDictionary[statuses[userId]] === 'Send Message')
+            navigate(Routes.Messages);
+    };
 
     return (
         <>
             {statuses[userId] !== null && (
                 <button
                     className="connect-button"
-                    onClick={() => statuses[userId] === 'Connect' && handleConnectClick(userId)}
-                    disabled={statuses[userId] !== 'Connect' || requestToConnectLoading}
+                    onClick={handleClick}
+                    disabled={isDisabled}
                 >
-                    {statuses[userId]}
+                    {type}
                 </button>
             )}
         </>
     );
 }
+
+// PropTypes validation
+ConnectedButton.propTypes = {
+    statuses: PropTypes.object.isRequired, 
+    userId: PropTypes.string.isRequired, 
+    handleConnectClick: PropTypes.func.isRequired, 
+    requestToConnectLoading: PropTypes.bool.isRequired, 
+    typeDictionary: PropTypes.object.isRequired,
+};
 
 export default ConnectedButton;

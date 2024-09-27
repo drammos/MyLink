@@ -31,6 +31,7 @@ const SearchResults = () => {
 
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(8);
+    const [statuses, setStatuses] = useState(8);
     //#endregion
 
     //#region Search Api
@@ -75,25 +76,35 @@ const SearchResults = () => {
     const handleConnectClick = async (userId) => {
         setUserToConnect(userId);
         await requestToConnectRefetch(currentUserId, userId);
-        if (!requestToConnectErrorCode) {
-            setNewStatuses(prev => ({ ...prev, [userId]: 'Pending' }));
-        }
+        setStatuses(prev => ({ ...prev, [userId]: 'Pending' }));
     };
+
+    useEffect(() => {
+        if (requestToConnectMessage) {
+
+                console.log("useEffect message -> ", requestToConnectMessage);
+                //setStatuses((prevStatuses) => ({ ...prevStatuses, [CommunicationTypeResponse.data.user2]: CommunicationTypeResponse.data.result, }));
+           
+        }
+    }, [requestToConnectMessage]);
     //#endregion
 
+
+    const TypeDictionary = {
+        Connected: 'Send Message',
+        NotConnected: 'Connect',
+        Pending: 'Pending',
+        InComing: 'Incoming'
+    };
     const { CommunicationTypeResponse, CommunicationTypeRefetch } = useGetCommunicationType();
+
 
     useEffect(() => {
         const fetchStatuses = async () => {
             for (const user of users) {
                 if (currentUserId !== user.id) {
                     console.log("goes in");
-                    const response = await CommunicationTypeRefetch(currentUserId, user.id);
-                    console.log("response is ", CommunicationTypeResponse);
-                    setStatuses((prevStatuses) => ({
-                        ...prevStatuses,
-                        [user.id]: CommunicationTypeResponse || 'paparies',
-                    }));
+                    await CommunicationTypeRefetch(currentUserId, user.id);
                 } else {
                     setStatuses((prevStatuses) => ({
                         ...prevStatuses,
@@ -109,14 +120,17 @@ const SearchResults = () => {
     }, [users]);
 
     useEffect(() => {
-        if (CommunicationTypeResponse)
-            if (CommunicationTypeResponse.data)
-                console.log("useEffect data -> ", CommunicationTypeResponse.data);
+        if (CommunicationTypeResponse) {
+            if (CommunicationTypeResponse.data) {
+                console.log("useEffect data -> ", CommunicationTypeResponse.data.result);
+                setStatuses((prevStatuses) => ({ ...prevStatuses, [CommunicationTypeResponse.data.user2 ]: CommunicationTypeResponse.data.result, }));
+            }
+        }
     }, [CommunicationTypeResponse]);
 
     return (
         <div className="search-results-container">
-            <h2>Users matching: "{searchTerm}"</h2>
+            <h2>Users matching: &quot;{searchTerm}&quot;</h2>
             {loading ? (
                 <p>Loading...</p>
             ) : (
@@ -135,7 +149,7 @@ const SearchResults = () => {
                                     <span>{user.userName}</span>
                                 </div>
                                 <ConnectedButton statuses={statuses} userId={user.id}
-                                    handleConnectClick={handleConnectClick} requestToConnectLoading={requestToConnectLoading} /> 
+                                    handleConnectClick={handleConnectClick} requestToConnectLoading={requestToConnectLoading} typeDictionary={TypeDictionary} /> 
                             </div>
                         ))}
                     </div>

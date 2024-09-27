@@ -30,7 +30,7 @@ const PrintPendingUsers = () => {
 
     const handleAccept = async (userId) => {
         try {
-            await acceptRequestRefetch(currentUser,userId);
+            await acceptRequestRefetch(userId,currentUser);
             setResultMessage({ severity: 'success', text: acceptMessage || 'Request accepted successfully' });
             getList(localStorage.getItem('id'));
         } catch (error) {

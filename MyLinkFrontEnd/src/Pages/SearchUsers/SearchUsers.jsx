@@ -13,13 +13,17 @@ const useDocumentTitle = (title) => {
 };
 
 const SearchUsers = () => {
-    const { userInfo } = useGetUser();
+    const { userInfo, refetch } = useGetUser();
     
     // Use useSearchParams to retrieve the term from the URL
     const [searchParams] = useSearchParams();
     const term = searchParams.get('term');  // This will retrieve the ?term= from the URL
 
     useDocumentTitle(`Search Results for: ${term}`);
+
+    useEffect(() => {
+        refetch(localStorage.getItem('username'));
+    }, []);
 
     return (
         <div>
