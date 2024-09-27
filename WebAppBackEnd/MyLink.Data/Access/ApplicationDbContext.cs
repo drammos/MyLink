@@ -100,6 +100,12 @@ namespace MyLink.Data.Access
                 .HasOne(ja => ja.Job)
                 .WithMany(j => j.JobApplications)
                 .HasForeignKey(ja => ja.JobId);
+
+            builder.Entity<Post>()
+                .HasMany(u=> u.ViewedPosts)
+                .WithOne(p => p.Post)
+                .HasForeignKey(p => p.PostId);
+
         }
     }
 }
