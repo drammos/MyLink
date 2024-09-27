@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "968c0986-1ffe-49db-8d5e-925a40c438af",
+                            Id = "7543c912-be16-4ba1-bcd7-c47ec5992d47",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7f9b9466-865d-49cb-9448-c265ce836986",
+                            Id = "0773a347-cf43-4b67-8b40-1f3ce33fe7bd",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -584,6 +584,28 @@ namespace MyLink.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("MyLink.Models.ViewedPosts", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("ViewedPosts");
+                });
+
             modelBuilder.Entity("UserUser", b =>
                 {
                     b.Property<string>("ConnectedUsersId")
@@ -768,6 +790,17 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("MyLink.Models.ViewedPosts", b =>
+                {
+                    b.HasOne("MyLink.Models.Post", "Post")
+                        .WithMany("ViewedPosts")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("UserUser", b =>
                 {
                     b.HasOne("MyLink.Models.User", null)
@@ -823,6 +856,8 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("ViewedPosts");
                 });
 
             modelBuilder.Entity("MyLink.Models.User", b =>
