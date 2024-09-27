@@ -3,7 +3,7 @@ import { Pagination } from '@mui/material';
 import './AppPagination.css';
 
 const AppPagination = ({ metadata, onPageChange }) => {
-  console.log("apppag --  ", metadata);
+  //console.log("apppag --  ", metadata);
   const { currentPage, totalPages } = metadata;
 
   return (

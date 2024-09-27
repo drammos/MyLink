@@ -200,6 +200,7 @@
     .main-posts-container .user-info {
         display: flex;
         flex-direction: column;
+        cursor:pointer;
     }
 
         .main-posts-container .user-info h4 {

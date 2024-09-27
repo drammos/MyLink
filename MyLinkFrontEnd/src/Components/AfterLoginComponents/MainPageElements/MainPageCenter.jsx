@@ -5,7 +5,6 @@ import useCreateComment from '../../Services/Post/useCreateComment';
 import useCreateReaction from '../../Services/Post/useCreateReaction';
 import useGetPostComments from '../../Services/Post/useGetPostComments';
 import useGetPostsFromOtherUsers from '../../Services/Post/useGetPostsFromOtherUsers';
-
 import './styles/MainPageCenter.css'; 
 import CreatePostComponent from "./CreatePostCompoment";
 
@@ -13,9 +12,11 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 
 import { FcLike, FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/fc";
+import { useNavigationHelpers } from "../Helpers/useNavigationHelpers";
 
 
 const MainPageCenter = () => {
+    const { handleUsernameClick } = useNavigationHelpers();
     const { response: postsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetPostsFromOtherUsers();
     const { createReactionRefetch } = useCreateReaction();
     const { message: createCommentMessage, errorCode: createCommenterrorCode, createCommentRefetch } = useCreateComment();
@@ -207,7 +208,10 @@ const MainPageCenter = () => {
                                     alt={`${post.firstName} ${post.lastName}`}
                                     className="user-avatar"
                                 />
-                                <div className="user-info">
+                                <div className="user-info" onClick={(e) => {
+                                    e.preventDefault();
+                                    handleUsernameClick(post.userName);
+                                }}>
                                     <h4>{post.firstName} {post.lastName}</h4>
                                     <span>@{post.userName}</span>
                                 </div>

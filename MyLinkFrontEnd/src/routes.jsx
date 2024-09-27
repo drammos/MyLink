@@ -12,5 +12,6 @@ export const Routes = {
     PersonalInfo: '/StartPage/PersonalInformations',
     UserInfo: '/UserPage/:username',
     SearchUsers: '/SearchUsers',
-    Messages: '/Messages'
+    Messages: '/Messages',
+    Network: '/Network'
 };

@@ -12,6 +12,7 @@ import MainPage from './Pages/AfterLogIn/MainPage/MainPage.jsx'
 import PersonalInfo from './Pages/AfterLogIn/PersonalInfo/PersonalInfo.jsx'
 import SearchUsers from './Pages/SearchUsers/searchUsers.jsx'
 import Messages from './Pages/Messages/Messages.jsx'
+import Network from './Pages/Network/Network.jsx'
 import { Routes } from './routes.jsx';
 
 
@@ -37,7 +38,8 @@ const router = createBrowserRouter([
     { path: Routes.UserSettings, element: <UserSettings /> },
     { path: Routes.UserInfo, element: <UsersPage /> },
     { path: Routes.SearchUsers,  element: <SearchUsers /> },
-    { path: Routes.Messages, element: <Messages />},
+    { path: Routes.Messages, element: <Messages /> },
+    { path: Routes.Network, element: <Network /> },
     { path: "*", element: <PageNotFound /> },
 ]);
 

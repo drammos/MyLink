@@ -21,7 +21,7 @@ export const useNavigationHelpers = () => {
     };
 
     const handleNetworkButton = () => {
-        navigate('/network'); 
+        navigate(Routes.Network); 
     };    
 
     const handleJobsButton = () => {

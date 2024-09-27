@@ -26,8 +26,8 @@ const useGetListFromIncomingRequests = () => {
             setErrorCode(0);
             setlistLength(response.data.length);
             setlistInfo(response.data);
-            setMessage('Requests list are here!');
-            console.log('Requests list are here!');
+            setMessage('Requests list is here!');
+            console.log('Requests list is here!');
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
@@ -42,9 +42,7 @@ const useGetListFromIncomingRequests = () => {
 
     useEffect(() => {
         if (currentUserId !== '') {
-            //while (currentUserId !== '') {
-                setTimeout(() => fetchService(), 1000);
-            //}
+            fetchService();
         }
     }, [fetchService, currentUserId]);
 

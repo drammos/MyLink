@@ -1,0 +1,102 @@
+.connected-users {
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    padding-bottom: 70px;
+}
+
+    .connected-users h2 {
+        color: #2d3748;
+        font-family: 'Roboto', sans-serif;
+        margin-bottom: 35px;
+    }
+
+    .connected-users .grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin: 0 70px;
+    }
+
+    .connected-users .card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Ensures the content is spaced out */
+        transition: transform 0.2s;
+    }
+
+        .connected-users .card:hover {
+            transform: translateY(-5px);
+        }
+
+    .connected-users .flex {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .connected-users .avatar {
+        margin-right: 15px;
+    }
+
+        .connected-users .avatar img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+    .connected-users .text-lg {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a202c;
+        margin-bottom: 4px;
+    }
+
+    .connected-users .text-sm {
+        font-size: 0.875rem;
+        color: #718096;
+    }
+
+        .connected-users .text-sm span {
+            display: block;
+        }
+
+    .connected-users .flex-grow {
+        flex-grow: 1;
+    }
+
+    .connected-users .button {
+        margin-left: auto;
+    }
+
+        .connected-users .button button {
+            border: 1px solid #2b6cb0;
+            color: #2b6cb0;
+            background-color: transparent;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .connected-users .button button:hover {
+                background-color: #2b6cb0;
+                color: white;
+            }
+
+    .connected-users .p-card .p-card-content {
+        display: flex;
+    }
+
+    .connected-users .p-button .p-button-label {
+        width: 110px;
+    }
+
+    .connected-users .p-button.p-button-outlined {
+        height: 50px !important;
+    }
