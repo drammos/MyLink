@@ -48,7 +48,7 @@
         align-items: center;
         margin-left: -150px;
     } */
-    .loggedInNavbarContainer .navbar-center {
+    .loggedInNavbarContainer .navbar-center {   
         flex-grow: 1;
         display: flex;
         justify-content: center;
@@ -120,9 +120,9 @@
     }
 
 
-    
-    
-    .search-dropdown {
+
+
+    .loggedInNavbarContainer .search-dropdown {
         position: absolute;
         top: 100%;
         width: 450px;
@@ -130,62 +130,124 @@
         margin-right: 10px;
         max-height: 1000px;
         overflow-y: auto;
-        background-color: #ffffff; 
+        background-color: #ffffff;
         border: 1px solid #ccc;
         z-index: 1000;
-    } 
+    }
 
-    
-    
-    
-    .search-result-item span {
+
+
+
+    .loggedInNavbarContainer .search-result-item span {
         display: block;
         font-size: 14px;
         color: #000; /* Αλλαγή σε μαύρο χρώμα για το κείμενο */
     }
-    
-    .search-result-item:hover {
+
+    .loggedInNavbarContainer .search-result-item:hover {
         background-color: #f0f0f0; /* Εφέ hover */
     }
-    
-    .see-all-results {
+
+    .loggedInNavbarContainer .see-all-results {
         padding: 10px;
         text-align: center;
         font-weight: bold;
         cursor: pointer;
-        background-color: #f7f7f7; 
+        background-color: #f7f7f7;
         border-top: 1px solid #ccc;
         color: #1fb4c2;
     }
-    
-    .see-all-results:hover {
-        background-color: #e0e0e0;
-    }
-    
 
-    .search-result-item {
+        .loggedInNavbarContainer .see-all-results:hover {
+            background-color: #e0e0e0;
+        }
+
+
+    .loggedInNavbarContainer .search-result-item {
         display: flex;
         align-items: center;
         padding: 10px;
         border-bottom: 1px solid #eee;
-        background-color: white; 
+        background-color: white;
         color: #333;
     }
-    
-    .result-info {
+
+    .loggedInNavbarContainer .result-info {
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
         margin-left: 10px;
     }
-    
-    .search-result-item img {
+
+    .loggedInNavbarContainer .search-result-item img {
         width: 40px;
         height: 40px;
         border-radius: 50%;
     }
 
-    
-    .result-info.name-highlight {
+
+    .loggedInNavbarContainer .result-info.name-highlight {
         color: #1fb4c2;
         font-weight: bold;
     }
+    .loggedInNavbarContainer .notification-popup {
+        position: absolute;
+        top: 50px;
+        right: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        z-index: 100;
+        width: 350px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+        .loggedInNavbarContainer .notification-popup h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: black;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .loggedInNavbarContainer .notification-popup ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px; /* in case you want to limit height */
+            overflow-y: auto;
+        }
+
+        .loggedInNavbarContainer .notification-popup li {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .loggedInNavbarContainer .notification-popup li:last-child {
+                border-bottom: none;
+            }
+
+        .loggedInNavbarContainer .notification-popup .notification-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover; /* Ensures image stays within the circle */
+            margin-right: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .loggedInNavbarContainer .notification-popup li span {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.2;
+        }
+
+        .loggedInNavbarContainer .notification-popup li:hover {
+            background-color: #f9f9f9;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
