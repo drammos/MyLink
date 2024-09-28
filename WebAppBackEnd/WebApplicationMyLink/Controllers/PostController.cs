@@ -198,7 +198,8 @@ namespace WebAppMyLink.Controllers
             {
                 ReactionType = createReactionDTO.ReactionType,
                 Username = createReactionDTO.Username,
-                PostId = createReactionDTO.PostId
+                PostId = createReactionDTO.PostId,
+                CreatedAt = DateTime.Now
             };
 
             bool result = _unitOfWork.Post.AddReaction(reaction);
