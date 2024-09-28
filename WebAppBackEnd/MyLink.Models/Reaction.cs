@@ -9,7 +9,7 @@ namespace MyLink.Models
         public int Id { get; set; }
         [Required]
         public string ReactionType { get; set; }
-
+        public DateTime CreatedAt { get; set; }
         [Required]
         [ForeignKey("PostId")]
         public int PostId { get; set; }
