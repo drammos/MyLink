@@ -6,7 +6,7 @@ using MyLink.Models;
 using MyLink.Models.DTOS;
 using AutoMapper;
 using AutoMapper.Configuration.Annotations;
-
+using Microsoft.AspNetCore.Authorization;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
@@ -25,6 +25,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("CreatePost")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<Post>> CreatePost([FromForm] CreatePostDTO createPostDTO)
         {
             User user = await _userManager.FindByIdAsync(createPostDTO.UserId);
@@ -51,6 +52,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetUserPosts")]
+        [Authorize]
         public async Task<ActionResult<List<Post>>> GetUserPosts(string UserId)
         {
             User user = await _userManager.FindByIdAsync(UserId);
@@ -71,6 +73,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPut("EditPost")]
+        [Authorize]
         public async Task<ActionResult<Post>> EditPost([FromForm] UpdatePostDTO updatePostDTO)
         {
             Post post = _unitOfWork.Post.Update(updatePostDTO);
@@ -82,6 +85,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeletePost")]
+        [Authorize]
         public async Task<ActionResult> DeletePost(int postId)
         {
             var post = _unitOfWork.Post.FirstOrDefault(u => u.Id == postId);
@@ -97,6 +101,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("CreateComment")]
+        [Authorize]
         public async Task<ActionResult<Comment>> CreateComment([FromForm] CreateCommentDTO createCommentDTO)
         {
             User user = await _userManager.FindByNameAsync(createCommentDTO.Username);
@@ -119,6 +124,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostComments")]
+        [Authorize]
         public async Task<ActionResult<List<CommentDTO>>> GetPostComments(int postId)
         {
             var comments = await _unitOfWork.Post.GetComments(postId);
@@ -146,6 +152,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetUserComments")]
+        [Authorize]
         public async Task<ActionResult<List<Comment>>> GetUserComments(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
@@ -155,6 +162,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteAllCommentsFromPost")]
+        [Authorize]
         public async Task<ActionResult> DeleteAllCommentsFromPost(int postId)
         {
             var post = _unitOfWork.Post.FirstOrDefault(u => u.Id == postId);
@@ -168,6 +176,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteComment")]
+        [Authorize]
         public async Task<ActionResult> DeleteComment([FromQuery] int commentId)
         {
             bool result = await _unitOfWork.Post.DeleteComment(commentId);
@@ -179,6 +188,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("CreateReaction")]
+        [Authorize]
         public async Task<ActionResult<Reaction>> CreateReaction([FromForm] CreateReactionDTO createReactionDTO)
         {
             User user = await _userManager.FindByNameAsync(createReactionDTO.Username);
@@ -200,6 +210,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostReactions")]
+        [Authorize]
         public async Task<ActionResult<List<ReactionDTO>>> GetPostReactions(int postId)
         {
             var reactions = await _unitOfWork.Post.GetReactions(postId);
@@ -227,6 +238,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetUserReactions")]
+        [Authorize]
         public async Task<ActionResult<List<Reaction>>> GetUserReactions(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
@@ -236,6 +248,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteAllReactionsFromPost")]
+        [Authorize]
         public async Task<ActionResult> DeleteAllReactionsFromPost(int postId)
         {
             var post = _unitOfWork.Post.FirstOrDefault(u => u.Id == postId);
@@ -249,6 +262,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteReaction")]
+        [Authorize]
         public async Task<ActionResult> DeleteReaction([FromQuery] int reactionId)
         {
             bool result = await _unitOfWork.Post.DeleteReaction(reactionId);
@@ -260,6 +274,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetPostsFromConnectedUsers")]
+        [Authorize]
         public async Task<ActionResult<List<PostDTO>>> GetPostsFromConnectedUsers([FromQuery] string userId)
         {
             var connectedUsers = await _unitOfWork.User.GetConnectedUsers(userId);
@@ -278,6 +293,7 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetPostsFromOtherUsers")]
+        [Authorize]
         public async Task<ActionResult<List<PostUserDTO>>> GetPostsFromOtherUsers([FromQuery] string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);

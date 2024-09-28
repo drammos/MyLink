@@ -116,6 +116,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetUser")]
+        [Authorize]
         public async Task<ActionResult<User>> GetUser(string Username)
         {
             User user = await _userManager.FindByNameAsync(Username);
@@ -126,6 +127,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetRoleForUser")]
+        [Authorize]
         public async Task<ActionResult<string>> GetRoleForUser(string Username)
         {
             User user = await _userManager.FindByNameAsync(Username);
@@ -206,7 +208,7 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetCommunicationType")]
-        // [Authorize(Roles = "Professional")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<ResultDTO>> GetCommunicationType([FromQuery] string UserId1, [FromQuery] string UserId2)
         {
             // If is connected
@@ -401,6 +403,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("SearchUsers")]
+        [Authorize]
         public async Task<ActionResult<PagedList<UserDTO>>> SearchUsers([FromQuery] string SearchName, [FromQuery] Params paginationParams)
         {
             var users = _unitOfWork.User.SearchUsers(SearchName);
@@ -426,6 +429,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("AddMessage")]
+        [Authorize(Roles = "Professional")]
         public async Task<IActionResult> AddMessage([FromForm] CreateMessageDTO createMessageDTO)
         {
             User recipientUser = await _userManager.FindByNameAsync(createMessageDTO.RecipientUsername);
@@ -445,6 +449,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetMessage")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<MessageDTO>> GetMessage([FromQuery] int MessageId)
         {
             Message message = _unitOfWork.Message.GetMessageById(MessageId);
@@ -459,6 +464,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetDiscussion")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<PagedList<ChatMessageDTO>>> GetDiscussion([FromQuery] ChatDTO chatDTO)
         {
             User myUser = await _userManager.FindByNameAsync(chatDTO.MyUsename);
@@ -486,6 +492,7 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetDiscussionWithoutPagination")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<ChatMessageDTO>>> GetDiscussionWithoutPagination([FromQuery] ChatDTO chatDTO)
         {
             User myUser = await _userManager.FindByNameAsync(chatDTO.MyUsename);
@@ -510,6 +517,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetUserChats")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<ChatOutDTO>>> GetUserChats([FromQuery] string Username)
         {
             User myUser = await _userManager.FindByNameAsync(Username);
@@ -520,6 +528,7 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetUserConnectedChats")]
+        [Authorize(Roles = "Professional")]
         public async Task<ActionResult<List<ChatOutDTO>>> GetUserConnectedChats([FromQuery] string Username)
         {
             User myUser = await _userManager.FindByNameAsync(Username);

@@ -4,7 +4,7 @@ using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using MyLink.Models.DTOS;
 using MyLink.Services.JsonWebTokens;
-
+using Microsoft.AspNetCore.Authorization;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
@@ -21,6 +21,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("AddExperience")]
+        [Authorize]
         public async Task<ActionResult<Experience>> AddExperience([FromForm] ExperienceDTO experienceDTO)
         {
             Experience experience = new Experience()
@@ -45,12 +46,14 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetExperiences")]
+        [Authorize]
         public async Task<ActionResult<List<Experience>>> GetExperiences(string userId)
         {
             return await _unitOfWork.Experience.GetUserExperiences(userId);
         }
 
         [HttpGet("GetExperience")]
+        [Authorize]
         public ActionResult<Experience> GetExperience(int experienceId)
         {
             Experience experience = _unitOfWork.Experience
@@ -61,6 +64,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPut("EditExperience")]
+        [Authorize]
         public ActionResult<Experience> EditExperience([FromForm] UpdateExperienceDTO updateExperienceDTO)
         {
             Experience experience = _unitOfWork.Experience.Update(updateExperienceDTO);
@@ -72,6 +76,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteExperience")]
+        [Authorize]
         public ActionResult DeleteExperience(string Id)
         {
             int id = int.Parse(Id);

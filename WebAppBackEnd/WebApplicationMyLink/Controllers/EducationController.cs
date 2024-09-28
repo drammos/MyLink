@@ -4,7 +4,7 @@ using MyLink.Models.DTOS;
 using MyLink.Models;
 using MyLink.Services.JsonWebTokens;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Authorization;
 namespace WebAppMyLink.Controllers
 {
     [ApiController]
@@ -21,6 +21,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("AddEducation")]
+        [Authorize]
         public async Task<ActionResult<Education>> AddEducation([FromForm] EducationDTO educationDTO)
         {
             Education education = new Education()
@@ -43,12 +44,14 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetEducations")]
+        [Authorize]
         public async Task<ActionResult<List<Education>>> GetEducations(string userId)
         {
             return await _unitOfWork.Education.GetUserEducations(userId);
         }
         
         [HttpGet("GetEducation")]
+        [Authorize]
         public ActionResult<Education> GetEducation(int educationId)
         {
             Education education = _unitOfWork.Education
@@ -59,6 +62,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPut("EditEducation")]
+        [Authorize]
         public ActionResult<Education> EditEducation([FromForm] UpdateEducationDTO educationDTO)
         {
             Education education = _unitOfWork.Education.Update(educationDTO);
@@ -70,6 +74,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpDelete("DeleteEducation")]
+        [Authorize]
         public ActionResult DeleteEducation(string Id)
         {
             int id = int.Parse(Id);
