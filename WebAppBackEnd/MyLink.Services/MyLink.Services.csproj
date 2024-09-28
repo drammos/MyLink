@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyLink.Data\MyLink.Data.csproj" />
     <ProjectReference Include="..\MyLink.Models\MyLink.Models.csproj" />
   </ItemGroup>
 

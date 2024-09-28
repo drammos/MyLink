@@ -49,6 +49,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 builder.Services.AddSingleton<IHostedService, MatrixBackgroundService>();
+builder.Services.AddSingleton<MatrixFactorizationAlgorithm>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
