@@ -50,6 +50,9 @@ export const useNavigationHelpers = () => {
     };
 
 
+    const handleMyJobsClick = () => {
+        navigate(Routes.MyJobs);
+    };
 
     return {
         handleHomeButton,
@@ -62,5 +65,6 @@ export const useNavigationHelpers = () => {
         handleSettings,
         handleSearchUsers,
         handleUsernameClick,
+        handleMyJobsClick,
     };
 };

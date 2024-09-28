@@ -7,7 +7,7 @@ import './styles/CreateJobComponent.css';
 import useCreateJob from '../Services/Jobs/useCreateJob';
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 
-const CreateJobComponent = ({ userInfo }) => {
+const CreateJobComponent = ({ userInfo, handleMyJobs }) => {
     const { response: createJobResponse , message: createJobMessage, errorCode: createJobErrorCode, loading, createJobRefetch } = useCreateJob();
     const [jobData, setJobData] = useState({
         title: '',
@@ -56,7 +56,7 @@ const CreateJobComponent = ({ userInfo }) => {
 
     return (
         <>
-        <Button type="pageRedirect" label="My Jobs" className="create-job-button" />
+            <Button type="pageRedirect" label="My Jobs" className="create-job-button" onClick={handleMyJobs} />
         <div className="create-job-container">
             <h2>Create a New Job Posting</h2>
             <form onSubmit={handleSubmit} className="create-job-form">

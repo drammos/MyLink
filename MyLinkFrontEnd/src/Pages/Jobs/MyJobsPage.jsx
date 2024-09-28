@@ -5,10 +5,8 @@ import useGetUser from '../../Components/Services/useGetUser.jsx';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import CreateJobComponent from "../../Components/JobsComponents/CreateJobComponent.jsx";
-import ConnectedUsersJobsComponent from "../../Components/JobsComponents/ConnectedUsersJobsComponent.jsx";
+import MyJobsComponent from '../../Components/JobsComponents/MyJobsComponent.jsx';
 import './JobsPage.css';
-import { useNavigationHelpers } from "../../Components/AfterLoginComponents/Helpers/useNavigationHelpers.jsx";
 
 const useDocumentTitle = (title) => {
     useEffect(() => {
@@ -19,24 +17,17 @@ const useDocumentTitle = (title) => {
 const JobsPage = () => {
     const { userInfo, refetch } = useGetUser();
 
-    const { handleMyJobsClick } = useNavigationHelpers();
-
     useEffect(() => {
         refetch(localStorage.getItem('username'));
     }, []);
 
-    useDocumentTitle("Jobs");
+    useDocumentTitle("My Jobs");
 
     return (
         <>
             <LoggedInNavBar userInfo={userInfo} />
-            <div className="main-page">
-                <div className="left-column">
-                    <CreateJobComponent userInfo={userInfo} handleMyJobs={handleMyJobsClick} />
-                </div>
-                <div className="right-column">
-                    <ConnectedUsersJobsComponent userInfo={userInfo} />
-                </div>
+            <div className="main-myjobs-page">
+               <MyJobsComponent/>
             </div>
             <div className="footer">
                 <Footer />

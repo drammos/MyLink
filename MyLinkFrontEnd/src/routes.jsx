@@ -14,5 +14,6 @@ export const Routes = {
     SearchUsers: '/SearchUsers',
     Messages: '/Messages',
     Network: '/Network',
-    Jobs: '/Jobs'
+    Jobs: '/Jobs',
+    MyJobs: '/Jobs/MyJobs'
 };

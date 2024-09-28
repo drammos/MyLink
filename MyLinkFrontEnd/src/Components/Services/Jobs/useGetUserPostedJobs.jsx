@@ -1,15 +1,15 @@
 import { useState, useCallback, useEffect } from 'react';
-import useService from '../Services/useService';
-import { agents } from '../../agents';
+import useService from '../../Services/useService';
+import { agents } from '../../../agents';
 
-const useGetUserPosts = () => {
+const useGetUserPostedJobs = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [userId, setUserId] = useState('');
-    const url = agents.localhost + agents.getUserPosts + '?UserId=' + userId;
+    const url = agents.localhost + agents.getUserPostedJobs + '?UserId=' + userId;
 
     const { response, loading, refetch: fetchService } = useService(
-        'Getting my posts ...',
+        'Getting my jobs ...',
         'GET',
         url,
         null,
@@ -17,11 +17,11 @@ const useGetUserPosts = () => {
         true
     );
 
-    const handleGetUserPostsResponse = useCallback((response) => {
+    const handleGetUserJobsResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
-            setMessage('Posts are here!');
+            setMessage('Jobs are here!');
             setUserId(0);
         } else {
             setErrorCode(1);
@@ -29,25 +29,25 @@ const useGetUserPosts = () => {
         }
     }, [errorCode]);
 
-    const getUserPosts = useCallback((UserId = localStorage.getItem('id')) => {
+    const getUserJobs = useCallback((UserId = localStorage.getItem('id')) => {
         if (UserId)
-            setUserId(UserId); 
+            setUserId(UserId);
         else
             setUserId(localStorage.getItem('id'));
     }, [errorCode]);
 
     useEffect(() => {
         if (response) {
-            handleGetUserPostsResponse(response);
+            handleGetUserJobsResponse(response);
         }
-    }, [response, handleGetUserPostsResponse]);
+    }, [response, handleGetUserJobsResponse]);
 
     useEffect(() => {
-        if(userId !==0)
+        if (userId !== 0)
             fetchService();
     }, [userId]);
 
-    return { response, message, errorCode, loading, getPostsRefetch: getUserPosts };
+    return { response, message, errorCode, loading, getJobsRefetch: getUserJobs };
 };
 
-export default useGetUserPosts;
+export default useGetUserPostedJobs;
