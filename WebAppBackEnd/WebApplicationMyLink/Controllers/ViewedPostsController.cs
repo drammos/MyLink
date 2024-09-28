@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpPost("PostViewedPosts")]
+        [Authorize]
         public async Task<IActionResult> PostViewedPosts([FromForm] ViewedPostDTO viewedPostDTO)
         {
             User user = await _userManager.FindByIdAsync(viewedPostDTO.UserId);
@@ -32,7 +34,7 @@ namespace WebAppMyLink.Controllers
             };
             _unitOfWork.ViewedPosts.Add(viewedPost);
             _unitOfWork.Save();
-            return Ok();
+            return StatusCode(200);
         }
 
        
