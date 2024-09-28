@@ -37,23 +37,32 @@ namespace WebAppMyLink.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
-            var posts = _matrixFactorizationAlgorithm.GetProposedPosts(user.Id);
+            var posts = await _matrixFactorizationAlgorithm.GetProposedPosts(user.Id);
             List<PostUserDTO> proposedPosts = new List<PostUserDTO>();
             
             
-            // It's necessary to check for connected user or 
+            // If the algrotihm havn't compute the results
+            if (proposedPosts == null || proposedPosts.Count == 0)
+            {
+                var postsDTO = await _unitOfWork.Post.GetPostsFromOtherUsers(user);
+                foreach (var post in postsDTO)
+                {
+                    if (!post.IsMyPost && !post.IsFromConnectedUser)
+                    {
+                        User connectedUser = await _userManager.FindByNameAsync(post.ConnectedUserName);
+                        post.ConnectedFirstName = connectedUser.FirstName;
+                        post.ConnectedLastName = connectedUser.LastName;
+                        post.ConnectedUserId = connectedUser.Id;
+                        post.ConnectedPictureURL = connectedUser.PictureURL;
+                    }
+                }
+
+                return postsDTO;
+            }
             
-            // foreach (var post in proposedPosts)
-            // {
-            //     if (!post.IsMyPost && !post.IsFromConnectedUser)
-            //     {
-            //         User connectedUser = await _userManager.FindByNameAsync(post.ConnectedUserName);
-            //         post.ConnectedFirstName = connectedUser.FirstName;
-            //         post.ConnectedLastName = connectedUser.LastName;
-            //         post.ConnectedUserId = connectedUser.Id;
-            //         post.ConnectedPictureURL = connectedUser.PictureURL;
-            //     }
-            // }
+            
+            // Let's start to seperated the post for this user
+            
 
             return proposedPosts;
         }
