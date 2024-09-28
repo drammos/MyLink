@@ -557,5 +557,15 @@ namespace WebAppMyLink.Controllers
             }
             return chats;
         }
+        
+        [HttpGet("GetUserNotifications")]
+        [Authorize(Roles = "Professional")]
+        public async Task<ActionResult<List<UserNotificationsDTO>>> GetUserNotifications([FromQuery] string Username)
+        {
+            User myUser = await _userManager.FindByNameAsync(Username);
+            if(myUser == null) return NotFound();
+            
+            return await _unitOfWork.User.GetUsersNotificationsDtos(myUser);
+        }
     }
 }
