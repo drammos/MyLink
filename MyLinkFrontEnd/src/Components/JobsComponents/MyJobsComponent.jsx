@@ -61,7 +61,7 @@ const MyJobsComponent = ({ userInfo }) => {
 
     return (
         <div className="myjobs-container">
-            <h3>User Posts</h3>
+            <h3>My Posts</h3>
             {jobs.length > 0 ? (
                 <ul className="posts-list">
                     {jobs.map((job, index) => (
@@ -82,7 +82,6 @@ const MyJobsComponent = ({ userInfo }) => {
                                 <span><strong>Location: </strong>{' '}{job.location}</span>
                                 <span><strong>Work Type: </strong>{' '}{job.workType}</span>
                                 <span><strong>Category: </strong>{' '}{job.category}</span>
-                                <span><strong>Posted Date: </strong>{' '}{new Date(job.postedDate).toLocaleDateString()}</span>
                                 <span><strong>Status: </strong>{' '}{job.isActive ? 'Active' : 'Closed'}</span>
                             </div>
 
