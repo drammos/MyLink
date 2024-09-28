@@ -65,7 +65,8 @@ const SettingsInfo = ({ userInfo }) => {
         'PUT',
         url,
         inputFormData,
-        'multipart/form-data'
+        'multipart/form-data',
+        true
     );
 
     useEffect(() => {

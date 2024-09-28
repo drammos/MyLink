@@ -62,7 +62,8 @@ const ExperienceComponent = ({ userInfo }) => {
     'POST',
     url2,
     data,
-    'multipart/form-data'
+    'multipart/form-data',
+    true
   );
 
   useEffect(() => {

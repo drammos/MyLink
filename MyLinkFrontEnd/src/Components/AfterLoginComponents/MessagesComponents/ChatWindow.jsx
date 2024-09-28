@@ -29,7 +29,8 @@ const ChatWindow = ({ selectedChat, userInfo }) => {
         'POST',
         addMessage === 1 ? url : null,
         data,
-        'multipart/form-data'
+        'multipart/form-data',
+        true
     );
 
     useEffect(() => {
