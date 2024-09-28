@@ -11,8 +11,14 @@ namespace MyLink.Services.MatrixFactorization
     public class MatrixFactorizationAlgorithm
     {
         private readonly IServiceProvider _serviceProvider;
+        
+        // For posts
         private Matrix<double>? PostsDataMatrix;
         private Matrix<double>? PostsProposedMatrix;
+        
+        // For jobs
+        private Matrix<double>? JobsDataMatrix;
+        private Matrix<double>? JobsProposedMatrix;
         
         public MatrixFactorizationAlgorithm(IServiceProvider service)
         {
@@ -21,7 +27,20 @@ namespace MyLink.Services.MatrixFactorization
 
         public void CalculateForJobs()
         {
-            
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                int userPoint = 0;
+                var _unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                List<User> users = _userManager.Users.ToList();
+                List<Job> jobs = _unitOfWork.Job.GetAll().ToList();
+                PostsDataMatrix = Matrix<double>.Build.Dense(users.Count, jobs.Count);
+
+                foreach (var usr in users)
+                {
+                    
+                }
+            }
         }
         public void CalculateForPosts()
         {
