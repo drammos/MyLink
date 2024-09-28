@@ -10,6 +10,8 @@ namespace MyLink.Data.Repository.IRepository
         public IJobRepository Job { get; set; }
         public IMessageRepository Message { get; set; }
         public IViewedPostsRepository ViewedPosts { get; }
+        public ICommentRepository Comment { get; }
+        public IReactionRepository Reaction { get; }
         void Save();
     }
 }
