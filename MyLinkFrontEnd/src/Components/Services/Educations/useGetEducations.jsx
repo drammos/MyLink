@@ -1,21 +1,20 @@
 import { useState, useCallback, useEffect } from 'react';
-import useService from './useService';
-import {agents} from '../../agents';
+import useService from '../useService';
+import { agents } from '../../../agents';
 
-const useGetUser = () => {
-    const [currentUser, setcurrentUser] = useState('');
+const useGetEducations = () => {
+    const [userId, setUserId] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [message, setMessage] = useState('');
     const [userInfo, setUserInfo] = useState('');
 
-    const url = agents.localhost + agents.getUser;
-    console.log("current username 1", currentUser);
+    const url = agents.localhost + agents.getEducations;
     const { response, loading, refetch: fetchService } = useService(
-        'Getting user informations',
+        'Getting user educations',
         'GET',
-        `${url}?Username=${currentUser}`,
+        `${url}?userId=${userId}`,
         null,
-        undefined, 
+        undefined,
         true
     );
 
@@ -23,27 +22,25 @@ const useGetUser = () => {
         if (response?.status === 200) {
             setErrorCode(0);
             setUserInfo(response.data);
-            console.log("user info:  ", response.data);
-            setMessage('User informations are here!');
+            console.log("user educations:  ", response.data);
+            setMessage('User educations are here!');
         } else {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
         }
     }, [errorCode]);
 
-    const getUser = useCallback((
-        username
+    const getEduc = useCallback((
+        UserId
     ) => {
-        console.log("current username 37", username);
-        setcurrentUser(username);
+        setUserId(UserId);
     }, []);
 
     useEffect(() => {
-        if (currentUser !== '') {
-            console.log("current username wwwwwwwwwwww", currentUser);
+        if (userId !== '') {
             fetchService();
         }
-    }, [fetchService, currentUser]);
+    }, [userId]);
 
     useEffect(() => {
         if (response) {
@@ -51,7 +48,7 @@ const useGetUser = () => {
         }
     }, [response, handleSignUpResponse]);
 
-    return { userInfo, message, errorCode, loading, refetch: getUser };
+    return { getEducationInfo: userInfo, message, errorCode, loading, getEducationrefetch: getEduc };
 };
 
-export default useGetUser;
+export default useGetEducations;

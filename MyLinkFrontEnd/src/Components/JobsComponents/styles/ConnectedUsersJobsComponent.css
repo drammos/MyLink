@@ -61,6 +61,23 @@
             color: #1fb4c2 !important;
         }
 
+    .connected-user-jobs .filters {
+        display: flex;
+        gap: 15px; /* Space between dropdowns */
+        margin-bottom: 20px;
+        flex-wrap: wrap; /* Ensures they wrap in smaller screens */
+    }
+
+    .connected-user-jobs .filter-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .connected-user-jobs .p-button-danger {
+        margin-left: 10px;
+    }
+
+
 @media (max-width: 768px) {
     .connected-user-jobs {
         padding: 10px;
