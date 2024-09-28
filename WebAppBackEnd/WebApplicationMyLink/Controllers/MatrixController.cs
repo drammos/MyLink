@@ -9,6 +9,7 @@ using MyLink.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WebAppMyLink.Controllers
@@ -32,17 +33,16 @@ namespace WebAppMyLink.Controllers
         }
         
         [HttpGet("GetProposedPosts")]
+        [Authorize]
         public async Task<ActionResult<List<PostUserDTO>>> GetProposedPosts([FromQuery] string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound();
 
             var posts = await _matrixFactorizationAlgorithm.GetProposedPosts(user.Id);
-            List<PostUserDTO> proposedPosts = new List<PostUserDTO>();
-            
             
             // If the algrotihm havn't compute the results
-            if (proposedPosts == null || proposedPosts.Count == 0)
+            if (posts == null || posts.Count == 0)
             {
                 var postsDTO = await _unitOfWork.Post.GetPostsFromOtherUsers(user);
                 foreach (var post in postsDTO)
@@ -62,7 +62,7 @@ namespace WebAppMyLink.Controllers
             
             
             // Let's start to seperated the post for this user
-            
+            List<PostUserDTO> proposedPosts = await _unitOfWork.Post.GetPreposedPosts(posts, user);
 
             return proposedPosts;
         }
