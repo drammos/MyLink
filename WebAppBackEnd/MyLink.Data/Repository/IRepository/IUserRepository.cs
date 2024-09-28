@@ -1,4 +1,5 @@
 ﻿using MyLink.Models;
+using MyLink.Models.DTOS;
 
 namespace MyLink.Data.Repository.IRepository
 {
@@ -9,5 +10,6 @@ namespace MyLink.Data.Repository.IRepository
         public Task<List<User>> GetPendingRequestUsers(string Id);
         public Task<bool> DeleteRequest(string PendingUserId, string RecipientUserId);
         public IQueryable<User> SearchUsers(string SearchQuery);
+        public Task<List<UserNotificationsDTO>> GetUsersNotificationsDtos(User user);
     }
 }

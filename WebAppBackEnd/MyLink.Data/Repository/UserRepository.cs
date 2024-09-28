@@ -2,6 +2,7 @@
 using MyLink.Data.Access;
 using MyLink.Data.Repository.IRepository;
 using MyLink.Models;
+using MyLink.Models.DTOS;
 
 namespace MyLink.Data.Repository
 {
@@ -82,6 +83,69 @@ namespace MyLink.Data.Repository
                          || (u.FirstName + " " + u.LastName).StartsWith(SearchQuery))
                             && u.IsAdmin == false);
             return users;
+        }
+
+        public async Task<List<UserNotificationsDTO>> GetUsersNotificationsDtos(User user)
+        {
+            List<UserNotificationsDTO> notificationsDtos = new List<UserNotificationsDTO>();
+            var myPosts = await _context.Posts
+                .Include(c => c.Comments)
+                .Include(r => r.Reactions)
+                .Where(u => u.UserId == user.Id)
+                .ToListAsync();
+            
+            var dates = DateTime.Now.AddDays(-7);
+            foreach (var post in myPosts)
+            {
+                List<Comment> comments = post.Comments.ToList();
+                foreach (var comment in comments)
+                {
+                    if (comment.CreatedAt >= dates)
+                    {
+                        User usr = _context.Users.FirstOrDefault(u => u.UserName == comment.Username);
+                        if(usr == null) continue;
+                        if(usr.UserName == user.UserName) continue;
+                        
+                        notificationsDtos.Add(new UserNotificationsDTO()
+                        {
+                            PostId = comment.Id,
+                            IsComment = true,
+                            UserId = usr.Id,
+                            FirstName = usr.FirstName,
+                            LastName = usr.LastName,
+                            PictureURL = usr.PictureURL,
+                            Body = comment.Content,
+                            UserName = usr.UserName,
+                        });
+                    }
+                }
+                
+                List<Reaction> reactions = post.Reactions.ToList();
+                foreach (var reaction in reactions)
+                {
+                    if (reaction.CreatedAt >= dates)
+                    {
+                        User usr = _context.Users.FirstOrDefault(u => u.UserName == reaction.Username);
+                        if(usr == null) continue;
+                        if(usr.UserName == user.UserName) continue;
+                        
+                        notificationsDtos.Add(new UserNotificationsDTO()
+                        {
+                            PostId = reaction.Id,
+                            IsComment = false,
+                            UserId = usr.Id,
+                            FirstName = usr.FirstName,
+                            LastName = usr.LastName,
+                            PictureURL = usr.PictureURL,
+                            Body = reaction.ReactionType,
+                            UserName = usr.UserName,
+                        });
+                    }
+                }
+                
+            }
+
+            return notificationsDtos;
         }
     }
 }
