@@ -159,5 +159,13 @@ namespace MyLink.Data.Repository
                 .OrderByDescending(j => j.PostedDate)
                 .Include(j => j.User);
         }
+
+        public async Task<List<JobApplication>> GetJobApplications(int jobId)
+        {
+            return await _context.Jobs
+                    .SelectMany(j => j.JobApplications)
+                    .Where(ja => ja.JobId == jobId)
+                    .ToListAsync();
+        }
     }
 }

@@ -17,5 +17,7 @@ namespace MyLink.Data.Repository.IRepository
         public IQueryable<Job> GetOpenJobs();
         public IQueryable<Job> GetCloseJobs();
         public IQueryable<Job> GetSortingJobs(FilterJobsDTO filterJobsDTO);
+        public Task<List<JobApplication>> GetJobApplications(int jobId);
+
     }
 }

@@ -252,6 +252,12 @@ namespace WebAppMyLink.Controllers
         public ActionResult CloseJob([FromQuery] int jobId)
         {
             return !_unitOfWork.Job.CloseJob(jobId) ? NotFound() : StatusCode(200);
-        } 
+        }
+
+        [HttpGet("GetJobApplicationsForPost")]
+        public async Task<ActionResult<List<JobApplication>>> GetJobApplicationsForPost([FromQuery] int jobId)
+        {
+            return await _unitOfWork.Job.GetJobApplications(jobId);
+        }
     }
 }
