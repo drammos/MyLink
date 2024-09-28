@@ -273,5 +273,13 @@ namespace MyLink.Data.Repository
             var connectedUsernames = connectedUsers.Select(x => x.UserName).ToList();
             return new List<PostUserDTO>();
         }
+
+        public async Task<List<Post>> GetAllPosts()
+        {
+            return await _context.Posts
+                    .Include(p => p.Comments)
+                    .Include(p => p.Reactions)
+                    .ToListAsync();
+        }
     }
 }
