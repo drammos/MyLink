@@ -27,6 +27,7 @@ namespace MyLink.Services.MatrixFactorization
                 "Consume Scoped Service Hosted Service running.");
             Console.WriteLine("ekaaa\n\n");
             // Run the Matrix Factorization Algorithm
+            StartTheMatrixFactorizationAsync();
             
             var interval = TimeSpan.FromMinutes(5).TotalMilliseconds;
             
@@ -41,10 +42,10 @@ namespace MyLink.Services.MatrixFactorization
 
             using (var scope = _services.CreateScope())
             {
-                // var matrixFactorizationService = scope.ServiceProvider.GetRequiredService<MatrixFactorizationAlgorithm>();
+                var matrixFactorizationService = scope.ServiceProvider.GetRequiredService<MatrixFactorizationAlgorithm>();
                 // matrixFactorizationService.CalculateForJobs();
-                // matrixFactorizationService.CalculateForPosts();
-                // _logger.LogInformation("Running matrix factorization");
+                matrixFactorizationService.CalculateForPosts();
+                _logger.LogInformation("Running matrix factorization");
             }
         }
         // Stop ASYNC
