@@ -18,10 +18,8 @@ import { useNavigationHelpers } from "../Helpers/useNavigationHelpers";
 
 
 const MainPageCenter = () => {
-
     const { handleUsernameClick } = useNavigationHelpers();
     const { response: postsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetProposedPosts();
-
     const { createReactionRefetch } = useCreateReaction();
     const { message: createCommentMessage, errorCode: createCommenterrorCode, createCommentRefetch } = useCreateComment();
     const { commentsData, message: getPostCommentsMessage, getPostCommentsRefetch } = useGetPostComments();
