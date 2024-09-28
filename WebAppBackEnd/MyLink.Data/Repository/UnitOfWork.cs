@@ -28,6 +28,7 @@ namespace MyLink.Data.Repository
             Message = new MessageRepository(context);
             ViewedPosts = new ViewedPostsRepository(context);
             Comment = new CommentRepository(context);
+            Reaction = new ReactionRepository(context);
         }
 
         public void Save()
