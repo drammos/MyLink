@@ -80,5 +80,9 @@ export const agents = {
     getDiscussionWithoutPagination: 'User/GetDiscussionWithoutPagination',
 
     //Viewed POST
-    addViewedPost: 'ViewedPosts/PostViewedPosts'
+    addViewedPost: 'ViewedPosts/PostViewedPosts',
+
+    //Matrix Factorization
+    getProposedPosts: 'Matrix/GetProposedPosts',
+    getProposedJobs: 'Matrix/GetPreposedJobs'
 };
