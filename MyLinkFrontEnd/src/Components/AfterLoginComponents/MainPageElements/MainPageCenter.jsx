@@ -5,7 +5,7 @@ import useCreateComment from '../../Services/Post/useCreateComment';
 import useCreateReaction from '../../Services/Post/useCreateReaction';
 import useGetPostComments from '../../Services/Post/useGetPostComments';
 import { agents } from '../../../agents';
-import useGetPostsFromOtherUsers from '../../Services/Post/useGetPostsFromOtherUsers';
+import useGetProposedPosts from '../../Services/Post/useGetProposedPosts';
 import useService from '../../Services/useService';
 import './styles/MainPageCenter.css'; 
 import CreatePostComponent from "./CreatePostCompoment";
@@ -17,7 +17,7 @@ import { FcLike, FcLikePlaceholder, FcComments, FcCalendar } from "react-icons/f
 
 
 const MainPageCenter = () => {
-    const { response: postsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetPostsFromOtherUsers();
+    const { response: postsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetProposedPosts();
     const { createReactionRefetch } = useCreateReaction();
     const { message: createCommentMessage, errorCode: createCommenterrorCode, createCommentRefetch } = useCreateComment();
     const { commentsData, message: getPostCommentsMessage, getPostCommentsRefetch } = useGetPostComments();
@@ -191,11 +191,12 @@ const MainPageCenter = () => {
     const urlForPost = agents.localhost + agents.addViewedPost;
 
     const myPostedService = useService(
-        'Add Experience ...',
+        'Posted ...',
         'POST',
         urlForPost,
         data,
-        'multipart/form-data'
+        'multipart/form-data',
+        true
     );
     
     useEffect(() => {
@@ -209,8 +210,7 @@ const MainPageCenter = () => {
           if (myPostedService.response.status === 200) {
             setData(null);
           } else {
-            console.log(alltogether.response.data.detail);
-            setError(alltogether.response.data.detail);
+            setError(myPostedService.response.data.detail);
             setData(null);
           }
         }
