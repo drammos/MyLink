@@ -260,5 +260,18 @@ namespace MyLink.Data.Repository
             }).ToList();
             return result;
         }
+
+
+        public async Task<List<PostUserDTO>> GetPreposedPosts(List<Post> posts, User usr)
+        {
+            var user  = await _context.Users
+                .Include(x => x.ConnectedUsers)
+                .FirstOrDefaultAsync(x => x.Id == usr.Id);
+            
+            List<User> connectedUsers = [.. user.ConnectedUsers];
+            var connectedUserIds = connectedUsers.Select(x => x.Id).ToList();
+            var connectedUsernames = connectedUsers.Select(x => x.UserName).ToList();
+            return new List<PostUserDTO>();
+        }
     }
 }
