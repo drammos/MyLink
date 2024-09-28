@@ -20,7 +20,10 @@ namespace MyLink.Data.Access
         public DbSet<Post> Posts { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
-
+        public DbSet<ViewedPosts> ViewedPosts { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Reaction> Reaction { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
