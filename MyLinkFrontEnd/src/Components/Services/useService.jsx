@@ -44,8 +44,12 @@ const useService = (message, method, url, input = null, contentType = 'applicati
                 headersDict[key] = value;
             });
             
-            // Get the data
-            const data = await res.json();
+            // Get Data
+            const contentType = res.headers.get('content-type');
+            let data = null;
+            if (contentType!==null)
+              data = await res.json();
+
             setResponse({
                 status: res.status,
                 data,
