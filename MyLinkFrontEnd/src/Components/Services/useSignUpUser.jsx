@@ -18,7 +18,8 @@ const useSignUpUser = () => {
         'POST',
         url,
         inputFormData,
-        'multipart/form-data'
+        'multipart/form-data',
+        true
     );
 
 

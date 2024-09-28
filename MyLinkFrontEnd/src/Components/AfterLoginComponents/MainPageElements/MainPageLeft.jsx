@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import './styles/MainPageLeft.css';
+import useGetEducations from "../../Services/Educations/useGetEducations";
+import { Routes } from '../../../routes';
 
 const MainPageLeft = ({ userInfo }) => {
+    const { getEducationInfo, message, errorCode, loading, getEducationrefetch } = useGetEducations();
+    const [educationList, setEducationList] = useState([]);
+
 
     const calculateAge = (birthday) => {
         const birthDate = new Date(birthday);
@@ -22,18 +27,18 @@ const MainPageLeft = ({ userInfo }) => {
     const firstname = userInfo.firstName ? userInfo.firstName.charAt(0).toUpperCase() + userInfo.firstName.slice(1).toLowerCase() : '';
 
     const initials = firstname.charAt(0) + lastname.charAt(0);
-    const [education, setEducation] = useState('');
 
     const bday = userInfo.birthday;
     const age = calculateAge(bday);
 
+    useEffect(() => {
+        getEducationrefetch(localStorage.getItem('id'));
+    }, []);
 
-    //useEffect(() => {
-    //    if (userInfo.educations !== [])
-    //        setEducation(userInfo.educations);
-    //    else
-    //        setEducation(null);
-    //}, [userInfo.educations]);
+    useEffect(() => {
+        setEducationList(getEducationInfo);
+    }, [getEducationInfo]);
+
 
     return (
         <div className="main-page-left">
@@ -48,13 +53,29 @@ const MainPageLeft = ({ userInfo }) => {
                 <div className="profile-info">
                     <b>{firstname} {lastname}</b>
                     <>Age: {age}</>
-                    {/*<p>{education} Physiotherapist</p>*/}
                 </div>
             </div>
-            <div className="quick-links-section">
-                <h4 className="section-title">Quick Links</h4>
-                <a href="#" className="quick-link">Link 1</a>
-                <a href="#" className="quick-link">Link 2</a>
+            {/* Link to Contacts */}
+            <div style={{ marginTop: '20px' }}>
+                <a href={Routes.Network} className="contact-link">Go to Contacts</a>
+            </div>
+            <div>
+                <h4>Education Information</h4>
+                {educationList.length > 0 ? (
+                    educationList.map((education) => (
+                        <div key={education.id} className="education-box-left">
+                            <p><strong>School:</strong> {education.school}</p>
+                            <p><strong>Degree:</strong> {education.degree}</p>
+                            <p><strong>Field of Study:</strong> {education.fieldOfStudy}</p>
+                            <p><strong>Start Date:</strong> {new Date(education.startDate).toLocaleDateString()}</p>
+                            <p><strong>End Date:</strong> {education.endDate ? new Date(education.endDate).toLocaleDateString() : 'Present'}</p>
+                            <p><strong>Grade:</strong> {education.grade}</p>
+                            <p><strong>Description:</strong> {education.description}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No education information available.</p>
+                )}
             </div>
         </div>
     );

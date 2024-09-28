@@ -74,3 +74,16 @@
     color: #1fb4c2;
     text-decoration: none;
 }
+
+.education-box-left {
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    padding: 10px; 
+    margin: 10px 0;
+    background-color: #f9f9f9; 
+    font-size: 14px; 
+}
+
+    .education-box-left strong {
+        font-size: 16px; 
+    }

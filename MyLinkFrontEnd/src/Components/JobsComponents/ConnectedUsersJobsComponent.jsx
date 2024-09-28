@@ -23,18 +23,21 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     const [selectedWorkType, setSelectedWorkType] = useState('');
     const [selectedLocationType, setSelectedLocationType] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedDatePosted, setSelectedDatePosted] = useState('None');
 
     const workTypes = ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Internship'];
     const locationTypes = ['On-site', 'Remote', 'Hybrid'];
     const categories = ['Technology', 'Finance', 'Healthcare', 'Education', 'Marketing', 'Other'];
+    const datePosted = ['Today', 'Yesterday', 'This Week', 'This Month'];
 
-    const filteredJobs = jobs.filter(job => {
-        return (
-            (selectedWorkType === '' || job.workType === selectedWorkType) &&
-            (selectedLocationType === '' || job.locationType === selectedLocationType) &&
-            (selectedCategory === '' || job.category === selectedCategory)
-        );
-    });
+    const datePostedOptions = [
+        { label: 'Today', value: 1 },
+        { label: 'Yesterday', value: 2 },
+        { label: 'This Week', value: 7 },
+        { label: 'This Month', value: 15 },
+        { label: 'None', value: 180 },
+    ];
+
 
     const clearFilter = (filterType) => {
         switch (filterType) {
@@ -46,6 +49,9 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
                 break;
             case 'category':
                 setSelectedCategory('');
+                break;
+            case 'date':
+                setSelectedDatePosted('None');
                 break;
             default:
                 break;
@@ -78,9 +84,9 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
         getJobsRefetch(currentUserId, 150, '', '', '', pageNumber, pageSize);
     }, [pageNumber, currentUserId]);
 
-    useEffect(() => {
-        getStatusJobsRefetch(currentUserUsername, "Applied");
-    }, []);
+    //useEffect(() => {
+    //    getStatusJobsRefetch(currentUserUsername, "Applied");
+    //}, []);
 
     useEffect(() => {
         if (getStatusResponse) {
@@ -98,6 +104,20 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
             }
         }
     }, [getJobsErrorCode, getJobsResponse]);
+
+    useEffect(() => {
+        console.log('--------------------', selectedDatePosted, ' -------------- ', datePostedOptions.find(option => option.label === selectedDatePosted));
+        if (datePostedOptions.find(option => option.label === selectedDatePosted).value)
+            getJobsRefetch(currentUserId, datePostedOptions.find(option => option.label === selectedDatePosted).value,
+                selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);
+        else
+            getJobsRefetch(currentUserId, 180,
+                selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);
+    }, [selectedCategory, selectedLocationType, selectedWorkType, selectedDatePosted, currentUserId, datePostedOptions]);
+
+    const handleJobClick = () => {
+        console.log("---------------------------------------");
+    };
 
     return (
         <div className="connected-user-jobs">
@@ -154,10 +174,26 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
                 </div>
             </div>
 
+            <div className="filter-group">
+                <Dropdown
+                    value={selectedDatePosted}
+                    options={datePosted}
+                    onChange={(e) => setSelectedDatePosted(e.value)}
+                    placeholder="Date Posted"
+                />
+                {selectedDatePosted !== 'None' && (
+                    <Button
+                        label="Clear"
+                        className="p-button-danger p-ml-2"
+                        onClick={() => clearFilter('date')}
+                    />
+                )}
+            </div>
+
 
             {/* Display filtered jobs */}
-            {filteredJobs.map(job => (
-                <Card key={job.id} className="job-card">
+            {jobs.map(job => (
+                <Card key={job.id} className="job-card" onClick={ handleJobClick }>
                     <h3>{job.title}</h3>
                     <p className="company-name">{job.companyName}</p>
                     <p>{job.description}</p>

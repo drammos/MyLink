@@ -28,7 +28,8 @@ const useEditUser = () => {
         'PUT',
         url,
         inputFormData,
-        'multipart/form-data'
+        'multipart/form-data',
+        true
     );
 
     const handleEditResponse = useCallback((response) => {

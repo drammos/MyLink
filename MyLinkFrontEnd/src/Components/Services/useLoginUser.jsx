@@ -16,7 +16,9 @@ const useLoginUser = () => {
         'Logging in...',
         'POST',
         url,
-        inputData
+        inputData,
+        'application/json',
+        true
     );
 
     const handleLoginResponse = useCallback((response) => {
