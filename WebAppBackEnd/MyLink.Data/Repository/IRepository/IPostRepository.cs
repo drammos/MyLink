@@ -19,6 +19,6 @@ namespace MyLink.Data.Repository.IRepository
         public Task<List<Post>> GetPostsFromConnectedUsers(List<string> userIdList);
         public Task<List<PostUserDTO>> GetPostsFromOtherUsers(User user);
         public Task<List<PostUserDTO>> GetPreposedPosts(List<Post> posts, User usr);
-
+        public Task<List<Post>> GetAllPosts();
     }
 }
