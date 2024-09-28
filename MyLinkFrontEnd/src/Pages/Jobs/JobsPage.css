@@ -1,0 +1,17 @@
+.main-page {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+}
+
+.left-column,
+.right-column {
+    flex: 1;
+}
+
+@media (max-width: 1024px) {
+    .main-page {
+        flex-direction: column;
+    }
+}

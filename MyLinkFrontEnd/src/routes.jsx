@@ -13,5 +13,6 @@ export const Routes = {
     UserInfo: '/UserPage/:username',
     SearchUsers: '/SearchUsers',
     Messages: '/Messages',
-    Network: '/Network'
+    Network: '/Network',
+    Jobs: '/Jobs'
 };

@@ -9,7 +9,9 @@ import useGetListFromIncomingRequests from '../../Services/useGetListFromIncomin
 import PropTypes from 'prop-types';
 import useService from '../../Services/useService';
 import {agents} from '../../../agents'; 
-import {Routes} from '../../../routes'; 
+import { Routes } from '../../../routes'; 
+import { Badge } from 'primereact/badge';
+
 
 const LoggedInNavBar = ({ userInfo }) => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -184,7 +186,7 @@ const LoggedInNavBar = ({ userInfo }) => {
             </div>
             <div className="navbar-right">
                 <button className="notification-button" onClick={toggleNotificationPopup}>
-                    <span className="notification-count">{listLength}</span>
+                    <Badge value={listLength} severity="danger"></Badge>
                 </button>
                 {isNotificationOpen && (
                     <NotificationPopup notifications={notificationList} />

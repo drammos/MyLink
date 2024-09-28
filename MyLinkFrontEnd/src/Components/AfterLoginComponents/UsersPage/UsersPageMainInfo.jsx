@@ -36,7 +36,7 @@ const UsersPageMainInfo = ({ userInfo }) => {
     }, [CommunicationTypeResponse]);
 
     const handleConnectClick = async (userId) => {
-        await requestToConnectRefetch(userInfo.id, userId);
+        await requestToConnectRefetch(userId, userInfo.id);
         setStatus('Pending');
     };
 
@@ -57,7 +57,7 @@ const UsersPageMainInfo = ({ userInfo }) => {
                 <p>Phone: {userInfo.phoneNumber}</p>
                 <p>Birthday: {userInfo.birthday}</p>
             </div>
-            <ConnectButton status={status} userId={userInfo.id}
+            <ConnectButton status={status} userId={loggedInUserId}
                 handleConnectClick={handleConnectClick} requestToConnectLoading={requestToConnectLoading} /> 
         </div>
     );

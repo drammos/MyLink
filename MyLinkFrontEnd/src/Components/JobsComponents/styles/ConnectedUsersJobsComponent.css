@@ -1,0 +1,68 @@
+.connected-user-jobs {
+    width: 1150px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 16px; /* Added for curvy angles */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow for more depth */
+    border: 1px solid #e0e0e0;
+}
+
+    .connected-user-jobs h2 {
+        color: #1fb4c2;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .connected-user-jobs .job-card {
+        margin-bottom: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+        padding: 15px;
+    }
+
+        .connected-user-jobs .job-card h3 {
+            color: #1fb4c2;
+            margin-bottom: 5px;
+        }
+
+        .connected-user-jobs .job-card .company-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .connected-user-jobs .job-card .job-details {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .connected-user-jobs .job-card .category {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+    .connected-user-jobs .apply-button {
+        width: 20%;
+        margin-top: 10px;
+    }
+
+        .connected-user-jobs .apply-button.applied {
+            background-color: #4CAF50 !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .connected-user-jobs .apply-button p-button p-component {
+            color: #1fb4c2 !important;
+        }
+
+@media (max-width: 768px) {
+    .connected-user-jobs {
+        padding: 10px;
+    }
+}

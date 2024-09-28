@@ -14,16 +14,11 @@ import SearchUsers from './Pages/SearchUsers/searchUsers.jsx'
 import Messages from './Pages/Messages/Messages.jsx'
 import Network from './Pages/Network/Network.jsx'
 import { Routes } from './routes.jsx';
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import JobsPage from './Pages/Jobs/JobsPage.jsx';
 
 import App from './Pages/WelcomePage/App.jsx'
 import './index.css'
-
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
-import { Rotate } from '@cloudinary/url-gen/actions'
 
 const router = createBrowserRouter([
     { path: Routes.Home, element: <App /> },
@@ -40,6 +35,7 @@ const router = createBrowserRouter([
     { path: Routes.SearchUsers,  element: <SearchUsers /> },
     { path: Routes.Messages, element: <Messages /> },
     { path: Routes.Network, element: <Network /> },
+    { path: Routes.Jobs, element: <JobsPage /> },
     { path: "*", element: <PageNotFound /> },
 ]);
 

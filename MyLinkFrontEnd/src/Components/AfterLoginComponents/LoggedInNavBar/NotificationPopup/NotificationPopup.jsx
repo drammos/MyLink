@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './NotificationPopup.css';
+import { useNavigationHelpers } from '../../Helpers/useNavigationHelpers';
 
 const NotificationPopup = ({ notifications }) => {
+    const { handleUsernameClick } = useNavigationHelpers();
     useEffect(() => {
         console.log("Notifications are: ", notifications);
     }, [notifications]);
@@ -13,7 +15,7 @@ const NotificationPopup = ({ notifications }) => {
             <ul>
                 {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                        <li key={index} className="notification-item">
+                        <li key={index} className="notification-item" onClick={() => handleUsernameClick(notification.userName)}> 
                             <img
                                 src={notification.pictureURL}
                                 alt={`${notification.firstName} ${notification.lastName}`}
