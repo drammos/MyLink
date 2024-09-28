@@ -172,7 +172,7 @@ namespace MyLink.Services.MatrixFactorization
             return Tuple.Create(recommendationsMatrix, err);
         }
 
-        public List<Post> GetProposedPosts(string userId)
+        public async Task<List<Post>> GetProposedPosts(string userId)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
@@ -180,7 +180,7 @@ namespace MyLink.Services.MatrixFactorization
                 var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var _unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                 List<User> users = _userManager.Users.ToList();
-                List<Post> posts = _unitOfWork.Post.GetAll().ToList();
+                List<Post> posts =  await _unitOfWork.Post.GetAllPosts();
 
                 foreach (var usr in users)
                 {
