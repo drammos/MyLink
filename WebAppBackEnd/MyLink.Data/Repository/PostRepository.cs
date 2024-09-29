@@ -260,6 +260,53 @@ namespace MyLink.Data.Repository
             }).ToList();
             return result;
         }
+        
+        public async Task<List<Post>> GetPostsForMatrix(User usr)
+        {
+           
+            var user  = await _context.Users
+                .Include(x => x.ConnectedUsers)
+                .FirstOrDefaultAsync(x => x.Id == usr.Id);
+            
+            List<User> connectedUsers = [.. user.ConnectedUsers];
+            var connectedUserIds = connectedUsers.Select(x => x.Id).ToList();
+            var connectedUsernames = connectedUsers.Select(x => x.UserName).ToList();
+            
+            
+            var posts = await _context.Posts
+                .Where(p =>
+                        p.UserId == user.Id || // It's my post
+                        connectedUserIds.Contains(p.UserId) ||  // It's from connection user
+                        p.Comments.Any(c => connectedUsernames.Contains(c.Username)) ||  // It's from commented connected user
+                        p.Reactions.Any(r => connectedUsernames.Contains(r.Username)) // It's from reaction connected user
+                )
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                .Include(p => p.Reactions)
+                .OrderByDescending(p => !p.UpdateAt.HasValue ? p.CreatedAt : p.UpdateAt)
+                .ToListAsync();
+            
+            var result = posts.Select(p =>
+            {
+                Comment connectedUserComment = null;
+                Reaction connectedUserReaction = null;
+                string username = null;
+                if (p.UserId.Contains(user.Id) == false)
+                {
+                    connectedUserComment = p.Comments.FirstOrDefault(c => connectedUsernames.Contains(c.Username));
+                    username = connectedUserComment?.Username;
+                    if (connectedUserComment == null)
+                    {
+                        connectedUserReaction = p.Reactions.FirstOrDefault(r => connectedUsernames.Contains(r.Username));
+                        username = connectedUserReaction?.Username;
+                    }
+                }
+
+
+                return p;
+            }).ToList();
+            return result;
+        }
 
 
         public async Task<List<PostUserDTO>> GetPreposedPosts(List<Post> posts, User usr)
