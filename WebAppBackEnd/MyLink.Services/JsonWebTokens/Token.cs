@@ -40,8 +40,8 @@ namespace MyLink.Services.JsonWebTokens
                 issuer: null,
                 audience: null,
                 claims,
-                //expires: DateTime.Now.AddHours(24), 
-                expires: DateTime.Now.AddDays(30),
+                expires: DateTime.Now.AddHours(24), 
+                // expires: DateTime.Now.AddDays(30),
                 signingCredentials: credentials
                 );
 

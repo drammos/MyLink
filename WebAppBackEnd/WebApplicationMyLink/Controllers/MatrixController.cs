@@ -70,7 +70,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetProposedJobs")]
-        // [Authorize]
+        [Authorize]
         public async Task<ActionResult<PagedList<JobDTO>>> GetProposedJobs([FromQuery] string userId, [FromQuery] Params PaginationParams)
         {
             var user = await _userManager.FindByIdAsync(userId);
