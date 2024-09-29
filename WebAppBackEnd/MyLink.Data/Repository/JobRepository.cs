@@ -159,6 +159,19 @@ namespace MyLink.Data.Repository
                 .OrderByDescending(j => j.PostedDate)
                 .Include(j => j.User);
         }
+        
+        public async Task<List<Job>> GetJobsForMatrix(string UserId)
+        {
+            return await _context.Jobs
+                .Where(
+                    j => 
+                        j.IsActive == true 
+                        && (j.UserId != UserId)   
+                )
+                .OrderByDescending(j => j.PostedDate)
+                .Include(j => j.User)
+                .ToListAsync();
+        }
 
         public async Task<List<JobApplication>> GetJobApplications(int jobId)
         {
