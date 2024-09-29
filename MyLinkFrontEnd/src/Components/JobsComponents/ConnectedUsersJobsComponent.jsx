@@ -17,6 +17,7 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     const currentUserUsername = localStorage.getItem('username');
 
     const { getJobsResponse, getJobsMessage, getJobsErrorCode, getJobsLoading, getJobsRefetch } = useGetFilteredJobs();
+    
     const { getStatusResponse, getStatusJobsRefetch } = useGetUserStatusJobs();
     const { applyForJobMessage, applyForJobErrorCode, applyForJobLoading, applyForJobRefetch } = useApplyForJob();
     const [data, setData] = useState(null);

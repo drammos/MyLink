@@ -116,7 +116,7 @@ namespace WebAppMyLink.Controllers
         }
 
         [HttpGet("GetUser")]
-        [Authorize]
+        // [Authorize]
         public async Task<ActionResult<User>> GetUser(string Username)
         {
             User user = await _userManager.FindByNameAsync(Username);
