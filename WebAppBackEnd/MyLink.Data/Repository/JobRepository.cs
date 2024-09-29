@@ -174,6 +174,5 @@ namespace MyLink.Data.Repository
                 .Include(u => u.User)
                 .ToListAsync();
         }
-
     }
 }
