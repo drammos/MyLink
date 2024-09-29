@@ -96,7 +96,6 @@ const SearchResults = () => {
         Pending: 'Pending',
         InComing: 'Incoming'
     };
-    const { CommunicationTypeResponse, CommunicationTypeRefetch } = useGetCommunicationType();
 
 
     useEffect(() => {
@@ -104,7 +103,7 @@ const SearchResults = () => {
             for (const user of users) {
                 if (currentUserId !== user.id) {
                     console.log("goes in");
-                    await CommunicationTypeRefetch(currentUserId, user.id);
+
                 } else {
                     setStatuses((prevStatuses) => ({
                         ...prevStatuses,
@@ -119,14 +118,6 @@ const SearchResults = () => {
         }
     }, [users]);
 
-    useEffect(() => {
-        if (CommunicationTypeResponse) {
-            if (CommunicationTypeResponse.data) {
-                console.log("useEffect data -> ", CommunicationTypeResponse.data.result);
-                setStatuses((prevStatuses) => ({ ...prevStatuses, [CommunicationTypeResponse.data.user2 ]: CommunicationTypeResponse.data.result, }));
-            }
-        }
-    }, [CommunicationTypeResponse]);
 
     return (
         <div className="search-results-container">

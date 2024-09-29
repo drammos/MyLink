@@ -29,6 +29,8 @@ const useGetCommunicationType = () => {
             setErrorCode(1);
             setMessage(response?.title || 'An error occurred. Please try again.');
         }
+        setUserId1('');
+        setUserId2('');
     }, []);
 
     const getResponse = useCallback((
@@ -39,9 +41,13 @@ const useGetCommunicationType = () => {
     }, []);
 
     useEffect(() => {
-        if (userId2 !== '' && userId1 !== '') {
-            fetchService();
-        }
+        
+        const fetchData = async () => {
+            if (userId2 !== '' && userId1 !== '') {
+                await fetchService();
+            }
+        };
+        fetchData();
     }, [userId1, userId2, fetchService]);
 
     useEffect(() => {
