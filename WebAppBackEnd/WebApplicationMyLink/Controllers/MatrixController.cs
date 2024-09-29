@@ -11,6 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using MyLink.Services.Pagination;
 
 namespace WebAppMyLink.Controllers
 {
@@ -65,6 +67,61 @@ namespace WebAppMyLink.Controllers
             List<PostUserDTO> proposedPosts = await _unitOfWork.Post.GetPreposedPosts(posts, user);
 
             return proposedPosts;
+        }
+
+        [HttpGet("GetProposedJobs")]
+        // [Authorize]
+        public async Task<ActionResult<PagedList<JobDTO>>> GetProposedJobs([FromQuery] string userId, [FromQuery] int PageSize, [FromQuery] int PageNumber)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            var jobs = await _matrixFactorizationAlgorithm.GetProposedJobs(user.Id);
+            // If the algrotihm havn't compute the results
+            if (jobs == null || !jobs.Any())
+            {
+                var oldJobs = _unitOfWork.Job.GetSortingJobs(new FilterJobsDTO(){UserId = userId, PageSize = PageSize, PageNumber = PageNumber});
+                var jobsListPaged = await PagedList<Job>.ToPagedList(oldJobs, PageNumber, PageSize);
+                List<JobDTO> jobDTOList = new List<JobDTO>();
+                foreach (var job in jobsListPaged)
+                {
+                    JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                    jobDTOList.Add(jobDTO);
+                }
+                var jobDTOPaginationList = new PagedList<JobDTO>(jobDTOList, jobsListPaged.Metadata.TotalCount, jobsListPaged.Metadata.CurrentPage, jobsListPaged.Metadata.PageSize);
+                Response.AddPaginationHeader(jobDTOPaginationList.Metadata);
+                return jobDTOPaginationList;
+            }
+            //
+            List<Job> jobslist = new List<Job>();
+            foreach(var job in jobs)
+            {
+                if (job.IsActive && job.UserId != userId)
+                {
+                    jobslist.Add(job);
+                }
+            }
+            IQueryable<Job> jobsQueryable = _unitOfWork.Job.GetAllIQueryable();
+            jobsQueryable = jobsQueryable.Include(j => j.User).Where(j => jobslist.Contains(j));
+            var jobsListPagedMatrix = await PagedList<Job>.ToPagedList(jobsQueryable, PageNumber, PageSize);
+            List<JobDTO> jobDTOListMatrix = new List<JobDTO>();
+            foreach (var job in jobsListPagedMatrix)
+            {
+                JobDTO jobDTO = _mapper.Map<JobDTO>(job);
+                if (job.User != null)
+                {
+                    jobDTO.FirstName = job.User.FirstName;
+                    jobDTO.LastName = job.User.LastName;
+                    jobDTO.PictureURL = job.User.PictureURL;
+                    jobDTO.UserName = job.User.UserName;    
+                }
+                
+                
+                jobDTOListMatrix.Add(jobDTO);
+            }
+            var jobDTOPaginationListMatrix = new PagedList<JobDTO>(jobDTOListMatrix, jobsListPagedMatrix.Metadata.TotalCount, jobsListPagedMatrix.Metadata.CurrentPage, jobsListPagedMatrix.Metadata.PageSize);
+            Response.AddPaginationHeader(jobDTOPaginationListMatrix.Metadata);
+            return jobDTOPaginationListMatrix;
         }
     }
 }
