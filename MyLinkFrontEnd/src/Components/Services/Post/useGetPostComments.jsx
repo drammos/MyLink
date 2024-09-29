@@ -36,7 +36,6 @@ const useGetPostComments = () => {
     }, []);
 
     const getPostComments = useCallback((PostId) => {
-        console.log('Post Id iiiiiiiiiiiiiiiiiiiis', PostId);
         if (PostId) {
             setPostId(PostId);
             setCommentsData(null);
@@ -50,7 +49,6 @@ const useGetPostComments = () => {
     }, [response, handleGetPostCommentsResponse]);
 
     useEffect(() => {
-        console.log('iiiiiiiiiiiiiiiiiiiis', postId);
         if (postId) {
             fetchService();
         }

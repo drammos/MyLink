@@ -107,7 +107,7 @@ const CreatePostComponent = ({ setPosts }) => {
         if (isFormSubmitted) {
             handlePost();
         }
-    }, [isFormSubmitted, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic, createPostRefetch, message]);
+    }, [isFormSubmitted, userId, title, text, createdAt, pictureUrls, videoUrls, fileUrls, isPublic, createPostRefetch]);
 
     useEffect(() => {
         if (errorCode === 1) {
@@ -116,7 +116,7 @@ const CreatePostComponent = ({ setPosts }) => {
         } else if (errorCode === 0) {
             setInfoMessage("Post uploaded!");
             setErrorCode(0);
-            getPostsRefetch(localStorage.getItem('id'));
+            setTimeout(() => { getPostsRefetch(); console.log('Refetching Posts after creating one...'); }, 1000);
 
         }
     }, [errorCode]);
