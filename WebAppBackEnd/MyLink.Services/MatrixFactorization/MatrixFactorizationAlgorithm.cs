@@ -317,6 +317,16 @@ namespace MyLink.Services.MatrixFactorization
                         newSortedjobslist.Add(job);
                     }
                 }
+                
+                // Check the new post where in algorithm not exist
+                var allJobs = await _unitOfWork.Job.GetJobsForMatrix(userId);
+                foreach (var job in allJobs)
+                {
+                    if (!sortedJobs.Any(sj => sj.Id == job.Id))
+                    {
+                        sortedJobs.Add(job);
+                    }
+                }
                 Console.WriteLine(string.Join(",   ", newSortedjobslist));
                 return newSortedjobslist;
             }
