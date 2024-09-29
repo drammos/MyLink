@@ -27,9 +27,15 @@ namespace MyLink.Data.Repository
             return query.ToList();
         }
 
-        public IQueryable<T> GetAllIQueryable()
+        public IQueryable<T> GetAllIQueryable(Expression<Func<T, bool>>? filter = null)
         {
-            return dbSet.AsQueryable<T>();
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return query;
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> filter)
