@@ -50,6 +50,7 @@ const NotificationPopup = ({ notificationsPending, notificationsReactions }) => 
             <ul>
                 {notificationsPending.length > 0 ? (
                     notificationsPending.map((notification, index) => (
+
                         <li key={index} className="notification-item" > 
                             <img
                                 src={notification.pictureURL}
@@ -78,8 +79,9 @@ const NotificationPopup = ({ notificationsPending, notificationsReactions }) => 
                             />
                             <span className="buttons">
                                 {notificationReaction.isComment ? (
-                                    <> {notificationReaction.firstName} {notificationReaction.lastName} commented on your post: <br />
-                                        {notificationReaction.body} </>
+                                    <> <strong> {notificationReaction.firstName} {notificationReaction.lastName} </strong>  commented on your post
+                                        <strong> {notificationReaction.postTitle} </strong>  this  <br />
+                                        <strong style={{ color: '#1fb4c2' }}>{notificationReaction.body}</strong> </>
                                 ) : (
                                     <> {notificationReaction.firstName} {notificationReaction.lastName} liked your post </>
                                 )}

@@ -40,6 +40,10 @@
         cursor: pointer; /* Show pointer on hover */
     }
 
+    .notification-popup .notification-item{
+        padding:2px;
+    }
+
     .notification-popup .notification-item span {
         flex: 1; /* Take up remaining space */
         cursor: pointer; /* Show pointer on hover */
@@ -91,3 +95,7 @@
     .notification-popup .p-button:hover {
         opacity: 0.9; /* Slight transparency on hover */
     }
+
+.loggedInNavbarContainer .notification-popup li span {
+    line-height: 1.4;
+}
