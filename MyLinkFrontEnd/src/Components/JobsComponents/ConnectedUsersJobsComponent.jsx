@@ -7,6 +7,8 @@ import useGetFilteredJobs from '../Services/Jobs/useGetFilteredJobs';
 import AppPagination from '../Pagination/AppPagination';
 import useApplyForJob from '../Services/Jobs/useApplyForJob';
 import useGetUserStatusJobs from '../Services/Jobs/useGetUserStatusJobs';
+import { agents } from '../../agents';
+import useService from '../Services/useService';
 
 const ConnectedUsersJobsComponent = ({ userInfo }) => {
     const [jobs, setJobs] = useState([]);
@@ -15,9 +17,10 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     const currentUserUsername = localStorage.getItem('username');
 
     const { getJobsResponse, getJobsMessage, getJobsErrorCode, getJobsLoading, getJobsRefetch } = useGetFilteredJobs();
+    
     const { getStatusResponse, getStatusJobsRefetch } = useGetUserStatusJobs();
     const { applyForJobMessage, applyForJobErrorCode, applyForJobLoading, applyForJobRefetch } = useApplyForJob();
-
+    const [data, setData] = useState(null);
     //#region filters
 
     const [selectedWorkType, setSelectedWorkType] = useState('');
@@ -115,8 +118,45 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
                 selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);
     }, [selectedCategory, selectedLocationType, selectedWorkType, selectedDatePosted, currentUserId, datePostedOptions]);
 
-    const handleJobClick = () => {
-        console.log("---------------------------------------");
+
+    const urlForJob = agents.localhost + agents.addViewedJob;
+
+    const myPostedService = useService(
+        'Posted ...',
+        'POST',
+        urlForJob,
+        data,
+        'multipart/form-data',
+        true
+    );
+    
+    useEffect(() => {
+        if (data != null) {
+            myPostedService.refetch(); 
+        }
+    }, [data]);
+    
+    useEffect(() => {
+        if (myPostedService.response) {
+          if (myPostedService.response.status === 200) {
+            setData(null);
+          } else {
+            setError(myPostedService.response.data.detail);
+            setData(null);
+          }
+        }
+    }, [myPostedService.response, data]);
+
+    const handleJobClick = (jobId) => {
+        const userId = localStorage.getItem('id');    
+        console.log("CLICKKK: JOB id ", jobId, userId);
+        const informdata = new FormData();
+            
+
+        informdata.append("UserId", userId);
+        informdata.append("JobId", jobId);
+
+        setData(informdata);
     };
 
     return (
@@ -193,7 +233,7 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
 
             {/* Display filtered jobs */}
             {jobs.map(job => (
-                <Card key={job.id} className="job-card" onClick={ handleJobClick }>
+                <Card key={job.id} className="job-card" onClick={() =>  handleJobClick(job.id) }>
                     <h3>{job.title}</h3>
                     <p className="company-name">{job.companyName}</p>
                     <p>{job.description}</p>

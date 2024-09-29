@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2f14cf8b-8447-4292-9ab6-0519e49fa916",
+                            Id = "25356356-0b10-4506-a633-15abc66b41e1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "f7bdf259-2f37-46d4-aab0-b2a2a56fb102",
+                            Id = "21e1172b-0cc7-491f-a671-a091daa70f36",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -587,6 +587,50 @@ namespace MyLink.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("MyLink.Models.ViewedJobs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("ViewedJobs");
+                });
+
+            modelBuilder.Entity("MyLink.Models.ViewedPosts", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("ViewedPosts");
+                });
+
             modelBuilder.Entity("UserUser", b =>
                 {
                     b.Property<string>("ConnectedUsersId")
@@ -771,6 +815,28 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("MyLink.Models.ViewedJobs", b =>
+                {
+                    b.HasOne("MyLink.Models.Job", "Job")
+                        .WithMany("ViewedJobs")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("MyLink.Models.ViewedPosts", b =>
+                {
+                    b.HasOne("MyLink.Models.Post", "Post")
+                        .WithMany("ViewedPosts")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("UserUser", b =>
                 {
                     b.HasOne("MyLink.Models.User", null)
@@ -819,6 +885,8 @@ namespace MyLink.Data.Migrations
             modelBuilder.Entity("MyLink.Models.Job", b =>
                 {
                     b.Navigation("JobApplications");
+
+                    b.Navigation("ViewedJobs");
                 });
 
             modelBuilder.Entity("MyLink.Models.Post", b =>
@@ -826,6 +894,8 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("ViewedPosts");
                 });
 
             modelBuilder.Entity("MyLink.Models.User", b =>

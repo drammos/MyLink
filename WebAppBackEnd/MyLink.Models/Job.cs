@@ -32,5 +32,6 @@ namespace MyLink.Models
         public User User { get; set; }
 
         public ICollection<JobApplication> JobApplications { get; set; } = new List<JobApplication>();
+        public ICollection<ViewedJobs> ViewedJobs { get; set; } = new List<ViewedJobs>();
     }
 }

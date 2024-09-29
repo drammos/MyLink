@@ -167,5 +167,13 @@ namespace MyLink.Data.Repository
                     .Where(ja => ja.JobId == jobId)
                     .ToListAsync();
         }
+
+        public async Task<List<Job>> LoadAllJobs()
+        {
+            return await _context.Jobs
+                .Include(u => u.User)
+                .ToListAsync();
+        }
+
     }
 }

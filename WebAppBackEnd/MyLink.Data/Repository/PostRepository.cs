@@ -260,5 +260,73 @@ namespace MyLink.Data.Repository
             }).ToList();
             return result;
         }
+
+
+        public async Task<List<PostUserDTO>> GetPreposedPosts(List<Post> posts, User usr)
+        {
+            var user  = await _context.Users
+                .Include(x => x.ConnectedUsers)
+                .FirstOrDefaultAsync(x => x.Id == usr.Id);
+            
+            List<User> connectedUsers = [.. user.ConnectedUsers];
+            var connectedUserIds = connectedUsers.Select(x => x.Id).ToList();
+            var connectedUsernames = connectedUsers.Select(x => x.UserName).ToList();
+            
+            var result = posts.Select(p =>
+            {
+                Comment connectedUserComment = null;
+                Reaction connectedUserReaction = null;
+                string username = null;
+                if (p.UserId.Contains(user.Id) == false)
+                {
+                    connectedUserComment = p.Comments.FirstOrDefault(c => connectedUsernames.Contains(c.Username));
+                    username = connectedUserComment?.Username;
+                    if (connectedUserComment == null)
+                    {
+                        connectedUserReaction = p.Reactions.FirstOrDefault(r => connectedUsernames.Contains(r.Username));
+                        username = connectedUserReaction?.Username;
+                    }
+                }
+                
+  
+                return new PostUserDTO
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Content = p.Content,
+                    CreatedAt = p.CreatedAt,
+                    UpdateAt = p.UpdateAt,
+                    PictureUrls = p.PictureUrls,
+                    VideoUrls = p.VideoUrls,
+                    VoiceUrls = p.VoiceUrls,
+                    ReactionsCount = p.ReactionsCount,
+                    CommentsCount = p.CommentsCount,
+                    Comments = p.Comments,
+                    Reactions = p.Reactions,
+                    IsLikedByCurrentUser = p.Reactions.Any(r => r.Username == user.UserName && string.Equals(r.ReactionType,"Like")),
+                    IsPublic = p.IsPublic,
+                    UserId = p.User.Id,
+                    FirstName = p.User.FirstName,
+                    LastName = p.User.LastName,
+                    UserName = p.User.UserName,
+                    PictureURL = p.User.PictureURL,
+                    IsMyPost = p.UserId.Contains(user.Id),
+                    IsFromConnectedUser = connectedUserIds.Contains(p.UserId),
+                    HasConnectedUserComment = connectedUserComment != null,
+                    HasConnectedUserReaction = connectedUserReaction != null,
+                    ConnectedUserName = username,
+                };
+            }).ToList();
+            
+            return result;
+        }
+
+        public async Task<List<Post>> GetAllPosts()
+        {
+            return await _context.Posts
+                    .Include(p => p.Comments)
+                    .Include(p => p.Reactions)
+                    .ToListAsync();
+        }
     }
 }

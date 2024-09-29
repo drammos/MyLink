@@ -16,14 +16,26 @@ namespace MyLink.Data.Repository
             dbSet = context.Set<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null)
         {
-            return dbSet.ToList<T>();
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return query.ToList();
         }
 
-        public IQueryable<T> GetAllIQueryable()
+        public IQueryable<T> GetAllIQueryable(Expression<Func<T, bool>>? filter = null)
         {
-            return dbSet.AsQueryable<T>();
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return query;
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>> filter)
