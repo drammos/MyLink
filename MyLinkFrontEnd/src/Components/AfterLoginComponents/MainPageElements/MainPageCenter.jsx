@@ -195,7 +195,7 @@ const MainPageCenter = () => {
 
     return (
         <>
-            <CreatePostComponent />
+            <CreatePostComponent getPostsRefetch={getPostsRefetch} />
         <div className="main-posts-container">
 
             {publicPosts.length > 0 ? (

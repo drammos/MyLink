@@ -16,7 +16,8 @@ const Footer = () => {
                 <div className="left_box">
                     <p>
                         M&R Project <br />  
-                        (+30) 697 9303 827
+                        (+30) 697 9303 827 <br /> 
+                        (+30) 694 087 0953 
                     </p>
                     <p> Email us: <br />
                         <a href="#">mylink@gmail.com</a>
@@ -24,11 +25,10 @@ const Footer = () => {
                 </div>
 
                 <div className="right_box">
-                    <h4>Categories:</h4>
+                    <h4>Creators:</h4>
                     <ul>
-                        <li><a href="about.html#Buildings">Categories <VscArrowSmallRight/></a></li>
-                        <li><a href="about.html#Stores">Categories <VscArrowSmallRight/></a></li>
-                        <li><a href="about.html#Villas">Categories <VscArrowSmallRight/></a></li>
+                        <li>Rammos Dimitris <VscArrowSmallRight/></li>
+                        <li>Thodoris Minaidis <VscArrowSmallRight/></li>
                     </ul>
                 </div>
             </div>

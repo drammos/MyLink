@@ -1,82 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Open+Sans:ital,wght@0,500;1,500&display=swap');
 
-
-div.glass-cont{
-    justify-content: right;
-    width: 1350px;
+div.glass-cont {
+    display: flex;
+    justify-content: left; /* Align the container to the left */
+    margin: 0 200px;
 }
 
+    div.glass-cont div.Description1Div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 220px;
+        padding: 40px;
+        font-family: Open Sans, sans-serif;
+        border-radius: 16px;
+        background-color: #fff;
+        box-shadow: 0 4px 12px #0000001a;
+        max-height: 300px;
+    }
 
-div.glass-cont div.Description1Div{
+        div.glass-cont div.Description1Div img {
+            max-width: 150px; /* Reduce the image size */
+            margin-right: 20px; /* Add space between the image and text */
+            border-radius: 10px; /* Optional: round image corners */
+        }
+
+        div.glass-cont div.Description1Div p {
+            font-size: 14px; /* Make the text smaller */
+            line-height: 1.5; 
+            color: #333; 
+            margin: 0; 
+        }
+
+        div.glass-cont div.Description1Div h1 {
+            color: #C22D1F;
+            font-size: 20px; /* Reduce the header size */
+            margin-bottom: 20px; /* Adjust the space below the header */
+            font-synthesis: none;
+        }
+
+        div.glass-cont div.Description1Div button {
+            font-size: 14px; /* Make button text smaller */
+            margin-top: 20px;
+            padding: 10px 30px; /* Adjust button padding */
+            border: 2px solid #18a4b1;
+            background-color: whitesmoke;
+            color: #1fb4c2;
+            border-radius: 24px;
+            transition: background-color 0.3s;
+        }
+
+            div.glass-cont div.Description1Div button:hover {
+                background-color: #1fb4c2;
+                border-color: #1fb4c2;
+                color: white;
+            }
+
+.fire-effect {
     display: inline-block;
-    margin-left: 30px;
-    margin-top: 230px;
-    margin-bottom: 100px;
-    padding: 96px 65px;
-    font-family: Open Sans, sans-serif;
-    border-radius: 16px;
-    min-width: 950px;
-    background-color: #fff;
+    position: relative;
+    font-family: 'sans-serif';
+    font-size: 30px; /* Reduce the flame text size */
+    color: #ff5722;
+    animation: flicker 2s infinite;
 }
 
-div.glass-cont div.Description1Div div{
-    display: grid;
-    padding-top: 10px;
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
 
-}
+    50% {
+        opacity: 0.8;
+    }
 
-div.glass-cont div.Description1Div h1{
-    color: #C22D1F;
-    font-size: 23px;
-    margin-left: 25px;
-    padding-bottom: 30px;
-    font-synthesis: none;
-}
-
-div.glass-cont div.Description1Div div label{
-    font-size: 15px;
-    color: #1fb4c2;
-}
-
-div.glass-cont div.Description1Div div input{
-    padding: 8px 8px 8px 8px;
-    max-width: 250px;
-    font-size: 14px;
-}
-
-div.glass-cont div.Description1Div button{
-    font-size: 16px;
-    margin-top: 30px;
-    margin-left: 50px;
-    padding: 12px 50px 12px 50px;
-    border: 2px solid #18a4b1;
-    background-color: whitesmoke;
-    color: #1fb4c2;
-    border-radius: 10%;
-    letter-spacing: 2px;
-    border-radius: 24px;
-    transition: background-color 0.3s;
-    display: inline-flex;
-}
-
-div.glass-cont div.Description1Div button:hover{
-    background-color: #1fb4c2;
-    border-color: #1fb4c2;
-    color: white;
-}
-
-div.glass-cont div.Description1Div button.forgot{
-    font-size: 14px;
-    margin-top: 10px;
-    margin-left: 0px;
-    border: none;
-    /*background-color: whitesmoke;*/
-    color: #1fb4c2;
-    letter-spacing: 1px;
-    padding: 0%;
-}
-
-div.glass-cont div.Description1Div button.forgot:hover{
-    color: #0a6c75;
+    100% {
+        opacity: 1;
+    }
 }
