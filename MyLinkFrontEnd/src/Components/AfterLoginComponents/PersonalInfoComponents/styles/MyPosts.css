@@ -7,6 +7,7 @@
     .myposts-container .posts-list {
         list-style-type: none;
         padding: 0;
+        width:900px;
     }
 
     .myposts-container .post-item {

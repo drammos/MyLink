@@ -20,6 +20,7 @@ const useGetPostsFromOtherUsers = () => {
     const handleGetPostsResponse = useCallback((response) => {
         if (response?.status === 200) {
             setErrorCode(0);
+            setUserId('');
             console.log(errorCode, " = ErrorCode");
             setMessage('Posts are here!');
         } else {
@@ -29,7 +30,7 @@ const useGetPostsFromOtherUsers = () => {
     }, [errorCode]);
 
     const getUserPosts = useCallback((userId = localStorage.getItem('id')) => {
-        if (userId)
+        if (userId !== '')
             setUserId(userId);
         else
             setUserId(localStorage.getItem('id'));
@@ -42,7 +43,8 @@ const useGetPostsFromOtherUsers = () => {
     }, [response, handleGetPostsResponse]);
 
     useEffect(() => {
-        fetchService();
+        if(userId !== '')
+            fetchService();
     }, [userId]);
 
     return { response, message, errorCode, loading, getPostsRefetch: getUserPosts };
