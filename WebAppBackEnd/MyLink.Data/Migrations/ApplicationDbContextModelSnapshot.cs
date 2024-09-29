@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7543c912-be16-4ba1-bcd7-c47ec5992d47",
+                            Id = "25356356-0b10-4506-a633-15abc66b41e1",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0773a347-cf43-4b67-8b40-1f3ce33fe7bd",
+                            Id = "21e1172b-0cc7-491f-a671-a091daa70f36",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });
@@ -476,6 +476,9 @@ namespace MyLink.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
@@ -582,6 +585,28 @@ namespace MyLink.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("MyLink.Models.ViewedJobs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("ViewedJobs");
                 });
 
             modelBuilder.Entity("MyLink.Models.ViewedPosts", b =>
@@ -790,6 +815,17 @@ namespace MyLink.Data.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("MyLink.Models.ViewedJobs", b =>
+                {
+                    b.HasOne("MyLink.Models.Job", "Job")
+                        .WithMany("ViewedJobs")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
             modelBuilder.Entity("MyLink.Models.ViewedPosts", b =>
                 {
                     b.HasOne("MyLink.Models.Post", "Post")
@@ -849,6 +885,8 @@ namespace MyLink.Data.Migrations
             modelBuilder.Entity("MyLink.Models.Job", b =>
                 {
                     b.Navigation("JobApplications");
+
+                    b.Navigation("ViewedJobs");
                 });
 
             modelBuilder.Entity("MyLink.Models.Post", b =>

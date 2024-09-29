@@ -23,6 +23,7 @@ namespace MyLink.Data.Access
         public DbSet<ViewedPosts> ViewedPosts { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<Reaction> Reaction { get; set; }
+        public DbSet<ViewedJobs> ViewedJobs { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -108,6 +109,11 @@ namespace MyLink.Data.Access
                 .HasMany(u=> u.ViewedPosts)
                 .WithOne(p => p.Post)
                 .HasForeignKey(p => p.PostId);
+            
+            builder.Entity<Job>()
+                .HasMany(u=> u.ViewedJobs)
+                .WithOne(j => j.Job)
+                .HasForeignKey(p => p.JobId);
 
         }
     }
