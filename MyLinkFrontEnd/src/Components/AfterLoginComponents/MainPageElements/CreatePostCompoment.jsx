@@ -12,7 +12,7 @@ import UploadVideo from '../../Services/UploadVideo';
 
 import './styles/CreatePostComponent.css';
 
-const CreatePostComponent = () => {
+const CreatePostComponent = ({ getPostsRefetch }) => {
     const userId = localStorage.getItem('id');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
@@ -114,6 +114,8 @@ const CreatePostComponent = () => {
         } else if (errorCode === 0) {
             setInfoMessage("Post uploaded!");
             setErrorCode(0);
+            getPostsRefetch(localStorage.getItem('id'));
+
         }
     }, [errorCode]);
 

@@ -12,7 +12,6 @@ div.glass-container {
 
     div.glass-container form.WelcomePageLogInForm {
         display: inline-block;
-        margin-left: 50px;
         margin-top: 180px;
         margin-bottom: 50px;
         padding: 36px 60px;
@@ -21,6 +20,7 @@ div.glass-container {
         border-radius: 16px;
         min-width: 280px;
         background-color: #fff;
+        margin-left: 100px;
     }
 
         div.glass-container form.WelcomePageLogInForm div {

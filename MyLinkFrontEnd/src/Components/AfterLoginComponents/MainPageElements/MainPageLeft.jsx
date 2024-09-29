@@ -44,7 +44,7 @@ const MainPageLeft = ({ userInfo }) => {
         <div className="main-page-left">
             <div className="profile-section">
                 <div className="profile-photo">
-                    {(userInfo.pictureURL && userInfo.pictureURL !== "null") ? ( 
+                    {(userInfo.pictureURL && userInfo.pictureURL !== "null") ? (
                         <img src={userInfo.pictureURL} alt={`${firstname} ${lastname}`} />
                     ) : (
                         <div className="initials">{initials}</div>
@@ -57,9 +57,11 @@ const MainPageLeft = ({ userInfo }) => {
             </div>
             {/* Link to Contacts */}
             <div style={{ marginTop: '20px' }}>
-                <a href={Routes.Network} className="contact-link">Go to Contacts</a>
+                <a href={Routes.Network} className="contact-link">Any news from connections?</a>
             </div>
-            <div>
+
+            {/* Scrollable Education Section */}
+            <div className="education-section">
                 <h4>Education Information</h4>
                 {educationList.length > 0 ? (
                     educationList.map((education) => (
@@ -78,6 +80,7 @@ const MainPageLeft = ({ userInfo }) => {
                 )}
             </div>
         </div>
+
     );
 };
 
