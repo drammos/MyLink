@@ -34,12 +34,66 @@ namespace MyLink.Services.MatrixFactorization
                 var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 List<User> users = _userManager.Users.ToList();
                 List<Job> jobs = _unitOfWork.Job.GetAll().ToList();
-                PostsDataMatrix = Matrix<double>.Build.Dense(users.Count, jobs.Count);
+                JobsDataMatrix = Matrix<double>.Build.Dense(users.Count, jobs.Count);
 
                 foreach (var usr in users)
                 {
+                    List<ViewedJobs> viewedJobs = _unitOfWork.ViewedJobs.GetAll().Where(vj => vj.Username == usr.UserName).ToList();
+                    List<JobApplication> jobApplications = _unitOfWork.JobApplications.GetAll().Where(vj => vj.Username == usr.UserName).ToList();
+                    // calculate for clicks
+                    foreach (var viewedJob in viewedJobs)
+                    {
+                        int jobIndex = jobs.FindIndex(j => j.Id == viewedJob.JobId);
+                        double val = JobsDataMatrix[userPoint, jobIndex] + 1;
+                        JobsDataMatrix[userPoint, jobIndex] = val;
+                    }
                     
+                    // calculate for applied in jobs, for every applied job I add 2 points
+                    foreach (var jobApplication in jobApplications)
+                    {
+                        int jobIndex = jobs.FindIndex(j => j.Id == jobApplication.JobId);
+                        double val = JobsProposedMatrix[userPoint, jobIndex] + 2;
+                        JobsDataMatrix[userPoint, jobIndex] = val;
+                    }
+                    
+                    userPoint++;
                 }
+                
+                int num = 3;
+                List<double> list_tables = new List<double> { 0.01, 0.001, 0.0001, 0.00001 };
+                double min_error = 999999;
+                double best_h = 0.01;
+                var rand = new System.Random();
+                Matrix<double> best_matrix = null;
+                
+                foreach (double table in list_tables)
+                {
+                    var random = new Random();
+                    var V = Matrix<double>.Build.Dense(
+                        JobsDataMatrix.RowCount, 
+                        num, 
+                        (i, j) => random.NextDouble() * 4 + 1
+                    );
+                    
+                    var F = Matrix<double>.Build.Dense(
+                        num, 
+                        JobsDataMatrix.ColumnCount, 
+                        (i, j) => random.NextDouble() * 4 + 1
+                    );
+
+                    var tuple = Algorithm(JobsDataMatrix, V, F, num, table);
+                    var error = tuple.Item2;
+
+                    if (error < min_error)
+                    {
+                        min_error = error;
+                        best_h = table;
+                        best_matrix = tuple.Item1;
+                    }
+                }
+                
+                JobsProposedMatrix = best_matrix;
+                Console.WriteLine("All it's gooddddddddddddddddddddddddd FOR JOBS");
             }
         }
         public void CalculateForPosts()
@@ -122,7 +176,7 @@ namespace MyLink.Services.MatrixFactorization
                 }
                 
                 PostsProposedMatrix = best_matrix;
-                Console.WriteLine("All it's gooddddddddddddddddddddddddd");
+                Console.WriteLine("All it's gooddddddddddddddddddddddddd FOR POSTS");
             }
         }
         
@@ -216,6 +270,34 @@ namespace MyLink.Services.MatrixFactorization
                 List<Post> sortedPosts = sorted.Select(p => posts[p.Key]).ToList();
                 Console.WriteLine(string.Join(",   ", sortedPosts));
                 return sortedPosts;
+            }
+        }
+
+        public async Task<List<Job>> GetProposedJobs(string userId)
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                int userPoint = 0;
+                var _userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                var _unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                List<User> users = _userManager.Users.ToList();
+                List<Job> jobs = await _unitOfWork.Job.LoadAllJobs();
+                
+                foreach (var usr in users)
+                {
+                    if (userId == usr.Id) break;
+                    userPoint++;
+                }
+                Dictionary<int, double> jobsDictionary = new Dictionary<int, double>();
+                for (int i = 0; i < JobsProposedMatrix.ColumnCount; i++)
+                {
+                    if(JobsProposedMatrix[userPoint, i]!=0) jobsDictionary[i] = JobsDataMatrix[userPoint, i];
+                }
+                
+                var sorted = jobsDictionary.OrderByDescending(p => p.Value);
+                List<Job> sortedJobs = sorted.Select(p => jobs[p.Key]).ToList();
+                Console.WriteLine(string.Join(",   ", sortedJobs));
+                return sortedJobs;
             }
         }
     }
