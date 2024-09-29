@@ -32,7 +32,10 @@ export const useExportHelpers = () => {
             xml += `    <userName>${user.userName}</userName>\n`;
             xml += `    <firstName>${user.firstName}</firstName>\n`;
             xml += `    <lastName>${user.lastName}</lastName>\n`;
+            xml += `    <phoneNumber>${user.phoneNumber}</phoneNumber>\n`;
+            xml += `    <email>${user.email}</email>\n`;
             xml += `    <role>${user.role}</role>\n`;
+            xml += `    <coverLetterURL>${user.coverLetterURL}</coverLetterURL>\n`;
             xml += `  </user>\n`;
         });
 
