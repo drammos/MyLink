@@ -10,5 +10,6 @@
         public bool IsComment { get; set; }
         public int PostId { get; set; }
         public string? Body { get; set; }
+        public string? PostTitle { get; set; }
     }
 }

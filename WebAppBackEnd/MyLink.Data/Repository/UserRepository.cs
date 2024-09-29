@@ -116,6 +116,7 @@ namespace MyLink.Data.Repository
                             PictureURL = usr.PictureURL,
                             Body = comment.Content,
                             UserName = usr.UserName,
+                            PostTitle = post.Title,
                         });
                     }
                 }
@@ -139,6 +140,7 @@ namespace MyLink.Data.Repository
                             PictureURL = usr.PictureURL,
                             Body = reaction.ReactionType,
                             UserName = usr.UserName,
+                            PostTitle = post.Title,
                         });
                     }
                 }
