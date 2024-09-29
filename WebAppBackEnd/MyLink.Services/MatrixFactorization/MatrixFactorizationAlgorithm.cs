@@ -52,7 +52,7 @@ namespace MyLink.Services.MatrixFactorization
                     foreach (var jobApplication in jobApplications)
                     {
                         int jobIndex = jobs.FindIndex(j => j.Id == jobApplication.JobId);
-                        double val = JobsProposedMatrix[userPoint, jobIndex] + 2;
+                        double val = JobsDataMatrix[userPoint, jobIndex] + 2;
                         JobsDataMatrix[userPoint, jobIndex] = val;
                     }
                     
@@ -273,7 +273,7 @@ namespace MyLink.Services.MatrixFactorization
             }
         }
 
-        public async Task<List<Job>> GetProposedJobs(string userId)
+        public async  Task<List<Job>> GetProposedJobs(string userId)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
@@ -296,8 +296,16 @@ namespace MyLink.Services.MatrixFactorization
                 
                 var sorted = jobsDictionary.OrderByDescending(p => p.Value);
                 List<Job> sortedJobs = sorted.Select(p => jobs[p.Key]).ToList();
-                Console.WriteLine(string.Join(",   ", sortedJobs));
-                return sortedJobs;
+                
+                List<Job> newSortedjobslist = new List<Job>();
+                foreach(var job in sortedJobs){
+                    if (job.IsActive && job.UserId != userId)
+                    {
+                        newSortedjobslist.Add(job);
+                    }
+                }
+                Console.WriteLine(string.Join(",   ", newSortedjobslist));
+                return newSortedjobslist;
             }
         }
     }
