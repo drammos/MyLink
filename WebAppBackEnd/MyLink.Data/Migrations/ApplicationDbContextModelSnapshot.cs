@@ -51,13 +51,13 @@ namespace MyLink.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "25356356-0b10-4506-a633-15abc66b41e1",
+                            Id = "5206e2d9-77c9-438a-8159-9d75401b0ebb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "21e1172b-0cc7-491f-a671-a091daa70f36",
+                            Id = "8bf6f221-91fd-4e6c-9047-21063c6efa51",
                             Name = "Professional",
                             NormalizedName = "PROFESSIONAL"
                         });

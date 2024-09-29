@@ -42,20 +42,6 @@ namespace MyLink.Data.Initialize
                 result = await users.CreateAsync(user2, "1234@Password");
                 await users.AddToRoleAsync(user2, "Admin");
 
-                User drammos = new User()
-                {
-                    FirstName = "Dimitris",
-                    LastName = "Rammos",
-                    PhoneNumber = "1234567890",
-                    UserName = "drammos",
-                    Email = "drammos@outlook.com.gr",
-                    PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                    Birthday = "2001-06-12"
-                };
-
-                result = await users.CreateAsync(drammos, "1234@Password");
-                await users.AddToRoleAsync(drammos, "Professional");
-
                 User frammos = new User()
                 {
                     FirstName = "Dimitris",
@@ -88,65 +74,7 @@ namespace MyLink.Data.Initialize
                 
                 frammos.ConnectedUsers.Add(prammos);
                 prammos.ConnectedUsers.Add(frammos);
-                
-
-                // Σύνδεση prammos με drammos
-                prammos.ConnectedUsers.Add(drammos); // drammos
-                drammos.ConnectedUsers.Add(prammos);
                 await db.SaveChangesAsync();
-
-
-                for (int i = 1; i <= 20; i++)
-                {
-                    User newUser = new User
-                    {
-                        FirstName = "UserFirstName" + i,
-                        LastName = "UserLastName" + i,
-                        PhoneNumber = "123456789" + i,
-                        UserName = "user" + i,
-                        Email = "user" + i + "@example.com",
-                        PictureURL = "https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png",
-                        Birthday = "2000-01-01",
-                        IsAdmin = false
-                    };
-                    frammos.ConnectedUsers.Add(newUser);
-                    newUser.ConnectedUsers.Add(frammos);
-                    await users.CreateAsync(newUser, "1234@Password");
-                    await users.AddToRoleAsync(newUser, "Professional");
-                }
-
-                // Δημιουργία post από τον drammos
-                var postByDrammos = new Post
-                {
-                    Title = "New Technologies in AI",
-                    Content = "Exploring the latest advancements in artificial intelligence.",
-                    CreatedAt = DateTime.Now,
-                    UpdateAt = DateTime.Now.AddHours(2),
-                    PictureUrls = new List<string> { "https://example.com/drammos_post_image.jpg" },
-                    VideoUrls = new List<string>(),
-                    VoiceUrls = new List<string>(),
-                    ReactionsCount = 50,
-                    CommentsCount = 1,
-                    IsLikedByCurrentUser = false,
-                    UserId = drammos.Id, // drammos
-                    IsPublic = true
-                };
-                db.Posts.Add(postByDrammos);
-                
-                await db.SaveChangesAsync();
-
-                var commentByPrammos = new Comment
-                {
-                    Content = "Great insights! Looking forward to more updates on AI advancements.",
-                    CreatedAt = DateTime.Now.AddMinutes(5),
-                    PostId = postByDrammos.Id,
-                    Username = prammos.UserName // prammos
-                };
-                postByDrammos.Comments.Add(commentByPrammos);
-                postByDrammos.CommentsCount++;
-
-                await db.SaveChangesAsync();
-                
                 
                 // Add Educations
                 var educations = new List<Education>
@@ -178,20 +106,20 @@ namespace MyLink.Data.Initialize
                     {
                         Title = $"My thoughts on technology trend #{i}",
                         Content = $"This is the content of post #{i}. It discusses various aspects of modern technology and its impact on society.",
-                        CreatedAt = DateTime.Now.AddDays(-i * 7), // Each post is a week apart
-                        UpdateAt = DateTime.Now.AddDays(-i * 7 + 2), // Updated 2 days after creation
-                        PictureUrls = new List<string> { $"https://example.com/image{i}.jpg" },
+                        CreatedAt = DateTime.Now.AddDays(-i * 7),
+                        UpdateAt = DateTime.Now.AddDays(-i * 7 + 2),
+                        PictureUrls = new List<string> (),
                         VideoUrls = new List<string>(),
                         VoiceUrls = new List<string>(),
-                        ReactionsCount = i * 10, // Just for variation
-                        CommentsCount = i * 2,
-                        IsLikedByCurrentUser = i % 2 == 0, // Alternating true/false
+                        ReactionsCount = 0, 
+                        CommentsCount = 0,
+                        IsLikedByCurrentUser = false,
                         UserId = frammos.Id,
                         IsPublic = true
                     });
                 }
                 db.Posts.AddRange(posts);
-
+                await db.SaveChangesAsync();
 
                 // Adding Jobs for frammos
                 var jobs = new List<Job>
