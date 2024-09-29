@@ -88,5 +88,5 @@ export const agents = {
 
     //Matrix Factorization
     getProposedPosts: 'Matrix/GetProposedPosts',
-    getProposedJobs: 'Matrix/GetPreposedJobs'
+    getProposedJobs: 'Matrix/GetProposedJobs'
 };
