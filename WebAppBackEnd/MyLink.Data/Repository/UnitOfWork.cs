@@ -17,6 +17,7 @@ namespace MyLink.Data.Repository
         public ICommentRepository Comment { get; }
         public IReactionRepository Reaction { get; }
         public IViewedJobsRepository ViewedJobs { get; }
+        public IJobApplicationsRepository JobApplications { get; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -31,6 +32,7 @@ namespace MyLink.Data.Repository
             Comment = new CommentRepository(context);
             Reaction = new ReactionRepository(context);
             ViewedJobs = new ViewedJobsRepository(context);
+            JobApplications = new JobApplicationsRepository(context);
         }
 
         public void Save()

@@ -13,6 +13,7 @@ namespace MyLink.Data.Repository.IRepository
         public ICommentRepository Comment { get; }
         public IReactionRepository Reaction { get; }
         public IViewedJobsRepository ViewedJobs { get; }
+        public IJobApplicationsRepository JobApplications { get; }
         void Save();
     }
 }
