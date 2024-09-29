@@ -20,6 +20,7 @@ export const agents = {
     getListFromPendingRequests: 'User/GetListFromPendingRequests',
     searchUsers: 'User/SearchUsers',
     getCommunicationType : 'User/GetCommunicationType',
+    getUserNotifications: 'User/GetUserNotifications',
 
     // Post
     createPost: 'Post/CreatePost',
@@ -56,6 +57,7 @@ export const agents = {
     rejectJobApplication: 'Job/RejectJobApplication',
     withdrawnJobApplication: 'Job/WithdrawnJobApplication',
     getFilteredJobs: 'Job/GetFilteredJobs',
+    getJobApplicationForPost: 'Job/GetJobApplicationsForPost',
     closeJob: 'Job/CloseJob',
 
     // Experience

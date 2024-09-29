@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FaUserFriends, FaCalendarAlt } from 'react-icons/fa';
 import useGetUserPostedJobs from '../Services/Jobs/useGetUserPostedJobs';
 import useCloseJob from '../Services/Jobs/useCloseJob';
 import './styles/MyJobsComponent.css'
 import useDeleteJob from '../Services/Jobs/useDeleteJob';
+import MyJobUsersApplied from './MyJobUsersApplied';
 
 const MyJobsComponent = ({ userInfo }) => {
     const { response: getJobsResponse, message: getJobsMessage, errorCode: getJobsErrorCode, loading: getJobsLoading, getJobsRefetch } = useGetUserPostedJobs();
     const { message: closeJobMessage, errorCode: closeErrorCode, loading: closeJobLoading, closeJobRefetch } = useCloseJob();
     const { message: deleteJobMessage, errorCode: deleteErrorCode, loading: deleteJobLoading, deleteJobRefetch } = useDeleteJob();
 
+
     const currentUserId = localStorage.getItem('id');
     const [jobs, setJobs] = useState([]);
-    const [visibleComments, setVisibleComments] = useState({});
-    const [comments, setComments] = useState({});
-    const [currentPostId, setCurrentPostId] = useState(null);
+    const [currentJobId, setCurrentJobId] = useState(null);
 
     useEffect(() => {
         getJobsRefetch(currentUserId);
@@ -47,21 +46,11 @@ const MyJobsComponent = ({ userInfo }) => {
         }
     }, [closeErrorCode]);
 
-    //const toggleCommentsVisibility = (postId) => {
-    //    setVisibleComments(prevState => ({
-    //        ...prevState,
-    //        [postId]: !prevState[postId]
-    //    }));
 
-    //    if (!comments[postId]) {
-    //        setCurrentPostId(postId);
-    //        getPostCommentsRefetch(postId);
-    //    }
-    //};
 
     return (
         <div className="myjobs-container">
-            <h3>My Posts</h3>
+            <h3>My Jobs</h3>
             {jobs.length > 0 ? (
                 <ul className="posts-list">
                     {jobs.map((job, index) => (
@@ -85,17 +74,14 @@ const MyJobsComponent = ({ userInfo }) => {
                                 <span><strong>Status: </strong>{' '}{job.isActive ? 'Active' : 'Closed'}</span>
                             </div>
 
-                            <div className="post-info">
-                                <button className="comments-count-button">
-                                    <FaUserFriends /> {job.commentsCount} Users applied
-                                </button>
-                                <span><FaCalendarAlt /> Posted on: {new Date(job.postedDate).toLocaleDateString()}</span>
-                            </div>
+                            
+
+                            <MyJobUsersApplied job={job} setCurrentJobId={setCurrentJobId} />
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p className="post-item">No posts available</p>
+                <p className="post-item">No jobs available</p>
             )}
         </div>
     );

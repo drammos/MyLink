@@ -22,6 +22,11 @@ const PrintPendingUsers = () => {
         getList(localStorage.getItem('id'));
     }, []);
 
+    useEffect(() => {
+        console.log("===============================");
+        getList(localStorage.getItem('id'));
+    }, [resultMessage]);
+
     if (loading) {
         return <ProgressSpinner />;
     }
@@ -30,11 +35,14 @@ const PrintPendingUsers = () => {
 
     const handleAccept = async (userId) => {
         try {
-            await acceptRequestRefetch(userId,currentUser);
+            await acceptRequestRefetch(userId, currentUser);
             setResultMessage({ severity: 'success', text: acceptMessage || 'Request accepted successfully' });
-            getList(localStorage.getItem('id'));
+            window.location.reload();
+
         } catch (error) {
             setResultMessage({ severity: 'error', text: `Error accepting request: ${acceptErrorCode}` });
+            window.location.reload();
+
         }
     };
 
@@ -42,9 +50,10 @@ const PrintPendingUsers = () => {
         try {
             await deleteRequestRefetch(userId, currentUser);
             setResultMessage({ severity: 'info', text: deleteMessage || 'Request rejected successfully' });
-            getList(localStorage.getItem('id'));
+            window.location.reload();
+
         } catch (error) {
-            setResultMessage({ severity: 'error', text: `Error rejecting request: ${deleteErrorCode}` });
+            setResultMessage({ severity: 'error', text: `Error rejecting request: ${deleteErrorode}` });
         }
     };
 

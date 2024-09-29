@@ -31,6 +31,7 @@ const MainPageCenter = () => {
     const [createMessage, setCreateMessage] = useState('');
     const [createMessageValue, setCreateMessageValue] = useState(2);
     const [postId, setPostId] = useState('');
+    const [commentPostId, setCommentPostId] = useState('');
     const [commentMessages, setCommentMessages] = useState({});
 
 
@@ -40,16 +41,23 @@ const MainPageCenter = () => {
     }, [localStorage.getItem('id')]);
 
     useEffect(() => {
-        if (createCommenterrorCode === 0) {
+        if (getPostCommentsMessage && commentPostId !== '') {
             setCreateMessage(createCommentMessage);
             setCreateMessageValue(0);
+            console.log('mpainei?');
+            fetchPostComments(commentPostId);
+            setCommentPostId('');
+            setVisibleComments(prevState => ({
+                ...prevState,
+                [commentPostId]: false
+            }));
         }
         else {
             setCreateMessageValue(1);
             setCreateMessage(createCommentMessage);
         }
         setRefetchWithTimeout(0);
-    }, [createCommentMessage]);
+    }, [getPostCommentsMessage, commentPostId]);
 
 
     useEffect(() => {
@@ -72,9 +80,7 @@ const MainPageCenter = () => {
     // Function to handle fetching comments for each post
     const fetchPostComments = async (PostId) => {
         try {
-            await getPostCommentsRefetch(PostId);
-            console.log("First step:", commentsData);
-            console.log("First step:", getPostCommentsMessage);
+            getPostCommentsRefetch(PostId);
             setPostId(PostId);
             //setFetchedComments(commentsData);
 
@@ -104,9 +110,9 @@ const MainPageCenter = () => {
         }));
 
         // Fetch comments for this post if not already fetched
-        if (!comments[PostId]) {
+        //if (!comments[PostId]) {
             fetchPostComments(PostId);
-        }
+        //}
     };
 
     //#region Likes
@@ -135,6 +141,7 @@ const MainPageCenter = () => {
 
         try {
             // Increment the comments count locally
+            setCommentPostId(PostId);
             setPosts(prevPosts => prevPosts.map(post =>
                 post.id === PostId
                     ? { ...post, commentsCount: post.commentsCount + 1 }
@@ -163,7 +170,6 @@ const MainPageCenter = () => {
             }, 3000);
 
             // Fetch updated comments for the post
-            await fetchPostComments(PostId);
         } catch (error) {
             console.error("Error submitting comment:", error);
 
@@ -195,7 +201,7 @@ const MainPageCenter = () => {
 
     return (
         <>
-            <CreatePostComponent getPostsRefetch={getPostsRefetch} />
+            <CreatePostComponent setPosts={setPosts} />
         <div className="main-posts-container">
 
             {publicPosts.length > 0 ? (

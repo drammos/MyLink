@@ -84,9 +84,9 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
         getJobsRefetch(currentUserId, 150, '', '', '', pageNumber, pageSize);
     }, [pageNumber, currentUserId]);
 
-    //useEffect(() => {
-    //    getStatusJobsRefetch(currentUserUsername, "Applied");
-    //}, []);
+    useEffect(() => {
+        getStatusJobsRefetch(currentUserUsername, "Applied");
+    }, []);
 
     useEffect(() => {
         if (getStatusResponse) {

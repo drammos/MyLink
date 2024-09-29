@@ -22,6 +22,72 @@
     }
 
     .notification-popup li {
-        margin-bottom: 5px;
+        margin-bottom: 10px; /* Increased margin for better spacing */
         font-size: 14px;
+        display: flex; /* Flexbox for aligning image and text */
+        align-items: center; /* Center items vertically */
+    }
+
+        .notification-popup li:last-child {
+            margin-bottom: 0; /* No margin for the last item */
+        }
+
+    .notification-popup .notification-image {
+        width: 30px; /* Fixed width for profile image */
+        height: 30px; /* Fixed height for profile image */
+        border-radius: 50%; /* Circular image */
+        margin-right: 10px; /* Space between image and text */
+        cursor: pointer; /* Show pointer on hover */
+    }
+
+    .notification-popup .notification-item span {
+        flex: 1; /* Take up remaining space */
+        cursor: pointer; /* Show pointer on hover */
+        color: black; /* Black color for span text */
+    }
+
+        .notification-popup .notification-item span.p-button-label {
+            color: white;
+            padding: 2px 6px;
+        }
+
+        .notification-popup .notification-item span:hover {
+            text-decoration: underline; /* Underline on hover for emphasis */
+        }
+
+/* Button container styles */
+    .notification-popup .p-d-flex {
+        display: flex; /* Use flexbox for the button container */
+        justify-content: space-between; /* Space between buttons */
+        margin-top: 10px; /* Add space above buttons */
+    }
+
+/* Button styles */
+    .notification-popup .p-button {
+        flex: 1; /* Equal space for both buttons */
+        margin: 0 5px; /* Space between buttons */
+        border-radius: 4px; /* Rounded corners */
+        padding: 5px; /* Padding inside buttons */
+        border: none; /* Remove default border */
+        transition: background-color 0.3s; /* Smooth transition for hover effects */
+        color: white; /* White text for buttons */
+    }
+
+/* Button specific colors */
+    .notification-popup .p-button-success {
+        background-color: #28a745; /* Green background for accept button */
+    }
+
+    .notification-popup .p-button-danger {
+        background-color: #dc3545; /* Red background for reject button */
+    }
+
+/* Ensure button text color is white */
+    .notification-popup .p-button-success, .p-button-danger {
+        color: white !important; /* White text for buttons */
+        padding: 6px;
+    }
+
+    .notification-popup .p-button:hover {
+        opacity: 0.9; /* Slight transparency on hover */
     }
