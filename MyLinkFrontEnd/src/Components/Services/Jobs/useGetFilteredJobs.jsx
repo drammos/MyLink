@@ -5,7 +5,6 @@ import { agents } from '../../../agents';
 const useGetFilteredJobs = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
-    const [postData, setPostData] = useState(null);
     const [jobId, setJobId] = useState(0);
     const [userId, setUserId] = useState(0);
     const [url, setUrl] = useState(null);
@@ -16,8 +15,8 @@ const useGetFilteredJobs = () => {
         `Getting jobs for user ${userId} `,
         'GET',
         url,
-        postData,
-        'multipart/form-data',
+        null,
+        undefined,
         true
     );
 
@@ -26,7 +25,6 @@ const useGetFilteredJobs = () => {
             setErrorCode(0);
             setMessage('Your application is successfully sent!');
             console.log('Your application is successfully sent');
-            setPostData(null);
         } else if (response?.status === 600) {
             setErrorCode(1);
             setMessage('An error occurred. Please try again later.');
