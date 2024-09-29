@@ -94,8 +94,6 @@ const useSignUpUser = () => {
         inputFormData.append('Birthday', birthDate);
         inputFormData.append('PictureURL', photoURL);
         inputFormData.append('CoverLetterURL', cvURL);
-        console.log("FormDataDone! : ", firstname, surname, phone, email, role, username, password, birthDate, photoURL);
-        console.log(inputFormData);
 
         fetchService(); 
     }, [fetchService]);

@@ -85,7 +85,6 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     };
 
     useEffect(() => {
-        console.log("refetch ---------> ", pageNumber);
         getJobsMatrixRefetch(currentUserId, pageNumber, pageSize);
     }, [currentUserId]);
 
@@ -121,9 +120,7 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     }, [getJobsMatrixErrorCode, getJobsMatrixResponse]);
 
     useEffect(() => {
-        console.log('--------------------', selectedDatePosted, ' -------------- ', datePostedOptions.find(option => option.label === selectedDatePosted));
         if(selectedCategory === '' && selectedLocationType === '' && selectedWorkType === '' && selectedDatePosted === 'None'){
-            console.log(" ------- MATRIX ", currentUserId, " pageNum ", pageNumber, " pagesize ", pageSize );
             getJobsMatrixRefetch(currentUserId, pageNumber, pageSize);
         }
         else{
@@ -172,7 +169,6 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
 
     const handleJobClick = (jobId) => {
         const userId = localStorage.getItem('id');    
-        console.log("CLICKKK: JOB id ", jobId, userId);
         const informdata = new FormData();
             
 

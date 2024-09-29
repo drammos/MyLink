@@ -23,7 +23,6 @@ const PrintPendingUsers = () => {
     }, []);
 
     useEffect(() => {
-        console.log("===============================");
         getList(localStorage.getItem('id'));
     }, [resultMessage]);
 

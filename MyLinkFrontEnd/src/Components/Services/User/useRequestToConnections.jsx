@@ -37,8 +37,6 @@ const useRequestToConnections = () => {
     ) => {
         const queryParams = `?SenderUserId=${SenderUserId}&RecipientUserId=${RecipientUserId}`;
         setUrl(`${serviceurl}${queryParams}`);
-        console.log("Request with query params: ", queryParams);
-        console.log("Request using: ", SenderUserId, RecipientUserId);
     }, [setUrl, serviceurl]);
 
     useEffect(() => {

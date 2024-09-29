@@ -9,7 +9,6 @@ const useGetUser = () => {
     const [userInfo, setUserInfo] = useState('');
 
     const url = agents.localhost + agents.getUser;
-    console.log("current username 1", currentUser);
     const { response, loading, refetch: fetchService } = useService(
         'Getting user informations',
         'GET',
@@ -23,7 +22,6 @@ const useGetUser = () => {
         if (response?.status === 200) {
             setErrorCode(0);
             setUserInfo(response.data);
-            console.log("user info:  ", response.data);
             setMessage('User informations are here!');
         } else {
             setErrorCode(1);
@@ -34,13 +32,11 @@ const useGetUser = () => {
     const getUser = useCallback((
         username
     ) => {
-        console.log("current username 37", username);
         setcurrentUser(username);
     }, []);
 
     useEffect(() => {
         if (currentUser !== '') {
-            console.log("current username wwwwwwwwwwww", currentUser);
             fetchService();
         }
     }, [fetchService, currentUser]);

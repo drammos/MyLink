@@ -41,9 +41,7 @@ const useGetProposedJobs = () => {
     const getJobs = useCallback((
         UserId, PageNumber, PageSize,
     ) => {
-        console.log("eeeee ---- ");
         const queryParams = `?UserId=${UserId}&&PageNumber=${PageNumber}&PageSize=${PageSize}`;
-        console.log("eeeee ---- ", queryParams);
         setUrl(`${serviceurl}${queryParams}`);
         setUserId(UserId);
     }, []);

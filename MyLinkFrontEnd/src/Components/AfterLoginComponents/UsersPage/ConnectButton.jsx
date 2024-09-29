@@ -25,7 +25,6 @@ const ConnectButton = ({ status, userId, handleConnectClick, requestToConnectLoa
     };
 
     useEffect(() => {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",status);
     }, []);
 
     return (

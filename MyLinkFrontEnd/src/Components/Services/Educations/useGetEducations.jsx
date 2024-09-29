@@ -22,7 +22,6 @@ const useGetEducations = () => {
         if (response?.status === 200) {
             setErrorCode(0);
             setUserInfo(response.data);
-            console.log("user educations:  ", response.data);
             setMessage('User educations are here!');
         } else {
             setErrorCode(1);

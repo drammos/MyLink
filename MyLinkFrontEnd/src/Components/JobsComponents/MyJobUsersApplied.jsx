@@ -20,10 +20,8 @@ const MyJobUsersApplied = ({ job, setCurrentJobId}) => {
             ...prevState,
             [jobId]: !prevState[jobId]
         }));
-        console.log('mpainei?????????', jobId, users[jobId]); 
 
         if (!users[jobId]) {
-            console.log('mpainei?????????');
             if (jobId) {
                 setCurrentJobId(jobId);
                 getApplicationsRefetch(jobId);
@@ -32,7 +30,6 @@ const MyJobUsersApplied = ({ job, setCurrentJobId}) => {
     };
 
     useEffect(() => {
-        console.log("--------------:", getApplicationsResponse, job.id);
         if (getApplicationsResponse) {
             if (getApplicationsResponse.status === 200) {
                 setUsers(prevState => ({

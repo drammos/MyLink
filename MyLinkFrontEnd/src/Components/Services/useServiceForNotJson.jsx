@@ -9,7 +9,6 @@ const useServiceForNotJson = (message, method, url, input = null, contentType = 
     };
 
     const fetchData = useCallback(async () => {
-        console.log(message);
         setLoading(true);
         setResponse(null);
 
