@@ -266,10 +266,18 @@ namespace MyLink.Services.MatrixFactorization
                     if(PostsProposedMatrix[userPoint, i]!=0) postDictionary[i] = PostsDataMatrix[userPoint, i];
                 }
                 
+                // For the Deletet Posts
                 var sorted = postDictionary.OrderByDescending(p => p.Value);
-                List<Post> sortedPosts = sorted.Select(p => posts[p.Key]).ToList();
+                List<Post> sortedPosts = new List<Post>();
+                foreach (var p in sorted)
+                {
+                    if (p.Key >= 0 && p.Key < posts.Count && posts[p.Key] != null)
+                    {
+                        sortedPosts.Add(posts[p.Key]);
+                    }
+                }
+                // List<Post> sortedPosts = sorted.Select(p => posts[p.Key]).ToList();
                 Console.WriteLine(string.Join(",   ", sortedPosts));
-                
                 
                 // Check the new post where in algorithm not exist
                 User currentUser = await _userManager.FindByIdAsync(userId);
@@ -306,9 +314,16 @@ namespace MyLink.Services.MatrixFactorization
                 {
                     if(JobsProposedMatrix[userPoint, i]!=0) jobsDictionary[i] = JobsDataMatrix[userPoint, i];
                 }
-                
+
                 var sorted = jobsDictionary.OrderByDescending(p => p.Value);
-                List<Job> sortedJobs = sorted.Select(p => jobs[p.Key]).ToList();
+                List<Job> sortedJobs = new List<Job>();
+                foreach (var j in sorted)
+                {
+                    if (j.Key >= 0 && j.Key < jobs.Count && jobs[j.Key] != null)
+                    {
+                        sortedJobs.Add(jobs[j.Key]);
+                    }
+                }
                 
                 List<Job> newSortedjobslist = new List<Job>();
                 foreach(var job in sortedJobs){
