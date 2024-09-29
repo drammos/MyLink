@@ -47,6 +47,7 @@ namespace MyLink.Services.MatrixFactorization
                 _logger.LogInformation("Running matrix factorization");
             }
         }
+        
         // Stop ASYNC
         public override async Task StopAsync(CancellationToken stoppingToken)
         {

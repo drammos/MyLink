@@ -269,6 +269,19 @@ namespace MyLink.Services.MatrixFactorization
                 var sorted = postDictionary.OrderByDescending(p => p.Value);
                 List<Post> sortedPosts = sorted.Select(p => posts[p.Key]).ToList();
                 Console.WriteLine(string.Join(",   ", sortedPosts));
+                
+                
+                // Check the new post where in algorithm not exist
+                User currentUser = await _userManager.FindByIdAsync(userId);
+                var allPosts = await _unitOfWork.Post.GetPostsForMatrix(currentUser);
+                foreach (var post in allPosts)
+                {
+                    if (!sortedPosts.Any(sp => sp.Id == post.Id))
+                    {
+                        sortedPosts.Add(post);
+                    }
+                }
+                
                 return sortedPosts;
             }
         }
