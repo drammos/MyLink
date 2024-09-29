@@ -36,23 +36,23 @@ const CreateJobComponent = ({ userInfo, handleMyJobs }) => {
         e.preventDefault();
         createJobRefetch(currentUserId, jobData.title, jobData.companyName, jobData.description, jobData.location,
             jobData.workType, jobData.location, jobData.category);
+
     };
 
-    //useEffect(() => {
-    //    if (createJobResponse) {
-    //        let postsData = [];
-
-    //        if (Array.isArray(postsResponse)) {
-    //            postsData = postsResponse;
-    //        } else if (typeof postsResponse === 'object' && Array.isArray(postsResponse.data)) {
-    //            postsData = postsResponse.data;
-    //        } else {
-    //            console.error("Unexpected posts response structure:", postsResponse);
-    //        }
-
-    //        setPosts(postsData);
-    //    }
-    //}, [createJobResponse]);
+    useEffect(() => {
+        
+        if (createJobErrorCode === 0) {
+            setJobData({
+                title: '',
+                companyName: '',
+                description: '',
+                location: '',
+                workType: '',
+                locationType: '',
+                category: ''
+            });
+        }
+    }, [createJobErrorCode]);
 
     return (
         <>
