@@ -87,7 +87,7 @@
     }
 
 /* Ensure button text color is white */
-    .notification-popup .p-button-success, .p-button-danger {
+    .notification-popup .p-button-success, .notification-popup .p-button-danger {
         color: white !important; /* White text for buttons */
         padding: 6px;
     }
