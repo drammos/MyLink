@@ -9,6 +9,7 @@ import useApplyForJob from '../Services/Jobs/useApplyForJob';
 import useGetUserStatusJobs from '../Services/Jobs/useGetUserStatusJobs';
 import { agents } from '../../agents';
 import useService from '../Services/useService';
+import useGetProposedJobs from '../Services/Jobs/useGetProposedJobs';
 
 const ConnectedUsersJobsComponent = ({ userInfo }) => {
     const [jobs, setJobs] = useState([]);
@@ -17,6 +18,7 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     const currentUserUsername = localStorage.getItem('username');
 
     const { getJobsResponse, getJobsMessage, getJobsErrorCode, getJobsLoading, getJobsRefetch } = useGetFilteredJobs();
+    const { getJobsMatrixResponse, getJobsMatrixMessage, getJobsMatrixErrorCode, getJobsMatrixLoading, getJobsMatrixRefetch } = useGetProposedJobs();
     
     const { getStatusResponse, getStatusJobsRefetch } = useGetUserStatusJobs();
     const { applyForJobMessage, applyForJobErrorCode, applyForJobLoading, applyForJobRefetch } = useApplyForJob();
@@ -84,12 +86,12 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
 
     useEffect(() => {
         console.log("refetch ---------> ", pageNumber);
-        getJobsRefetch(currentUserId, 150, '', '', '', pageNumber, pageSize);
-    }, [pageNumber, currentUserId]);
+        getJobsMatrixRefetch(currentUserId, pageNumber, pageSize);
+    }, [currentUserId]);
 
-    //useEffect(() => {
-    //    getStatusJobsRefetch(currentUserUsername, "Applied");
-    //}, []);
+    useEffect(() => {
+       getStatusJobsRefetch(currentUserUsername, "Applied");
+    }, []);
 
     useEffect(() => {
         if (getStatusResponse) {
@@ -109,14 +111,35 @@ const ConnectedUsersJobsComponent = ({ userInfo }) => {
     }, [getJobsErrorCode, getJobsResponse]);
 
     useEffect(() => {
+        if (getJobsMatrixErrorCode === 0) {
+            if (getJobsMatrixResponse) {
+                setJobs(getJobsMatrixResponse.data);
+                const paginationJson = JSON.parse(getJobsMatrixResponse.headersDict['pagination']);
+                setMetadata(paginationJson);
+            }
+        }
+    }, [getJobsMatrixErrorCode, getJobsMatrixResponse]);
+
+    useEffect(() => {
         console.log('--------------------', selectedDatePosted, ' -------------- ', datePostedOptions.find(option => option.label === selectedDatePosted));
-        if (datePostedOptions.find(option => option.label === selectedDatePosted).value)
-            getJobsRefetch(currentUserId, datePostedOptions.find(option => option.label === selectedDatePosted).value,
-                selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);
-        else
-            getJobsRefetch(currentUserId, 180,
-                selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);
-    }, [selectedCategory, selectedLocationType, selectedWorkType, selectedDatePosted, currentUserId, datePostedOptions]);
+        if(selectedCategory === '' && selectedLocationType === '' && selectedWorkType === '' && selectedDatePosted === 'None'){
+            console.log(" ------- MATRIX ", currentUserId, " pageNum ", pageNumber, " pagesize ", pageSize );
+            getJobsMatrixRefetch(currentUserId, pageNumber, pageSize);
+        }
+        else{
+            if (datePostedOptions.find(option => option.label === selectedDatePosted).value)
+                getJobsRefetch(currentUserId, datePostedOptions.find(option => option.label === selectedDatePosted).value,
+                    selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);
+            else
+            {
+                getJobsRefetch(currentUserId, 180,
+                    selectedLocationType, selectedWorkType, selectedCategory, pageNumber, pageSize);       
+            }       
+        }
+
+
+        
+    }, [pageNumber, pageSize, selectedCategory, selectedLocationType, selectedWorkType, selectedDatePosted, currentUserId, datePostedOptions]);
 
 
     const urlForJob = agents.localhost + agents.addViewedJob;
