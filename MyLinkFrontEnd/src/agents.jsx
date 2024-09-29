@@ -83,6 +83,9 @@ export const agents = {
     //Viewed POST
     addViewedPost: 'ViewedPosts/PostViewedPosts',
 
+    //Viewed JOB
+    addViewedJob: 'ViewedJobs/PostViewedJobs',
+
     //Matrix Factorization
     getProposedPosts: 'Matrix/GetProposedPosts',
     getProposedJobs: 'Matrix/GetPreposedJobs'
