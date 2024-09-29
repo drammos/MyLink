@@ -197,10 +197,45 @@ const UserPosts = ({ userInfo }) => {
                 <ul className="posts-list">
                     {publicPosts.map((post) => (
                         <li key={post.id} className="post-item">
-                            <div className="post-header">
-                                <h4>{post.title}</h4>
+                            <div>
+                                <div className="post-header">
+                                    <h4>{post.title}</h4>
+                                </div>
+                                <p>{post.content}</p>
+
+                                {/* Display pictures if available and not null */}
+                                {post.pictureUrls && post.pictureUrls.filter(url => url !== null && url !== 'null').length > 0 && (
+                                    <div className="post-pictures">
+                                        {post.pictureUrls.filter(url => url !== null).map((url, index) => (
+                                            <img key={index} src={url} alt={`Post picture ${index + 1}`} style={{ maxWidth: '100%' }} />
+                                        ))}
+                                    </div>
+                                )}
+
+                                {/* Display videos if available and not null */}
+                                {post.videoUrls && post.videoUrls.filter(url => url !== null && url !== 'null').length > 0 && (
+                                    <div className="post-videos">
+                                        {post.videoUrls.filter(url => url !== null).map((url, index) => (
+                                            <video key={index} controls style={{ maxWidth: '100%' }}>
+                                                <source src={url} type="video/mp4" />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {/* Display voice files if available and not null */}
+                                {post.voiceUrls && post.voiceUrls.filter(url => url !== null && url !== 'null').length > 0 && (
+                                    <div className="post-voice">
+                                        {post.voiceUrls.filter(url => url !== null).map((url, index) => (
+                                            <audio key={index} controls>
+                                                <source src={url} type="audio/mpeg" />
+                                                Your browser does not support the audio tag.
+                                            </audio>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                            <p>{post.content}</p>
                             <div className="post-info">
                                 <div className="post-action">
                                     <FcComments /> {post.commentsCount} Comment(s)
