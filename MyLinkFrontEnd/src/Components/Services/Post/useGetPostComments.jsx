@@ -22,6 +22,7 @@ const useGetPostComments = () => {
     const handleGetPostCommentsResponse = useCallback((response) => {
         console.log("Get commments response is ", response);
         if (response?.status === 200) {
+            setPostId(null);
             setErrorCode(0);
             setMessage('Comments are here!');
             console.log("Get commments response is ", response.data);
@@ -32,9 +33,10 @@ const useGetPostComments = () => {
             setMessage(response?.title || 'An error occurred. Please try again.');
             setCommentsData(null);
         }
-    }, [postId]);
+    }, []);
 
     const getPostComments = useCallback((PostId) => {
+        console.log('Post Id iiiiiiiiiiiiiiiiiiiis', PostId);
         if (PostId) {
             setPostId(PostId);
             setCommentsData(null);
@@ -48,6 +50,7 @@ const useGetPostComments = () => {
     }, [response, handleGetPostCommentsResponse]);
 
     useEffect(() => {
+        console.log('iiiiiiiiiiiiiiiiiiiis', postId);
         if (postId) {
             fetchService();
         }

@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { GoXCircle, GoCheckCircle } from "react-icons/go";
 import { InputSwitch } from 'primereact/inputswitch'; // Import InputSwitch
+import PropTypes from 'prop-types';
 
+import useGetPostsFromOtherUsers from '../../Services/Post/useGetPostsFromOtherUsers';
 import useCreatePost from '../../Services/useCreatePost';
 import UploadPhoto from '../../Services/UploadPhoto';
 import UploadFile from '../../Services/UploadFile';
@@ -12,7 +14,7 @@ import UploadVideo from '../../Services/UploadVideo';
 
 import './styles/CreatePostComponent.css';
 
-const CreatePostComponent = ({ getPostsRefetch }) => {
+const CreatePostComponent = ({ setPosts }) => {
     const userId = localStorage.getItem('id');
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
@@ -28,6 +30,7 @@ const CreatePostComponent = ({ getPostsRefetch }) => {
     const [ErrorCode, setErrorCode] = useState(2);
     const [isPublic, setIsPublic] = useState(true);
 
+    const { response: getpostsResponse, message: postsMessage, errorCode: postsErrorCode, loading: postsLoading, getPostsRefetch } = useGetPostsFromOtherUsers();
     const { message, errorCode, loading, createPostRefetch } = useCreatePost();
 
     const handlePostSubmit = () => {
@@ -35,7 +38,6 @@ const CreatePostComponent = ({ getPostsRefetch }) => {
         if (!title || !text) {
             setInfoMessage("Please enter both title and content for your post.");
             setErrorCode(1);
-            return;
         }
 
         const currentDate = new Date().toISOString();
@@ -119,6 +121,22 @@ const CreatePostComponent = ({ getPostsRefetch }) => {
         }
     }, [errorCode]);
 
+    //useEffect(() => {
+    //    if (getpostsResponse) {
+    //        let postsData = [];
+
+    //        if (Array.isArray(getpostsResponse)) {
+    //            postsData = getpostsResponse;
+    //        } else if (typeof postsResponse === 'object' && Array.isArray(getpostsResponse.data)) {
+    //            postsData = getpostsResponse.data;
+    //        } else {
+    //            console.error("Unexpected posts response structure:", getpostsResponse);
+    //        }
+
+    //        setPosts(postsData);
+    //    }
+    //}, [getpostsResponse]);
+
     return (
         <div className="new-post-container">
             <div className="new-post">
@@ -176,6 +194,11 @@ const CreatePostComponent = ({ getPostsRefetch }) => {
             {loading && <p className="loading">Loading...</p>}
         </div>
     );
+};
+
+CreatePostComponent.propTypes = {
+    getPostsRefetch: PropTypes.func.isRequired, // Validates that getPostsRefetch is a required function
+    setPosts: PropTypes.func.isRequired, // Validates that getPostsRefetch is a required function
 };
 
 export default CreatePostComponent;

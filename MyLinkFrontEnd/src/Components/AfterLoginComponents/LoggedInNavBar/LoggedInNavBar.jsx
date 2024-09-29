@@ -6,6 +6,7 @@ import ProfilePopup from './ProfilePopup/ProfilePopup';
 import NotificationPopup from './NotificationPopup/NotificationPopup';
 import { useNavigationHelpers } from '../Helpers/useNavigationHelpers';
 import useGetListFromIncomingRequests from '../../Services/useGetListFromIncomingRequests';
+import useGetUserNotifications from '../../Services/User/useGetUserNotifications';
 import PropTypes from 'prop-types';
 import useService from '../../Services/useService';
 import {agents} from '../../../agents'; 
@@ -56,6 +57,7 @@ const LoggedInNavBar = ({ userInfo }) => {
     
     const defaultPhotoURL = 'https://res.cloudinary.com/dvhi4yyrm/image/upload/v1725693786/bui1pzeaj5msljlp1qvi.png';
     const { listLength, notificationList, refetch } = useGetListFromIncomingRequests();
+    const { reactionListLength, reactionList, reactionListRefetch } = useGetUserNotifications();
 
     const buildUrl = useCallback(() => {
         const params = new URLSearchParams();
@@ -84,10 +86,12 @@ const LoggedInNavBar = ({ userInfo }) => {
 
         // Initial fetch
         refetch(userInfo.id);
+        reactionListRefetch(localStorage.getItem('username'));
 
         // Set up an interval to refetch every 20 seconds
         const intervalId = setInterval(() => {
             refetch(userInfo.id);
+            reactionListRefetch(localStorage.getItem('username'));
         }, 20000);
 
         // Clean up the interval on component unmount
@@ -186,10 +190,10 @@ const LoggedInNavBar = ({ userInfo }) => {
             </div>
             <div className="navbar-right">
                 <button className="notification-button" onClick={toggleNotificationPopup}>
-                    <Badge value={listLength} severity="danger"></Badge>
+                    <Badge value={listLength + reactionListLength} severity="danger"></Badge>
                 </button>
                 {isNotificationOpen && (
-                    <NotificationPopup notifications={notificationList} />
+                    <NotificationPopup notificationsPending={notificationList} notificationsReactions={reactionList} />
                 )}
                 <button className="profile-pic-button" onClick={toggleProfileMenu}>
                     <img src={userPhotoUrl} alt="User" />
