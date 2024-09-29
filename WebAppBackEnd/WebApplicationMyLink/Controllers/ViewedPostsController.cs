@@ -36,7 +36,5 @@ namespace WebAppMyLink.Controllers
             _unitOfWork.Save();
             return StatusCode(200);
         }
-
-       
     }
 }
