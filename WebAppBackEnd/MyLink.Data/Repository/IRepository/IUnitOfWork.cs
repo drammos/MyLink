@@ -12,6 +12,7 @@ namespace MyLink.Data.Repository.IRepository
         public IViewedPostsRepository ViewedPosts { get; }
         public ICommentRepository Comment { get; }
         public IReactionRepository Reaction { get; }
+        public IViewedJobsRepository ViewedJobs { get; }
         void Save();
     }
 }
