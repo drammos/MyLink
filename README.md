@@ -154,7 +154,7 @@ The project utilizes pagination with IQueryable in order to efficiently handle l
 For example, the backend code implements this with PagedList<T> as follows:
 
 
-```
+```csharp
 public async Task<PagedList<UserDTO>> GetAllUsers([FromQuery] Params paginationParams)
 {
     var users = _userManager.Users;
