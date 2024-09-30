@@ -26,7 +26,7 @@ Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. Thi
 ### Frontend:
 - **React** (JavaScript library for building UI)
 - **React Router** for client-side routing
-- **Bootstrap** for styling
+- **HTML and CSS** for styling
 
 ### Other:
 - **IIS Express** web server
