@@ -1,6 +1,10 @@
 # MyLink
 
+![image](https://github.com/user-attachments/assets/b9271311-2257-404c-9e26-71bff310d5fd)
+
+
 Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. This project is a full-stack web application developed using **ASP.NET Core** for the backend and **React** for the frontend.
+
 
 
 ---
@@ -45,7 +49,7 @@ To set up the project locally, first clone this repository:
 
 ```bash
 git clone https://github.com/drammos/LinkedIn.git
-cd LinkedIn
+cd MyLink
 ```
 
 ---
@@ -88,6 +92,7 @@ Update the appsettings.json file to connect to your local SQL Server instance:
 Run the following commands to apply migrations and seed the database:
 
 ```
+update-database
 dotnet ef database update
 ```
 
@@ -109,7 +114,7 @@ Navigate to the frontend directory:
 
 bash
 ```
-cd LinkedIn/WebAppFrontend
+cd LinkedIn/MyLinkFrontEnd
 ```
 
 Install the necessary packages:
@@ -123,7 +128,7 @@ To start the frontend development server, run:
 ```
 npm start
 ```
-The React app will be accessible at http://localhost:3000/.
+The React app will be accessible at http://localhost:4173/.
 
 ---
 
@@ -140,7 +145,7 @@ Once the database is set up and migrations have been applied, your tables will b
 Once both the backend and frontend are running:
 
 1. Backend will be available at https://localhost:44329/ (IIS).
-2. Frontend will be accessible at http://localhost:3000/.
+2. Frontend will be accessible at http://localhost:4173/.
 
 Make sure both applications are running concurrently.
 
