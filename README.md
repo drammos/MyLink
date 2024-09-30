@@ -44,6 +44,8 @@ Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. Thi
 
 ---
 
+
+
 ## 🚀 Project Setup
 
 ### Clone the repository
@@ -55,12 +57,16 @@ git clone https://github.com/drammos/LinkedIn.git
 cd LinkedIn
 ```
 
+---
+
 ### Prerequisites
 Make sure you have the following installed:
 
 .NET Core SDK (8.0.401): Install .NET SDK
 Node.js & npm: Install Node.js
 SQL Server: Install SQL Server and SQL Server Management Studio (SSMS) for managing your database.
+
+---
 
 ## 🔧 Backend Setup (ASP.NET Core)
 1. Install .NET Dependencies
@@ -76,6 +82,7 @@ Then, restore the .NET dependencies using:
 dotnet restore
 ```
 
+
 2. Database Connection
 Update the appsettings.json file to connect to your local SQL Server instance:
 
@@ -85,12 +92,14 @@ Update the appsettings.json file to connect to your local SQL Server instance:
 }
 ```
 
+
 3. Migrate the Database
 Run the following commands to apply migrations and seed the database:
 
 ```
 dotnet ef database update
 ```
+
 
 4. Run the Backend
 Start the backend server:
@@ -101,6 +110,7 @@ dotnet run
 
 The API will be accessible at https://localhost:5001/ (or the IIS Express port if running from Visual Studio).
 
+---
 
 ## 🎨 Frontend Setup (React)
 1. Install npm dependencies
@@ -124,6 +134,8 @@ npm start
 ```
 The React app will be accessible at http://localhost:3000/.
 
+---
+
 ## 🗄️ Database Setup (SQL Server)
 1. Install SQL Server Management Studio (SSMS) if you haven't already.
 2. Create a new database named MyLinkDB in SQL Server.
@@ -131,6 +143,7 @@ The React app will be accessible at http://localhost:3000/.
 
 Once the database is set up and migrations have been applied, your tables will be automatically created.
 
+---
 
 ## 📊 Running the Application
 Once both the backend and frontend are running:
@@ -140,6 +153,8 @@ Once both the backend and frontend are running:
 
 Make sure both applications are running concurrently.
 
+---
+
 ## 📜 API Documentation
 The backend API provides several endpoints for interacting with the platform's functionality. You can access and explore the API documentation through Swagger once the backend is running:
 
@@ -147,6 +162,7 @@ The backend API provides several endpoints for interacting with the platform's f
 https://localhost:5001/swagger/index.html
 ```
 
+---
 
 ## ⚙️ Pagination with IQueryable
 The project utilizes pagination with IQueryable in order to efficiently handle large datasets. Instead of fetching all records at once, only a subset of records, based on the page size and current page number, is fetched from the database, reducing memory usage and improving performance. This ensures that users interacting with large datasets (like 1,000,000+ posts or users) only load the necessary data.
@@ -182,9 +198,13 @@ public async Task<PagedList<UserDTO>> GetAllUsers([FromQuery] Params paginationP
 
 This approach ensures only the required data for each page is loaded from the database, improving application performance.
 
+---
+
 ## 👤 Authors
 Rammos Dimitrios (@drammos)
 Theodoros Minaidis (@tminaidis9)
+
+---
 
 ## 📄 License
 This project is licensed under the MIT License. See the LICENSE file for details.
