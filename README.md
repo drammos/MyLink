@@ -3,7 +3,7 @@
 Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. This project is a full-stack web application developed using **ASP.NET Core** for the backend and **React** for the frontend.
 
 ## 📖 Table of Contents
-- [Technologies Used](#technologies-used)
+- [Technologies Used](#🛠️technologies-used)
 - [Features](#features)
 - [Project Setup](#project-setup)
 - [Backend Setup](#backend-setup)
@@ -12,9 +12,9 @@ Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. Thi
 - [Running the Application](#running-the-application)
 - [API Documentation](#api-documentation)
 
----🛠️
+---
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 ### Backend:
 - **ASP.NET Core 8.0.401** (C#)
