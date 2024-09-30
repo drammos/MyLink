@@ -3,14 +3,11 @@
 Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. This project is a full-stack web application developed using **ASP.NET Core** for the backend and **React** for the frontend.
 
 
-
 ---
 
 ## 🛠️ Technologies Used 
 
-### 
- 
-<i class="fa-brands fa-node"></i> Backend:
+### Backend:
 - **ASP.NET Core 8.0.401** (C#)
 - **Entity Framework Core** for database access
 - **SQL Server Management Studio** for the database
@@ -142,7 +139,7 @@ Once the database is set up and migrations have been applied, your tables will b
 ## 📊 Running the Application
 Once both the backend and frontend are running:
 
-1. Backend will be available at https://localhost:5001/ (or other IIS Express port).
+1. Backend will be available at https://localhost:44329/ (IIS).
 2. Frontend will be accessible at http://localhost:3000/.
 
 Make sure both applications are running concurrently.
@@ -153,7 +150,7 @@ Make sure both applications are running concurrently.
 The backend API provides several endpoints for interacting with the platform's functionality. You can access and explore the API documentation through Swagger once the backend is running:
 
 ```
-https://localhost:5001/swagger/index.html
+https://localhost:44329/swagger/index.html
 ```
 
 ---
@@ -202,7 +199,3 @@ Theodoros Minaidis (@tminaidis9)
 
 ## 📄 License
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-```
-This will give you a fully formatted `README.md` file for your project, including all relevant instructions for setup and usage.
-```
