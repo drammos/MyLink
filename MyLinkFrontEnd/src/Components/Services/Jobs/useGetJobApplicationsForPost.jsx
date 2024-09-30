@@ -4,18 +4,19 @@ import { agents } from '../../../agents';
 
 
 const useGetJobApplicationsForPost = () => {
-    const [currentUserId, setcurrentUserId] = useState('');
+    const [currentJobId, setCurrentJobId] = useState('');
     const [errorCode, setErrorCode] = useState(2);
     const [message, setMessage] = useState('');
     const [listLength, setlistLength] = useState('');
     const [listInfo, setlistInfo] = useState('');
+    const [responseList, setResponseList] = useState('');
 
-    const url = agents.localhost + agents.getListFromInComingRequests;
+    const url = agents.localhost + agents.getJobApplicationForPost;
 
     const { response, loading, refetch: fetchService } = useService(
         'Getting Reactions Notifications...',
         'GET',
-        `${url}?UserId=${currentUserId}`,
+        `${url}?jobId=${currentJobId}`,
         null,
         undefined,
         true
@@ -25,6 +26,7 @@ const useGetJobApplicationsForPost = () => {
         if (response?.status === 200) {
             setErrorCode(0);
             setlistLength(response.data.length);
+            setResponseList(response);
             setlistInfo(response.data);
             setMessage('Requests list is here!');
             console.log('Requests list is here!');
@@ -37,14 +39,14 @@ const useGetJobApplicationsForPost = () => {
     const getList = useCallback((
         id
     ) => {
-        setcurrentUserId(id);
+        setCurrentJobId(id);
     }, []);
 
     useEffect(() => {
-        if (currentUserId !== '') {
+        if (currentJobId !== '') {
             fetchService();
         }
-    }, [fetchService, currentUserId]);
+    }, [fetchService, currentJobId]);
 
     useEffect(() => {
         if (response) {
@@ -52,7 +54,7 @@ const useGetJobApplicationsForPost = () => {
         }
     }, [response, handleSignUpResponse]);
 
-    return { listLength, notificationList: listInfo, loading, refetch: getList };
+    return { getApplicationsResponse: responseList, notificationList: listInfo, loading, getApplicationsRefetch: getList };
 };
 
 export default useGetJobApplicationsForPost;
