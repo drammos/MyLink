@@ -12,9 +12,9 @@ Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. Thi
 - [Running the Application](#running-the-application)
 - [API Documentation](#api-documentation)
 
----
+---🛠️
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 ### Backend:
 - **ASP.NET Core 8.0.401** (C#)
