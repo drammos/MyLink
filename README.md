@@ -197,8 +197,8 @@ This approach ensures only the required data for each page is loaded from the da
 ---
 
 ## 👤 Authors
-Rammos Dimitrios (@drammos)
-Theodoros Minaidis (@tminaidis9)
+[Rammos Dimitrios](https://github.com/drammos)
+[Theodoros Minaidis](https://github.com/tminaidis9)
 
 ---
 
