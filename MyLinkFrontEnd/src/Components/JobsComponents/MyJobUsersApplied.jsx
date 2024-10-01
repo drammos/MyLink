@@ -5,26 +5,32 @@ import useGetJobApplicationsForPost from '../Services/Jobs/useGetJobApplications
 import { Routes } from '../../routes';
 import { Tag } from 'primereact/tag';
 
-
-import { Button } from 'primereact/button';
 import './styles/MyJobsComponent.css';
 
 const MyJobUsersApplied = ({ job, setCurrentJobId}) => {
-    const { getApplicationsResponse, getApplicationsMessage, getApplicationsErrorCode, loading, getApplicationsRefetch } = useGetJobApplicationsForPost();
+    const { getApplicationsResponse, getApplicationsMessage,  loading, getApplicationsRefetch } = useGetJobApplicationsForPost();
 
     const [users, setUsers] = useState({});
     const [visibleUsers, setVisibleUsers] = useState({});
+    const [appliedJobId, setAppliedJobId] = useState(null);
+
+    useEffect(() => {
+        
+        if(appliedJobId!=null){
+            getApplicationsRefetch(appliedJobId);
+        }
+        
+    }, [appliedJobId]);
+
 
     const toggleUsersVisibility = (jobId) => {
         setVisibleUsers(prevState => ({
             ...prevState,
             [jobId]: !prevState[jobId]
         }));
-
         if (!users[jobId]) {
-            if (jobId) {
-                setCurrentJobId(jobId);
-                getApplicationsRefetch(jobId);
+            if (jobId) { 
+                setAppliedJobId(jobId);
             }
         }
     };
@@ -79,7 +85,6 @@ const MyJobUsersApplied = ({ job, setCurrentJobId}) => {
 MyJobUsersApplied.propTypes = {
     toggleUsersVisibility: PropTypes.func.isRequired, 
     setCurrentJobId: PropTypes.func.isRequired, 
-    getApplicationsRefetch: PropTypes.func.isRequired, 
     getApplicationsResponse: PropTypes.array,
     visibleUsers: PropTypes.objectOf(PropTypes.bool).isRequired, 
     //jobId: PropTypes.string.isRequired, 

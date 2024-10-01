@@ -5,10 +5,10 @@ import { agents } from '../../agents';
 const useGetUserPosts = () => {
     const [message, setMessage] = useState('');
     const [errorCode, setErrorCode] = useState(2);
-    const [userId, setUserId] = useState('');
+    const [userId, setUserId] = useState(null);
     const url = agents.localhost + agents.getUserPosts + '?UserId=' + userId;
 
-    const { response, loading, refetch: fetchService } = useService(
+    const { response, loading, refetch: fetchService1 } = useService(
         'Getting my posts ...',
         'GET',
         url,
@@ -17,37 +17,36 @@ const useGetUserPosts = () => {
         true
     );
 
-    const handleGetUserPostsResponse = useCallback((response) => {
+    useEffect(() => {
         if (response?.status === 200) {
+            setUserId(null);
             setErrorCode(0);
             console.log(errorCode, " = ErrorCode");
             setMessage('Posts are here!');
-            setUserId(0);
         } else {
+            
+            setUserId(null);
             setErrorCode(1);
+            console.log(errorCode, " = ErrorCode");
             setMessage(response?.title || 'An error occurred. Please try again.');
         }
-    }, [errorCode]);
+    }, [response]);
 
-    const getUserPosts = useCallback((UserId = localStorage.getItem('id')) => {
-        if (UserId)
-            setUserId(UserId); 
+
+    const getUserPosts1 = useCallback((m = localStorage.getItem('id')) => {
+        if (m !== null)
+            setUserId(m); 
         else
             setUserId(localStorage.getItem('id'));
-    }, [errorCode]);
+    }, []);
 
     useEffect(() => {
-        if (response) {
-            handleGetUserPostsResponse(response);
+        if(userId!==null){
+            fetchService1();
         }
-    }, [response, handleGetUserPostsResponse]);
-
-    useEffect(() => {
-        if(userId !==0)
-            fetchService();
     }, [userId]);
 
-    return { response, message, errorCode, loading, getPostsRefetch: getUserPosts };
+    return { response, message, errorCode, loading, getPostsRefetch: getUserPosts1 };
 };
 
 export default useGetUserPosts;

@@ -319,51 +319,58 @@ namespace MyLink.Data.Repository
             var connectedUserIds = connectedUsers.Select(x => x.Id).ToList();
             var connectedUsernames = connectedUsers.Select(x => x.UserName).ToList();
             
-            var result = posts.Select(p =>
-            {
-                Comment connectedUserComment = null;
-                Reaction connectedUserReaction = null;
-                string username = null;
-                if (p.UserId.Contains(user.Id) == false)
-                {
-                    connectedUserComment = p.Comments.FirstOrDefault(c => connectedUsernames.Contains(c.Username));
-                    username = connectedUserComment?.Username;
-                    if (connectedUserComment == null)
+            var result = posts
+                .Where( p => 
+                    p.UserId == user.Id || // It's my post
+                    connectedUserIds.Contains(p.UserId) ||  // It's from connection user
+                    p.Comments.Any(c => connectedUsernames.Contains(c.Username)) ||  // It's from commented connected user
+                    p.Reactions.Any(r => connectedUsernames.Contains(r.Username)))
+                .Select(p =>
+                {   
+                    
+                    Comment connectedUserComment = null;
+                    Reaction connectedUserReaction = null;
+                    string username = null;
+                    if (p.UserId.Contains(user.Id) == false)
                     {
-                        connectedUserReaction = p.Reactions.FirstOrDefault(r => connectedUsernames.Contains(r.Username));
-                        username = connectedUserReaction?.Username;
+                        connectedUserComment = p.Comments.FirstOrDefault(c => connectedUsernames.Contains(c.Username));
+                        username = connectedUserComment?.Username;
+                        if (connectedUserComment == null)
+                        {
+                            connectedUserReaction = p.Reactions.FirstOrDefault(r => connectedUsernames.Contains(r.Username));
+                            username = connectedUserReaction?.Username;
+                        }
                     }
-                }
-                
-  
-                return new PostUserDTO
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    Content = p.Content,
-                    CreatedAt = p.CreatedAt,
-                    UpdateAt = p.UpdateAt,
-                    PictureUrls = p.PictureUrls,
-                    VideoUrls = p.VideoUrls,
-                    VoiceUrls = p.VoiceUrls,
-                    ReactionsCount = p.ReactionsCount,
-                    CommentsCount = p.CommentsCount,
-                    Comments = p.Comments,
-                    Reactions = p.Reactions,
-                    IsLikedByCurrentUser = p.Reactions.Any(r => r.Username == user.UserName && string.Equals(r.ReactionType,"Like")),
-                    IsPublic = p.IsPublic,
-                    UserId = p.User.Id,
-                    FirstName = p.User.FirstName,
-                    LastName = p.User.LastName,
-                    UserName = p.User.UserName,
-                    PictureURL = p.User.PictureURL,
-                    IsMyPost = p.UserId.Contains(user.Id),
-                    IsFromConnectedUser = connectedUserIds.Contains(p.UserId),
-                    HasConnectedUserComment = connectedUserComment != null,
-                    HasConnectedUserReaction = connectedUserReaction != null,
-                    ConnectedUserName = username,
-                };
-            }).ToList();
+                    
+      
+                    return new PostUserDTO
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Content = p.Content,
+                        CreatedAt = p.CreatedAt,
+                        UpdateAt = p.UpdateAt,
+                        PictureUrls = p.PictureUrls,
+                        VideoUrls = p.VideoUrls,
+                        VoiceUrls = p.VoiceUrls,
+                        ReactionsCount = p.ReactionsCount,
+                        CommentsCount = p.CommentsCount,
+                        Comments = p.Comments,
+                        Reactions = p.Reactions,
+                        IsLikedByCurrentUser = p.Reactions.Any(r => r.Username == user.UserName && string.Equals(r.ReactionType,"Like")),
+                        IsPublic = p.IsPublic,
+                        UserId = p.User.Id,
+                        FirstName = p.User.FirstName,
+                        LastName = p.User.LastName,
+                        UserName = p.User.UserName,
+                        PictureURL = p.User.PictureURL,
+                        IsMyPost = p.UserId.Contains(user.Id),
+                        IsFromConnectedUser = connectedUserIds.Contains(p.UserId),
+                        HasConnectedUserComment = connectedUserComment != null,
+                        HasConnectedUserReaction = connectedUserReaction != null,
+                        ConnectedUserName = username,
+                    };
+                }).ToList();
             
             return result;
         }
