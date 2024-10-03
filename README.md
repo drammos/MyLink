@@ -5,7 +5,7 @@
 
 Welcome to **MyLink**, a LinkedIn-inspired social network for professionals. This project is a full-stack web application developed using **ASP.NET Core** for the backend and **React** for the frontend.
 
-
+[Ηere](https://www.linkedin.com/posts/dimitrisrammos_csharp-dotnet-aspnetcore-activity-7246869870447869954-Apju?utm_source=share&utm_medium=member_desktop) is a short demo 𝐯𝐢𝐝𝐞𝐨 showcasing the app's functionalities.
 
 ---
 
