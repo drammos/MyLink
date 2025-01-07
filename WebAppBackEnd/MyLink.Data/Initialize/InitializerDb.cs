@@ -54,6 +54,7 @@ namespace MyLink.Data.Initialize
                     IsAdmin = false
                 };
 
+
                 result = await users.CreateAsync(frammos, "1234@Password");
                 await users.AddToRoleAsync(frammos, "Professional");
 
