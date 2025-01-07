@@ -126,6 +126,7 @@ npm install
 To start the frontend development server, run:
 
 ```
+npm run build
 npm start
 ```
 The React app will be accessible at http://localhost:4173/.
